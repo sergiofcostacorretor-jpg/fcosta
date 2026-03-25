@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legislação Imobiliária | FCosta Corretor</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-dark: #9B7B2E;
+    --dark: #0E1117;
+    --dark2: #161B26;
+    --dark3: #1E2535;
+    --card-bg: #1A2030;
+    --border: rgba(201,168,76,0.2);
+    --text: #E8EAF0;
+    --text-muted: #8A90A0;
+    --accent-blue: #3A7BD5;
+    --accent-green: #2ECC71;
+    --accent-red: #E74C3C;
+    --accent-purple: #8E44AD;
+    --accent-teal: #1ABC9C;
+    --accent-orange: #E67E22;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #0a0d14 0%, #131825 50%, #0E1117 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+  .header-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .logo-icon {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+  }
+  .logo-text h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--gold);
+    font-weight: 600;
+    line-height: 1.1;
+  }
+  .logo-text span {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .creci-badge {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+  .creci-badge strong { color: var(--gold); }
+  .back-btn {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+  }
+  .back-btn:hover { color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(160deg, #0a0d14 0%, #131825 60%, #0c1220 100%);
+    padding: 60px 24px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 300px;
+    background: radial-gradient(ellipse, rgba(201,168,76,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid var(--border);
+    padding: 6px 16px;
+    border-radius: 30px;
+    font-size: 0.78rem;
+    color: var(--gold);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    color: #fff;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    max-width: 580px;
+    margin: 0 auto 36px;
+    line-height: 1.7;
+  }
+
+  /* SEARCH BAR */
+  .search-wrap {
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .search-input {
+    width: 100%;
+    background: var(--dark2);
+    border: 1.5px solid var(--border);
+    border-radius: 50px;
+    padding: 16px 130px 16px 52px;
+    color: var(--text);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .search-input::placeholder { color: var(--text-muted); }
+  .search-input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+  }
+  .search-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    pointer-events: none;
+  }
+  .search-btn {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    border: none;
+    border-radius: 40px;
+    padding: 10px 22px;
+    color: #0E1117;
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+  }
+  .search-btn:hover { opacity: 0.9; transform: translateY(-50%) scale(1.02); }
+  .search-hints {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 14px;
+  }
+  .hint-tag {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .hint-tag:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* STATS */
+  .stats-bar {
+    background: var(--dark2);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 24px;
+  }
+  .stats-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .stat-item {
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  .stat-label {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* FILTERS */
+  .filters-section {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 32px 24px 16px;
+  }
+  .filters-title {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+  }
+  .filter-btns {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    padding: 8px 18px;
+    border-radius: 30px;
+    border: 1.5px solid transparent;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--dark3);
+    color: var(--text-muted);
+    border-color: rgba(255,255,255,0.08);
+  }
+  .filter-btn:hover, .filter-btn.active {
+    color: #0E1117;
+    border-color: transparent;
+  }
+  .filter-btn[data-cat="all"].active { background: var(--gold); }
+  .filter-btn[data-cat="constituicao"].active { background: var(--accent-blue); }
+  .filter-btn[data-cat="civil"].active { background: var(--accent-green); }
+  .filter-btn[data-cat="consumidor"].active { background: var(--accent-orange); }
+  .filter-btn[data-cat="creci"].active { background: var(--accent-purple); }
+  .filter-btn[data-cat="cofeci"].active { background: var(--accent-red); }
+  .filter-btn[data-cat="locacao"].active { background: var(--accent-teal); }
+  .filter-btn[data-cat="registros"].active { background: #E91E63; }
+  .filter-btn[data-cat="condominio"].active { background: #FF9800; }
+  .filter-btn[data-cat="sfi"].active { background: #607D8B; }
+
+  /* RESULTS COUNT */
+  .results-info {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 12px 24px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+  .results-info strong { color: var(--gold); }
+
+  /* GRID */
+  .grid {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 12px 24px 60px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 20px;
+  }
+
+  /* CARD */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    cursor: pointer;
+    animation: fadeIn 0.4s ease both;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+    border-color: rgba(201,168,76,0.4);
+  }
+  .card-header {
+    padding: 18px 20px 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .card-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+  .card-meta { flex: 1; min-width: 0; }
+  .card-code {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-tag {
+    font-size: 0.62rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 500;
+    color: #0E1117;
+  }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: #fff;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .card-body { padding: 14px 20px; }
+  .card-desc {
+    font-size: 0.84rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+    margin-bottom: 12px;
+  }
+  .articles-list {
+    display: none;
+    margin-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 12px;
+  }
+  .articles-list.open { display: block; }
+  .article-item {
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 6px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.2s;
+  }
+  .article-item:hover { background: rgba(201,168,76,0.06); }
+  .article-num {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+  }
+  .article-text {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .card-footer {
+    padding: 10px 20px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .expand-btn {
+    font-size: 0.78rem;
+    color: var(--gold);
+    background: none;
+    border: 1px solid rgba(201,168,76,0.25);
+    padding: 5px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'Source Sans 3', sans-serif;
+    transition: all 0.2s;
+  }
+  .expand-btn:hover { background: rgba(201,168,76,0.1); }
+  .article-count {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+
+  /* No results */
+  .no-results {
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 60px 24px;
+    color: var(--text-muted);
+  }
+  .no-results .icon { font-size: 3rem; margin-bottom: 12px; }
+  .no-results h3 { color: var(--text); margin-bottom: 8px; font-family: 'Playfair Display', serif; }
+
+  /* FOOTER */
+  .footer {
+    background: var(--dark2);
+    border-top: 1px solid var(--border);
+    padding: 28px 24px;
+    text-align: center;
+  }
+  .footer p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.8; }
+  .footer a { color: var(--gold); text-decoration: none; }
+  .footer .disclaimer {
+    max-width: 700px;
+    margin: 10px auto 0;
+    font-size: 0.72rem;
+    color: #5a6070;
+    font-style: italic;
+  }
+
+  /* COLOR HELPERS */
+  .cat-constituicao { --c: var(--accent-blue); }
+  .cat-civil { --c: var(--accent-green); }
+  .cat-consumidor { --c: var(--accent-orange); }
+  .cat-creci { --c: var(--accent-purple); }
+  .cat-cofeci { --c: var(--accent-red); }
+  .cat-locacao { --c: var(--accent-teal); }
+  .cat-registros { --c: #E91E63; }
+  .cat-condominio { --c: #FF9800; }
+  .cat-sfi { --c: #607D8B; }
+
+  .card .card-icon { background: color-mix(in srgb, var(--c) 15%, transparent); }
+  .card .card-code { color: var(--c); }
+  .card .card-tag { background: var(--c); }
+  .card .article-num { color: var(--c); }
+
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 1.8rem; }
+    .stats-inner { gap: 20px; }
+    .search-input { padding-right: 110px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo-area">
+      <div class="logo-icon">🏠</div>
+      <div class="logo-text">
+        <h1>FCosta Corretor</h1>
+        <span>Zona Leste · Itaim Paulista</span>
+      </div>
+    </div>
+    <div class="creci-badge">CRECI-SP <strong>294791-F</strong> | CNAI <strong>52708</strong></div>
+    <a href="index.html" class="back-btn">← Voltar ao site</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">⚖️ Base Legal Completa</div>
+  <h1>Legislação <span>Imobiliária</span><br>Brasileira</h1>
+  <p>Consulte toda a legislação que rege o mercado imobiliário: Constituição Federal, Código Civil, CDC, CRECI, COFECI e muito mais.</p>
+
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" class="search-input" id="searchInput" placeholder="Buscar por assunto, código ou número de artigo..." oninput="performSearch()">
+    <button class="search-btn" onclick="performSearch()">Buscar</button>
+  </div>
+  <div class="search-hints">
+    <span class="hint-tag" onclick="setSearch('locação')">Locação</span>
+    <span class="hint-tag" onclick="setSearch('compra e venda')">Compra e Venda</span>
+    <span class="hint-tag" onclick="setSearch('condomínio')">Condomínio</span>
+    <span class="hint-tag" onclick="setSearch('corretagem')">Corretagem</span>
+    <span class="hint-tag" onclick="setSearch('hipoteca')">Hipoteca</span>
+    <span class="hint-tag" onclick="setSearch('registro')">Registro</span>
+    <span class="hint-tag" onclick="setSearch('FGTS')">FGTS</span>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item"><div class="stat-num">9</div><div class="stat-label">Legislações</div></div>
+    <div class="stat-item"><div class="stat-num">60+</div><div class="stat-label">Artigos Detalhados</div></div>
+    <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Atualizado</div></div>
+    <div class="stat-item"><div class="stat-num">Zona Leste</div><div class="stat-label">Especialidade</div></div>
+  </div>
+</div>
+
+<!-- FILTERS -->
+<div class="filters-section">
+  <div class="filters-title">Filtrar por categoria</div>
+  <div class="filter-btns">
+    <button class="filter-btn active" data-cat="all" onclick="filterCat('all', this)">📋 Todas</button>
+    <button class="filter-btn" data-cat="constituicao" onclick="filterCat('constituicao', this)">🏛️ Constituição Federal</button>
+    <button class="filter-btn" data-cat="civil" onclick="filterCat('civil', this)">📘 Código Civil</button>
+    <button class="filter-btn" data-cat="consumidor" onclick="filterCat('consumidor', this)">🛡️ Código do Consumidor</button>
+    <button class="filter-btn" data-cat="locacao" onclick="filterCat('locacao', this)">🔑 Lei do Inquilinato</button>
+    <button class="filter-btn" data-cat="condominio" onclick="filterCat('condominio', this)">🏢 Condomínios</button>
+    <button class="filter-btn" data-cat="registros" onclick="filterCat('registros', this)">📜 Registros Públicos</button>
+    <button class="filter-btn" data-cat="creci" onclick="filterCat('creci', this)">🏅 CRECI / COFECI</button>
+    <button class="filter-btn" data-cat="sfi" onclick="filterCat('sfi', this)">🏦 SFI / SFH</button>
+  </div>
+</div>
+
+<!-- RESULTS INFO -->
+<div class="results-info" id="resultsInfo">Exibindo <strong id="resultCount">9</strong> legislações</div>
+
+<!-- GRID -->
+<div class="grid" id="cardsGrid"></div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>
+    <strong style="color:var(--gold)">FCosta Corretor</strong> — Imóveis na Zona Leste de SP e Itaim Paulista<br>
+    <a href="tel:+5511999999999">📱 (11) 9 9999-9999</a> &nbsp;|&nbsp;
+    <a href="https://fcostacorretor.com">🌐 fcostacorretor.com</a> &nbsp;|&nbsp;
+    CRECI-SP 294791-F | CNAI 52708
+  </p>
+  <p class="disclaimer">Esta página tem caráter informativo. Para orientação jurídica específica, consulte um advogado especializado em direito imobiliário. Legislação sujeita a alterações.</p>
+</footer>
+
+<script>
+const DATA = [
+  {
+    id: 1,
+    cat: "constituicao",
+    icon: "🏛️",
+    code: "CF/1988",
+    tag: "Constituição Federal",
+    title: "Constituição Federal – Direito à Propriedade",
+    desc: "A Carta Magna garante o direito fundamental à propriedade, estabelece a função social da propriedade urbana e rural, e define os instrumentos da política urbana, sendo a base de toda a legislação imobiliária brasileira.",
+    articles: [
+      { num: "Art. 5º, XXII", text: "É garantido o direito de propriedade." },
+      { num: "Art. 5º, XXIII", text: "A propriedade atenderá a sua função social." },
+      { num: "Art. 5º, XXVI", text: "A pequena propriedade rural, assim definida em lei, desde que trabalhada pela família, não será objeto de penhora para pagamento de débitos decorrentes de sua atividade produtiva." },
+      { num: "Art. 182", text: "A política de desenvolvimento urbano executada pelo Poder Público municipal visa ordenar o pleno desenvolvimento das funções sociais da cidade e garantir o bem-estar de seus habitantes." },
+      { num: "Art. 182, §2º", text: "A propriedade urbana cumpre sua função social quando atende às exigências fundamentais de ordenação da cidade expressas no plano diretor." },
+      { num: "Art. 183", text: "Aquele que possuir como sua área urbana de até duzentos e cinquenta metros quadrados, por cinco anos, ininterruptamente e sem oposição, utilizando-a para sua moradia ou de sua família, adquirir-lhe-á o domínio." },
+      { num: "Art. 184", text: "Compete à União desapropriar por interesse social, para fins de reforma agrária, o imóvel rural que não esteja cumprindo sua função social." },
+    ],
+    keywords: "propriedade função social urbana usucapião moradia plano diretor desapropriação"
+  },
+  {
+    id: 2,
+    cat: "civil",
+    icon: "📘",
+    code: "CC – Lei 10.406/2002",
+    tag: "Código Civil",
+    title: "Código Civil – Direito das Coisas e Contratos",
+    desc: "O Código Civil regulamenta a posse, propriedade, direitos reais, contratos imobiliários, hipoteca, promessa de compra e venda, usucapião, doação e todos os negócios jurídicos relacionados a imóveis.",
+    articles: [
+      { num: "Art. 1.196", text: "Considera-se possuidor todo aquele que tem de fato o exercício, pleno ou não, de algum dos poderes inerentes à propriedade." },
+      { num: "Art. 1.228", text: "O proprietário tem a faculdade de usar, gozar e dispor da coisa, e o direito de reavê-la do poder de quem quer que injustamente a possua ou detenha." },
+      { num: "Art. 1.238", text: "Aquele que, por quinze anos, sem interrupção, nem oposição, possuir como seu um imóvel, adquire-lhe a propriedade (usucapião extraordinária)." },
+      { num: "Art. 1.239", text: "Aquele que, não sendo proprietário de imóvel rural ou urbano, possua como sua, por cinco anos ininterruptos, sem oposição, área de terra em zona rural não superior a cinquenta hectares, tornando-a produtiva, adquire-lhe a propriedade." },
+      { num: "Art. 1.240", text: "Aquele que possuir, como sua, área urbana de até duzentos e cinquenta metros quadrados, por cinco anos ininterruptamente e sem oposição, utilizando-a para sua moradia ou de sua família, adquirir-lhe-á o domínio." },
+      { num: "Art. 481", text: "Pelo contrato de compra e venda, um dos contratantes se obriga a transferir o domínio de certa coisa, e o outro, a pagar-lhe certo preço em dinheiro." },
+      { num: "Art. 538", text: "Considera-se doação o contrato em que uma pessoa, por liberalidade, transfere do seu patrimônio bens ou vantagens para o de outra." },
+      { num: "Art. 722", text: "Pelo contrato de corretagem, uma pessoa, não ligada a outra em virtude de mandato, de prestação de serviços ou por qualquer relação de dependência, obriga-se a obter para a segunda um ou mais negócios, conforme as instruções recebidas." },
+      { num: "Art. 723", text: "O corretor é obrigado a executar a mediação com diligência e prudência, e a prestar ao cliente, espontaneamente, todas as informações sobre o andamento do negócio." },
+      { num: "Art. 724", text: "A remuneração do corretor, se não estiver fixada em lei, nem ajustada entre as partes, será arbitrada segundo a natureza do negócio e os usos locais." },
+      { num: "Art. 1.473", text: "Podem ser objeto de hipoteca: os imóveis e os acessórios dos imóveis conjuntamente com eles; o domínio direto; as estradas de ferro." },
+    ],
+    keywords: "posse propriedade usucapião compra venda corretagem hipoteca doação contratos direito real"
+  },
+  {
+    id: 3,
+    cat: "consumidor",
+    icon: "🛡️",
+    code: "CDC – Lei 8.078/1990",
+    tag: "Código do Consumidor",
+    title: "Código de Defesa do Consumidor – Imóveis",
+    desc: "O CDC aplica-se amplamente nas relações entre compradores de imóveis e incorporadoras/construtoras, protegendo o consumidor em contratos de compra e venda, financiamentos, propaganda enganosa e vícios de construção.",
+    articles: [
+      { num: "Art. 2º", text: "Consumidor é toda pessoa física ou jurídica que adquire ou utiliza produto ou serviço como destinatário final." },
+      { num: "Art. 6º, III", text: "São direitos básicos do consumidor: a informação adequada e clara sobre os diferentes produtos e serviços, com especificação correta de quantidade, características, composição, qualidade, tributos incidentes e preço." },
+      { num: "Art. 18", text: "Os fornecedores de produtos de consumo duráveis ou não duráveis respondem solidariamente pelos vícios de qualidade ou quantidade que os tornem impróprios ou inadequados ao consumo a que se destinam." },
+      { num: "Art. 27", text: "Prescreve em cinco anos a pretensão à reparação pelos danos causados por fato do produto ou do serviço prevista na Seção II deste Capítulo, iniciando-se a contagem do prazo a partir do conhecimento do dano e de sua autoria." },
+      { num: "Art. 37", text: "É proibida toda publicidade enganosa ou abusiva. É enganosa qualquer modalidade de informação ou comunicação de caráter publicitário, inteira ou parcialmente falsa." },
+      { num: "Art. 51, IV", text: "São nulas de pleno direito as cláusulas contratuais relativas ao fornecimento de produtos e serviços que estabeleçam obrigações consideradas iníquas, abusivas, que coloquem o consumidor em desvantagem exagerada." },
+    ],
+    keywords: "consumidor imóvel construtora incorporadora vício construção publicidade enganosa contrato"
+  },
+  {
+    id: 4,
+    cat: "locacao",
+    icon: "🔑",
+    code: "Lei 8.245/1991",
+    tag: "Lei do Inquilinato",
+    title: "Lei do Inquilinato – Locações Urbanas",
+    desc: "Regula as locações de imóveis urbanos, disciplinando direitos e deveres de locador e locatário, garantias locatícias, prazos, reajustes, rescisão contratual, despejo e benfeitorias.",
+    articles: [
+      { num: "Art. 2º", text: "Havendo mais de um locador ou mais de um locatário, entende-se que são solidários se o contrário não se estipulou." },
+      { num: "Art. 4º", text: "Durante o prazo estipulado para a duração do contrato, não poderá o locador reaver o imóvel alugado. Com exceção ao que estipula o § 2o do art. 54-A, o locatário, todavia, poderá devolvê-lo, pagando a multa pactuada." },
+      { num: "Art. 17", text: "É livre a convenção do aluguel, vedada a sua estipulação em moeda estrangeira e a sua vinculação à variação cambial ou ao salário mínimo." },
+      { num: "Art. 22", text: "O locador é obrigado a: entregar ao locatário o imóvel alugado em estado de servir ao uso a que se destina; garantir, durante o tempo da locação, o uso pacífico do imóvel locado." },
+      { num: "Art. 23", text: "O locatário é obrigado a: pagar pontualmente o aluguel e os encargos da locação; utilizar o imóvel para o uso convencionado; restituir o imóvel no estado em que o recebeu." },
+      { num: "Art. 37", text: "No contrato de locação, pode o locador exigir do locatário as seguintes modalidades de garantia: caução; fiança; seguro de fiança locatícia; cessão fiduciária de quotas de fundo de investimento." },
+      { num: "Art. 46", text: "Nas locações ajustadas por escrito e por prazo igual ou superior a trinta meses, a resolução do contrato ocorrerá findo o prazo estipulado, independentemente de notificação ou aviso." },
+      { num: "Art. 51", text: "Nas locações de imóveis destinados ao comércio, o locatário terá direito a renovação do contrato, por igual prazo, desde que, cumulativamente: o contrato a renovar tenha sido celebrado por escrito e com prazo determinado." },
+    ],
+    keywords: "aluguel locação inquilino locador fiança caução despejo renovação rescisão reajuste"
+  },
+  {
+    id: 5,
+    cat: "condominio",
+    icon: "🏢",
+    code: "Lei 4.591/1964 + CC/2002",
+    tag: "Condomínios",
+    title: "Lei de Condomínios e Incorporações Imobiliárias",
+    desc: "Regula os condomínios em edificações e as incorporações imobiliárias. Disciplina a constituição do condomínio, taxa condominial, assembleia, convenção, regimento interno e responsabilidades do incorporador.",
+    articles: [
+      { num: "Art. 1.331 (CC)", text: "Pode haver, em edificações, partes que são propriedade exclusiva, e partes que são propriedade comum dos condôminos." },
+      { num: "Art. 1.335 (CC)", text: "São direitos do condômino: usar, fruir e livremente dispor das suas unidades; usar das partes comuns, conforme a sua destinação, e contanto que não exclua a utilização dos demais compossuidores." },
+      { num: "Art. 1.336 (CC)", text: "São deveres do condômino: contribuir para as despesas do condomínio na proporção das suas frações ideais; não realizar obras que comprometam a segurança da edificação; não alterar a forma e a cor da fachada." },
+      { num: "Art. 1.337 (CC)", text: "O condômino, ou possuidor, que não cumpre reiteradamente com os seus deveres perante o condomínio poderá, por deliberação de três quartos dos condôminos restantes, ser constrangido a pagar multa." },
+      { num: "Art. 1.348 (CC)", text: "Compete ao síndico: convocar a assembleia dos condôminos; representar, ativa e passivamente, o condomínio, praticando, em juízo ou fora dele, os atos necessários." },
+      { num: "Art. 29 (Lei 4.591)", text: "Considera-se incorporador a pessoa física ou jurídica, comerciante ou não, que, embora não efetuando a construção, compromisse ou efetive a venda de frações ideais de terreno objetivando a vinculação de tais frações a unidades autônomas." },
+    ],
+    keywords: "condomínio síndico assembleia taxa condominial incorporação fração ideal convenção vagas garagem"
+  },
+  {
+    id: 6,
+    cat: "registros",
+    icon: "📜",
+    code: "Lei 6.015/1973",
+    tag: "Registros Públicos",
+    title: "Lei de Registros Públicos",
+    desc: "Disciplina o registro de imóveis no Brasil, tornando os atos de transferência, constituição e extinção de direitos reais sobre imóveis oponíveis a terceiros. Regulamenta a matrícula, registro, averbação e certidões.",
+    articles: [
+      { num: "Art. 167, I", text: "No Registro de Imóveis, além da matrícula, serão feitos o registro de: compra e venda pura e condicional; penhora, arresto ou sequestro de imóveis; hipoteca legal, judiciária e convencional." },
+      { num: "Art. 172", text: "No Registro de Imóveis serão feitos, nos termos desta Lei, o registro e a averbação dos títulos ou atos constitutivos, declaratórios, translativos e extintivos de direitos reais sobre imóveis." },
+      { num: "Art. 176", text: "O Livro nº 2 – Registro Geral – será destinado à matrícula dos imóveis e ao registro ou averbação dos atos relacionados no art. 167 e não atribuídos ao Livro nº 3." },
+      { num: "Art. 195-A", text: "Para a efetivação do registro ou averbação, os atos deverão ser praticados por pessoas habilitadas nos termos desta Lei." },
+      { num: "Art. 225", text: "Os tabeliães, escrivães e juízes farão com que, nos instrumentos e documentos, os imóveis sejam identificados pelos seus característicos e confrontações." },
+    ],
+    keywords: "registro matrícula cartório imóvel escritura averbação certidão transferência propriedade"
+  },
+  {
+    id: 7,
+    cat: "creci",
+    icon: "🏅",
+    code: "Lei 6.530/1978 + Decreto 81.871/1978",
+    tag: "CRECI / COFECI",
+    title: "Lei do Corretor de Imóveis – CRECI e COFECI",
+    desc: "Regulamenta a profissão de corretor de imóveis, define as atribuições do COFECI (Conselho Federal) e dos CRECIs Regionais, estabelece exigências para exercício da profissão, honorários de corretagem e penalidades.",
+    articles: [
+      { num: "Art. 2º (Lei 6.530)", text: "O exercício da profissão de Corretor de Imóveis será permitido ao possuidor de título de Técnico em Transações Imobiliárias ou ao bacharel em curso de graduação relacionado ao mercado imobiliário." },
+      { num: "Art. 3º (Lei 6.530)", text: "Compete ao Corretor de Imóveis exercer a intermediação na compra, venda, permuta e locação de imóveis, podendo, ainda, opinar quanto à comercialização imobiliária." },
+      { num: "Art. 4º (Lei 6.530)", text: "A inscrição do Corretor de Imóveis e da pessoa jurídica será objeto de Resolução do COFECI." },
+      { num: "Art. 17 (Lei 6.530)", text: "Compete ao COFECI: dispor sobre ética profissional; fixar as multas e anuidades devidas pelos inscritos." },
+      { num: "Art. 20 (Lei 6.530)", text: "Compete ao CRECI: fiscalizar a atividade profissional do Corretor de Imóveis; expedir carteiras profissionais e cédulas de identidade profissional." },
+      { num: "Res. COFECI 1.336/2014", text: "Aprova o Código de Ética dos Corretores de Imóveis, estabelecendo deveres de lealdade, honestidade e transparência nas negociações." },
+      { num: "Tabela CRECI-SP", text: "A comissão do corretor nas operações de compra e venda varia de 6% a 8% sobre o valor da transação. Nas locações, equivale a um mês de aluguel para locações até 12 meses." },
+    ],
+    keywords: "corretor imóveis CRECI COFECI corretagem comissão habilitação profissão intermediação"
+  },
+  {
+    id: 8,
+    cat: "sfi",
+    icon: "🏦",
+    code: "Lei 9.514/1997 + Lei 4.380/1964",
+    tag: "SFI / SFH",
+    title: "Sistema Financeiro Imobiliário e Habitacional",
+    desc: "Regulamenta o Sistema Financeiro Imobiliário (SFI) e o Sistema Financeiro de Habitação (SFH), incluindo alienação fiduciária, financiamento habitacional (FGTS/SBPE), programas como Minha Casa Minha Vida e CRI.",
+    articles: [
+      { num: "Art. 22 (Lei 9.514)", text: "A alienação fiduciária regulada por esta Lei é o negócio jurídico pelo qual o devedor, ou fiduciante, com o escopo de garantia, contrata a transferência ao credor, ou fiduciário, da propriedade resolúvel de coisa imóvel." },
+      { num: "Art. 26 (Lei 9.514)", text: "Vencida e não paga, no todo ou em parte, a dívida e constituído em mora o fiduciante, consolidar-se-á, nos termos deste artigo, a propriedade do imóvel em nome do fiduciário." },
+      { num: "Art. 27 (Lei 9.514)", text: "Uma vez consolidada a propriedade em seu nome, o fiduciário, no prazo de trinta dias, promoverá público leilão para a alienação do imóvel." },
+      { num: "Art. 8º (Lei 4.380)", text: "É instituído o Sistema Financeiro da Habitação, destinado a facilitar e promover a construção e a aquisição da casa própria ou moradia, especialmente pelas classes de menor renda da população." },
+      { num: "Lei 11.977/2009 (MCMV)", text: "Institui o Programa Minha Casa, Minha Vida, destinado a criar mecanismos de incentivo à produção e aquisição de novas unidades habitacionais pelas famílias de baixa renda." },
+    ],
+    keywords: "alienação fiduciária financiamento habitação FGTS SBPE Minha Casa Minha Vida CRI SFI SFH"
+  },
+  {
+    id: 9,
+    cat: "registros",
+    icon: "📋",
+    code: "Lei 13.097/2015 + Lei 14.382/2022",
+    tag: "Modernização",
+    title: "Concentração na Matrícula e Cartório Digital",
+    desc: "A Lei 13.097/2015 estabelece o princípio da concentração dos atos na matrícula imobiliária. A Lei 14.382/2022 moderniza o sistema eletrônico de registros públicos, regulamentando o SERP e escrituras eletrônicas.",
+    articles: [
+      { num: "Art. 54 (Lei 13.097)", text: "Os negócios jurídicos que tenham por fim constituir, transferir ou modificar direitos reais sobre imóveis são eficazes em relação a atos jurídicos precedentes, nas hipóteses em que não tenham sido registrados ou averbados na matrícula do imóvel." },
+      { num: "Art. 1º (Lei 14.382)", text: "Fica instituído o Sistema Eletrônico dos Registros Públicos (SERP), com o objetivo de integrar os serviços de registros públicos e garantir autenticidade, segurança e eficácia das informações." },
+      { num: "Art. 8º (Lei 14.382)", text: "Os atos notariais e de registro poderão ser praticados por meio eletrônico, com a utilização de certificados digitais e assinaturas eletrônicas qualificadas." },
+    ],
+    keywords: "matrícula concentração SERP cartório digital escritura eletrônica registro online"
+  }
+];
+
+let currentCat = "all";
+let currentSearch = "";
+
+function renderCards(list) {
+  const grid = document.getElementById('cardsGrid');
+  document.getElementById('resultCount').textContent = list.length;
+
+  if (list.length === 0) {
+    grid.innerHTML = `<div class="no-results"><div class="icon">⚖️</div><h3>Nenhuma legislação encontrada</h3><p>Tente outros termos de busca ou remova o filtro de categoria.</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = list.map((item, i) => `
+    <div class="card cat-${item.cat}" style="animation-delay:${i*0.05}s">
+      <div class="card-header">
+        <div class="card-icon">${item.icon}</div>
+        <div class="card-meta">
+          <div class="card-code">${item.code} <span class="card-tag">${item.tag}</span></div>
+          <div class="card-title">${item.title}</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">${item.desc}</div>
+        <div class="articles-list" id="art-${item.id}">
+          ${item.articles.map(a => `
+            <div class="article-item">
+              <div class="article-num">${a.num}</div>
+              <div class="article-text">${a.text}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="expand-btn" onclick="toggleArticles(${item.id}, this)">Ver artigos ▾</button>
+        <span class="article-count">${item.articles.length} artigos</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleArticles(id, btn) {
+  const el = document.getElementById('art-' + id);
+  el.classList.toggle('open');
+  btn.textContent = el.classList.contains('open') ? 'Ocultar ▴' : 'Ver artigos ▾';
+}
+
+function filterCat(cat, el) {
+  currentCat = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  applyFilters();
+}
+
+function performSearch() {
+  currentSearch = document.getElementById('searchInput').value.toLowerCase();
+  applyFilters();
+}
+
+function setSearch(term) {
+  document.getElementById('searchInput').value = term;
+  currentSearch = term.toLowerCase();
+  currentCat = "all";
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('[data-cat="all"]').classList.add('active');
+  applyFilters();
+}
+
+function applyFilters() {
+  let list = DATA;
+  if (currentCat !== "all") list = list.filter(i => i.cat === currentCat);
+  if (currentSearch) {
+    list = list.filter(i =>
+      i.title.toLowerCase().includes(currentSearch) ||
+      i.desc.toLowerCase().includes(currentSearch) ||
+      i.code.toLowerCase().includes(currentSearch) ||
+      i.keywords.toLowerCase().includes(currentSearch) ||
+      i.articles.some(a => a.text.toLowerCase().includes(currentSearch) || a.num.toLowerCase().includes(currentSearch))
+    );
+  }
+  renderCards(list);
+}
+
+// Init
+renderCards(DATA);
+</script>
+</body>
+</html>
