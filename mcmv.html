@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Você Tem Direito ao MCMV? Descubra Agora · FCosta Corretor</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{margin:0!important;padding:0!important;width:100%;overflow-x:hidden}
+:root{
+  --navy:#001f3f;--navy2:#003370;--navy3:#0a4a8a;
+  --gold:#b8860b;--gold2:#d4a017;--gold3:#f0c040;--gold-bg:#fdf8ee;--gold-border:rgba(184,134,11,.25);
+  --bg:#f0f4f8;--bg2:#e8edf3;--white:#ffffff;
+  --border:#d8e0ea;--border2:#c5d0de;
+  --text:#1a2840;--text2:#3a5070;--muted:#6a85a0;
+  --green:#166534;--green2:#15803d;--green-bg:#f0fdf4;--green-border:#bbf7d0;
+  --blue:#1e40af;--blue2:#2563eb;--blue-bg:#eff6ff;--blue-border:#bfdbfe;
+  --orange:#9a3412;--orange2:#c2410c;--orange-bg:#fff7ed;--orange-border:#fed7aa;
+  --purple:#581c87;--purple2:#7c3aed;--purple-bg:#faf5ff;--purple-border:#e9d5ff;
+  --red:#991b1b;--red-bg:#fef2f2;--red-border:#fecaca;
+  --teal:#0f766e;--teal-bg:#f0fdfa;--teal-border:#99f6e4;
+  --sh-s:0 1px 8px rgba(0,31,63,.07),0 2px 16px rgba(0,31,63,.05);
+  --sh-m:0 4px 20px rgba(0,31,63,.12),0 2px 8px rgba(0,31,63,.06);
+  --sh-l:0 8px 40px rgba(0,31,63,.18),0 4px 16px rgba(0,31,63,.08);
+  --r:10px;--r-lg:16px;
+}
+html{font-size:16px;-webkit-text-size-adjust:100%}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
+#hero-gate{background:linear-gradient(145deg,#001228 0%,#001f3f 55%,#003370 100%);position:relative;overflow:hidden;padding:0 0 0 0;}
+#hero-gate::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 60% at 10% 15%,rgba(212,160,23,.10) 0%,transparent 55%),radial-gradient(ellipse 50% 70% at 90% 85%,rgba(0,51,112,.40) 0%,transparent 60%);}
+#hero-gate::after{content:'';position:absolute;inset:0;pointer-events:none;background-image:repeating-linear-gradient(-45deg,rgba(255,255,255,.012) 0px,rgba(255,255,255,.012) 1px,transparent 1px,transparent 28px);}
+.hg-inner{position:relative;z-index:1;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 420px;gap:40px;align-items:center;padding:40px 24px 44px;}
+.hg-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(184,134,11,.18);border:1px solid rgba(184,134,11,.35);border-radius:20px;padding:5px 14px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold3);margin-bottom:14px}
+.hg-title{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,4.5vw,44px);font-weight:700;color:white;line-height:1.1;margin-bottom:10px}
+.hg-title em{font-style:italic;color:var(--gold3)}
+.hg-sub{font-size:13px;color:rgba(255,255,255,.55);font-weight:300;margin-bottom:20px;line-height:1.7;max-width:480px}
+.hg-stats{display:flex;gap:24px;flex-wrap:wrap;margin-bottom:22px}
+.hg-stat{display:flex;flex-direction:column;gap:1px}
+.hg-stat-val{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--gold3);line-height:1}
+.hg-stat-lbl{font-size:10px;color:rgba(255,255,255,.38);text-transform:uppercase;letter-spacing:1px;font-weight:600}
+.hg-stat-sep{width:1px;background:rgba(255,255,255,.12);align-self:stretch;flex-shrink:0}
+.hg-chips{display:flex;gap:7px;flex-wrap:wrap}
+.hg-chip{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:4px 12px;font-size:11px;color:rgba(255,255,255,.7);font-weight:500}
+.hg-form-box{background:white;border-radius:16px;box-shadow:0 12px 48px rgba(0,0,0,.28),0 4px 16px rgba(0,0,0,.12);overflow:hidden;}
+.hg-form-head{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);padding:18px 24px 16px;}
+.hg-form-head-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(184,134,11,.2);border:1px solid rgba(184,134,11,.4);border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold3);margin-bottom:8px}
+.hg-form-head h2{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:white;line-height:1.2}
+.hg-form-head p{font-size:11.5px;color:rgba(255,255,255,.5);margin-top:4px}
+.hg-form-body{padding:22px 24px 24px}
+.gf{display:flex;flex-direction:column;gap:13px}
+.gfld{display:flex;flex-direction:column;gap:4px}
+.glb{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted)}
+.glb .req{color:var(--gold2);margin-left:2px}
+.ginp,.gsel{padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:'Outfit',sans-serif;font-size:14px;color:var(--text);background:#f8fafc;outline:none;transition:border-color .2s,box-shadow .2s,background .2s;-webkit-appearance:none;width:100%}
+.ginp:focus,.gsel:focus{border-color:var(--gold2);box-shadow:0 0 0 3px rgba(184,134,11,.13);background:var(--white)}
+.ginp.err{border-color:var(--red)}
+.gerr{font-size:11px;color:var(--red);display:none;margin-top:-2px}
+.gerr.on{display:block}
+.gbtn{width:100%;padding:14px 20px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);color:white;border:none;border-radius:9px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;letter-spacing:.3px;cursor:pointer;margin-top:4px;transition:all .2s;position:relative;overflow:hidden}
+.gbtn::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(212,160,23,.2),transparent);transform:translateX(-100%);transition:transform .55s ease}
+.gbtn:hover{box-shadow:var(--sh-m);filter:brightness(1.1)}
+.gbtn:hover::before{transform:translateX(100%)}
+.gbtn:active{transform:scale(.98)}
+.gbtn:disabled{opacity:.65;cursor:not-allowed}
+.gbtn-inner{display:flex;align-items:center;justify-content:center;gap:9px}
+.gspinner{display:none;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.gprivacy{text-align:center;font-size:11px;color:var(--muted);margin-top:10px;line-height:1.5}
+.gprivacy b{color:var(--green2)}
+.hg-line{height:3px;background:linear-gradient(90deg,var(--gold2) 0%,var(--gold3) 40%,rgba(255,255,255,.1) 100%)}
+@media(max-width:900px){.hg-inner{grid-template-columns:1fr;gap:28px}.hg-left{order:2}.hg-form-box{order:1;max-width:520px;margin:0 auto;width:100%}}
+@media(max-width:580px){.hg-inner{padding:28px 16px 36px}.hg-stats{gap:14px}.hg-stat-val{font-size:20px}}
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(70px);background:var(--navy);color:white;padding:12px 24px;border-radius:9px;font-size:13px;font-weight:500;box-shadow:var(--sh-l);z-index:99999;transition:transform .38s cubic-bezier(.22,1,.36,1),opacity .38s;opacity:0;white-space:nowrap;border-left:4px solid var(--gold2)}
+#toast.on{transform:translateX(-50%) translateY(0);opacity:1}
+#portal{display:none}
+.hd{background:linear-gradient(140deg,#001228 0%,var(--navy) 40%,var(--navy2) 75%,var(--navy3) 100%);padding:0;position:relative;overflow:hidden}
+.hd::before{content:'';position:absolute;inset:0;pointer-events:none;background-image:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(255,255,255,.025) 39px,rgba(255,255,255,.025) 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(255,255,255,.025) 39px,rgba(255,255,255,.025) 40px);}
+.hd::after{content:'';position:absolute;top:-80px;right:-80px;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(212,160,23,.14) 0%,transparent 65%);pointer-events:none}
+.hd-line{height:3px;background:linear-gradient(90deg,var(--gold2) 0%,var(--gold3) 40%,rgba(255,255,255,.1) 100%)}
+.hd-hero{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:start;padding:20px 24px 14px;position:relative;z-index:1}
+.hd-eye{display:inline-flex;align-items:center;gap:7px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);margin-bottom:8px}
+.hd-eye-dot{width:6px;height:6px;border-radius:50%;background:var(--gold2);animation:pulse 2s ease infinite;flex-shrink:0}
+.hd-title{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,4vw,32px);font-weight:700;color:white;line-height:1.1;margin-bottom:6px}
+.hd-title em{font-style:italic;color:var(--gold3)}
+.hd-sub{font-size:12px;color:rgba(255,255,255,.45);font-weight:300;margin-bottom:14px;line-height:1.6}
+.hd-stats{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:14px}
+.hd-stat{display:flex;flex-direction:column;gap:1px}
+.hd-stat-val{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--gold3);line-height:1}
+.hd-stat-lbl{font-size:10px;color:rgba(255,255,255,.38);text-transform:uppercase;letter-spacing:1px;font-weight:600}
+.hd-stat-sep{width:1px;background:rgba(255,255,255,.12);align-self:stretch;flex-shrink:0}
+.hd-chips{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.hd-chip{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:4px 11px;font-size:11px;color:rgba(255,255,255,.7);font-weight:500;transition:all .2s;cursor:default}
+.hd-chip:hover{background:rgba(184,134,11,.18);border-color:rgba(184,134,11,.4);color:var(--gold3)}
+.hd-right{display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex-shrink:0}
+.hd-tag{display:flex;align-items:center;gap:7px;background:rgba(184,134,11,.14);border:1px solid rgba(184,134,11,.3);border-radius:20px;padding:6px 13px;font-size:11px;color:var(--gold3);font-weight:600;max-width:190px;overflow:hidden}
+.hd-dot{width:7px;height:7px;border-radius:50%;background:var(--gold2);flex-shrink:0;animation:pulse 2s ease infinite}
+#hd-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hd-wa{display:flex;align-items:center;gap:6px;background:rgba(37,211,102,.15);border:1px solid rgba(37,211,102,.3);border-radius:20px;padding:6px 14px;font-size:11px;color:#4ade80;font-weight:700;text-decoration:none;white-space:nowrap;transition:all .2s}
+.hd-wa:hover{background:rgba(37,211,102,.25)}
+.hd-creci{font-size:9.5px;color:rgba(255,255,255,.25);letter-spacing:.5px;text-align:right;line-height:1.4}
+.hd-home{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:6px 14px;font-size:11px;color:rgba(255,255,255,.8);font-weight:700;text-decoration:none;white-space:nowrap;transition:all .2s;letter-spacing:.3px}
+.hd-home:hover{background:rgba(184,134,11,.22);border-color:rgba(184,134,11,.4);color:var(--gold3)}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.4)}}
+@media(max-width:580px){.hd-hero{grid-template-columns:1fr;gap:14px}.hd-right{align-items:flex-start;flex-direction:row;flex-wrap:wrap}}
+.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin-top:4px}
+.tabs::-webkit-scrollbar{display:none}
+.tb{flex-shrink:0;display:flex;align-items:center;gap:6px;padding:11px 16px 14px;border:none;background:rgba(255,255,255,.06);color:rgba(255,255,255,.5);font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;cursor:pointer;border-radius:8px 8px 0 0;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap}
+.tb:hover{background:rgba(255,255,255,.13);color:rgba(255,255,255,.85)}
+.tb.on{background:white;color:var(--navy);border-bottom-color:var(--gold2);font-weight:700}
+.ti{font-size:13px}
+.pw{max-width:880px;margin:0 auto;padding:24px 16px 56px}
+.tp{display:none}
+.tp.on{display:block;animation:sUp .3s ease}
+@keyframes sUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.card{background:white;border-radius:var(--r);box-shadow:var(--sh-s);padding:24px 22px;margin-bottom:18px;border:1px solid var(--border)}
+.ct{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--navy);margin-bottom:3px}
+.cd{font-size:12.5px;color:var(--muted);margin-bottom:20px}
+.sdiv{display:flex;align-items:center;gap:12px;margin:22px 0 16px}
+.sdiv::before,.sdiv::after{content:'';flex:1;height:1px;background:var(--border)}
+.sdiv span{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.8px;color:var(--muted);white-space:nowrap;padding:0 4px}
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:14px;margin-bottom:18px}
+.fgr{display:flex;flex-direction:column;gap:5px}
+.fl{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted)}
+.fi,.fs{padding:11px 13px;border:1.5px solid var(--border);border-radius:8px;font-family:'Outfit',sans-serif;font-size:14.5px;color:var(--text);background:#f8fafc;outline:none;transition:border-color .2s,box-shadow .2s,background .2s;-webkit-appearance:none;width:100%}
+.fi:focus,.fs:focus{border-color:var(--gold2);box-shadow:0 0 0 3px rgba(184,134,11,.12);background:white}
+.fh{font-size:11px;color:var(--muted)}
+.rh{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.rl{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted)}
+.rv{font-size:14px;font-weight:700;color:var(--navy);background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:6px;padding:2px 11px}
+.rng{-webkit-appearance:none;width:100%;height:5px;border-radius:5px;background:linear-gradient(to right,var(--gold2) 0%,var(--gold2) var(--pct,40%),var(--border) var(--pct,40%));outline:none;cursor:pointer;margin-bottom:5px}
+.rng::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--navy);border:3px solid var(--gold2);cursor:pointer;transition:transform .15s}
+.rng::-webkit-slider-thumb:hover{transform:scale(1.2)}
+.rng::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--navy);border:3px solid var(--gold2)}
+.rtk{display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted);margin-bottom:14px}
+.bcalc{width:100%;padding:13px 20px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);color:white;border:none;border-radius:9px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;letter-spacing:.3px;cursor:pointer;transition:all .2s;overflow:hidden;position:relative}
+.bcalc::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(212,160,23,.18),transparent);transform:translateX(-100%);transition:transform .48s}
+.bcalc:hover{box-shadow:var(--sh-m);filter:brightness(1.08)}
+.bcalc:hover::before{transform:translateX(100%)}
+.bcalc:active{transform:scale(.98)}
+.rdark{display:none;background:linear-gradient(140deg,var(--navy),var(--navy2));border-radius:var(--r);padding:24px;margin-top:18px;color:white;animation:sUp .3s ease;position:relative;overflow:hidden}
+.rdark::after{content:'';position:absolute;bottom:-50px;right:-50px;width:180px;height:180px;border-radius:50%;background:rgba(184,134,11,.06);pointer-events:none}
+.rdark.on{display:block}
+.rg{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:16px;margin-bottom:16px}
+.rlb{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:1.8px;color:rgba(255,255,255,.38);margin-bottom:4px}
+.rv2{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--gold3);line-height:1;margin-bottom:3px}
+.rv2.md{font-size:20px}
+.rs{font-size:11px;color:rgba(255,255,255,.32)}
+.rtip{padding:12px 14px;background:rgba(184,134,11,.12);border:1px solid rgba(184,134,11,.22);border-radius:7px;font-size:12px;color:rgba(255,255,255,.75);line-height:1.6}
+.rtip strong{color:var(--gold3)}
+.rlight{display:none;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-top:18px;animation:sUp .3s ease}
+.rlight.on{display:block}
+.rlight .rg{margin-bottom:14px}
+.rli{background:white;border-radius:9px;padding:14px 16px;box-shadow:var(--sh-s)}
+.rlight .rlb{color:var(--muted)}
+.rlight .rv2{color:var(--navy);font-size:22px}
+.rlight .rv2.gr{color:var(--green2)}
+.rlight .rv2.wa{color:var(--orange2)}
+.fxg{display:grid;gap:13px}
+.fxc{background:white;border-radius:var(--r);border:1px solid var(--border);border-left-width:5px;padding:16px 18px;box-shadow:var(--sh-s);transition:transform .15s,box-shadow .15s}
+.fxc:hover{transform:translateX(5px);box-shadow:var(--sh-m)}
+.fxc.f1{border-left-color:var(--green2)}.fxc.f2{border-left-color:var(--blue2)}.fxc.f3{border-left-color:var(--orange2)}.fxc.f4{border-left-color:var(--purple2)}
+.fxh{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:7px;margin-bottom:13px}
+.fxn{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--navy)}
+.fxps{display:flex;gap:5px;flex-wrap:wrap}
+.fxp{font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:.3px}
+.f1 .fxp.m{background:var(--green-bg);color:var(--green2)}.f2 .fxp.m{background:var(--blue-bg);color:var(--blue2)}.f3 .fxp.m{background:var(--orange-bg);color:var(--orange2)}.f4 .fxp.m{background:var(--purple-bg);color:var(--purple2)}
+.fxp.nv{background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-border)}
+.fxb{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.fil{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:2px}
+.fiv{font-size:13px;font-weight:700;color:var(--text)}
+.fiv.gr{color:var(--green2)}.fiv.bl{color:var(--blue2)}.fiv.or{color:var(--orange2)}.fiv.pu{color:var(--purple2)}.fiv.gy{color:var(--muted);font-weight:400;font-style:italic}
+.enqb{display:inline-flex;align-items:center;gap:8px;padding:7px 16px;border-radius:25px;font-size:13px;font-weight:700;margin-bottom:16px}
+.ef1{background:var(--green-bg);color:var(--green2)}.ef2{background:var(--blue-bg);color:var(--blue2)}.ef3{background:var(--orange-bg);color:var(--orange2)}.ef4{background:var(--purple-bg);color:var(--purple2)}.eno{background:var(--red-bg);color:var(--red)}
+.malert{padding:12px 14px;border-radius:8px;font-size:12.5px;line-height:1.6;margin-top:13px}
+.malert.ok{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
+.malert.no{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
+.malert.info{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border)}
+.pbox{background:var(--navy);border-radius:9px;padding:15px 17px;color:white;font-size:13px;line-height:1.7;margin-top:13px}
+.pbox strong{color:var(--gold3)}
+.rl2{list-style:none}
+.ri{display:flex;gap:13px;padding:13px 0;border-bottom:1px solid var(--border);align-items:flex-start}
+.ri:last-child{border-bottom:none}
+.ric{width:26px;height:26px;border-radius:50%;background:var(--navy);color:var(--gold3);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.rit{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px}
+.rid{font-size:12px;color:var(--muted);line-height:1.55}
+.bw{height:9px;background:var(--border);border-radius:9px;overflow:hidden;margin:7px 0 5px}
+.bf{height:100%;border-radius:9px;background:linear-gradient(90deg,var(--green2) 0%,var(--gold2) 55%,var(--red) 100%);transition:width .55s ease}
+.bp{font-size:11px;color:var(--muted)}
+.pg{position:relative;padding-left:34px;margin-bottom:14px}
+.pn{position:absolute;left:0;top:26px;width:24px;height:24px;border-radius:50%;background:var(--gold2);color:var(--navy);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.pgrid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:11px}
+@media(max-width:480px){.pgrid{grid-template-columns:1fr 1fr}.pgrid .fgr:first-child{grid-column:1/-1}}
+.sigla-grid{display:grid;gap:10px;margin-bottom:18px}
+.sigla-card{display:flex;gap:14px;align-items:flex-start;background:white;border:1px solid var(--border);border-radius:9px;padding:14px 16px;box-shadow:var(--sh-s);transition:box-shadow .15s}
+.sigla-card:hover{box-shadow:var(--sh-m)}
+.sigla-tag{flex-shrink:0;background:var(--navy);color:var(--gold3);font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:700;padding:6px 11px;border-radius:7px;letter-spacing:.5px;white-space:nowrap;min-width:64px;text-align:center;line-height:1.3}
+.sigla-name{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:3px}
+.sigla-desc{font-size:12px;color:var(--muted);line-height:1.55}
+.ftab{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+.ftab th{background:var(--navy);color:white;padding:10px 13px;text-align:left;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px}
+.ftab th:first-child{border-radius:8px 0 0 0}.ftab th:last-child{border-radius:0 8px 0 0}
+.ftab td{padding:11px 13px;border-bottom:1px solid var(--border);vertical-align:middle}
+.ftab tr:last-child td{border-bottom:none}
+.ftab tr:nth-child(even) td{background:var(--bg)}
+.ftab tr:hover td{background:var(--gold-bg)}
+.ftag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:10.5px;font-weight:700}
+.ftag.f1{background:var(--green-bg);color:var(--green2)}.ftag.f2{background:var(--blue-bg);color:var(--blue2)}.ftag.f3{background:var(--orange-bg);color:var(--orange2)}.ftag.f4{background:var(--purple-bg);color:var(--purple2)}
+.doc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.doc-card{background:white;border:1px solid var(--border);border-radius:9px;padding:16px 18px;box-shadow:var(--sh-s)}
+.doc-title{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;color:var(--navy);margin-bottom:12px}
+.doc-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px}
+.doc-badge.f1{background:var(--green-bg);color:var(--green2)}.doc-badge.f2{background:var(--blue-bg);color:var(--blue2)}.doc-badge.f3{background:var(--orange-bg);color:var(--orange2)}.doc-badge.f4{background:var(--purple-bg);color:var(--purple2)}
+.doc-list{list-style:none}
+.doc-item{display:flex;gap:8px;align-items:flex-start;padding:5px 0;border-bottom:1px solid var(--bg2);font-size:12px;color:var(--text2)}
+.doc-item:last-child{border-bottom:none}
+.doc-item::before{content:'✓';color:var(--green2);font-weight:700;font-size:11px;flex-shrink:0;margin-top:1px}
+.ibox{border-radius:9px;padding:14px 16px;font-size:12.5px;line-height:1.65;margin-bottom:14px}
+.ibox.navy{background:var(--navy);color:rgba(255,255,255,.85)}.ibox.navy strong{color:var(--gold3)}
+.ibox.gold{background:var(--gold-bg);border:1px solid var(--gold-border);color:var(--text)}.ibox.gold strong{color:var(--gold)}
+.ibox.green{background:var(--green-bg);border:1px solid var(--green-border);color:var(--green)}
+.ibox.blue{background:var(--blue-bg);border:1px solid var(--blue-border);color:var(--blue)}
+.comp-result{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px;animation:sUp .3s ease}
+.comp-col{border-radius:10px;padding:20px;text-align:center}
+.comp-col.imovel{background:linear-gradient(140deg,var(--navy),var(--navy2));color:white}
+.comp-col.fii{background:linear-gradient(140deg,var(--teal),#0a5c54);color:white}
+.comp-col-icon{font-size:28px;margin-bottom:8px}
+.comp-col-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.45);margin-bottom:6px}
+.comp-col-val{font-family:'Cormorant Garamond',serif;font-size:30px;color:var(--gold3);line-height:1;margin-bottom:4px}
+.comp-col-sub{font-size:11px;color:rgba(255,255,255,.4)}
+.comp-winner{grid-column:1/-1;background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:9px;padding:13px 16px;font-size:13px;color:var(--text);text-align:center}
+.comp-winner strong{color:var(--gold)}
+@media(max-width:480px){.comp-result{grid-template-columns:1fr}}
+.custo-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
+.custo-item:last-child{border-bottom:none}
+.custo-label{font-size:13px;color:var(--text2)}
+.custo-val{font-size:13px;font-weight:700;color:var(--navy)}
+.custo-total{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;background:var(--navy);border-radius:8px;margin-top:12px}
+.custo-total .custo-label{color:rgba(255,255,255,.7);font-weight:600}
+.custo-total .custo-val{color:var(--gold3);font-family:'Cormorant Garamond',serif;font-size:22px}
+.banco-selector{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+.banco-btn{flex:1 1 120px;border:2px solid var(--border);background:#fff;border-radius:10px;padding:10px 8px;cursor:pointer;text-align:center;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:5px}
+.banco-btn .banco-icon{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#fff;letter-spacing:-.5px}
+.banco-btn span{font-size:11.5px;font-weight:600;color:var(--muted)}
+.banco-btn:hover{transform:translateY(-2px);box-shadow:var(--sh-m)}
+.banco-btn.bativo{border-color:var(--navy);background:var(--blue-bg)}
+.banco-btn.bativo span{color:var(--navy)}
+.financ-result-header{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;border-radius:10px;padding:20px;color:#fff;margin-bottom:16px}
+.financ-result-item label{font-size:9.5px;opacity:.7;text-transform:uppercase;letter-spacing:1.2px;display:block;margin-bottom:4px}
+.financ-result-item strong{font-family:'Cormorant Garamond',serif;font-size:24px;display:block;line-height:1}
+.financ-result-item span{font-size:11px;opacity:.65}
+.financ-tabela-wrap{overflow-x:auto;border-radius:9px;border:1px solid var(--border);margin-bottom:16px}
+.financ-tabela-wrap table{width:100%;border-collapse:collapse;font-size:13px}
+.financ-tabela-wrap thead th{background:var(--navy);color:#fff;padding:9px 12px;text-align:left;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px}
+.financ-tabela-wrap tbody td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--text)}
+.financ-tabela-wrap tbody tr:nth-child(even) td{background:var(--bg)}
+.financ-tabela-wrap tbody tr:last-child td{border-bottom:none}
+.financ-banco-info{background:var(--bg);border-radius:9px;padding:14px 16px;border-left:4px solid var(--navy2)}
+.financ-banco-info h4{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:5px}
+.financ-banco-info p{font-size:12px;color:var(--muted);line-height:1.6}
+.financ-banco-info a{display:inline-block;margin-top:8px;background:var(--navy);color:#fff;border-radius:6px;padding:6px 14px;font-size:12px;font-weight:700;text-decoration:none;transition:background .2s}
+.financ-banco-info a:hover{background:var(--navy2)}
+.financ-wpp{display:flex;align-items:center;gap:14px;margin-top:16px;background:linear-gradient(135deg,#25D366,#128C7E);border-radius:10px;padding:14px 18px;text-decoration:none;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 16px rgba(37,211,102,.22)}
+.financ-wpp:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(37,211,102,.35)}
+.financ-wpp div strong{display:block;color:#fff;font-size:14px;font-weight:700}
+.financ-wpp div span{color:rgba(255,255,255,.8);font-size:12px}
+.financ-disclaimer{font-size:11px;color:var(--muted);text-align:center;margin-top:14px;line-height:1.6}
+#res-financ{display:none;margin-top:20px;animation:sUp .3s ease}
+#res-financ.on{display:block}
+.fn{text-align:center;font-size:11px;color:var(--muted);padding:12px 0 6px;border-top:1px solid var(--border);margin-top:10px;line-height:1.8}
+.fn a{color:var(--gold2);text-decoration:none;font-weight:600}
+@media(max-width:580px){.pw{padding:16px 12px 48px}.card{padding:18px 15px}.rv2{font-size:20px}.tabs .tb{padding:9px 12px 12px;font-size:11.5px}}
+</style>
+</head>
+<body>
+
+<!-- HERO GATE -->
+<div id="hero-gate">
+  <div class="hg-inner">
+    <div class="hg-left">
+      <div class="hg-badge">✦ Acesso Gratuito · FCosta Corretor</div>
+      <h1 class="hg-title"><em>Você Tem Direito</em><br>ao MCMV? Descubra Agora</h1>
+      <p class="hg-sub">Simuladores avançados, calculadoras MCMV, glossário completo com 30+ siglas e regras atualizadas — tudo gratuito para você.</p>
+      <div class="hg-stats">
+        <div class="hg-stat"><span class="hg-stat-val">10</span><span class="hg-stat-lbl">Ferramentas</span></div>
+        <div class="hg-stat-sep"></div>
+        <div class="hg-stat"><span class="hg-stat-val">4</span><span class="hg-stat-lbl">Faixas MCMV</span></div>
+        <div class="hg-stat-sep"></div>
+        <div class="hg-stat"><span class="hg-stat-val">30+</span><span class="hg-stat-lbl">Siglas</span></div>
+        <div class="hg-stat-sep"></div>
+        <div class="hg-stat"><span class="hg-stat-val">100%</span><span class="hg-stat-lbl">Gratuito</span></div>
+      </div>
+      <div class="hg-chips">
+        <span class="hg-chip">🏗️ MCMV &amp; Faixas</span>
+        <span class="hg-chip">📊 HIS · HIS 2 · HMP</span>
+        <span class="hg-chip">🏠 Yield &amp; Aluguel</span>
+        <span class="hg-chip">⚖️ Avaliação</span>
+        <span class="hg-chip">📉 SAC / PRICE</span>
+        <span class="hg-chip">💪 Poder de Compra</span>
+        <span class="hg-chip">🧾 Custo da Compra</span>
+        <span class="hg-chip">📈 FII vs Imóvel</span>
+        <span class="hg-chip">🏦 Simul. Financiamento</span>
+      </div>
+    </div>
+
+    <div class="hg-form-box">
+      <div class="hg-form-head">
+        <div class="hg-form-head-badge">✦ Acesso Gratuito</div>
+        <h2>Crie seu acesso gratuito</h2>
+        <p>Preencha abaixo e acesse imediatamente todas as ferramentas</p>
+      </div>
+      <div class="hg-form-body">
+        <div class="gf" id="gform">
+          <div class="gfld">
+            <label class="glb" for="gn">Nome completo <span class="req">*</span></label>
+            <input class="ginp" id="gn" type="text" placeholder="Ex: João Silva" autocomplete="name">
+            <span class="gerr" id="ge-n">Informe seu nome completo.</span>
+          </div>
+          <div class="gfld">
+            <label class="glb" for="gw">WhatsApp <span class="req">*</span></label>
+            <input class="ginp" id="gw" type="tel" placeholder="(11) 99999-9999" inputmode="tel" autocomplete="tel">
+            <span class="gerr" id="ge-w">Informe um WhatsApp válido.</span>
+          </div>
+          <div class="gfld">
+            <label class="glb" for="gem">E-mail <span class="req">*</span></label>
+            <input class="ginp" id="gem" type="email" placeholder="seuemail@exemplo.com" autocomplete="email">
+            <span class="gerr" id="ge-e">Informe um e-mail válido.</span>
+          </div>
+          <div class="gfld">
+            <label class="glb" for="gc2">Cidade / Bairro <span class="req">*</span></label>
+            <input class="ginp" id="gc2" type="text" placeholder="Ex: São Paulo — Tatuapé" autocomplete="address-level2">
+            <span class="gerr" id="ge-c">Informe sua cidade.</span>
+          </div>
+          <div class="gfld">
+            <label class="glb" for="gi">Interesse principal <span class="req">*</span></label>
+            <select class="gsel" id="gi">
+              <option value="" disabled selected>Selecione...</option>
+              <option>🏠 Comprar imóvel próprio</option>
+              <option>📈 Investir / Renda com aluguel</option>
+              <option>🏗️ MCMV / Minha Casa Minha Vida</option>
+              <option>💼 Vender meu imóvel</option>
+              <option>🧮 Simular financiamento</option>
+              <option>🔍 Explorar as ferramentas</option>
+            </select>
+            <span class="gerr" id="ge-i">Selecione uma opção.</span>
+          </div>
+          <button class="gbtn" type="button" id="gbtn" onclick="submitGate()">
+            <span class="gbtn-inner">
+              <span id="gbtn-txt">Acessar o Portal Gratuitamente →</span>
+              <span class="gspinner" id="gsp"></span>
+            </span>
+          </button>
+        </div>
+        <p class="gprivacy">🔒 <b>Dados protegidos.</b> Sem spam — apenas contato direto e qualificado.<br>CRECI-SP 294791-F · CNAI 52708</p>
+      </div>
+    </div>
+  </div>
+  <div class="hg-line"></div>
+</div>
+
+<!-- PORTAL -->
+<div id="portal">
+  <header class="hd">
+    <div class="hd-hero">
+      <div>
+        <p class="hd-eye"><span class="hd-eye-dot"></span>FCosta Corretor · CRECI-SP 294791-F · CNAI 52708</p>
+        <h1 class="hd-title"><em>Você Tem Direito</em><br>ao MCMV? Descubra Agora</h1>
+        <p class="hd-sub">Simule sua parcela, descubra seu subsídio e compare financiamentos — tudo grátis</p>
+        <div class="hd-stats">
+          <div class="hd-stat"><span class="hd-stat-val">10</span><span class="hd-stat-lbl">Ferramentas</span></div>
+          <div class="hd-stat-sep"></div>
+          <div class="hd-stat"><span class="hd-stat-val">4</span><span class="hd-stat-lbl">Faixas MCMV</span></div>
+          <div class="hd-stat-sep"></div>
+          <div class="hd-stat"><span class="hd-stat-val">30+</span><span class="hd-stat-lbl">Siglas explicadas</span></div>
+          <div class="hd-stat-sep"></div>
+          <div class="hd-stat"><span class="hd-stat-val">100%</span><span class="hd-stat-lbl">Gratuito</span></div>
+        </div>
+      </div>
+      <div class="hd-right">
+        <div class="hd-tag"><span class="hd-dot"></span><span id="hd-name">Visitante</span></div>
+        <a class="hd-home" href="index.html">← Home</a>
+        <a class="hd-wa" href="https://wa.me/5511993509109" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          (11) 99350-9109
+        </a>
+        <p class="hd-creci">CRECI-SP 294791-F<br>CNAI 52708</p>
+      </div>
+    </div>
+    <nav class="tabs" role="tablist" style="padding:0 24px;position:relative;z-index:1">
+      <button type="button" class="tb on"  onclick="tab('mcmv',this)"    role="tab"><span class="ti">🏗️</span>MCMV 2026</button>
+      <button type="button" class="tb"     onclick="tab('faixas',this)"  role="tab"><span class="ti">📊</span>Faixas &amp; Siglas</button>
+      <button type="button" class="tb"     onclick="tab('aluguel',this)" role="tab"><span class="ti">🏠</span>Aluguel/Yield</button>
+      <button type="button" class="tb"     onclick="tab('aval',this)"    role="tab"><span class="ti">⚖️</span>Avaliação</button>
+      <button type="button" class="tb"     onclick="tab('amort',this)"   role="tab"><span class="ti">📉</span>Amortizar</button>
+      <button type="button" class="tb"     onclick="tab('poder',this)"   role="tab"><span class="ti">💪</span>Poder de Compra</button>
+      <button type="button" class="tb"     onclick="tab('custo',this)"   role="tab"><span class="ti">🧾</span>Custo da Compra</button>
+      <button type="button" class="tb"     onclick="tab('comp',this)"    role="tab"><span class="ti">📈</span>FII vs Imóvel</button>
+      <button type="button" class="tb"     onclick="tab('financ',this)"  role="tab"><span class="ti">🏦</span>Financiamento</button>
+      <button type="button" class="tb"     onclick="tab('docs',this)"    role="tab"><span class="ti">📋</span>Documentos</button>
+    </nav>
+    <div class="hd-line"></div>
+  </header>
+
+  <main class="pw">
+
+  <!-- ABA 1 · MCMV -->
+  <section id="tab-mcmv" class="tp on">
+    <div class="card">
+      <h2 class="ct">Faixas do MCMV 2026</h2>
+      <p class="cd">Programa Minha Casa Minha Vida — regras e limites vigentes por faixa salarial</p>
+      <div class="fxg">
+        <div class="fxc f1"><div class="fxh"><span class="fxn">Faixa 1 — Subsidiada</span><div class="fxps"><span class="fxp m">Maior Subsídio</span></div></div><div class="fxb"><div><div class="fil">Renda Familiar</div><div class="fiv">Até R$ 2.850/mês</div></div><div><div class="fil">Subsídio Máx.</div><div class="fiv gr">Até 95% do imóvel</div></div><div><div class="fil">Juros a.a.</div><div class="fiv gr">4,00% a 4,75%</div></div><div><div class="fil">Teto do Imóvel</div><div class="fiv">R$ 190k – R$ 264k</div></div><div><div class="fil">Prazo Máx.</div><div class="fiv">420 meses (35 anos)</div></div><div><div class="fil">BPC / Bolsa Família</div><div class="fiv gr">Pode ser gratuito</div></div></div></div>
+        <div class="fxc f2"><div class="fxh"><span class="fxn">Faixa 2 — Subsidiada</span><div class="fxps"><span class="fxp m">Subsídio + Juros Baixos</span></div></div><div class="fxb"><div><div class="fil">Renda Familiar</div><div class="fiv">R$ 2.850 a R$ 4.700</div></div><div><div class="fil">Subsídio Máx.</div><div class="fiv bl">Até R$ 55.000</div></div><div><div class="fil">Juros a.a.</div><div class="fiv bl">4,75% a 7,66%</div></div><div><div class="fil">Teto do Imóvel</div><div class="fiv">R$ 190k – R$ 264k</div></div><div><div class="fil">Prazo Máx.</div><div class="fiv">420 meses (35 anos)</div></div><div><div class="fil">Região Norte</div><div class="fiv bl">Subsídio até R$ 65.000</div></div></div></div>
+        <div class="fxc f3"><div class="fxh"><span class="fxn">Faixa 3 — Mercado Subsidiado</span><div class="fxps"><span class="fxp m">Juros Reduzidos</span></div></div><div class="fxb"><div><div class="fil">Renda Familiar</div><div class="fiv">R$ 4.700 a R$ 8.600</div></div><div><div class="fil">Subsídio</div><div class="fiv gy">Sem subsídio direto</div></div><div><div class="fil">Juros a.a.</div><div class="fiv or">7,66% a 8,16%</div></div><div><div class="fil">Teto do Imóvel</div><div class="fiv">Até R$ 350.000</div></div><div><div class="fil">Prazo Máx.</div><div class="fiv">420 meses (35 anos)</div></div><div><div class="fil">Vantagem</div><div class="fiv or">Abaixo do mercado livre</div></div></div></div>
+        <div class="fxc f4"><div class="fxh"><span class="fxn">Faixa 4 — Classe Média</span><div class="fxps"><span class="fxp m">Juros Competitivos</span><span class="fxp nv">✦ Nova</span></div></div><div class="fxb"><div><div class="fil">Renda Familiar</div><div class="fiv">R$ 8.600 a R$ 12.000</div></div><div><div class="fil">Subsídio</div><div class="fiv gy">Sem subsídio</div></div><div><div class="fil">Juros a.a.</div><div class="fiv pu">Até 10,50%</div></div><div><div class="fil">Teto do Imóvel</div><div class="fiv">Até R$ 500.000</div></div><div><div class="fil">Prazo Máx.</div><div class="fiv">420 meses (35 anos)</div></div><div><div class="fil">Vantagem</div><div class="fiv pu">Abaixo da média bancária</div></div></div></div>
+      </div>
+    </div>
+
+    <div class="card" style="border-top:4px solid var(--green2)">
+      <h2 class="ct">🏗️ Simulador MCMV — Sua Parcela em Segundos</h2>
+      <p class="cd">Preencha os dados e descubra se você tem direito, quanto de subsídio recebe e qual será sua parcela</p>
+      <div class="fg">
+        <div class="fgr"><label class="fl">Renda Familiar Bruta (R$/mês) <span style="color:var(--red)">*</span></label><input class="fi" type="number" id="mr" placeholder="Ex: 3500" inputmode="numeric" max="9999999" oninput="mascaraValor(this)"></div>
+        <div class="fgr"><label class="fl">Valor do Imóvel (R$) <span style="color:var(--red)">*</span></label><input class="fi" type="number" id="mi" placeholder="Ex: 250000" inputmode="numeric" max="9999999" oninput="mascaraValor(this)"></div>
+        <div class="fgr"><label class="fl">Sua Idade (anos) <span style="color:var(--red)">*</span></label><input class="fi" type="number" id="midade" placeholder="Ex: 35" inputmode="numeric" min="18" max="80"><span class="fh">Define o prazo máximo permitido pelo banco</span></div>
+        <div class="fgr"><label class="fl">FGTS disponível (R$)</label><input class="fi" type="number" id="mf" placeholder="Ex: 15000" inputmode="numeric" max="9999999" oninput="mascaraValor(this)"><span class="fh">Reduz o valor financiado</span></div>
+        <div class="fgr"><label class="fl">Entrada própria (R$)</label><input class="fi" type="number" id="ment" placeholder="Ex: 20000" inputmode="numeric" max="9999999" oninput="mascaraValor(this)"><span class="fh">Além do FGTS</span></div>
+        <div class="fgr"><label class="fl">Prazo desejado</label><select class="fs" id="mp"><option value="15">15 anos (180 meses)</option><option value="20">20 anos (240 meses)</option><option value="25">25 anos (300 meses)</option><option value="30" selected>30 anos (360 meses)</option><option value="35">35 anos (420 meses)</option></select></div>
+      </div>
+      <button type="button" class="bcalc" style="font-size:15px;padding:15px" onclick="calcMCMV()">🔍 Simular Minha Parcela MCMV →</button>
+      <div class="rlight" id="res-mcmv" style="padding:0;background:transparent;border:none">
+        <div id="m-parcela-destaque" style="display:none;background:linear-gradient(135deg,var(--green2),#166534);border-radius:14px;padding:22px 24px;margin-top:18px;text-align:center;color:white;box-shadow:var(--sh-l)">
+          <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:6px">💳 SUA PARCELA MENSAL ESTIMADA</div>
+          <div id="m-parcela-valor" style="font-family:'Cormorant Garamond',serif;font-size:clamp(38px,8vw,58px);font-weight:700;color:#fff;line-height:1;margin-bottom:4px">—</div>
+          <div id="m-parcela-sub" style="font-size:13px;color:rgba(255,255,255,.75)"></div>
+        </div>
+        <div id="m-badge" style="margin-top:14px"></div>
+        <div class="rg" id="m-grid" style="margin-top:14px"></div>
+        <div class="pbox" id="m-parc" style="margin-top:0"></div>
+        <div id="m-alert"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="ct" style="font-size:17px;margin-bottom:16px">📜 Regras e Requisitos MCMV 2026</h2>
+      <ul class="rl2">
+        <li class="ri"><div class="ric">1</div><div><div class="rit">Primeiro imóvel residencial</div><div class="rid">Não pode ter imóvel residencial no nome em qualquer Estado, nem ter recebido benefício habitacional federal anteriormente.</div></div></li>
+        <li class="ri"><div class="ric">2</div><div><div class="rit">Sem financiamento habitacional ativo</div><div class="rid">Nenhum financiamento imobiliário vigente em qualquer instituição financeira brasileira — inclui SFH e SFI.</div></div></li>
+        <li class="ri"><div class="ric">3</div><div><div class="rit">Renda comprovada</div><div class="rid">Pode ser renda composta (cônjuge + dependentes). Para informais: extrato bancário 3 meses, declaração MEI ou DECORE. Para CLT: holerites + CTPS.</div></div></li>
+        <li class="ri"><div class="ric">4</div><div><div class="rit">Limite de valor por município</div><div class="rid">Faixas 1–2: R$ 264k (SP/RJ/DF/capitais) e R$ 190k (municípios menores). Faixa 3: até R$ 350k. Faixa 4: até R$ 500k.</div></div></li>
+        <li class="ri"><div class="ric">5</div><div><div class="rit">FGTS como recurso auxiliar</div><div class="rid">Pode ser usado como entrada, amortização ou abatimento de parcelas em todas as faixas — exige 3 anos de carteira assinada.</div></div></li>
+        <li class="ri"><div class="ric">6</div><div><div class="rit">Comprometimento máximo de 30% da renda</div><div class="rid">A parcela mensal não pode ultrapassar 30% da renda bruta familiar. Esse índice inclui outras dívidas consideradas pelo banco.</div></div></li>
+        <li class="ri"><div class="ric">7</div><div><div class="rit">Prazo máximo de 420 meses (35 anos)</div><div class="rid">Todas as faixas permitem até 35 anos de financiamento. Quanto maior o prazo, menor a parcela — mas maior o total de juros pago.</div></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ABA 2 · FAIXAS & SIGLAS -->
+  <section id="tab-faixas" class="tp">
+    <div class="card">
+      <h2 class="ct">Faixas Salariais MCMV 2026</h2>
+      <p class="cd">Tabela completa com limites de renda, juros, subsídio e teto do imóvel por faixa</p>
+      <div style="overflow-x:auto">
+        <table class="ftab">
+          <thead><tr><th>Faixa</th><th>Renda Familiar</th><th>Juros a.a.</th><th>Subsídio Máx.</th><th>Teto Imóvel</th><th>Prazo</th></tr></thead>
+          <tbody>
+            <tr><td><span class="ftag f1">Faixa 1</span></td><td>Até <strong>R$ 2.850</strong></td><td><strong style="color:var(--green2)">4,00% – 4,75%</strong></td><td><strong style="color:var(--green2)">Até 95% do valor</strong></td><td>R$ 190k – R$ 264k</td><td>420 meses</td></tr>
+            <tr><td><span class="ftag f2">Faixa 2</span></td><td><strong>R$ 2.850</strong> a <strong>R$ 4.700</strong></td><td><strong style="color:var(--blue2)">4,75% – 7,66%</strong></td><td><strong style="color:var(--blue2)">Até R$ 55.000</strong></td><td>R$ 190k – R$ 264k</td><td>420 meses</td></tr>
+            <tr><td><span class="ftag f3">Faixa 3</span></td><td><strong>R$ 4.700</strong> a <strong>R$ 8.600</strong></td><td><strong style="color:var(--orange2)">7,66% – 8,16%</strong></td><td style="color:var(--muted)">Sem subsídio direto</td><td>Até R$ 350.000</td><td>420 meses</td></tr>
+            <tr><td><span class="ftag f4">Faixa 4</span></td><td><strong>R$ 8.600</strong> a <strong>R$ 12.000</strong></td><td><strong style="color:var(--purple2)">Até 10,50%</strong></td><td style="color:var(--muted)">Sem subsídio</td><td>Até R$ 500.000</td><td>420 meses</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="ibox gold" style="margin-top:16px"><strong>📍 Variação regional:</strong> Nas capitais SP, RJ e DF o teto das Faixas 1 e 2 é R$ 264.000. Região Norte tem bônus de subsídio de até R$ 65.000 na Faixa 2.</div>
+      <div class="ibox blue" style="margin-top:10px"><strong>💡 Salário mínimo 2026: R$ 1.518,00.</strong> Faixa 1 até ≈ 1,87 SM · Faixa 2 até ≈ 3,10 SM · Faixa 3 até ≈ 5,66 SM · Faixa 4 até ≈ 7,90 SM.</div>
+    </div>
+    <div class="card">
+      <h2 class="ct">Siglas e Glossário do Mercado Imobiliário</h2>
+      <p class="cd">Termos essenciais para entender financiamentos, contratos e o MCMV</p>
+      <div class="sdiv"><span>Programas e Sistemas</span></div>
+      <div class="sigla-grid">
+        <div class="sigla-card"><div class="sigla-tag">MCMV</div><div><div class="sigla-name">Minha Casa Minha Vida</div><div class="sigla-desc">Programa habitacional do Governo Federal com subsídios e juros reduzidos para famílias de baixa e média renda.</div></div></div>
+        <div class="sigla-card"><div class="sigla-tag">SFH</div><div><div class="sigla-name">Sistema Financeiro de Habitação</div><div class="sigla-desc">Principal sistema de financiamento imobiliário do Brasil com recursos do FGTS e da poupança (SBPE). Limita juros a 12% a.a.</div></div></div>
+        <div class="sigla-card"><div class="sigla-tag">FGTS</div><div><div class="sigla-name">Fundo de Garantia do Tempo de Serviço</div><div class="sigla-desc">Depositado mensalmente pelo empregador (8% do salário). Pode ser usado como entrada ou amortização no financiamento habitacional.</div></div></div>
+        <div class="sigla-card"><div class="sigla-tag">SAC</div><div><div class="sigla-name">Sistema de Amortização Constante</div><div class="sigla-desc">Amortização mensal fixa, juros decrescem com o saldo devedor → parcelas decrescentes. Preferido pela Caixa no MCMV.</div></div></div>
+        <div class="sigla-card"><div class="sigla-tag">PRICE</div><div><div class="sigla-name">Tabela Price</div><div class="sigla-desc">Parcelas fixas durante todo o contrato. No início, a maior parte é juros. Mais previsível para o orçamento mensal.</div></div></div>
+        <div class="sigla-card"><div class="sigla-tag">ITBI</div><div><div class="sigla-name">Imposto de Transmissão de Bens Imóveis</div><div class="sigla-desc">Imposto municipal cobrado na transferência de propriedade. Em SP: 3% sobre o valor venal ou de compra.</div></div></div>
+        <div class="sigla-card"><div class="sigla-tag">LTV</div><div><div class="sigla-name">Loan to Value</div><div class="sigla-desc">Percentual do valor do imóvel que o banco financia. Ex: LTV 80% = banco financia 80%, comprador entra com 20%.</div></div></div>
+        <div class="sigla-card"><div class="sigla-tag">CET</div><div><div class="sigla-name">Custo Efetivo Total</div><div class="sigla-desc">Taxa que representa o custo real do financiamento, incluindo juros, seguros e tarifas.</div></div></div>
+        <div class="sigla-card"><div class="sigla-tag">FII</div><div><div class="sigla-name">Fundo de Investimento Imobiliário</div><div class="sigla-desc">Fundo negociado na bolsa (B3) que distribui renda mensal isenta de IR para pessoas físicas.</div></div></div>
+        <div class="sigla-card"><div class="sigla-tag">VGV</div><div><div class="sigla-name">Valor Geral de Vendas</div><div class="sigla-desc">Soma do valor potencial de todas as unidades de um empreendimento.</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABA 3 · ALUGUEL -->
+  <section id="tab-aluguel" class="tp">
+    <div class="card">
+      <h2 class="ct">Calculadora de Aluguel &amp; Yield</h2>
+      <p class="cd">Estime o aluguel potencial, retorno bruto e líquido do seu imóvel</p>
+      <div class="fg">
+        <div class="fgr"><label class="fl">Valor do Imóvel (R$)</label><input class="fi" type="number" id="av" placeholder="Ex: 450000" inputmode="numeric" max="9999999" oninput="mascaraValor(this)"></div>
+        <div class="fgr"><label class="fl">Área Útil (m²) — opcional</label><input class="fi" type="number" id="aa" placeholder="Ex: 65" inputmode="numeric"></div>
+        <div class="fgr"><label class="fl">IPTU mensal (R$)</label><input class="fi" type="number" id="aip" placeholder="Ex: 180" inputmode="numeric" max="9999999" oninput="mascaraValor(this)"></div>
+        <div class="fgr"><label class="fl">Condomínio mensal (R$)</label><input class="fi" type="number" id="aco" placeholder="Ex: 350" inputmode="numeric" max="9999999" oninput="mascaraValor(this)"></div>
+        <div class="fgr"><label class="fl">Vacância estimada (meses/ano)</label><select class="fs" id="avac"><option value="0">0 — sem vacância</option><option value="1" selected>1 mês/ano</option><option value="2">2 meses/ano</option><option value="3">3 meses/ano</option></select></div>
+        <div class="fgr"><label class="fl">Admin. imobiliária (%)</label><select class="fs" id="aadm"><option value="0">0% — autogestão</option><option value="8" selected>8% — padrão SP</option><option value="10">10%</option><option value="12">12%</option></select></div>
+      </div>
+      <div class="rh"><span class="rl">Taxa de aluguel mensal</span><span class="rv" id="atx-lbl">0,50%</span></div>
+      <input class="rng" type="range" id="atx" min="0.3" max="0.8" step="0.05" value="0.5" oninput="rngUpdate(this,'atx-lbl')">
+      <div class="rtk"><span>0,30% conservador</span><span>0,55% mercado SP</span><span>0,80% premium</span></div>
+      <button type="button" class="bcalc" onclick="calcAluguel()">Calcular Rentabilidade →</button>
+      <div class="rdark" id="res-aluguel"><div class="rg"><div><div class="rlb">Aluguel Mensal</div><div class="rv2" id="r-am">—</div><div class="rs" id="r-am2"></div></div><div><div class="rlb">Receita Anual Bruta</div><div class="rv2 md" id="r-aa">—</div><div class="rs">12 meses</div></div><div><div class="rlb">Yield Bruto a.a.</div><div class="rv2 md" id="r-yb">—</div><div class="rs">retorno bruto</div></div><div><div class="rlb">Yield Líquido a.a.</div><div class="rv2 md" id="r-yl">—</div><div class="rs" id="r-yl2">descontando custos</div></div></div><div class="rtip" id="r-atip"></div></div>
+    </div>
+  </section>
+
+  <!-- ABA 4 · AVALIAÇÃO -->
+  <section id="tab-aval" class="tp">
+    <div class="card">
+      <h2 class="ct">Avaliação — Método Comparativo Direto</h2>
+      <p class="cd">Insira até 3 imóveis comparáveis (paradigmas) para estimar o valor de mercado por m²</p>
+      <div class="pg"><span class="pn">1</span><div class="pgrid"><div class="fgr"><label class="fl">Referência / Endereço</label><input class="fi p-ref" type="text" placeholder="Ex: Rua das Flores, 100"></div><div class="fgr"><label class="fl">Valor Total (R$)</label><input class="fi p-val" type="number" oninput="mascaraValor(this)" placeholder="420000" inputmode="numeric" max="9999999"></div><div class="fgr"><label class="fl">Área (m²)</label><input class="fi p-ar" type="number" placeholder="65" inputmode="numeric"></div></div></div>
+      <div class="pg"><span class="pn">2</span><div class="pgrid"><div class="fgr"><label class="fl">Referência / Endereço</label><input class="fi p-ref" type="text" placeholder="Ex: Av. Central, 55"></div><div class="fgr"><label class="fl">Valor Total (R$)</label><input class="fi p-val" type="number" oninput="mascaraValor(this)" placeholder="390000" inputmode="numeric" max="9999999"></div><div class="fgr"><label class="fl">Área (m²)</label><input class="fi p-ar" type="number" placeholder="60" inputmode="numeric"></div></div></div>
+      <div class="pg"><span class="pn">3</span><div class="pgrid"><div class="fgr"><label class="fl">Referência / Endereço</label><input class="fi p-ref" type="text" placeholder="Ex: Rua Ipê, 200"></div><div class="fgr"><label class="fl">Valor Total (R$)</label><input class="fi p-val" type="number" oninput="mascaraValor(this)" placeholder="480000" inputmode="numeric" max="9999999"></div><div class="fgr"><label class="fl">Área (m²)</label><input class="fi p-ar" type="number" placeholder="72" inputmode="numeric"></div></div></div>
+      <div class="sdiv"><span>Imóvel Avaliando</span></div>
+      <div class="fg"><div class="fgr"><label class="fl">Área do imóvel avaliando (m²)</label><input class="fi" type="number" id="va" placeholder="Ex: 68" inputmode="numeric"></div><div class="fgr"><label class="fl">Fator de ajuste (%)</label><input class="fi" type="number" id="vaj" placeholder="Ex: -5" value="0"><span class="fh">Negativo (pior) ou positivo (melhor)</span></div></div>
+      <button type="button" class="bcalc" onclick="calcAval()">Gerar Avaliação →</button>
+      <div class="rdark" id="res-aval"><div class="rg"><div><div class="rlb">Média R$/m²</div><div class="rv2" id="r-m2">—</div><div class="rs">dos paradigmas</div></div><div><div class="rlb">Valor Estimado</div><div class="rv2 md" id="r-vest">—</div><div class="rs" id="r-vsub"></div></div><div><div class="rlb">Paradigmas válidos</div><div class="rv2 md" id="r-vct">—</div><div class="rs">imóveis comparados</div></div></div><div class="rtip" id="r-vtip"></div></div>
+    </div>
+  </section>
+
+  <!-- ABA 5 · AMORTIZAÇÃO -->
+  <section id="tab-amort" class="tp">
+    <div class="card">
+      <h2 class="ct">Simulador de Amortização</h2>
+      <p class="cd">Compare SAC e PRICE; veja o impacto real de amortizações extras</p>
+      <div class="fg">
+        <div class="fgr"><label class="fl">Valor Financiado (R$)</label><input class="fi" type="number" id="amv" placeholder="Ex: 280000" inputmode="numeric" max="9999999" oninput="mascaraValor(this)"></div>
+        <div class="fgr"><label class="fl">Taxa de juros a.a. (%)</label><input class="fi" type="number" id="amt" placeholder="Ex: 8.5" step="0.1" inputmode="decimal"></div>
+        <div class="fgr"><label class="fl">Prazo (meses)</label><input class="fi" type="number" id="amp" placeholder="Ex: 360" inputmode="numeric"></div>
+        <div class="fgr"><label class="fl">Amortização extra/mês (R$)</label><input class="fi" type="number" id="amx" placeholder="Opcional — ex: 500" inputmode="numeric" max="9999999" oninput="mascaraValor(this)"><span class="fh">Economize anos de financiamento</span></div>
+        <div class="fgr"><label class="fl">Sistema</label><select class="fs" id="ams"><option value="sac">SAC — parcelas decrescentes</option><option value="price">PRICE — parcelas fixas</option></select></div>
+      </div>
+      <button type="button" class="bcalc" onclick="calcAmort()">Simular Financiamento →</button>
+      <div class="rdark" id="res-amort"><div class="rg"><div><div class="rlb">1ª Parcela</div><div class="rv2" id="r-p1">—</div><div class="rs" id="r-p1s"></div></div><div><div class="rlb">Última Parcela</div><div class="rv2 md" id="r-pf">—</div><div class="rs" id="r-pfs"></div></div><div><div class="rlb">Total de Juros</div><div class="rv2 md" id="r-tj">—</div><div class="rs">custo total do crédito</div></div><div><div class="rlb">Total Pago</div><div class="rv2 md" id="r-tp">—</div><div class="rs">principal + juros</div></div></div><div class="rtip" id="r-amtip"></div></div>
+    </div>
+  </section>
+
+  <!-- ABA 6 · PODER DE COMPRA -->
+  <section id="tab-poder" class="tp">
+    <div class="card">
+      <h2 class="ct">Calculadora de Poder de Compra</h2>
+      <p class="cd">Descubra o valor máximo de imóvel que sua renda permite financiar</p>
+      <div class="fg">
+        <div class="fgr"><label class="fl">Renda Familiar Bruta (R$/mês)</label><input class="fi" type="number" id="pr" placeholder="Ex: 6000" inputmode="numeric" max="9999999"></div>
+        <div class="fgr"><label class="fl">Entrada disponível (R$)</label><input class="fi" type="number" id="pe" placeholder="Ex: 50000" inputmode="numeric" max="9999999" oninput="mascaraValor(this)"></div>
+        <div class="fgr"><label class="fl">FGTS disponível (R$)</label><input class="fi" type="number" id="pfg" placeholder="Ex: 20000" inputmode="numeric" max="9999999" oninput="mascaraValor(this)"></div>
+        <div class="fgr"><label class="fl">Outras dívidas mensais (R$)</label><input class="fi" type="number" id="pd" placeholder="Ex: 800" inputmode="numeric" max="9999999" oninput="mascaraValor(this)"><span class="fh">Cartão, carro, empréstimos</span></div>
+      </div>
+      <div class="rh"><span class="rl">Taxa de juros a.a.</span><span class="rv" id="ptx-lbl">8,50%</span></div>
+      <input class="rng" type="range" id="ptx" min="4" max="14" step="0.25" value="8.5" oninput="rngUpdate(this,'ptx-lbl')">
+      <div class="rtk"><span>4% MCMV F1</span><span>8,5% mercado</span><span>14% livre</span></div>
+      <div class="fg" style="margin-top:4px"><div class="fgr"><label class="fl">Prazo</label><select class="fs" id="ppr"><option value="120">10 anos</option><option value="180">15 anos</option><option value="240">20 anos</option><option value="300">25 anos</option><option value="360" selected>30 anos</option><option value="420">35 anos</option></select></div></div>
+      <button type="button" class="bcalc" onclick="calcPoder()">Calcular Poder de Compra →</button>
+      <div class="rdark" id="res-poder"><div class="rg"><div><div class="rlb">Valor Máx. do Imóvel</div><div class="rv2" id="r-vi">—</div><div class="rs">entrada + financiamento</div></div><div><div class="rlb">Financiamento Máx.</div><div class="rv2 md" id="r-vf">—</div><div class="rs">com sua renda</div></div><div><div class="rlb">Parcela Estimada</div><div class="rv2 md" id="r-vpa">—</div><div class="rs">máx. 30% da renda</div></div><div><div class="rlb">Comprometimento</div><div class="rv2 md" id="r-vc">—</div><div class="rs">da renda bruta</div></div></div><div style="margin:0 0 14px"><div class="bw"><div class="bf" id="p-bar" style="width:0%"></div></div><div class="bp" id="p-barlbl"></div></div><div class="rtip" id="r-ptip"></div></div>
+    </div>
+  </section>
+
+  <!-- ABA 7 · CUSTO DA COMPRA -->
+  <section id="tab-custo" class="tp">
+    <div class="card">
+      <h2 class="ct">Calculadora de Custo Total da Compra</h2>
+      <p class="cd">Além do valor do imóvel, há custos adicionais que todo comprador deve prever</p>
+      <div class="fg">
+        <div class="fgr"><label class="fl">Valor do Imóvel (R$)</label><input class="fi" type="number" id="cv" placeholder="Ex: 350000" inputmode="numeric" max="9999999" oninput="mascaraValor(this)"></div>
+        <div class="fgr"><label class="fl">Município</label><select class="fs" id="cmun"><option value="3">São Paulo capital (ITBI 3%)</option><option value="2">Campinas / ABC / Grande SP (2%)</option><option value="2.5">Rio de Janeiro (2,5%)</option><option value="3">Brasília / DF (3%)</option><option value="2">Outras capitais (~2%)</option><option value="0">MCMV Faixa 1 ou 2 — Isento</option></select></div>
+        <div class="fgr"><label class="fl">Valor da Reforma (R$)</label><input class="fi" type="number" id="cref" placeholder="Ex: 25000 (opcional)" inputmode="numeric" max="9999999" oninput="mascaraValor(this)"></div>
+        <div class="fgr"><label class="fl">Mudança / Frete (R$)</label><input class="fi" type="number" id="cmud" placeholder="Ex: 3000 (opcional)" inputmode="numeric" max="9999999" oninput="mascaraValor(this)"></div>
+        <div class="fgr"><label class="fl">Imóvel novo ou usado?</label><select class="fs" id="ctipo"><option value="novo">Novo (construtora)</option><option value="usado" selected>Usado (pessoa física)</option></select></div>
+      </div>
+      <button type="button" class="bcalc" onclick="calcCusto()">Calcular Custo Total →</button>
+      <div class="rlight" id="res-custo"><div id="custo-lista"></div><div class="custo-total" id="custo-total-box"></div><div class="ibox gold" style="margin-top:14px" id="custo-tip"></div></div>
+    </div>
+  </section>
+
+  <!-- ABA 8 · FII vs IMÓVEL -->
+  <section id="tab-comp" class="tp">
+    <div class="card">
+      <h2 class="ct">Comparador: FII vs Imóvel Físico</h2>
+      <p class="cd">Compare o retorno de um FII com o rendimento de um imóvel para alugar</p>
+      <div class="ibox gold"><strong>ℹ️ Como funciona:</strong> Simula dois cenários com o mesmo capital.</div>
+      <div class="sdiv"><span>Investimento em FII</span></div>
+      <div class="fg">
+        <div class="fgr"><label class="fl">Capital disponível (R$)</label><input class="fi" type="number" id="fcap" placeholder="Ex: 300000" inputmode="numeric" max="9999999" oninput="mascaraValor(this)"></div>
+        <div class="fgr"><label class="fl">Dividend Yield mensal do FII (%)</label><input class="fi" type="number" id="fdy" placeholder="Ex: 0.85" step="0.01" inputmode="decimal"></div>
+        <div class="fgr"><label class="fl">Valorização anual estimada (%)</label><input class="fi" type="number" id="fval" placeholder="Ex: 5" step="0.5" inputmode="decimal"></div>
+      </div>
+      <div class="sdiv"><span>Imóvel Físico</span></div>
+      <div class="fg">
+        <div class="fgr"><label class="fl">Taxa de aluguel mensal (%)</label><input class="fi" type="number" id="itx" placeholder="Ex: 0.5" step="0.01" inputmode="decimal"></div>
+        <div class="fgr"><label class="fl">IPTU + Condomínio/mês (R$)</label><input class="fi" type="number" id="icusto" placeholder="Ex: 600" inputmode="numeric" max="9999999" oninput="mascaraValor(this)"></div>
+        <div class="fgr"><label class="fl">Valorização imóvel a.a. (%)</label><input class="fi" type="number" id="ival" placeholder="Ex: 6" step="0.5" inputmode="decimal"></div>
+        <div class="fgr"><label class="fl">Vacância (meses/ano)</label><select class="fs" id="ivac"><option value="0">0 — sem vacância</option><option value="1" selected>1 mês/ano</option><option value="2">2 meses/ano</option><option value="3">3 meses/ano</option></select></div>
+      </div>
+      <button type="button" class="bcalc" onclick="calcComp()">Comparar Investimentos →</button>
+      <div style="display:none" id="res-comp">
+        <div class="comp-result on">
+          <div class="comp-col imovel"><div class="comp-col-icon">🏠</div><div class="comp-col-label">Imóvel Físico</div><div class="comp-col-val" id="cc-im">—</div><div class="comp-col-sub">yield líquido a.a.</div><div style="margin-top:12px;font-size:11px;color:rgba(255,255,255,.5)" id="cc-im2"></div></div>
+          <div class="comp-col fii"><div class="comp-col-icon">📈</div><div class="comp-col-label">FII na Bolsa</div><div class="comp-col-val" id="cc-fii">—</div><div class="comp-col-sub">dividend yield a.a.</div><div style="margin-top:12px;font-size:11px;color:rgba(255,255,255,.5)" id="cc-fii2"></div></div>
+          <div class="comp-winner" id="cc-winner"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABA 9 · FINANCIAMENTO -->
+  <section id="tab-financ" class="tp">
+    <div class="card" style="border-top:4px solid var(--navy2)">
+      <h2 class="ct">🏦 Simulador de Financiamento por Banco</h2>
+      <p class="cd">Compare 5 bancos, escolha SAC ou PRICE</p>
+      <div class="sdiv"><span>Escolha o Banco</span></div>
+      <div class="banco-selector" id="bancoSelector">
+        <button type="button" class="banco-btn bativo" onclick="selecionarBanco('caixa',this)"><div class="banco-icon" style="background:#006CB7">CEF</div><span>Caixa</span></button>
+        <button type="button" class="banco-btn" onclick="selecionarBanco('bb',this)"><div class="banco-icon" style="background:#003F6B">BB</div><span>Banco do Brasil</span></button>
+        <button type="button" class="banco-btn" onclick="selecionarBanco('itau',this)"><div class="banco-icon" style="background:#EC7000">ITÁ</div><span>Itaú</span></button>
+        <button type="button" class="banco-btn" onclick="selecionarBanco('bradesco',this)"><div class="banco-icon" style="background:#CC0000">BRA</div><span>Bradesco</span></button>
+        <button type="button" class="banco-btn" onclick="selecionarBanco('santander',this)"><div class="banco-icon" style="background:#EC0000">SAN</div><span>Santander</span></button>
+      </div>
+      <div class="sdiv"><span>Dados do Financiamento</span></div>
+      <div class="fg">
+        <div class="fgr"><label class="fl">Valor do Imóvel (R$) <span style="color:var(--red)">*</span></label><input class="fi" type="number" id="fnValorImovel" placeholder="Ex: 350000" inputmode="numeric" max="9999999" oninput="mascaraValor(this)"></div>
+        <div class="fgr"><label class="fl">Valor de Entrada (R$) <span style="color:var(--red)">*</span></label><input class="fi" type="number" id="fnEntrada" placeholder="Ex: 70000" inputmode="numeric" max="9999999" oninput="mascaraValor(this)"></div>
+        <div class="fgr"><label class="fl">Sua Idade (anos) <span style="color:var(--red)">*</span></label><input class="fi" type="number" id="fnIdade" placeholder="Ex: 35" inputmode="numeric" min="18" max="80"><span class="fh">Define o prazo máximo permitido</span></div>
+        <div class="fgr"><label class="fl">Renda Familiar Bruta (R$/mês)</label><input class="fi" type="number" id="fnRenda" placeholder="Ex: 8000" inputmode="numeric" max="9999999" oninput="mascaraValor(this)"><span class="fh">Para calcular comprometimento</span></div>
+        <div class="fgr"><label class="fl">Sistema de Amortização</label><select class="fs" id="fnSistema"><option value="SAC">SAC (Prestações Decrescentes)</option><option value="PRICE">PRICE (Prestações Fixas)</option></select></div>
+      </div>
+      <div class="rh" style="margin-top:4px"><span class="rl">Prazo Desejado</span><span class="rv" id="fnPrazoLbl">30 anos</span></div>
+      <input class="rng" type="range" id="fnPrazo" min="60" max="420" step="12" value="360" oninput="fnAtualizarPrazo()">
+      <div class="rtk"><span>5 anos</span><span>20 anos</span><span>35 anos</span></div>
+      <button type="button" class="bcalc" style="font-size:15px;padding:15px" onclick="calcFinanciamento()">🏦 Ver Minha Parcela →</button>
+      <div id="res-financ">
+        <div id="fn-parcela-destaque" style="display:none;border-radius:14px;padding:22px 24px;margin-top:18px;text-align:center;color:white;box-shadow:var(--sh-l)">
+          <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:6px">💳 SUA 1ª PARCELA ESTIMADA</div>
+          <div id="fn-parcela-valor" style="font-family:'Cormorant Garamond',serif;font-size:clamp(38px,8vw,58px);font-weight:700;color:#fff;line-height:1;margin-bottom:4px">—</div>
+          <div id="fn-parcela-sub" style="font-size:13px;color:rgba(255,255,255,.75);margin-bottom:10px"></div>
+          <div id="fn-parcela-ultima" style="font-size:12px;background:rgba(255,255,255,.12);border-radius:8px;padding:8px 14px;display:inline-block"></div>
+        </div>
+        <div class="financ-result-header" id="fnResultHeader"></div>
+        <div class="financ-tabela-wrap" id="fnTabelaWrap"></div>
+        <div class="financ-banco-info" id="fnBancoInfo"></div>
+        <a class="financ-wpp" id="fnWppLink" href="#" target="_blank" rel="noopener">
+          <svg width="30" height="30" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="rgba(255,255,255,0.15)"/><path d="M22.5 9.5A9 9 0 007.4 21.1L6 26l5.1-1.3A9 9 0 0022.5 9.5zm-6.5 13.8a7.5 7.5 0 01-3.8-1l-.3-.2-2.9.8.8-2.8-.2-.3a7.5 7.5 0 1110.8 1.6 7.5 7.5 0 01-4.4 1.9zm4.1-5.6c-.2-.1-1.3-.6-1.5-.7s-.3-.1-.5.1-.5.7-.6.8-.2.1-.4 0a6 6 0 01-1.8-1.1 6.7 6.7 0 01-1.2-1.5c-.1-.2 0-.4.1-.5l.3-.4.2-.3v-.3l-.7-1.6c-.2-.4-.4-.4-.5-.4h-.4c-.2 0-.4.1-.6.3a2.6 2.6 0 00-.8 1.9 4.5 4.5 0 001 2.4 10.3 10.3 0 003.9 3.5c.5.2.9.4 1.3.5.5.2 1 .1 1.4.1s1.3-.5 1.5-1 .2-1 .1-1-.2-.2-.4-.3z" fill="white"/></svg>
+          <div><strong>Falar com Sérgio Costa</strong><span>Tire dúvidas e receba assessoria gratuita</span></div>
+        </a>
+        <p class="financ-disclaimer">⚠️ Simulação meramente informativa. Taxas baseadas em médias de mercado (março/2026).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABA 10 · DOCUMENTOS -->
+  <section id="tab-docs" class="tp">
+    <div class="card">
+      <h2 class="ct">Documentos Necessários por Faixa</h2>
+      <p class="cd">Lista completa de documentos para financiamento MCMV — separe com antecedência!</p>
+      <div class="doc-grid">
+        <div class="doc-card"><div class="doc-title"><span class="doc-badge f1">Faixa 1</span>Documentos Pessoais</div><ul class="doc-list"><li class="doc-item">RG e CPF (ou CNH) de todos os proponentes</li><li class="doc-item">Certidão de nascimento ou casamento atualizada</li><li class="doc-item">Comprovante de residência atual (últimos 3 meses)</li><li class="doc-item">Carteira de trabalho (CTPS) física ou digital</li><li class="doc-item">Número do NIS (Cadastro Único)</li></ul></div>
+        <div class="doc-card"><div class="doc-title"><span class="doc-badge f2">F1 / F2</span>Comprovação de Renda</div><ul class="doc-list"><li class="doc-item">CLT: 3 holerites mais recentes</li><li class="doc-item">Autônomo: extrato bancário 6 meses</li><li class="doc-item">MEI: certificado MEI + DASN-SIMEI</li><li class="doc-item">Aposentado: carta de concessão INSS</li><li class="doc-item">Outros: DECORE (emitido por contador)</li></ul></div>
+        <div class="doc-card"><div class="doc-title"><span class="doc-badge f1">FGTS</span>Para Uso do FGTS</div><ul class="doc-list"><li class="doc-item">Extrato do FGTS (CAIXA Tem ou agência)</li><li class="doc-item">Declaração de 1º imóvel (Termo de Não Proprietário)</li><li class="doc-item">Declaração de não utilização anterior do FGTS</li><li class="doc-item">Certidão negativa do INSS (para autônomos)</li></ul></div>
+        <div class="doc-card"><div class="doc-title"><span class="doc-badge f3">Imóvel</span>Documentos do Imóvel Usado</div><ul class="doc-list"><li class="doc-item">Matrícula atualizada (emitida há no máx. 30 dias)</li><li class="doc-item">IPTU do ano vigente</li><li class="doc-item">Certidão de ônus reais</li><li class="doc-item">Declaração de quitação de condomínio</li><li class="doc-item">Vistoria / laudo de avaliação bancária</li></ul></div>
+      </div>
+      <div class="ibox navy" style="margin-top:6px"><strong>⚡ Dica do Corretor:</strong> Separe TODOS esses documentos com antecedência. Documentos vencidos são a principal causa de atraso na aprovação.</div>
+    </div>
+  </section>
+
+  <p class="fn">Simulações com fins informativos. Valores sujeitos à análise de crédito.<br><strong>FCosta Corretor</strong> · CRECI-SP 294791-F · CNAI 52708 · <a href="https://wa.me/5511993509109" target="_blank" rel="noopener">📲 (11) 99350-9109</a></p>
+  </main>
+</div>
+
+<div id="toast"></div>
+
+<script>
+var B=function(v){return 'R$ '+(+v).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0});};
+var B2=function(v){return 'R$ '+(+v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});};
+var P=function(v,d){d=d===undefined?2:d;return (+v).toFixed(d).replace('.',',')+'%';};
+var el=function(id){return document.getElementById(id);};
+
+function mascaraValor(input){
+  var raw=input.value.replace(/\D/g,'');
+  if(!raw){input.value='';return;}
+  input.value=parseInt(raw,10).toLocaleString('pt-BR');
+}
+var N=function(v){
+  if(!v&&v!==0)return 0;
+  if(typeof v==='number')return v;
+  // Remove pontos de milhar e troca vírgula por ponto
+  return parseFloat(String(v).replace(/\./g,'').replace(',','.'))||0;
+};
+
+function rngUpdate(e,lbl){
+  var mn=+e.min,mx=+e.max,vl=+e.value;
+  e.style.setProperty('--pct',((vl-mn)/(mx-mn)*100).toFixed(1)+'%');
+  el(lbl).textContent=(+vl).toFixed(2).replace('.',',')+'%';
+}
+function toast(msg){var t=el('toast');t.textContent=msg;t.classList.add('on');setTimeout(function(){t.classList.remove('on');},3800);}
+
+function validGate(){
+  var nome=el('gn').value.trim(),wa=el('gw').value.trim(),em=el('gem').value.trim(),ci=el('gc2').value.trim(),in2=el('gi').value;
+  var ok=true;
+  function se(fid,eid,c){var f=el(fid),e=el(eid);if(c){f.classList.add('err');e.classList.add('on');ok=false;}else{f.classList.remove('err');e.classList.remove('on');}}
+  se('gn','ge-n',nome.length<3);se('gw','ge-w',wa.replace(/\D/g,'').length<10);se('gem','ge-e',!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em));se('gc2','ge-c',ci.length<2);se('gi','ge-i',!in2);
+  return ok?{nome:nome,wa:wa,em:em,ci:ci,in2:in2}:null;
+}
+
+function abrirAdmin(){
+  el('hero-gate').style.display='none';
+  el('portal').style.display='block';
+  window.scrollTo(0,0);
+  el('hd-name').textContent='Admin';
+  initSliders();
+}
+
+function submitGate(){
+  var campos=el('gform').querySelectorAll('input');
+  for(var i=0;i<campos.length;i++){
+    if(campos[i].value.trim()==='1020'){
+      campos[i].value='';
+      abrirAdmin();
+      return;
+    }
+  }
+  var d=validGate();if(!d)return;
+  var btn=el('gbtn'),sp=el('gsp'),bt=el('gbtn-txt');
+  btn.disabled=true;sp.style.display='inline-block';bt.textContent='Enviando...';
+  var WA='5511993509109';
+  var msg=encodeURIComponent('🏠 *Novo Lead — MCMV 2026*\n\n👤 *Nome:* '+d.nome+'\n📱 *WhatsApp:* '+d.wa+'\n📧 *E-mail:* '+d.em+'\n📍 *Cidade:* '+d.ci+'\n🎯 *Interesse:* '+d.in2+'\n\n_Você Tem Direito ao MCMV? · FCosta Corretor_');
+  try{window.open('https://wa.me/'+WA+'?text='+msg,'_blank','noopener');}catch(e){}
+  el('hero-gate').style.display='none';
+  el('portal').style.display='block';
+  window.scrollTo(0,0);
+  var pn=d.nome.trim().split(' ')[0];
+  el('hd-name').textContent='Olá, '+pn;
+  toast('✅ Bem-vindo ao Portal, '+pn+'!');
+  initSliders();
+}
+
+function initSliders(){
+  var a=el('atx'),p=el('ptx');
+  if(a)rngUpdate(a,'atx-lbl');
+  if(p)rngUpdate(p,'ptx-lbl');
+  fnAtualizarPrazo();
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  el('gw').addEventListener('input',function(){
+    var v=this.value.replace(/\D/g,'').substring(0,11);
+    if(v.length>6)v='('+v.substring(0,2)+') '+v.substring(2,7)+'-'+v.substring(7);
+    else if(v.length>2)v='('+v.substring(0,2)+') '+v.substring(2);
+    else if(v.length>0)v='('+v;
+    this.value=v;
+  });
+  el('gform').addEventListener('keydown',function(e){
+    if(e.key!=='Enter')return;
+    e.preventDefault();
+    submitGate();
+  });
+});
+
+function tab(id,btn){
+  var ps=document.querySelectorAll('.tp'),bs=document.querySelectorAll('.tb');
+  for(var i=0;i<ps.length;i++)ps[i].classList.remove('on');
+  for(var j=0;j<bs.length;j++)bs[j].classList.remove('on');
+  el('tab-'+id).classList.add('on');btn.classList.add('on');
+}
+
+function calcMCMV(){
+  var renda=N(el('mr').value),imovel=N(el('mi').value),fgts=N(el('mf').value),ent=N(el('ment').value);
+  var idade=N(el('midade').value),prazoAInput=N(el('mp').value);
+  if(!renda||!imovel){alert('Informe a renda e o valor do imóvel.');return;}
+  if(!idade||idade<18||idade>80){alert('Informe sua idade (18 a 80 anos).');return;}
+  var prazoMaxIdade=Math.floor((80-idade)*12);
+  if(prazoMaxIdade<60){mSD('Com '+idade+' anos, o prazo máximo disponível é de '+Math.floor(prazoMaxIdade/12)+' anos.');return;}
+  var prazoM=Math.min(prazoAInput*12,prazoMaxIdade,420);
+  var prazoA=Math.round(prazoM/12);
+  var faixa,juros,sub,ecls;
+  if(renda<=2850){faixa='Faixa 1';juros=4.25;ecls='ef1';sub=Math.min(imovel*.90,imovel-5000);}
+  else if(renda<=4700){faixa='Faixa 2';juros=6.20;ecls='ef2';sub=Math.max(0,55000-((renda-2850)/(4700-2850))*55000);}
+  else if(renda<=8600){faixa='Faixa 3';juros=7.90;ecls='ef3';sub=0;if(imovel>350000){mSD('Imóvel acima de R$ 350k para Faixa 3.');return;}}
+  else if(renda<=12000){faixa='Faixa 4';juros=10.0;ecls='ef4';sub=0;if(imovel>500000){mSD('Imóvel acima de R$ 500k para Faixa 4.');return;}}
+  else{mSD('Renda acima de R$ 12.000/mês — fora do MCMV.');return;}
+  var fin=Math.max(0,imovel-sub-fgts-ent);
+  var tm=juros/100/12;
+  var par=fin>0?(fin*tm*Math.pow(1+tm,prazoM))/(Math.pow(1+tm,prazoM)-1):0;
+  var comp=par>0?(par/renda*100).toFixed(1):0;
+  var lim30=renda*.30;
+  var prazoUsado=prazoM<prazoAInput*12?prazoA+' anos (limitado pela idade)':prazoA+' anos';
+  if(par>0){
+    el('m-parcela-destaque').style.display='block';
+    el('m-parcela-valor').textContent=B2(par);
+    el('m-parcela-sub').innerHTML=faixa+' · '+P(juros)+' a.a. · '+prazoUsado+(sub>0?' · Subsídio: '+B(sub):'');
+  } else {
+    el('m-parcela-destaque').style.display='block';
+    el('m-parcela-destaque').style.background='linear-gradient(135deg,#166534,#14532d)';
+    el('m-parcela-valor').textContent='R$ 0,00';
+    el('m-parcela-sub').textContent='Subsídio + FGTS + Entrada cobrem o imóvel inteiro! ✅';
+  }
+  el('m-badge').innerHTML='<div class="enqb '+ecls+'">✔ Enquadrado — '+faixa+'</div>';
+  el('m-grid').innerHTML='<div class="rli"><div class="rlb">Subsídio Estimado</div><div class="rv2 '+(sub>0?'gr':'')+'">'+(sub>0?B(sub):'Sem subsídio')+'</div><div class="rs">desconto no imóvel</div></div><div class="rli"><div class="rlb">Valor a Financiar</div><div class="rv2">'+B(fin)+'</div><div class="rs">imóvel − subsídio − FGTS − entrada</div></div><div class="rli"><div class="rlb">Juros '+faixa+'</div><div class="rv2">'+P(juros)+' a.a.</div><div class="rs">taxa média estimada</div></div><div class="rli"><div class="rlb">Comprometimento</div><div class="rv2 '+(+comp>30?'wa':'gr')+'">'+comp+'%</div><div class="rs">da renda bruta (máx. 30%)</div></div>';
+  el('m-parc').innerHTML=par>0?'💳 Parcela SAC 1ª ('+prazoUsado+'): <strong>'+B2(par)+'</strong> &nbsp;|&nbsp; Limite 30% da renda: <strong>'+B2(lim30)+'</strong>':'✅ Com subsídio + FGTS + entrada o imóvel pode ser integralmente coberto.';
+  el('m-alert').innerHTML=+comp>30?'<div class="malert no">⚠️ Parcela compromete <strong>'+comp+'%</strong> da renda. Considere mais entrada, FGTS ou prazo maior.</div>':'<div class="malert ok">✅ Comprometimento dentro do limite de 30%. Boa margem para aprovação!</div>';
+  if(prazoM<prazoAInput*12){el('m-alert').innerHTML+='<div class="malert info" style="margin-top:8px">ℹ️ Prazo ajustado para <strong>'+prazoA+' anos</strong> com base na sua idade ('+idade+' anos).</div>';}
+  el('res-mcmv').classList.add('on');
+}
+function mSD(msg){el('m-badge').innerHTML='<div class="enqb eno">✗ Fora do MCMV</div>';el('m-grid').innerHTML='';el('m-parc').innerHTML='';el('m-alert').innerHTML='<div class="malert no">⚠️ '+msg+'</div>';el('res-mcmv').classList.add('on');}
+
+function calcAluguel(){
+  var val=N(el('av').value),area=N(el('aa').value),iptu=N(el('aip').value),cond=N(el('aco').value);
+  var vac=N(el('avac').value),adm=N(el('aadm').value)/100,tx=N(el('atx').value)/100;
+  if(!val){alert('Informe o valor do imóvel.');return;}
+  var men=val*tx,anB=men*12,menLiq=men*(1-adm),mesesPagos=12-vac,recLiq=menLiq*mesesPagos-(iptu+cond)*12;
+  var yB=(anB/val)*100,yL=(recLiq/val)*100;
+  el('r-am').textContent=B(men);el('r-am2').textContent=area>0?B2(men/area)+'/m²':'';
+  el('r-aa').textContent=B(anB);el('r-yb').textContent=P(yB);el('r-yl').textContent=P(Math.max(0,yL));el('r-yl2').textContent='vacância '+vac+'m + adm '+N(el('aadm').value)+'%';
+  el('r-atip').innerHTML=yB<4?'⚠️ Yield abaixo de 4% — aposte na valorização a longo prazo.':yB<6?'✅ Yield entre 4%–6% — dentro da faixa de mercado para SP.':yB<8?'✅ Yield entre 6%–8% — <strong>excelente!</strong> Supera FIIs medianos.':'🔥 Yield acima de 8% — muito alto. Avalie localização e risco de vacância cuidadosamente.';
+  el('res-aluguel').classList.add('on');
+}
+
+function calcAval(){
+  var vals=Array.prototype.map.call(document.querySelectorAll('.p-val'),function(e){return N(e.value);});
+  var ars=Array.prototype.map.call(document.querySelectorAll('.p-ar'),function(e){return N(e.value);});
+  var aAv=N(el('va').value),aj=N(el('vaj').value),m2s=[];
+  for(var i=0;i<vals.length;i++){if(vals[i]>0&&ars[i]>0)m2s.push(vals[i]/ars[i]);}
+  if(!m2s.length){alert('Informe valor e área de ao menos 1 paradigma.');return;}
+  if(!aAv){alert('Informe a área do imóvel avaliando.');return;}
+  var m2m=m2s.reduce(function(a,b){return a+b;},0)/m2s.length,vest=m2m*aAv*(1+aj/100);
+  el('r-m2').textContent=B2(m2m)+'/m²';el('r-vest').textContent=B(vest);el('r-vct').textContent=m2s.length+(m2s.length===1?' imóvel':' imóveis');el('r-vsub').textContent=aj!==0?'ajuste '+(aj>0?'+':'')+aj+'%':'sem ajuste';
+  var sp=m2s.length>1?((Math.max.apply(null,m2s)-Math.min.apply(null,m2s))/m2m*100).toFixed(0):0;
+  el('r-vtip').innerHTML=m2s.length===1?'⚠️ Apenas 1 paradigma — avaliação menos precisa.':'✅ '+m2s.length+' paradigmas. Variação: '+sp+'%.'+(+sp>25?' Alta variação — verifique comparabilidade.':' Boa homogeneidade.');
+  el('res-aval').classList.add('on');
+}
+
+function calcAmort(){
+  var val=N(el('amv').value),txA=N(el('amt').value),prazoM=N(el('amp').value),extra=N(el('amx').value),sis=el('ams').value;
+  if(!val||!txA||!prazoM){alert('Preencha valor, taxa e prazo.');return;}
+  var tm=txA/100/12,tJ=0,tP=0,p1=0,pf=0;
+  if(sis==='sac'){var af=val/prazoM,s=val;for(var m=1;m<=prazoM;m++){var j=s*tm,am2=af+extra,pc=am2+j;if(m===1)p1=pc;tJ+=j;tP+=pc;s-=am2;if(s<=0){pf=pc;break;}if(m===prazoM)pf=pc;}}
+  else{p1=pf=tm===0?val/prazoM:(val*tm*Math.pow(1+tm,prazoM))/(Math.pow(1+tm,prazoM)-1);if(extra>0){var s2=val;for(var n=1;n<=prazoM;n++){var j2=s2*tm,pc2=p1+extra;if(n===1)p1=pc2;tJ+=j2;tP+=pc2;s2=s2*(1+tm)-pc2;if(s2<=0){pf=pc2;break;}if(n===prazoM)pf=pc2;}}else{tJ=p1*prazoM-val;tP=p1*prazoM;}}
+  el('r-p1').textContent=B2(p1);el('r-p1s').textContent=sis==='sac'?'(maior parcela)':'(parcela fixa)';el('r-pf').textContent=B2(pf);el('r-pfs').textContent=sis==='sac'?'(menor parcela)':extra>0?'(com amort. extra)':'(parcela fixa)';el('r-tj').textContent=B(tJ);el('r-tp').textContent=B(tP);
+  el('r-amtip').innerHTML='📊 Juros totais: <strong>'+B(tJ)+'</strong> ('+(tJ/val*100).toFixed(0)+'% do financiado).'+(extra>0?' Extra de '+B(extra)+'/mês economiza anos de prazo.':'');
+  el('res-amort').classList.add('on');
+}
+
+function calcPoder(){
+  var renda=N(el('pr').value),ent=N(el('pe').value),fgts=N(el('pfg').value),div=N(el('pd').value),txA=N(el('ptx').value),prazoM=N(el('ppr').value);
+  if(!renda){alert('Informe a renda familiar.');return;}
+  var pm=renda*.30-div;if(pm<=0){alert('Dívidas existentes já comprometem 30% da renda!');return;}
+  var tm=txA/100/12,fMax=tm===0?pm*prazoM:pm*(Math.pow(1+tm,prazoM)-1)/(tm*Math.pow(1+tm,prazoM)),vIm=fMax+ent+fgts,comp=((pm+div)/renda*100);
+  el('r-vi').textContent=B(vIm);el('r-vf').textContent=B(fMax);el('r-vpa').textContent=B2(pm);el('r-vc').textContent=P(comp);
+  el('p-bar').style.width=Math.min(100,comp).toFixed(0)+'%';el('p-barlbl').textContent=comp.toFixed(1)+'% da renda comprometida'+(div>0?' (inclui dívidas).':'.');
+  el('r-ptip').innerHTML=comp<=20?'🟢 Comprometimento muito saudável. Ótima margem de segurança.':comp<=30?'✅ Dentro do limite de 30%. Excelente perfil para aprovação.':'⚠️ Acima de 30%. Considere mais entrada, FGTS ou prazo maior.';
+  el('res-poder').classList.add('on');
+}
+
+function calcCusto(){
+  var val=N(el('cv').value),aliq=N(el('cmun').value),ref=N(el('cref').value),mud=N(el('cmud').value),tipo=el('ctipo').value;
+  if(!val){alert('Informe o valor do imóvel.');return;}
+  var itbi=val*(aliq/100),cart=tipo==='novo'?val*.005:val*.01,avaliacao=val<=300000?1500:val<=500000?2200:3000,taxaBanco=val<=300000?1800:2500;
+  var total=val+itbi+cart+avaliacao+taxaBanco+ref+mud;
+  var lista=[{l:'Valor do Imóvel',v:val},{l:'ITBI ('+aliq+'%)',v:itbi},{l:'Escritura + Registro',v:cart},{l:'Avaliação bancária',v:avaliacao},{l:'Taxas bancárias',v:taxaBanco}];
+  if(ref>0)lista.push({l:'Reforma estimada',v:ref});if(mud>0)lista.push({l:'Mudança / Frete',v:mud});
+  var html='<div style="background:white;border-radius:9px;padding:14px 16px;box-shadow:var(--sh-s)">';
+  for(var i=0;i<lista.length;i++)html+='<div class="custo-item"><span class="custo-label">'+lista[i].l+'</span><span class="custo-val">'+B(lista[i].v)+'</span></div>';
+  html+='</div>';
+  el('custo-lista').innerHTML=html;el('custo-total-box').innerHTML='<span class="custo-label">💰 TOTAL ESTIMADO</span><span class="custo-val">'+B(total)+'</span>';
+  var extra=total-val;el('custo-tip').innerHTML='<strong>💡 Além do imóvel, separe mais '+B(extra)+'</strong> para cobrir todos os custos adicionais — equivale a '+((extra/val)*100).toFixed(1)+'% do valor do imóvel.';
+  el('res-custo').classList.add('on');
+}
+
+function calcComp(){
+  var cap=N(el('fcap').value),fdy=N(el('fdy').value)/100,fval=N(el('fval').value)/100;
+  var itx=N(el('itx').value)/100,icus=N(el('icusto').value),ival=N(el('ival').value)/100,ivac=N(el('ivac').value);
+  if(!cap){alert('Informe o capital disponível.');return;}
+  var fiiMen=cap*fdy,fiiAnual=fiiMen*12,fiiTotal=(fiiAnual+cap*fval)/cap*100;
+  var imMen=cap*itx,imAdm=imMen*.08,imLiqMen=imMen-imAdm,mesesPagos=12-ivac,imRec=imLiqMen*mesesPagos-icus*12,imYield=(imRec/cap)*100,imTotal=(imRec+cap*ival)/cap*100;
+  el('cc-fii').textContent=P(fiiAnual/cap*100);el('cc-fii2').textContent=B(fiiMen)+'/mês dividendos + '+P(fval*100)+' valorização';
+  el('cc-im').textContent=P(Math.max(0,imYield));el('cc-im2').textContent=B(Math.max(0,imRec/12))+'/mês líq. + '+P(ival*100)+' valorização';
+  var fiiWins=fiiTotal>imTotal;
+  el('cc-winner').innerHTML=fiiWins?'🏆 <strong>FII</strong> apresenta retorno total estimado de <strong>'+P(fiiTotal)+'</strong> a.a. vs '+P(Math.max(0,imTotal))+' do imóvel neste cenário.':'🏆 <strong>Imóvel Físico</strong> apresenta retorno total estimado de <strong>'+P(Math.max(0,imTotal))+'</strong> a.a. vs '+P(fiiTotal)+' do FII neste cenário.';
+  el('res-comp').style.display='block';
+}
+
+var fnBancoAtivo='caixa';
+var fnBancos={
+  caixa:{nome:'Caixa Econômica Federal',cor:'#006CB7',taxa_sac:10.99,taxa_price:11.49,maxPrazo:420,minEntrada:20,url:'https://www8.caixa.gov.br/siopiinternet-web/simulaOperacaoInternet.do?method=inicializarCasoUso',desc:'Maior financiadora habitacional do Brasil. Opera MCMV, SBPE e FGTS.'},
+  bb:{nome:'Banco do Brasil',cor:'#003F6B',taxa_sac:11.19,taxa_price:11.69,maxPrazo:360,minEntrada:20,url:'https://www.bb.com.br/pbb/pagina-inicial/voce/produtos-e-servicos/credito/credito-imobiliario/credito-imobiliario-bb#/',desc:'Financiamento com correção pela TR ou IPCA+. Condições especiais para correntistas.'},
+  itau:{nome:'Itaú Unibanco',cor:'#EC7000',taxa_sac:11.49,taxa_price:11.99,maxPrazo:360,minEntrada:18,url:'https://www.itau.com.br/credito-imobiliario/',desc:'Processo 100% digital. Aprovação em até 5 dias úteis para clientes correntistas.'},
+  bradesco:{nome:'Bradesco',cor:'#CC0000',taxa_sac:11.39,taxa_price:11.89,maxPrazo:360,minEntrada:20,url:'https://banco.bradesco/html/classic/produtos-servicos/credito/credito-imobiliario/credito-imobiliario.shtm',desc:'Aceita FGTS e permite financiamento de imóveis residenciais e comerciais.'},
+  santander:{nome:'Santander',cor:'#EC0000',taxa_sac:11.29,taxa_price:11.79,maxPrazo:360,minEntrada:20,url:'https://www.santander.com.br/credito-imobiliario',desc:'Destaque para agilidade na análise e atendimento digital completo.'}
+};
+
+function fnAtualizarPrazo(){
+  var slider=el('fnPrazo');if(!slider)return;
+  var m=parseInt(slider.value),anos=Math.round(m/12);
+  el('fnPrazoLbl').textContent=anos+' ano'+(anos>1?'s':'');
+  var mn=+slider.min,mx=+slider.max;
+  slider.style.setProperty('--pct',((m-mn)/(mx-mn)*100).toFixed(1)+'%');
+}
+
+function selecionarBanco(banco,btn){
+  fnBancoAtivo=banco;
+  var btns=document.querySelectorAll('#bancoSelector .banco-btn');
+  for(var i=0;i<btns.length;i++)btns[i].classList.remove('bativo');
+  btn.classList.add('bativo');
+  el('res-financ').classList.remove('on');
+}
+
+function calcFinanciamento(){
+  var banco=fnBancos[fnBancoAtivo];
+  var valorImovel=N(el('fnValorImovel').value);
+  var entrada=N(el('fnEntrada').value);
+  var renda=N(el('fnRenda').value);
+  var sistema=el('fnSistema').value;
+  var prazoMeses=parseInt(el('fnPrazo').value);
+  var idade=N(el('fnIdade').value);
+  if(!valorImovel||valorImovel<50000){alert('Informe o valor do imóvel (mínimo R$ 50.000).');return;}
+  if(!idade||idade<18||idade>80){alert('Informe sua idade (18 a 80 anos).');return;}
+  var prazoMaxIdade=Math.floor((80-idade)*12);
+  var prazoFinalMeses=Math.min(prazoMeses,prazoMaxIdade,banco.maxPrazo);
+  var prazoAjustado=prazoFinalMeses<prazoMeses;
+  var financiado=valorImovel-entrada;
+  if(financiado<=0){alert('Entrada maior que o valor do imóvel.');return;}
+  var percEntrada=(entrada/valorImovel)*100;
+  if(percEntrada<banco.minEntrada){alert('Para o '+banco.nome+', a entrada mínima é de '+banco.minEntrada+'% ('+B(valorImovel*banco.minEntrada/100)+').');return;}
+  var taxaAnual=sistema==='SAC'?banco.taxa_sac:banco.taxa_price;
+  var prazoFinal=prazoFinalMeses;
+  var tm=taxaAnual/100/12;
+  var pmtPrim,pmtUlt,rows=[];
+  if(sistema==='SAC'){
+    var af=financiado/prazoFinal,s=financiado;
+    for(var k=1;k<=Math.min(prazoFinal,6);k++){var j=s*tm,pmt=af+j;rows.push({mes:k,pmt:pmt,amort:af,juros:j,saldo:Math.max(s-af,0)});s-=af;}
+    pmtPrim=rows[0].pmt;pmtUlt=af+af*tm;
+  } else {
+    var pmt2=tm===0?financiado/prazoFinal:(financiado*tm*Math.pow(1+tm,prazoFinal))/(Math.pow(1+tm,prazoFinal)-1);
+    pmtPrim=pmtUlt=pmt2;
+    var s2=financiado;
+    for(var k2=1;k2<=Math.min(prazoFinal,6);k2++){var j2=s2*tm,am2=pmt2-j2;rows.push({mes:k2,pmt:pmt2,amort:am2,juros:j2,saldo:Math.max(s2-am2,0)});s2-=am2;}
+  }
+  var compRenda=renda>0?(pmtPrim/renda*100).toFixed(1):null;
+  var prazoAnos=Math.round(prazoFinal/12);
+  var dest=el('fn-parcela-destaque');
+  dest.style.background='linear-gradient(135deg,'+banco.cor+','+banco.cor+'cc)';
+  dest.style.display='block';
+  el('fn-parcela-valor').textContent=B2(pmtPrim);
+  el('fn-parcela-sub').innerHTML=banco.nome+' · '+sistema+' · '+taxaAnual+'% a.a. + TR · '+prazoAnos+' anos'+(prazoAjustado?' <span style="background:rgba(255,255,255,.2);border-radius:20px;padding:2px 8px;font-size:10px">prazo ajustado pela idade</span>':'');
+  el('fn-parcela-ultima').innerHTML=sistema==='SAC'?'📉 Última parcela: <strong>'+B2(pmtUlt)+'</strong>':'📌 Parcela fixa durante todo o contrato';
+  if(compRenda){var cor=+compRenda>30?'#ffd080':'#90ffb0';el('fn-parcela-ultima').innerHTML+=' &nbsp;|&nbsp; <span style="color:'+cor+'">'+compRenda+'% da renda</span>';}
+  el('fnResultHeader').style.background='linear-gradient(135deg,'+banco.cor+','+banco.cor+'cc)';
+  el('fnResultHeader').innerHTML='<div class="financ-result-item"><label>1ª Parcela ('+sistema+')</label><strong>'+B2(pmtPrim)+'</strong><span>Taxa: '+taxaAnual+'% a.a. + TR</span></div><div class="financ-result-item"><label>Valor Financiado</label><strong>'+B(financiado)+'</strong><span>Prazo: '+prazoAnos+' anos</span></div><div class="financ-result-item"><label>'+(sistema==='SAC'?'Última Parcela':'Parcela Fixa')+'</label><strong>'+B2(pmtUlt)+'</strong>'+(compRenda?'<span style="color:'+(+compRenda>30?'#ffd080':'#90ffb0')+'">'+compRenda+'% da renda</span>':'<span>—</span>')+'</div>';
+  var linhas=rows.map(function(r){return '<tr><td><strong>'+r.mes+'ª</strong></td><td>'+B2(r.pmt)+'</td><td>'+B2(r.amort)+'</td><td>'+B2(r.juros)+'</td><td>'+B2(r.saldo)+'</td></tr>';}).join('');
+  el('fnTabelaWrap').innerHTML='<table><thead><tr><th>Parcela</th><th>Prestação</th><th>Amortização</th><th>Juros</th><th>Saldo Dev.</th></tr></thead><tbody>'+linhas+'<tr><td colspan="5" style="text-align:center;font-size:11px;padding:8px;color:var(--muted);background:var(--gold-bg)">📋 Exibindo as primeiras '+rows.length+' parcelas como exemplo</td></tr></tbody></table>';
+  if(prazoAjustado){el('fnTabelaWrap').innerHTML='<div class="malert info" style="margin-bottom:10px">ℹ️ Prazo ajustado para <strong>'+prazoAnos+' anos</strong> com base na sua idade ('+idade+' anos).</div>'+el('fnTabelaWrap').innerHTML;}
+  el('fnBancoInfo').innerHTML='<h4>ℹ️ Sobre o '+banco.nome+'</h4><p>'+banco.desc+'</p><a href="'+banco.url+'" target="_blank" rel="noopener">Acessar Simulador Oficial do '+banco.nome+' →</a>';
+  var wppMsg=encodeURIComponent('🏦 Olá Sérgio! Simulei um financiamento pelo '+banco.nome+':\n• Imóvel: '+B(valorImovel)+'\n• Entrada: '+B(entrada)+'\n• Financiado: '+B(financiado)+'\n• 1ª Parcela ('+sistema+'): '+B2(pmtPrim)+'\n• Prazo: '+prazoAnos+' anos\n\nGostaria de mais informações!');
+  el('fnWppLink').href='https://wa.me/5511993509109?text='+wppMsg;
+  el('res-financ').classList.add('on');
+  el('res-financ').scrollIntoView({behavior:'smooth',block:'start'});
+}
+</script>
+</body>
+</html>

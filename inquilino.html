@@ -1,0 +1,1666 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Lei do Inquilinato 2026 · Calculadoras, Índices e Direitos · FCosta Corretor</title>
+<meta name="description" content="Calculadoras de reajuste com IGP-M, IPCA, INPC, IVAR, INCC, SELIC e CDI. Multa proporcional, comparador alugar vs comprar, garantias locatícias e Lei 8.245/91 atualizada 2026. FCosta Corretor CRECI-SP 294791-F.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<script>
+/* Se a página estiver dentro de um iframe do site principal, quebra para o topo */
+if(window !== window.top){
+  try{
+    /* apenas redireciona se o pai for do mesmo domínio fcostacorretor.com */
+    var parentHost = window.top.location.hostname;
+    /* mesmo domínio — não redireciona, apenas garante que botões usem top.location */
+  }catch(e){
+    /* cross-origin — sai do iframe ao clicar nos botões (tratado individualmente) */
+  }
+}
+</script>
+<style>
+:root{
+  --azul:#003da5;--azul2:#0051d4;--azul3:#002a74;
+  --verm:#dc1c2d;--verm2:#f02333;
+  --cinza:#f4f6fb;--cinza2:#e8ecf5;--cinza3:#c5cde0;
+  --txt:#1a2340;--txt2:#5a6680;--txt3:#9aa3b8;
+  --card:#ffffff;--borda:#dde3f0;--borda2:#c5cde0;
+  --verde:#19a65e;--amar:#f59e0b;--laranja:#e67e22;
+  --grad:linear-gradient(135deg,#003da5 0%,#0051d4 100%);
+  --grad-v:linear-gradient(135deg,#dc1c2d 0%,#f02333 100%);
+  --sombra:0 4px 20px rgba(0,61,165,.10);
+  --sombra2:0 8px 32px rgba(0,61,165,.18);
+  --r:14px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+body{background:var(--cinza);color:var(--txt);font-family:'DM Sans',sans-serif;min-height:100vh}
+
+/* ══ HEADER ══ */
+header{
+  background:var(--azul);border-bottom:3px solid var(--verm);
+  padding:10px 16px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:9999;gap:8px;
+  box-shadow:0 2px 16px rgba(0,61,165,.3);
+  isolation:isolate;
+}
+.hleft{display:flex;align-items:center;gap:10px}
+.hlogo{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:#fff}
+.hlogo em{color:var(--verm);font-style:normal}
+.hbadge{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.hright{display:flex;align-items:center;gap:6px}
+.bh{display:inline-flex;align-items:center;gap:5px;padding:10px 14px;border-radius:10px;border:none;font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;white-space:nowrap;min-width:44px;min-height:44px;justify-content:center;}
+.bh.out{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.25);color:#fff}
+.bh.out:hover{background:rgba(255,255,255,.22)}
+.bh.verm{background:var(--grad-v);color:#fff}
+.bh.verm:hover{opacity:.88}
+
+/* ══ HERO ══ */
+.hero{
+  background:var(--grad);
+  padding:36px 16px 32px;
+  text-align:center;
+  position:relative;overflow:hidden
+}
+.hero::before{
+  content:'§';
+  position:absolute;right:-20px;top:-10px;
+  font-size:220px;font-weight:900;
+  color:rgba(255,255,255,.04);
+  font-family:'Playfair Display',serif;
+  line-height:1;pointer-events:none
+}
+.hero-tag{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:12px}
+.hero h1{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;color:#fff;line-height:1.2;margin-bottom:6px}
+.hero h1 em{color:rgba(255,200,100,.9);font-style:normal}
+.hero p{font-size:13px;color:rgba(255,255,255,.75);max-width:480px;margin:0 auto 20px}
+/* busca global */
+.hero-busca{
+  display:flex;max-width:520px;margin:0 auto;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:10px;overflow:hidden;
+  backdrop-filter:blur(6px)
+}
+.hero-busca input{
+  flex:1;background:transparent;border:none;
+  color:#fff;padding:12px 14px;font-size:14px;
+  font-family:'DM Sans',sans-serif
+}
+.hero-busca input::placeholder{color:rgba(255,255,255,.5)}
+.hero-busca input:focus{outline:none}
+.hero-busca button{
+  background:var(--verm);border:none;color:#fff;
+  padding:0 18px;cursor:pointer;font-size:14px;
+  transition:opacity .2s
+}
+.hero-busca button:hover{opacity:.85}
+
+/* ══ MAIN ══ */
+main{max-width:1100px;margin:0 auto;padding:24px 14px 80px;width:100%}
+
+/* ══ ABAS ══ */
+.abas{display:flex;gap:6px;margin-bottom:22px;flex-wrap:wrap}
+.aba{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:9px 16px;border-radius:10px;font-size:12px;font-weight:600;
+  cursor:pointer;border:1px solid var(--borda2);background:var(--card);
+  color:var(--txt2);transition:all .2s;font-family:'DM Sans',sans-serif
+}
+.aba:hover{border-color:var(--azul);color:var(--azul)}
+.aba.on{background:var(--grad);color:#fff;border-color:transparent;box-shadow:0 3px 12px rgba(0,61,165,.22)}
+.aba i{font-size:13px}
+
+/* ══ SEÇÕES ══ */
+.sec{display:none}
+.sec.on{display:block}
+
+/* ══ CARD PADRÃO ══ */
+.card{background:var(--card);border:1px solid var(--borda);border-radius:var(--r);box-shadow:var(--sombra);overflow:hidden}
+.card-h{background:var(--grad);padding:14px 18px;display:flex;align-items:center;gap:10px}
+.card-h i{font-size:18px;color:rgba(255,255,255,.8)}
+.card-h .ttl{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:#fff}
+.card-h .sub{font-size:11px;color:rgba(255,255,255,.65);margin-top:1px}
+.card-b{padding:18px}
+
+/* ══ CALCULADORA ══ */
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.fg{margin-bottom:0}
+.lb{display:block;font-size:10px;letter-spacing:1.8px;text-transform:uppercase;color:var(--txt2);margin-bottom:5px;font-weight:600}
+.ip{width:100%;background:var(--cinza);border:1px solid var(--borda2);color:var(--txt);padding:10px 12px;border-radius:8px;font-size:13px;font-family:'DM Sans',sans-serif;transition:border-color .2s;-webkit-appearance:none}
+.ip:focus{outline:none;border-color:var(--azul);box-shadow:0 0 0 3px rgba(0,61,165,.08)}
+.ip[type="text"]{-webkit-text-size-adjust:100%;font-size:max(16px,13px);}
+/* evita zoom no iOS ao focar inputs */
+@supports (-webkit-touch-callout: none){
+  .ip{font-size:16px;}
+}
+.ip::placeholder{color:var(--txt3)}
+select.ip option{background:#fff}
+
+.btn-calc{
+  width:100%;padding:12px;background:var(--grad);color:#fff;border:none;
+  border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;
+  font-family:'DM Sans',sans-serif;letter-spacing:.6px;text-transform:uppercase;
+  box-shadow:0 3px 12px rgba(0,61,165,.22);transition:opacity .2s;margin-top:4px
+}
+.btn-calc:hover{opacity:.88}
+
+.resultado{
+  margin-top:16px;padding:16px;border-radius:10px;
+  background:linear-gradient(135deg,rgba(0,61,165,.06) 0%,rgba(0,81,212,.04) 100%);
+  border:1px solid rgba(0,61,165,.15);display:none
+}
+.resultado.show{display:block}
+.res-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--txt2);font-weight:600;margin-bottom:4px}
+.res-valor{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--azul);line-height:1}
+.res-dif{font-size:13px;color:var(--verde);font-weight:600;margin-top:4px}
+.res-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px}
+.res-item{background:rgba(255,255,255,.7);border:1px solid var(--borda);border-radius:8px;padding:10px;text-align:center}
+.res-item .ri-v{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--azul)}
+.res-item .ri-l{font-size:10px;color:var(--txt2);margin-top:2px;letter-spacing:.5px}
+
+/* ══ ÍNDICES ══ */
+.indices-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:18px}
+.idx-card{
+  background:var(--card);border:1px solid var(--borda);border-radius:12px;
+  padding:14px 16px;box-shadow:var(--sombra);position:relative;overflow:hidden;
+  transition:transform .2s,box-shadow .2s
+}
+.idx-card:hover{transform:translateY(-2px);box-shadow:var(--sombra2)}
+.idx-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.idx-card.igpm::before{background:linear-gradient(90deg,#003da5,#0051d4)}
+.idx-card.ipca::before{background:linear-gradient(90deg,#dc1c2d,#f02333)}
+.idx-card.inpc::before{background:linear-gradient(90deg,#19a65e,#22c46e)}
+.idx-card.ipc::before{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
+.idx-card.ivar::before{background:linear-gradient(90deg,#9b59b6,#b07cc6)}
+.idx-card.cdi::before{background:linear-gradient(90deg,#e67e22,#f39c12)}
+.idx-card.ivar::before{background:linear-gradient(90deg,#9b59b6,#b07cc6)}
+.idx-card.selic::before{background:linear-gradient(90deg,#1a7a4a,#22a060)}
+.idx-card.cub::before{background:linear-gradient(90deg,#c0392b,#e74c3c)}
+.idx-card.incc::before{background:linear-gradient(90deg,#2980b9,#3498db)}
+.idx-nome{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--txt2);margin-bottom:2px}
+.idx-desc{font-size:10px;color:var(--txt3);margin-bottom:10px}
+.idx-val{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;line-height:1;margin-bottom:2px}
+.idx-val.igpm{color:var(--azul)}
+.idx-val.ipca{color:var(--verm)}
+.idx-val.inpc{color:var(--verde)}
+.idx-val.ipc{color:var(--amar)}
+.idx-val.ivar{color:#9b59b6}
+.idx-val.cdi{color:var(--laranja)}
+.idx-val.selic{color:var(--verde)}
+.idx-val.cub{color:#c0392b}
+.idx-val.incc{color:#2980b9}
+.idx-per{font-size:10px;color:var(--txt3);margin-top:2px}
+.idx-tag{display:inline-block;font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;margin-top:6px}
+.tag-ok{background:rgba(25,166,94,.12);color:var(--verde)}
+.tag-aten{background:rgba(245,158,11,.12);color:var(--amar)}
+.tag-car{background:rgba(220,28,45,.12);color:var(--verm)}
+.tag-load{background:var(--cinza2);color:var(--txt3)}
+
+/* nota fonte */
+.nota-fonte{font-size:11px;color:var(--txt3);margin-top:12px;padding:10px 13px;background:var(--cinza2);border-radius:8px;display:flex;align-items:flex-start;gap:7px}
+.nota-fonte i{flex-shrink:0;margin-top:1px;color:var(--txt3)}
+
+/* histório tabela */
+.hist-wrap{overflow-x:auto;margin-top:14px}
+table.hist{width:100%;border-collapse:collapse;font-size:12px}
+table.hist th{background:var(--cinza2);color:var(--txt2);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:9px 12px;text-align:center;border-bottom:2px solid var(--borda2);font-weight:600}
+table.hist td{padding:9px 12px;text-align:center;border-bottom:1px solid var(--borda);color:var(--txt)}
+table.hist tr:last-child td{border-bottom:none}
+table.hist tr:hover td{background:var(--cinza)}
+table.hist td.pos{color:var(--verde);font-weight:600}
+table.hist td.neg{color:var(--verm);font-weight:600}
+table.hist td.mes{color:var(--txt2);font-weight:600;text-align:left}
+
+/* ══ LEI DO INQUILINATO ══ */
+.lei-busca-wrap{margin-bottom:18px;position:relative}
+.lei-busca-wrap i{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--txt3);font-size:13px;pointer-events:none}
+#lei-busca{padding-left:36px;font-size:14px}
+
+.artigos-wrap{display:flex;flex-direction:column;gap:0}
+.artigo{border-bottom:1px solid var(--borda);transition:background .15s}
+.artigo:last-child{border-bottom:none}
+.artigo-h{
+  display:flex;align-items:center;gap:10px;
+  padding:13px 16px;cursor:pointer;
+  transition:background .15s
+}
+.artigo-h:hover{background:var(--cinza)}
+.art-num{
+  flex-shrink:0;width:46px;height:26px;
+  background:var(--grad);color:#fff;
+  border-radius:6px;font-size:10px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  letter-spacing:.5px
+}
+.art-assunto{font-size:13px;font-weight:600;color:var(--txt);flex:1}
+.art-tag{font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;flex-shrink:0;white-space:nowrap}
+.at-obl{background:rgba(220,28,45,.1);color:var(--verm)}
+.at-dir{background:rgba(0,61,165,.1);color:var(--azul)}
+.at-pra{background:rgba(25,166,94,.1);color:var(--verde)}
+.at-con{background:rgba(245,158,11,.1);color:var(--amar)}
+.at-gar{background:rgba(155,89,182,.1);color:#9b59b6}
+.art-chev{color:var(--txt3);font-size:11px;transition:transform .25s;flex-shrink:0}
+.artigo.open .art-chev{transform:rotate(180deg)}
+.artigo-corpo{
+  max-height:0;overflow:hidden;
+  transition:max-height .3s ease,padding .3s ease;
+  font-size:13px;line-height:1.7;color:var(--txt2);
+  padding:0 16px 0 72px
+}
+.artigo.open .artigo-corpo{max-height:600px;padding:4px 16px 16px 72px}
+.artigo-corpo strong{color:var(--azul);font-weight:600}
+.artigo-corpo .par{margin-bottom:6px}
+.artigo-corpo .inc{padding-left:12px;border-left:2px solid var(--borda2);margin:4px 0;font-size:12px;color:var(--txt3)}
+mark{background:rgba(255,200,0,.35);border-radius:2px;padding:0 2px}
+
+/* sem resultado */
+.sem-res{text-align:center;padding:40px 20px;color:var(--txt3)}
+.sem-res i{font-size:36px;display:block;margin-bottom:10px;color:var(--borda2)}
+
+/* ══ TOAST ══ */
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(12px);background:#fff;border-radius:10px;padding:11px 17px;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;z-index:9999;opacity:0;transition:all .3s;pointer-events:none;border:1px solid var(--borda2);box-shadow:0 4px 20px rgba(0,61,165,.14);color:var(--txt);white-space:nowrap;max-width:92vw}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast.ok{border-color:var(--verde)}
+#toast.err{border-color:var(--verm)}
+
+/* ══ WHATSAPP BTN FIXO ══ */
+.wpp-fab{
+  position:fixed;bottom:22px;right:18px;
+  width:52px;height:52px;background:#25D366;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:24px;color:#fff;cursor:pointer;
+  box-shadow:0 4px 16px rgba(37,211,102,.4);
+  z-index:150;transition:transform .2s
+}
+.wpp-fab:hover{transform:scale(1.08)}
+
+/* ══ MULTA RESCISÃO ══ */
+.multa-opcoes{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.multa-opt{flex:1;min-width:140px;padding:10px 12px;border:2px solid var(--borda2);border-radius:9px;background:var(--card);cursor:pointer;text-align:center;font-size:12px;font-weight:600;color:var(--txt2);transition:all .2s;font-family:'DM Sans',sans-serif}
+.multa-opt.on{border-color:var(--azul);background:rgba(0,61,165,.06);color:var(--azul)}
+.multa-opt i{display:block;font-size:18px;margin-bottom:4px}
+
+/* ══ COMPARADOR ALUGAR VS COMPRAR ══ */
+.comp-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+.comp-col{border-radius:12px;padding:18px;text-align:center}
+.comp-col.aluguel{background:rgba(220,28,45,.06);border:2px solid rgba(220,28,45,.2)}
+.comp-col.compra{background:rgba(0,61,165,.06);border:2px solid rgba(0,61,165,.2)}
+.comp-col-icon{font-size:28px;margin-bottom:6px}
+.comp-col-titulo{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.comp-col.aluguel .comp-col-titulo{color:var(--verm)}
+.comp-col.compra .comp-col-titulo{color:var(--azul)}
+.comp-val-big{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;line-height:1;margin-bottom:3px}
+.comp-col.aluguel .comp-val-big{color:var(--verm)}
+.comp-col.compra .comp-val-big{color:var(--azul)}
+.comp-veredicto{background:var(--azul);color:#fff;border-radius:10px;padding:14px 16px;margin-top:14px;text-align:center;font-size:13px;font-weight:600;line-height:1.5}
+.comp-veredicto.emp{background:var(--amar)}
+
+/* ══ GARANTIAS ══ */
+.gar-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:4px}
+.gar-card{background:var(--card);border:1px solid var(--borda);border-radius:12px;padding:16px;box-shadow:var(--sombra);position:relative;overflow:hidden}
+.gar-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.gar-card.caucao::before{background:var(--verde)}
+.gar-card.fianca::before{background:var(--azul)}
+.gar-card.seguro::before{background:var(--amar)}
+.gar-card.titulo::before{background:var(--laranja)}
+.gar-nome{font-size:13px;font-weight:700;color:var(--txt);margin-bottom:4px}
+.gar-sub{font-size:11px;color:var(--txt3);margin-bottom:10px}
+.gar-item{display:flex;align-items:flex-start;gap:7px;font-size:11.5px;color:var(--txt2);margin-bottom:5px;line-height:1.4}
+.gar-item i{font-size:10px;flex-shrink:0;margin-top:2px}
+.gar-item i.ok{color:var(--verde)}
+.gar-item i.no{color:var(--verm)}
+.gar-tag{display:inline-block;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;margin-top:6px}
+.gar-card.caucao .gar-tag{background:rgba(25,166,94,.12);color:var(--verde)}
+.gar-card.fianca .gar-tag{background:rgba(0,61,165,.1);color:var(--azul)}
+.gar-card.seguro .gar-tag{background:rgba(245,158,11,.12);color:var(--amar)}
+.gar-card.titulo .gar-tag{background:rgba(230,126,34,.12);color:var(--laranja)}
+
+/* ══ RESPONSIVE ══ */
+@media(min-width:600px){
+  .hero h1{font-size:36px}
+  .hero{padding:48px 20px 40px}
+  .res-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:599px){
+  header{padding:9px 11px}
+  .hbadge{display:none}
+  .bh{padding:9px 11px;font-size:13px;min-width:44px;min-height:44px;}
+  main{padding:16px 10px 70px}
+  .calc-grid{grid-template-columns:1fr}
+  .res-grid{grid-template-columns:1fr 1fr}
+  .indices-grid{grid-template-columns:1fr 1fr}
+  .artigo-corpo{padding:0 12px 0 12px}
+  .artigo.open .artigo-corpo{padding:4px 12px 14px 12px}
+  .art-assunto{font-size:12px}
+  .abas{gap:5px}
+  .aba{padding:7px 12px;font-size:11px}
+  table.hist th,table.hist td{padding:7px 8px;font-size:11px}
+}
+@media(max-width:380px){
+  .res-grid{grid-template-columns:1fr}
+  .indices-grid{grid-template-columns:1fr}
+  .idx-val{font-size:22px}
+}
+</style>
+</head>
+<body>
+
+<!-- rebuild:20260322-INQUILINATO-2026-7INDICES -->
+<!-- HEADER -->
+<header>
+  <div class="hleft">
+    <span class="hlogo">F<em>Costa</em></span>
+    <span class="hbadge">CRECI-SP 294791-F</span>
+  </div>
+  <div class="hright">
+    <button class="bh out" onclick="try{top.location.href='https://fcostacorretor.com';}catch(e){window.location.href='https://fcostacorretor.com';}">
+      <i class="fas fa-home"></i> <span id="htxt-home">← Home</span>
+    </button>
+    <button class="bh out" onclick="try{top.location.href='https://fcostacorretor.com/?galeria=FCA';}catch(e){window.location.href='https://fcostacorretor.com/?galeria=FCA';}">
+      <i class="fas fa-key"></i> <span id="htxt-fca">Aluguéis</span>
+    </button>
+    <button class="bh verm" onclick="window.open('https://wa.me/5511993509109','_blank')">
+      <i class="fab fa-whatsapp"></i> <span id="htxt-wpp">Falar com Corretor</span>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag"><i class="fas fa-scale-balanced" style="margin-right:5px"></i>Locador · Locatário · Lei 8.245/91 · Atualizado 2026</div>
+  <h1>Lei do Inquilinato <em>2026</em><br>Calcule, Conheça seus Direitos</h1>
+  <p>Reajuste com 7 índices, multa proporcional, comparador alugar vs comprar, garantias, histórico e Lei 8.245/91 atualizada — tudo em um só lugar.</p>
+  <div class="hero-busca">
+    <input type="text" id="busca-global" placeholder="Buscar na lei… ex: caução, despejo, prazo…">
+    <button onclick="buscarGlobal()"><i class="fas fa-search"></i></button>
+  </div>
+</div>
+
+<main>
+
+  <!-- ABAS -->
+  <div class="abas">
+    <button class="aba on" data-sec="sec-calc" onclick="trocarAba(this)">
+      <i class="fas fa-calculator"></i> Reajuste
+    </button>
+    <button class="aba" data-sec="sec-multa" onclick="trocarAba(this)">
+      <i class="fas fa-file-contract"></i> Multa Rescisão
+    </button>
+    <button class="aba" data-sec="sec-comp" onclick="trocarAba(this)">
+      <i class="fas fa-balance-scale"></i> Alugar vs Comprar
+    </button>
+    <button class="aba" data-sec="sec-gar" onclick="trocarAba(this)">
+      <i class="fas fa-shield-alt"></i> Garantias
+    </button>
+    <button class="aba" data-sec="sec-indices" onclick="trocarAba(this)">
+      <i class="fas fa-chart-line"></i> Índices
+    </button>
+    <button class="aba" data-sec="sec-hist" onclick="trocarAba(this)">
+      <i class="fas fa-table"></i> Histórico
+    </button>
+    <button class="aba" data-sec="sec-lei" onclick="trocarAba(this)">
+      <i class="fas fa-book-open"></i> Lei Completa
+    </button>
+  </div>
+
+  <!-- ══════════════════════════════
+       SEÇÃO 1 — CALCULADORA
+  ══════════════════════════════ -->
+  <div class="sec on" id="sec-calc">
+    <div class="card">
+      <div class="card-h">
+        <i class="fas fa-calculator"></i>
+        <div>
+          <div class="ttl">Calculadora de Reajuste</div>
+          <div class="sub">Calcula o novo valor do aluguel com índice atualizado</div>
+        </div>
+      </div>
+      <div class="card-b">
+        <div class="calc-grid">
+          <div class="fg">
+            <label class="lb">Valor atual do aluguel (R$)</label>
+            <input class="ip" type="text" id="val-atual" placeholder="Ex: 1.500,00" oninput="mascaraValor(this)" inputmode="numeric" autocomplete="off" style="font-size:16px;padding:13px 14px;">
+          </div>
+          <div class="fg">
+            <label class="lb">Índice de reajuste</label>
+            <select class="ip" id="indice-sel">
+              <option value="">Aguardando índices…</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label class="lb">Período de vigência</label>
+            <select class="ip" id="periodo-sel">
+              <option value="12">12 meses (1 ano)</option>
+              <option value="24">24 meses (2 anos)</option>
+              <option value="36">36 meses (3 anos)</option>
+              <option value="custom">Outro período</option>
+            </select>
+          </div>
+          <div class="fg" id="periodo-custom-wrap" style="display:none">
+            <label class="lb">Período personalizado (%)</label>
+            <input class="ip" type="number" id="periodo-custom" placeholder="Ex: 5.23" step="0.01">
+          </div>
+        </div>
+        <button class="btn-calc" onclick="calcular()">
+          <i class="fas fa-calculator"></i> Calcular Reajuste
+        </button>
+
+        <div class="resultado" id="resultado">
+          <div class="res-label">Novo valor do aluguel</div>
+          <div class="res-valor" id="res-novo">—</div>
+          <div class="res-dif" id="res-dif">—</div>
+          <div class="res-grid">
+            <div class="res-item">
+              <div class="ri-v" id="ri-anterior">—</div>
+              <div class="ri-l">Valor anterior</div>
+            </div>
+            <div class="res-item">
+              <div class="ri-v" id="ri-indice">—</div>
+              <div class="ri-l">Índice aplicado</div>
+            </div>
+            <div class="res-item">
+              <div class="ri-v" id="ri-aumento">—</div>
+              <div class="ri-l">Aumento em R$</div>
+            </div>
+          </div>
+          <!-- botão compartilhar resultado -->
+          <button onclick="compartilharCalc()" style="margin-top:14px;width:100%;padding:10px;background:#25D366;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:7px">
+            <i class="fab fa-whatsapp"></i> Compartilhar resultado no WhatsApp
+          </button>
+        </div>
+
+        <div style="margin-top:14px;padding:12px;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);border-radius:8px;font-size:11px;color:var(--txt2);line-height:1.6">
+          <strong style="color:var(--amar)"><i class="fas fa-info-circle"></i> Importante:</strong>
+          O reajuste só pode ser feito após 12 meses de vigência do contrato (<strong>Art. 17 da Lei 8.245/91</strong>). O índice deve estar previsto no contrato. Se não estiver especificado, prevalece a negociação entre as partes. O IVAR é o índice que mede exclusivamente aluguéis residenciais e tem uso crescente em 2026.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       SEÇÃO 2 — MULTA DE RESCISÃO
+  ══════════════════════════════ -->
+  <div class="sec" id="sec-multa">
+    <div class="card">
+      <div class="card-h">
+        <i class="fas fa-file-contract"></i>
+        <div>
+          <div class="ttl">Calculadora de Multa por Rescisão</div>
+          <div class="sub">Saiba quanto pagar se sair antes do prazo</div>
+        </div>
+      </div>
+      <div class="card-b">
+        <p style="font-size:12.5px;color:var(--txt2);margin-bottom:14px;line-height:1.6"><strong style="color:var(--azul)">Art. 4º da Lei 8.245/91:</strong> Durante o prazo contratual, o inquilino que devolver o imóvel paga multa proporcional ao tempo restante. Após o prazo, não há multa.</p>
+
+        <div style="margin-bottom:6px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--txt2)">Quem está rescindindo?</div>
+        <div class="multa-opcoes">
+          <button class="multa-opt on" id="opt-inq" onclick="selecionarRescindente('inq')">
+            <i class="fas fa-user"></i>Inquilino
+          </button>
+          <button class="multa-opt" id="opt-loc" onclick="selecionarRescindente('loc')">
+            <i class="fas fa-home"></i>Locador
+          </button>
+        </div>
+
+        <div id="aviso-locador" style="display:none;padding:12px;background:rgba(220,28,45,.06);border:1px solid rgba(220,28,45,.2);border-radius:8px;font-size:12px;color:var(--txt2);margin-bottom:14px;line-height:1.6">
+          <strong style="color:var(--verm)"><i class="fas fa-exclamation-triangle"></i> Locador rescindindo:</strong> Se o locador quebrar o contrato antes do prazo sem motivo legal previsto no Art. 9º, deve indenizar o inquilino pelo tempo restante + danos comprovados. O valor abaixo é a referência de indenização.
+        </div>
+
+        <div class="calc-grid">
+          <div class="fg">
+            <label class="lb">Valor do aluguel (R$)</label>
+            <input class="ip" type="text" id="multa-aluguel" placeholder="Ex: 1.500,00" oninput="mascaraValor(this)" inputmode="numeric" autocomplete="off" style="font-size:16px;padding:13px 14px;">
+          </div>
+          <div class="fg">
+            <label class="lb">Multa contratual (nº de aluguéis)</label>
+            <select class="ip" id="multa-base">
+              <option value="3">3 aluguéis (padrão)</option>
+              <option value="2">2 aluguéis</option>
+              <option value="1">1 aluguel</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label class="lb">Prazo total do contrato (meses)</label>
+            <input class="ip" type="number" id="multa-prazo" placeholder="Ex: 30" min="1">
+          </div>
+          <div class="fg">
+            <label class="lb">Meses já cumpridos</label>
+            <input class="ip" type="number" id="multa-cumprido" placeholder="Ex: 10" min="0">
+          </div>
+        </div>
+        <button class="btn-calc" onclick="calcMulta()">
+          <i class="fas fa-calculator"></i> Calcular Multa Proporcional
+        </button>
+
+        <div class="resultado" id="res-multa">
+          <div class="res-label">Multa proporcional devida</div>
+          <div class="res-valor" id="multa-valor">—</div>
+          <div class="res-dif" id="multa-dif">—</div>
+          <div class="res-grid">
+            <div class="res-item"><div class="ri-v" id="multa-ri1">—</div><div class="ri-l">Multa cheia</div></div>
+            <div class="res-item"><div class="ri-v" id="multa-ri2">—</div><div class="ri-l">% do contrato cumprido</div></div>
+            <div class="res-item"><div class="ri-v" id="multa-ri3">—</div><div class="ri-l">Meses restantes</div></div>
+          </div>
+          <button onclick="compartilharMulta()" style="margin-top:14px;width:100%;padding:10px;background:#25D366;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:7px">
+            <i class="fab fa-whatsapp"></i> Compartilhar no WhatsApp
+          </button>
+        </div>
+
+        <div style="margin-top:14px;padding:12px;background:rgba(25,166,94,.06);border:1px solid rgba(25,166,94,.2);border-radius:8px;font-size:11px;color:var(--txt2);line-height:1.6">
+          <strong style="color:var(--verde)"><i class="fas fa-check-circle"></i> Saída sem multa:</strong> O inquilino pode sair sem multa nos casos previstos no Art. 4º: término do contrato, acordo mútuo, ou quando o locador descumprir obrigações (Art. 22). Transferência de emprego a mais de 30 km também isenta de multa (Art. 4º, parágrafo único).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       SEÇÃO 3 — ALUGAR VS COMPRAR
+  ══════════════════════════════ -->
+  <div class="sec" id="sec-comp">
+    <div class="card">
+      <div class="card-h">
+        <i class="fas fa-balance-scale"></i>
+        <div>
+          <div class="ttl">Alugar ou Comprar? Compare os Custos</div>
+          <div class="sub">Veja quanto você gasta em cada cenário ao longo do tempo</div>
+        </div>
+      </div>
+      <div class="card-b">
+        <p style="font-size:12.5px;color:var(--txt2);margin-bottom:16px;line-height:1.6">Preencha os dados dos dois cenários e descubra qual opção faz mais sentido financeiro para você.</p>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--verm);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;display:flex;align-items:center;gap:6px"><i class="fas fa-key"></i> Cenário: Alugar</div>
+            <div class="fg" style="margin-bottom:10px">
+              <label class="lb">Aluguel mensal (R$)</label>
+              <input class="ip" type="text" id="cmp-aluguel" placeholder="Ex: 1.500,00" oninput="mascaraValor(this)" inputmode="numeric" autocomplete="off" style="font-size:16px;padding:13px 14px;">
+            </div>
+            <div class="fg" style="margin-bottom:10px">
+              <label class="lb">Reajuste anual estimado (%)</label>
+              <input class="ip" type="number" id="cmp-reaj" placeholder="Ex: 5" step="0.1" value="5">
+            </div>
+            <div class="fg">
+              <label class="lb">Condomínio + IPTU mensal (R$)</label>
+              <input class="ip" type="text" id="cmp-encargo" placeholder="Ex: 600,00" oninput="mascaraValor(this)">
+            </div>
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--azul);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;display:flex;align-items:center;gap:6px"><i class="fas fa-home"></i> Cenário: Comprar</div>
+            <div class="fg" style="margin-bottom:10px">
+              <label class="lb">Valor do imóvel (R$)</label>
+              <input class="ip" type="text" id="cmp-imovel" placeholder="Ex: 350.000,00" oninput="mascaraValor(this)">
+            </div>
+            <div class="fg" style="margin-bottom:10px">
+              <label class="lb">Entrada disponível (R$)</label>
+              <input class="ip" type="text" id="cmp-entrada" placeholder="Ex: 70.000,00" oninput="mascaraValor(this)">
+            </div>
+            <div class="fg">
+              <label class="lb">Taxa de juros do financ. (% a.a.)</label>
+              <input class="ip" type="number" id="cmp-juros" placeholder="Ex: 10.5" step="0.1" value="10.5">
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-grid" style="margin-top:12px">
+          <div class="fg">
+            <label class="lb">Período de análise (anos)</label>
+            <select class="ip" id="cmp-anos">
+              <option value="5">5 anos</option>
+              <option value="10" selected>10 anos</option>
+              <option value="15">15 anos</option>
+              <option value="20">20 anos</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label class="lb">Valorização anual do imóvel (%)</label>
+            <input class="ip" type="number" id="cmp-valorizacao" placeholder="Ex: 4" step="0.1" value="4">
+          </div>
+        </div>
+
+        <button class="btn-calc" onclick="calcComparador()">
+          <i class="fas fa-balance-scale"></i> Comparar Agora
+        </button>
+
+        <div id="res-comp" style="display:none;margin-top:16px">
+          <div class="comp-cols">
+            <div class="comp-col aluguel">
+              <div class="comp-col-icon">🏠</div>
+              <div class="comp-col-titulo">Total Gasto Alugando</div>
+              <div class="comp-val-big" id="comp-total-alug">—</div>
+              <div style="font-size:11px;color:var(--txt3);margin-top:4px" id="comp-sub-alug"></div>
+            </div>
+            <div class="comp-col compra">
+              <div class="comp-col-icon">🔑</div>
+              <div class="comp-col-titulo">Patrimônio Acumulado Comprando</div>
+              <div class="comp-val-big" id="comp-patrim">—</div>
+              <div style="font-size:11px;color:var(--txt3);margin-top:4px" id="comp-sub-comp"></div>
+            </div>
+          </div>
+          <div class="comp-veredicto" id="comp-veredicto"></div>
+          <button onclick="compartilharComp()" style="margin-top:12px;width:100%;padding:10px;background:#25D366;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:7px">
+            <i class="fab fa-whatsapp"></i> Compartilhar resultado no WhatsApp
+          </button>
+        </div>
+
+        <div style="margin-top:14px;padding:12px;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);border-radius:8px;font-size:11px;color:var(--txt2);line-height:1.6">
+          <strong style="color:var(--amar)"><i class="fas fa-info-circle"></i> Simulação orientativa.</strong> O comparador considera custo total de aluguel acumulado vs. patrimônio gerado pela compra (imóvel valorizado menos saldo devedor). Não considera custos de transação como ITBI, escritura e corretagem.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       SEÇÃO 4 — GARANTIAS
+  ══════════════════════════════ -->
+  <div class="sec" id="sec-gar">
+    <div class="card">
+      <div class="card-h">
+        <i class="fas fa-shield-alt"></i>
+        <div>
+          <div class="ttl">Comparativo de Garantias Locatícias</div>
+          <div class="sub">Caução · Fiança · Seguro · Título — entenda cada modalidade</div>
+        </div>
+      </div>
+      <div class="card-b">
+        <p style="font-size:12.5px;color:var(--txt2);margin-bottom:16px;line-height:1.6"><strong style="color:var(--azul)">Art. 37 da Lei 8.245/91:</strong> O contrato pode exigir apenas <strong>uma</strong> modalidade de garantia. É nula a exigência de mais de uma.</p>
+
+        <div class="gar-grid">
+          <div class="gar-card caucao">
+            <div class="gar-nome">💰 Caução em Dinheiro</div>
+            <div class="gar-sub">Depósito de até 3 meses de aluguel em poupança</div>
+            <div class="gar-item"><i class="fas fa-check ok"></i>Custo zero para o locador</div>
+            <div class="gar-item"><i class="fas fa-check ok"></i>Inquilino recupera ao sair (com rendimentos)</div>
+            <div class="gar-item"><i class="fas fa-check ok"></i>Processo simples e direto</div>
+            <div class="gar-item"><i class="fas fa-times no"></i>Cobre só 3 meses de inadimplência</div>
+            <div class="gar-item"><i class="fas fa-times no"></i>Exige capital disponível do inquilino</div>
+            <span class="gar-tag">Mais comum</span>
+          </div>
+
+          <div class="gar-card fianca">
+            <div class="gar-nome">🤝 Fiança</div>
+            <div class="gar-sub">Terceiro assume responsabilidade pelo contrato</div>
+            <div class="gar-item"><i class="fas fa-check ok"></i>Sem custo inicial para o inquilino</div>
+            <div class="gar-item"><i class="fas fa-check ok"></i>Cobertura ampla (até fim do contrato)</div>
+            <div class="gar-item"><i class="fas fa-check ok"></i>Aprovado pela maioria dos locadores</div>
+            <div class="gar-item"><i class="fas fa-times no"></i>Difícil encontrar fiador aceito</div>
+            <div class="gar-item"><i class="fas fa-times no"></i>Fiador responde com bens próprios</div>
+            <div class="gar-item"><i class="fas fa-times no"></i>Fiador pode se exonerar (Art. 40)</div>
+            <span class="gar-tag">Tradicional</span>
+          </div>
+
+          <div class="gar-card seguro">
+            <div class="gar-nome">🛡️ Seguro Fiança</div>
+            <div class="gar-sub">Seguradora garante o pagamento ao locador</div>
+            <div class="gar-item"><i class="fas fa-check ok"></i>Sem necessidade de fiador</div>
+            <div class="gar-item"><i class="fas fa-check ok"></i>Cobertura ampla e profissional</div>
+            <div class="gar-item"><i class="fas fa-check ok"></i>Facilita aprovação do inquilino</div>
+            <div class="gar-item"><i class="fas fa-times no"></i>Custo mensal (≈ 10% do aluguel/ano)</div>
+            <div class="gar-item"><i class="fas fa-times no"></i>Análise de crédito obrigatória</div>
+            <span class="gar-tag">Mais prático</span>
+          </div>
+
+          <div class="gar-card titulo">
+            <div class="gar-nome">📄 Título de Capitalização</div>
+            <div class="gar-sub">Inquilino deposita valor que pode resgatar ao fim</div>
+            <div class="gar-item"><i class="fas fa-check ok"></i>Inquilino pode resgatar o valor</div>
+            <div class="gar-item"><i class="fas fa-check ok"></i>Alternativa moderna à caução</div>
+            <div class="gar-item"><i class="fas fa-check ok"></i>Sem necessidade de fiador</div>
+            <div class="gar-item"><i class="fas fa-times no"></i>Exige capital inicial do inquilino</div>
+            <div class="gar-item"><i class="fas fa-times no"></i>Rendimento menor que outras opções</div>
+            <span class="gar-tag">Alternativa moderna</span>
+          </div>
+        </div>
+
+        <!-- CALCULADORA DE CAUÇÃO -->
+        <div style="background:rgba(0,61,165,.04);border:1px solid rgba(0,61,165,.15);border-radius:10px;padding:16px;margin-top:4px">
+          <div style="font-size:13px;font-weight:700;color:var(--azul);margin-bottom:12px"><i class="fas fa-calculator"></i> Calculadora de Caução (Art. 38)</div>
+          <div class="calc-grid">
+            <div class="fg">
+              <label class="lb">Valor do aluguel (R$)</label>
+              <input class="ip" type="text" id="cau-aluguel" placeholder="Ex: 2.500,00" oninput="mascaraValor(this)">
+            </div>
+            <div class="fg">
+              <label class="lb">Meses de caução</label>
+              <select class="ip" id="cau-meses">
+                <option value="1">1 mês</option>
+                <option value="2">2 meses</option>
+                <option value="3" selected>3 meses (máximo legal)</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn-calc" onclick="calcCaucao()" style="margin-top:4px">
+            <i class="fas fa-calculator"></i> Calcular Caução
+          </button>
+          <div id="res-caucao" style="display:none;margin-top:12px;padding:12px;background:rgba(25,166,94,.08);border:1px solid rgba(25,166,94,.2);border-radius:8px;font-size:13px;color:var(--txt)">
+            Caução de <span id="cau-meses-txt"></span> = <strong id="cau-valor" style="color:var(--verde);font-size:16px"></strong> &nbsp;|&nbsp; Máximo legal: <strong id="cau-max" style="color:var(--azul)"></strong>
+          </div>
+        </div>
+
+        <div style="margin-top:12px;padding:12px;background:rgba(220,28,45,.05);border:1px solid rgba(220,28,45,.15);border-radius:8px;font-size:11px;color:var(--txt2);line-height:1.6">
+          <strong style="color:var(--verm)"><i class="fas fa-ban"></i> Proibido por lei:</strong> Cobrar mais de uma modalidade de garantia no mesmo contrato (Art. 37, parágrafo único). Exigir caução acima de 3 aluguéis (Art. 38, §1º). Qualquer cláusula que contrarie a lei é nula de pleno direito (Art. 45).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       SEÇÃO 5 — ÍNDICES DO MÊS
+  ══════════════════════════════ -->
+  <div class="sec" id="sec-indices">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+      <div>
+        <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--txt)">Índices de Reajuste</div>
+        <div style="font-size:12px;color:var(--txt3)" id="indices-data">Atualizando…</div>
+      </div>
+      <button onclick="carregarIndices()" style="display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:var(--card);border:1px solid var(--borda2);border-radius:8px;font-size:11px;font-weight:600;color:var(--txt2);cursor:pointer;font-family:'DM Sans',sans-serif">
+        <i class="fas fa-sync-alt" id="ico-sync"></i> Atualizar
+      </button>
+    </div>
+
+    <div class="indices-grid" id="indices-grid">
+      <!-- preenchido via JS -->
+      <div class="idx-card" style="grid-column:1/-1;text-align:center;padding:30px">
+        <i class="fas fa-spinner fa-spin" style="font-size:24px;color:var(--cinza3)"></i>
+        <div style="margin-top:10px;font-size:13px;color:var(--txt3)">Buscando índices…</div>
+      </div>
+    </div>
+
+    <div class="nota-fonte">
+      <i class="fas fa-info-circle"></i>
+      <span>Dados obtidos via API pública do Banco Central do Brasil (BCB/IBGE/FGV/CBIC). IGP-M via FGV · IPCA/INPC/IVAR via IBGE · INCC via CBIC · SELIC/CDI via BCB. Valores do último fechamento disponível. Para contratos com índice diferente do previsto, consulte o texto do contrato.</span>
+    </div>
+
+    <!-- MINI GUIA DE ÍNDICES -->
+    <div class="card" style="margin-top:18px">
+      <div class="card-h">
+        <i class="fas fa-question-circle"></i>
+        <div><div class="ttl">Qual índice usar no contrato?</div><div class="sub">Guia rápido para locador e inquilino</div></div>
+      </div>
+      <div class="card-b" style="padding:14px 18px">
+        <div style="display:flex;flex-direction:column;gap:8px">
+
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--txt2);padding:4px 0;border-bottom:1px solid var(--borda);margin-bottom:2px">📋 Índices de Reajuste de Aluguel</div>
+
+          <div style="display:flex;gap:10px;align-items:flex-start;padding:10px;background:var(--cinza);border-radius:8px">
+            <div style="width:36px;height:36px;border-radius:7px;background:rgba(0,61,165,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:800;color:var(--azul)">M</div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:var(--txt)">IGP-M <span style="font-size:10px;color:var(--txt3);font-weight:400">(FGV — Índice Geral de Preços – Mercado)</span></div>
+              <div style="font-size:12px;color:var(--txt2);margin-top:2px">O mais usado historicamente em contratos residenciais. Sensível ao câmbio — pode subir muito em crises. <strong style="color:var(--azul)">Negociável entre as partes.</strong></div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:flex-start;padding:10px;background:var(--cinza);border-radius:8px">
+            <div style="width:36px;height:36px;border-radius:7px;background:rgba(220,28,45,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:800;color:var(--verm)">P</div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:var(--txt)">IPCA <span style="font-size:10px;color:var(--txt3);font-weight:400">(IBGE — Inflação oficial do Brasil)</span></div>
+              <div style="font-size:12px;color:var(--txt2);margin-top:2px">Inflação oficial — mais estável que o IGP-M. Tendência crescente em contratos novos. <strong style="color:var(--verm)">Recomendado para locadores em 2026.</strong></div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:flex-start;padding:10px;background:var(--cinza);border-radius:8px">
+            <div style="width:36px;height:36px;border-radius:7px;background:rgba(25,166,94,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:800;color:var(--verde)">N</div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:var(--txt)">INPC <span style="font-size:10px;color:var(--txt3);font-weight:400">(IBGE — Custo de vida popular)</span></div>
+              <div style="font-size:12px;color:var(--txt2);margin-top:2px">Mede famílias com renda de 1 a 5 salários. Geralmente menor que IPCA. <strong style="color:var(--verde)">Mais vantajoso para o inquilino.</strong></div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:flex-start;padding:10px;background:rgba(155,89,182,.05);border:1px solid rgba(155,89,182,.15);border-radius:8px">
+            <div style="width:36px;height:36px;border-radius:7px;background:rgba(155,89,182,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:800;color:#9b59b6">V</div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:var(--txt)">IVAR <span style="font-size:10px;color:var(--txt3);font-weight:400">(IBGE — Índice de Variação de Aluguéis Residenciais)</span> <span style="background:#ffd166;color:#333;font-size:9px;font-weight:800;padding:1px 6px;border-radius:8px;margin-left:4px">NOVO 2026</span></div>
+              <div style="font-size:12px;color:var(--txt2);margin-top:2px">Criado em 2019, mede exclusivamente a variação dos aluguéis residenciais em SP, RJ, BH e POA. <strong style="color:#9b59b6">Mais justo para contratos residenciais.</strong> Ainda pouco usado mas com adoção crescente.</div>
+            </div>
+          </div>
+
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--txt2);padding:4px 0;border-bottom:1px solid var(--borda);margin-top:6px;margin-bottom:2px">🏗️ Construção Civil</div>
+
+          <div style="display:flex;gap:10px;align-items:flex-start;padding:10px;background:var(--cinza);border-radius:8px">
+            <div style="width:36px;height:36px;border-radius:7px;background:rgba(192,57,43,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:800;color:#c0392b">C</div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:var(--txt)">INCC <span style="font-size:10px;color:var(--txt3);font-weight:400">(CBIC — Índice Nacional de Custo da Construção)</span></div>
+              <div style="font-size:12px;color:var(--txt2);margin-top:2px">Usado em contratos de lançamentos e imóveis na planta. Mede o custo de insumos e mão de obra da construção. <strong style="color:#c0392b">Obrigatório na maioria dos lançamentos.</strong></div>
+            </div>
+          </div>
+
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--txt2);padding:4px 0;border-bottom:1px solid var(--borda);margin-top:6px;margin-bottom:2px">💰 Referência Financeira (não usados para reajuste de aluguel)</div>
+
+          <div style="display:flex;gap:10px;align-items:flex-start;padding:10px;background:var(--cinza);border-radius:8px">
+            <div style="width:36px;height:36px;border-radius:7px;background:rgba(25,166,94,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;font-weight:800;color:var(--verde)">SEL</div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:var(--txt)">SELIC <span style="font-size:10px;color:var(--txt3);font-weight:400">(BCB — Taxa básica de juros)</span></div>
+              <div style="font-size:12px;color:var(--txt2);margin-top:2px">Define o custo do dinheiro no Brasil. Base dos financiamentos imobiliários. Não é índice de reajuste de aluguel — serve para comparar rentabilidade com outras aplicações.</div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:flex-start;padding:10px;background:var(--cinza);border-radius:8px">
+            <div style="width:36px;height:36px;border-radius:7px;background:rgba(230,126,34,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:800;color:var(--laranja)">D</div>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:var(--txt)">CDI <span style="font-size:10px;color:var(--txt3);font-weight:400">(BCB — Certificado de Depósito Interbancário)</span></div>
+              <div style="font-size:12px;color:var(--txt2);margin-top:2px">Próximo à SELIC. Referência para CDBs e caução em aplicações financeiras. Útil para calcular rendimento da caução depositada em poupança.</div>
+            </div>
+          </div>
+
+          <div style="margin-top:8px;padding:10px 13px;background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.2);border-radius:8px;font-size:12px;color:var(--txt2);line-height:1.6">
+            <strong style="color:var(--amar)"><i class="fas fa-lightbulb"></i> Dica FCosta 2026:</strong> Se o seu contrato não especifica o índice, a jurisprudência mais recente tende a aceitar o IPCA como substituto. Para novos contratos, negocie o IVAR — é o único índice que mede especificamente o mercado de aluguéis residenciais brasileiros.
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       SEÇÃO 3 — HISTÓRICO
+  ══════════════════════════════ -->
+  <div class="sec" id="sec-hist">
+    <div class="card">
+      <div class="card-h">
+        <i class="fas fa-table"></i>
+        <div><div class="ttl">Histórico de Índices</div><div class="sub">Últimos 12 meses — IGP-M · IPCA · INPC · IVAR · INCC</div></div>
+      </div>
+      <div class="card-b" style="padding:0">
+        <div class="hist-wrap">
+          <table class="hist" id="tbl-hist">
+            <thead>
+              <tr>
+                <th style="text-align:left">Mês / Ano</th>
+                <th>IGP-M</th>
+                <th>IPCA</th>
+                <th>INPC</th>
+                <th>IVAR</th>
+                <th>INCC</th>
+              </tr>
+            </thead>
+            <tbody id="hist-body">
+              <tr><td colspan="4" style="text-align:center;padding:30px;color:var(--txt3)"><i class="fas fa-spinner fa-spin"></i> Carregando…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="nota-fonte" style="margin-top:12px">
+      <i class="fas fa-info-circle"></i>
+      <span>Fonte: IBGE (IPCA/INPC) e FGV (IGP-M) via API do Banco Central do Brasil. Valores em % ao mês.</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       SEÇÃO 4 — LEI COMPLETA
+  ══════════════════════════════ -->
+  <div class="sec" id="sec-lei">
+    <div class="card">
+      <div class="card-h">
+        <i class="fas fa-book-open"></i>
+        <div><div class="ttl">Lei do Inquilinato — Lei 8.245/91</div><div class="sub">Clique no artigo para expandir · Use a busca para filtrar</div></div>
+      </div>
+      <div class="card-b" style="padding:14px 16px">
+        <!-- busca na lei -->
+        <div class="lei-busca-wrap">
+          <i class="fas fa-search"></i>
+          <input type="text" class="ip" id="lei-busca" placeholder="Buscar por assunto, palavra ou artigo… ex: fiador, caução, despejo" oninput="filtrarArtigos(this.value)">
+        </div>
+        <div style="font-size:11px;color:var(--txt3);margin-bottom:14px" id="lei-count">Exibindo todos os artigos principais</div>
+      </div>
+      <!-- artigos -->
+      <div class="artigos-wrap" id="artigos-wrap">
+        <!-- gerado via JS -->
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- Rodapé -->
+<footer style="background:var(--txt);color:rgba(255,255,255,0.55);text-align:center;padding:28px 16px;font-size:12px;line-height:1.8;">
+  <div style="margin-bottom:6px;font-family:'Playfair Display',serif;font-size:16px;color:rgba(255,255,255,0.9);font-weight:700;">FCosta Corretor</div>
+  <div>CRECI-SP 294791-F · CNAI 52708 · Sérgio Costa</div>
+  <div style="margin-top:4px;"><a href="https://fcostacorretor.com" style="color:rgba(255,255,255,0.7);text-decoration:none;">fcostacorretor.com</a> · <a href="https://wa.me/5511993509109" style="color:#25d366;text-decoration:none;"><i class="fab fa-whatsapp"></i> (11) 99350-9109</a></div>
+  <div style="margin-top:8px;font-size:10px;color:rgba(255,255,255,0.3);">Lei do Inquilinato — Guia atualizado março/2026 · Lei 8.245/91 com alterações da Lei 12.112/2009, Lei 12.744/2012 e jurisprudência 2026</div>
+</footer>
+
+<!-- WhatsApp FAB -->
+<a class="wpp-fab" href="https://wa.me/5511993509109" target="_blank" title="Falar com Sérgio Costa — Corretor">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<div id="toast"><i id="t-ico" class="fas fa-check-circle"></i><span id="t-msg"></span></div>
+
+<script>
+/* ═══════════════════════════════════════════
+   DADOS — Lei do Inquilinato (artigos principais)
+═══════════════════════════════════════════ */
+var ARTIGOS = [
+  {
+    num:'Art. 1º', assunto:'Objeto da Lei', tag:'dir', tagLabel:'Direito',
+    texto:'<p class="par">A locação de imóvel urbano regula-se pelo disposto nesta Lei.</p><p class="par"><strong>Parágrafo único.</strong> Continuam regulados pelo Código Civil e pelas leis especiais as locações de imóveis de propriedade da União, dos Estados e dos Municípios, de suas autarquias e fundações públicas; de vagas autônomas de garagem ou de espaços para estacionamento de veículos; de espaços destinados à publicidade; de apart-hotéis, hotéis-residência ou equiparados e o arrendamento mercantil.</p>',
+    tags:['lei','objeto','urbano','código civil']
+  },
+  {
+    num:'Art. 2º', assunto:'Partes da Locação', tag:'dir', tagLabel:'Direito',
+    texto:'<p class="par">Havendo mais de um locador ou mais de um locatário, entende-se que são solidários se o contrário não se estipulou.</p><p class="par"><strong>Parágrafo único.</strong> Os ocupantes de habitações coletivas multifamiliares presumem-se locatários ou sublocatários.</p>',
+    tags:['locador','locatário','solidário','sublocatário']
+  },
+  {
+    num:'Art. 3º', assunto:'Prazo do Contrato', tag:'pra', tagLabel:'Prazo',
+    texto:'<p class="par">O contrato de locação pode ser ajustado por qualquer prazo, dependendo de vênia conjugal, se igual ou superior a dez anos.</p><p class="par"><strong>Parágrafo único.</strong> Ausente a vênia conjugal, o cônjuge não estará obrigado a observar o prazo excedente.</p>',
+    tags:['prazo','dez anos','vênia conjugal','cônjuge']
+  },
+  {
+    num:'Art. 4º', assunto:'Desocupação Antes do Prazo', tag:'dir', tagLabel:'Direito',
+    texto:'<p class="par">Durante o prazo estipulado para a duração do contrato, não poderá o locador reaver o imóvel alugado. Com exceção ao que estipula o § 2º do Art. 54-A, o locatário, todavia, poderá devolvê-lo, pagando a multa pactuada, proporcional ao período de cumprimento do contrato, ou, na sua falta, a que for judicialmente estipulada.</p><p class="par"><strong>Parágrafo único.</strong> O locatário ficará dispensado da multa se a devolução do imóvel decorrer de transferência, pelo seu empregador, privado ou público, para prestar serviços em localidades diversas daquela do início do contrato, e se notificar, por escrito, o locador com prazo de, no mínimo, trinta dias de antecedência.</p>',
+    tags:['multa','devolução','desocupação','prazo','transferência','empregador']
+  },
+  {
+    num:'Art. 6º', assunto:'Denúncia do Contrato sem Prazo', tag:'pra', tagLabel:'Prazo',
+    texto:'<p class="par">O locatário poderá denunciar a locação por prazo indeterminado mediante aviso por escrito ao locador, com antecedência mínima de trinta dias.</p><p class="par"><strong>Parágrafo único.</strong> Na ausência do aviso, o locador poderá exigir quantia equivalente a um mês de aluguel e encargos, vigentes quando da resilição.</p>',
+    tags:['denúncia','aviso prévio','30 dias','trinta dias','indeterminado','rescisão']
+  },
+  {
+    num:'Art. 7º', assunto:'Morte do Locatário', tag:'dir', tagLabel:'Direito',
+    texto:'<p class="par">Morrendo o locatário, ficarão sub-rogados nos seus direitos e obrigações os seus herdeiros necessários e o cônjuge sobrevivente.</p><p class="par"><strong>Parágrafo único.</strong> Nas locações com finalidade não residencial, o espólio poderá ser acionado para pagar os aluguéis vencidos e vincendos, sendo solidariamente responsáveis os herdeiros nas condições dos artigos 1.997 e 2.042 do Código Civil.</p>',
+    tags:['morte','falecimento','herança','herdeiros','cônjuge','sub-rogação']
+  },
+  {
+    num:'Art. 9º', assunto:'Motivos de Rescisão', tag:'obl', tagLabel:'Obrigação',
+    texto:'<p class="par">A locação também poderá ser desfeita:</p><p class="inc">I — por mútuo acordo;</p><p class="inc">II — em decorrência da prática de infração legal ou contratual;</p><p class="inc">III — em decorrência da falta de pagamento do aluguel e demais encargos;</p><p class="inc">IV — para a realização de reparações urgentes determinadas pelo Poder Público, que não possam ser normalmente executadas com a permanência do locatário no imóvel ou, podendo, ele se recuse a consenti-las.</p>',
+    tags:['rescisão','infração','falta de pagamento','reparos','acordo']
+  },
+  {
+    num:'Art. 13º', assunto:'Sublocação e Cessão', tag:'obl', tagLabel:'Obrigação',
+    texto:'<p class="par">A cessão da locação, a sublocação e o empréstimo do imóvel, total ou parcialmente, dependem do consentimento prévio e escrito do locador.</p><p class="par"><strong>§ 1º</strong> Não se presume o consentimento pela simples demora do locador em manifestar formalmente a sua oposição.</p><p class="par"><strong>§ 2º</strong> Desde que notificado por escrito pelo locatário, o locador terá o prazo de trinta dias para manifestar formalmente a sua oposição.</p>',
+    tags:['sublocação','cessão','empréstimo','consentimento','locador']
+  },
+  {
+    num:'Art. 17º', assunto:'Reajuste do Aluguel', tag:'con', tagLabel:'Contrato',
+    texto:'<p class="par">É livre a convenção do aluguel, vedada a sua estipulação em moeda estrangeira e a sua vinculação à variação cambial ou ao salário mínimo.</p><p class="par"><strong>Parágrafo único.</strong> Nas locações residenciais, é vedada a inclusão de disposições que permitam a variação do aluguel em período inferior a doze meses.</p>',
+    tags:['reajuste','aluguel','12 meses','doze meses','moeda estrangeira','salário mínimo','IGP-M','IPCA']
+  },
+  {
+    num:'Art. 18º', assunto:'Acordo de Reajuste entre as Partes', tag:'con', tagLabel:'Contrato',
+    texto:'<p class="par">É lícito às partes fixar, de comum acordo, novo valor para o aluguel, bem como inserir ou modificar cláusula de reajuste.</p>',
+    tags:['acordo','reajuste','aluguel','cláusula']
+  },
+  {
+    num:'Art. 19º', assunto:'Revisão Judicial do Aluguel', tag:'con', tagLabel:'Contrato',
+    texto:'<p class="par">Não havendo acordo, o locador ou locatário, após três anos de vigência do contrato ou do acordo anteriormente realizado, poderão pedir revisão judicial do aluguel, a fim de ajustá-lo ao preço de mercado.</p>',
+    tags:['revisão','judicial','três anos','3 anos','mercado','aluguel']
+  },
+  {
+    num:'Art. 22º', assunto:'Obrigações do Locador', tag:'obl', tagLabel:'Obrigação',
+    texto:'<p class="par">O locador é obrigado a:</p><p class="inc">I — entregar ao locatário o imóvel alugado em estado de servir ao uso a que se destina;</p><p class="inc">II — garantir, durante o tempo da locação, o uso pacífico do imóvel locado;</p><p class="inc">III — manter, durante a locação, a forma e o destino do imóvel;</p><p class="inc">IV — responder pelos vícios ou defeitos anteriores à locação;</p><p class="inc">V — fornecer ao locatário recibo discriminado das importâncias por este pagas, vedada a quitação genérica;</p><p class="inc">VI — pagar as taxas de administração imobiliária, se houver, e de intermediações, nestas compreendidas as despesas necessárias à aferição da idoneidade do pretendente ou de seu fiador;</p><p class="inc">VII — pagar os impostos e taxas, e ainda o prêmio de seguro complementar contra fogo, que incidam ou venham a incidir sobre o imóvel, salvo disposição expressa em contrário no contrato;</p><p class="inc">VIII — exibir ao locatário, quando solicitado, os comprovantes relativos às parcelas que estejam sendo exigidas;</p><p class="inc">IX — pagar as despesas extraordinárias de condomínio.</p>',
+    tags:['obrigações','locador','recibo','imposto','IPTU','condomínio','vício','defeito']
+  },
+  {
+    num:'Art. 23º', assunto:'Obrigações do Locatário', tag:'obl', tagLabel:'Obrigação',
+    texto:'<p class="par">O locatário é obrigado a:</p><p class="inc">I — pagar pontualmente o aluguel e os encargos da locação, legal ou contratualmente exigíveis, no prazo estipulado ou, em sua falta, até o sexto dia útil do mês seguinte ao vencido;</p><p class="inc">II — servir-se do imóvel para o uso convencionado ou presumido, compatível com a natureza deste e com o fim a que se destina, devendo tratá-lo com o mesmo cuidado como se fosse seu;</p><p class="inc">III — restituir o imóvel, finda a locação, no estado em que o recebeu, salvo as deteriorações decorrentes do seu uso normal;</p><p class="inc">IV — levar imediatamente ao conhecimento do locador o surgimento de qualquer dano ou defeito cuja reparação a este incumba;</p><p class="inc">V — realizar a imediata reparação dos danos verificados no imóvel, ou nas suas instalações, provocados por si, seus dependentes, familiares, visitantes ou prepostos;</p><p class="inc">VI — não modificar a forma interna ou externa do imóvel sem o consentimento prévio e por escrito do locador;</p><p class="inc">VII — entregar imediatamente ao locador os documentos de cobrança de tributos e encargos condominiais, bem como qualquer intimação, multa ou exigência de autoridade pública;</p><p class="inc">VIII — pagar as despesas de telefone e de consumo de força, luz e gás, água e esgoto;</p><p class="inc">IX — permitir a vistoria do imóvel pelo locador ou por seu mandatário, mediante combinação prévia de dia e hora, bem como admitir que seja o mesmo visitado e examinado por terceiros, na hipótese prevista no Art. 27;</p><p class="inc">X — cumprir integralmente a convenção de condomínio e os regulamentos internos;</p><p class="inc">XI — pagar o prêmio do seguro de fiança;</p><p class="inc">XII — pagar as despesas ordinárias de condomínio.</p>',
+    tags:['obrigações','locatário','aluguel','prazo','pagamento','vistoria','condomínio','agua','luz','gás']
+  },
+  {
+    num:'Art. 26º', assunto:'Benfeitorias', tag:'dir', tagLabel:'Direito',
+    texto:'<p class="par">O locatário poderá realizar benfeitorias no imóvel, desde que autorizadas pelo locador, respeitadas as disposições legais.</p><p class="par"><strong>Parágrafo único.</strong> O locatário fica obrigado a restituir o imóvel ao término da locação, no estado em que o recebeu, ou nas condições pactuadas, ressalvadas as deteriorações decorrentes do uso normal.</p>',
+    tags:['benfeitorias','reformas','autorização','locador','restituição']
+  },
+  {
+    num:'Art. 35º', assunto:'Indenização por Benfeitorias', tag:'dir', tagLabel:'Direito',
+    texto:'<p class="par">Salvo expressa disposição contratual em contrário, as benfeitorias necessárias introduzidas pelo locatário, ainda que não autorizadas pelo locador, bem como as úteis, desde que autorizadas, serão indenizáveis e permitem o exercício do direito de retenção.</p>',
+    tags:['indenização','benfeitorias','retenção','necessárias','úteis']
+  },
+  {
+    num:'Art. 37º', assunto:'Garantias Locatícias', tag:'gar', tagLabel:'Garantia',
+    texto:'<p class="par">No contrato de locação, pode o locador exigir do locatário as seguintes modalidades de garantia:</p><p class="inc">I — caução;</p><p class="inc">II — fiança;</p><p class="inc">III — seguro de fiança locatícia;</p><p class="inc">IV — cessão fiduciária de quotas de fundo de investimento.</p><p class="par"><strong>Parágrafo único.</strong> É vedada, sob pena de nulidade, mais de uma das modalidades de garantia num mesmo contrato de locação.</p>',
+    tags:['garantia','caução','fiança','seguro','fundo','fiador','depósito']
+  },
+  {
+    num:'Art. 38º', assunto:'Caução em Dinheiro', tag:'gar', tagLabel:'Garantia',
+    texto:'<p class="par">A caução poderá ser em bens móveis ou imóveis.</p><p class="par"><strong>§ 1º</strong> A caução em dinheiro, que não poderá exceder o equivalente a três meses de aluguel, será depositada em caderneta de poupança, autorizada pelo Poder Público e por ele regulamentada, revertendo em benefício do locatário todas as vantagens dela decorrentes por ocasião do levantamento da soma respectiva.</p>',
+    tags:['caução','dinheiro','três meses','3 meses','poupança','depósito']
+  },
+  {
+    num:'Art. 40º', assunto:'Exoneração do Fiador', tag:'gar', tagLabel:'Garantia',
+    texto:'<p class="par">O fiador poderá exonerar-se das suas responsabilidades no prazo de 120 dias, notificando o locador, e ficará responsável pelos efeitos da fiança durante 120 dias após a notificação.</p>',
+    tags:['fiador','exoneração','120 dias','fiança','notificação']
+  },
+  {
+    num:'Art. 42º', assunto:'Locação sem Garantia', tag:'gar', tagLabel:'Garantia',
+    texto:'<p class="par">Não estando a locação garantida por qualquer das modalidades, o locador poderá exigir do locatário o pagamento do aluguel e encargos até o sexto dia útil do mês vincendo.</p>',
+    tags:['sem garantia','pagamento antecipado','aluguel','encargos']
+  },
+  {
+    num:'Art. 45º', assunto:'Cláusulas Nulas', tag:'dir', tagLabel:'Direito',
+    texto:'<p class="par">São nulas de pleno direito as cláusulas do contrato de locação que visem a elidir os objetivos da presente Lei, notadamente as que proíbam a prorrogação prevista no Art. 47, ou que afastem o direito à renovação, na hipótese do Art. 51, ou que imponham obrigações pecuniárias para tanto.</p>',
+    tags:['nulidade','cláusula','contrato','prorrogação','renovação']
+  },
+  {
+    num:'Art. 46º', assunto:'Locação Residencial — Prazo ≥ 30 meses', tag:'pra', tagLabel:'Prazo',
+    texto:'<p class="par">Nas locações ajustadas por escrito e por prazo igual ou superior a trinta meses, a resolução do contrato ocorrerá findo o prazo estipulado, independentemente de notificação ou aviso.</p><p class="par"><strong>§ 1º</strong> Findo o prazo ajustado, se o locatário continuar na posse do imóvel alugado por mais de trinta dias sem oposição do locador, presumir-se-á prorrogada a locação por prazo indeterminado, mantidas as demais cláusulas e condições do contrato.</p><p class="par"><strong>§ 2º</strong> Ocorrendo a prorrogação, o locador poderá denunciar o contrato a qualquer tempo, concedido o prazo de trinta dias para a desocupação.</p>',
+    tags:['30 meses','prazo','prorrogação','denúncia','desocupação','indeterminado']
+  },
+  {
+    num:'Art. 47º', assunto:'Locação Residencial — Prazo < 30 meses', tag:'pra', tagLabel:'Prazo',
+    texto:'<p class="par">Quando ajustada verbalmente ou por escrito e como prazo inferior a trinta meses, findo o prazo estabelecido, a locação prorroga-se automaticamente por prazo indeterminado, somente podendo ser retomado o imóvel:</p><p class="inc">I — Nos casos do Art. 9º;</p><p class="inc">II — em decorrência de extinção do contrato de trabalho, se a ocupação do imóvel pelo locatário relacionada com o seu emprego;</p><p class="inc">III — se for pedido para uso próprio, de seu cônjuge ou companheiro, ou para uso residencial de ascendente ou descendente que não disponha, assim como seu cônjuge ou companheiro, de imóvel residencial próprio;</p><p class="inc">IV — se for pedido para demolição e edificação licenciada ou para realização de obras aprovadas pelo Poder Público, que aumentem a área construída em, no mínimo, vinte por cento ou, se o imóvel for destinado a exploração de hotel ou pensão, em cinquenta por cento;</p><p class="inc">V — se a vigência ininterrupta da locação ultrapassar cinco anos.</p>',
+    tags:['menos de 30 meses','prorrogação','uso próprio','retomada','5 anos','cinco anos']
+  },
+  {
+    num:'Art. 48º', assunto:'Locação para Temporada', tag:'pra', tagLabel:'Prazo',
+    texto:'<p class="par">Considera-se locação para temporada aquela destinada à residência temporária do locatário, para prática de lazer, realização de cursos, tratamento de saúde, feitura de obras em seu imóvel, e outros fatos que decorrem tão-somente de determinado tempo, e contratada por prazo não superior a noventa dias, esteja ou não mobiliado o imóvel.</p>',
+    tags:['temporada','90 dias','noventa dias','lazer','mobiliado','férias']
+  },
+  {
+    num:'Art. 59º', assunto:'Ação de Despejo', tag:'obl', tagLabel:'Obrigação',
+    texto:'<p class="par">Com as modificações constantes deste capítulo, as locações prediais urbanas serão reguladas pelo procedimento sumaríssimo.</p><p class="par"><strong>§ 1º</strong> Conceder-se-á liminar para desocupação em quinze dias, independentemente da audiência da parte contrária e desde que prestada a caução no valor equivalente a três meses de aluguel, nas ações de despejo fundadas na falta de pagamento de aluguel e acessórios da locação quando o locatário-ausente for substituído por terceiro que tenha assumido os compromissos contratuais.</p>',
+    tags:['despejo','ação','liminar','15 dias','quinze dias','falta de pagamento','caução']
+  },
+  {
+    num:'Art. 62º', assunto:'Despejo por Falta de Pagamento', tag:'obl', tagLabel:'Obrigação',
+    texto:'<p class="par">Nas ações de despejo fundadas na falta de pagamento de aluguel e acessórios da locação, de aluguel provisório, de diferenças de aluguéis, ou somente de quaisquer dos acessórios da locação, observar-se-á o seguinte:</p><p class="inc">I — o pedido de rescisão da locação poderá ser cumulado com o pedido de cobrança dos aluguéis e acessórios da locação; neste caso, citar-se-á o locatário para responder ao pedido de rescisão e o locatário e os fiadores para responderem ao pedido de cobrança, devendo ser apresentado, com a inicial, o demonstrativo discriminado dos valores devidos;</p><p class="inc">II — o locatário e o fiador poderão evitar a rescisão da locação efetuando, no prazo de 15 dias, contado da citação, o pagamento do débito atualizado, independentemente de cálculo e mediante comprovante fornecido pelo locador.</p>',
+    tags:['despejo','falta de pagamento','purgação da mora','15 dias','fiador','rescisão']
+  },
+  {
+    num:'Art. 67º', assunto:'Ação Renovatória Comercial', tag:'pra', tagLabel:'Prazo',
+    texto:'<p class="par">Na ação renovatória, a petição inicial, além dos requisitos exigidos pelos Arts. 282 e 283 do Código de Processo Civil, deverá ser instruída com:</p><p class="inc">I — prova do preenchimento dos requisitos dos incisos I, II e III do Art. 51;</p><p class="inc">II — prova do exato cumprimento do contrato em curso;</p><p class="inc">III — prova da quitação dos impostos e taxas que incidiram sobre o imóvel e cujo pagamento lhe incumbia;</p><p class="inc">IV — indicação clara e precisa das condições oferecidas para a renovação da locação;</p><p class="inc">V — indicação do fiador quando houver no contrato a renovar, com elementos suficientes para o locador poder identificá-lo e o locatário declará-lo ciente do pedido de renovação e de suas condições.</p>',
+    tags:['renovatória','comercial','renovação','ponto comercial','5 anos']
+  },
+  {
+    num:'Art. 54-A', assunto:'Locação Built to Suit (Construído para o Locatário)', tag:'con', tagLabel:'Contrato',
+    texto:'<p class="par"><strong>⭐ Artigo inserido pela Lei 12.744/2012 — amplamente aplicado em 2026.</strong> Nas locações em que o locador procede à prévia aquisição, construção ou substancial reforma, por si mesmo ou por terceiros, do imóvel então especificado pelo pretendente à locação, a fim de que seja a este locado por prazo determinado, aplica-se o disposto neste artigo:</p><p class="par"><strong>§ 1º</strong> Poderá ser convencionada a renúncia ao direito de revisão do valor dos aluguéis durante o prazo de vigência do contrato de locação.</p><p class="par"><strong>§ 2º</strong> Em caso de denúncia antecipada do vínculo locatício pelo locatário, compromete-se este a cumprir a multa convencionada, que não excederá, porém, a soma dos valores dos aluguéis a receber até o termo final da locação.</p><p class="par"><strong>§ 3º</strong> Na hipótese do § 2º deste artigo, se a penalidade não estiver prevista ou pactuar-se a renúncia à revisão mencionada no § 1º, o locatário ficará obrigado a indenizar os investimentos feitos pelo locador, incluindo os custos de oportunidade.</p>',
+    tags:['built to suit','construção sob encomenda','comercial','investidor','prazo longo','2026','renúncia revisão']
+  },
+  {
+    num:'Art. 59 §1º', assunto:'Despejo Liminar em 15 dias — Casos Especiais', tag:'obl', tagLabel:'Obrigação',
+    texto:'<p class="par">A liminar de despejo em 15 dias (sem ouvir o réu) é concedida nas seguintes hipóteses especiais, mediante caução de 3 aluguéis:</p><p class="inc">I — nas ações por falta de pagamento quando o locatário-ausente for substituído por terceiro;</p><p class="inc">II — nas ações de retomada para uso próprio do locador ou de familiares de primeiro grau;</p><p class="inc">III — quando o contrato tiver sido celebrado verbalmente ou por escrito sem garantia;</p><p class="inc">IV — na rescisão de locação para temporada com permanência ilegal do locatário;</p><p class="inc">V — nas ações de despejo fundadas em abandono do imóvel.</p><p class="par"><strong>Atenção 2026:</strong> A prova do contrato e da inadimplência devem ser apresentadas desde o início. Cópias digitais com assinatura eletrônica qualificada (ICP-Brasil) têm plena validade desde a Lei 14.063/2020.</p>',
+    tags:['despejo','liminar','15 dias','uso próprio','abandono','inadimplência','assinatura eletrônica','2026']
+  },
+  {
+    num:'Art. 68 a 70', assunto:'Ação de Consignação de Aluguel', tag:'dir', tagLabel:'Direito',
+    texto:'<p class="par">Quando o locador recusar o recebimento do aluguel ou criar embaraços ao pagamento, o locatário pode consignar o valor em juízo ou em estabelecimento bancário autorizado.</p><p class="par"><strong>Procedimento:</strong> O locatário deposita o valor na conta do locador ou em juízo e notifica. Após 24 horas da notificação, o depósito purga a mora e afasta o risco de despejo.</p><p class="par"><strong>Novidade 2026:</strong> Plataformas digitais de consignação extrajudicial são aceitas pelos tribunais, desde que comprovem data e valor do depósito com assinatura eletrônica e protocolo de entrega da notificação ao locador.</p>',
+    tags:['consignação','aluguel','depósito','recusa','banco','2026','eletrônico']
+  },
+  {
+    num:'LGPD × Inquilinato', assunto:'Dados Pessoais na Locação — LGPD 2026', tag:'dir', tagLabel:'Direito',
+    texto:'<p class="par"><strong>Lei Geral de Proteção de Dados (Lei 13.709/2018) aplicada ao mercado de locação:</strong></p><p class="par">Fichas cadastrais, documentos de renda e certidões de fiadores são dados pessoais sensíveis. O locador e a imobiliária devem:</p><p class="inc">I — coletar apenas os dados necessários para a análise de crédito (princípio da minimização);</p><p class="inc">II — manter os dados pelo prazo do contrato + 5 anos para fins de eventual ação judicial;</p><p class="inc">III — destruir ou anonimizar os dados de fiadores recusados em até 90 dias;</p><p class="inc">IV — não compartilhar dados com terceiros sem consentimento ou base legal;</p><p class="inc">V — atender solicitações de acesso, correção ou exclusão dos dados em até 15 dias úteis.</p><p class="par"><strong>Penalidades 2026:</strong> A ANPD pode aplicar multas de até 2% do faturamento, limitado a R$ 50 milhões por infração.</p>',
+    tags:['LGPD','dados pessoais','ficha cadastral','privacidade','ANPD','2026','imobiliária']
+  },
+  {
+    num:'Contrato Digital', assunto:'Contrato de Locação por Assinatura Eletrônica — 2026', tag:'con', tagLabel:'Contrato',
+    texto:'<p class="par">Desde a Lei 14.063/2020 e com a consolidação da jurisprudência em 2025-2026, contratos de locação assinados digitalmente têm plena validade jurídica.</p><p class="par"><strong>Tipos aceitos em 2026:</strong></p><p class="inc">I — Assinatura eletrônica qualificada (certificado ICP-Brasil): máxima segurança jurídica, equivale à assinatura manuscrita;</p><p class="inc">II — Assinatura eletrônica avançada (DocuSign, ClickSign, D4Sign): aceita em juízo com prova de autoria;</p><p class="inc">III — Assinatura simples (WhatsApp, e-mail de confirmação): válida mas com menor força probatória.</p><p class="par"><strong>Recomendação FCosta:</strong> Use plataformas com trilha de auditoria (log de IP, data, hora e geolocalização do signatário). Para imóveis com valor de locação acima de R$ 5.000/mês, prefira assinatura qualificada ICP-Brasil.</p>',
+    tags:['contrato digital','assinatura eletrônica','ICP-Brasil','DocuSign','ClickSign','2026','validade']
+  }
+];
+
+/* ═══════════════════════════════════════════
+   ÍNDICES — dados e fetch
+═══════════════════════════════════════════ */
+/* Armazena índices carregados */
+var INDICES = {};
+/* Histórico */
+var HIST = { igpm:[], ipca:[], inpc:[], ivar:[], incc:[] };
+
+/* Meses em português */
+var MESES = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+var MESES_FULL = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
+/* Série BCB:
+   IPCA = 433   INPC = 188   IGP-M = 189   SELIC = 432   CDI = 4391
+*/
+function fetchSerie(serie, meses){
+  /* Pega os últimos N meses da série do BCB */
+  var url = 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.'+serie+'/dados/ultimos/'+meses+'?formato=json';
+  return fetch(url).then(function(r){ return r.json(); });
+}
+
+function carregarIndices(){
+  var ico = document.getElementById('ico-sync');
+  ico.classList.add('fa-spin');
+  document.getElementById('indices-data').textContent = 'Atualizando…';
+
+  var agora = new Date();
+  var mesLabel = MESES_FULL[agora.getMonth()] + ' ' + agora.getFullYear();
+
+  /* Séries BCB: IPCA=433, INPC=188, IGP-M=189, IVAR=11426, INCC=192, SELIC=432, CDI=4391 */
+  Promise.all([
+    fetchSerie(433,  13),  // IPCA
+    fetchSerie(188,  13),  // INPC
+    fetchSerie(189,  13),  // IGP-M
+    fetchSerie(11426,13),  // IVAR (aluguel residencial IBGE)
+    fetchSerie(192,  13),  // INCC (construção civil)
+    fetchSerie(432,  13),  // SELIC acumulada
+    fetchSerie(4391, 13)   // CDI acumulado
+  ]).then(function(res){
+    var ipca=res[0], inpc=res[1], igpm=res[2],
+        ivar=res[3], incc=res[4], selic=res[5], cdi=res[6];
+
+    function lastVal(arr){ return parseFloat((arr[arr.length-1]||{}).valor||0); }
+    var ult_ipca  = lastVal(ipca);
+    var ult_inpc  = lastVal(inpc);
+    var ult_igpm  = lastVal(igpm);
+    var ult_ivar  = lastVal(ivar);
+    var ult_incc  = lastVal(incc);
+    var ult_selic = lastVal(selic);
+    var ult_cdi   = lastVal(cdi);
+
+    function acum12(arr){
+      var a12 = arr.slice(-12);
+      return a12.reduce(function(acc,x){ return acc*(1+parseFloat(x.valor)/100); },1)-1;
+    }
+    var acum_igpm  = (acum12(igpm)*100).toFixed(2);
+    var acum_ipca  = (acum12(ipca)*100).toFixed(2);
+    var acum_inpc  = (acum12(inpc)*100).toFixed(2);
+    var acum_ivar  = (acum12(ivar)*100).toFixed(2);
+    var acum_incc  = (acum12(incc)*100).toFixed(2);
+    var acum_selic = (acum12(selic)*100).toFixed(2);
+    var acum_cdi   = (acum12(cdi)*100).toFixed(2);
+
+    INDICES = {
+      'IGP-M': { val:ult_igpm,  acum:parseFloat(acum_igpm),  label:'IGP-M (acum. 12m)' },
+      'IPCA':  { val:ult_ipca,  acum:parseFloat(acum_ipca),  label:'IPCA (acum. 12m)'  },
+      'INPC':  { val:ult_inpc,  acum:parseFloat(acum_inpc),  label:'INPC (acum. 12m)'  },
+      'IVAR':  { val:ult_ivar,  acum:parseFloat(acum_ivar),  label:'IVAR (acum. 12m)'  },
+      'INCC':  { val:ult_incc,  acum:parseFloat(acum_incc),  label:'INCC (acum. 12m)'  },
+      'SELIC': { val:ult_selic, acum:parseFloat(acum_selic), label:'SELIC (acum. 12m)' },
+      'CDI':   { val:ult_cdi,   acum:parseFloat(acum_cdi),   label:'CDI (acum. 12m)'   }
+    };
+
+    renderIndices(ult_igpm,ult_ipca,ult_inpc,acum_igpm,acum_ipca,acum_inpc,
+                  ult_ivar,acum_ivar,ult_incc,acum_incc,ult_selic,acum_selic,ult_cdi,acum_cdi);
+    atualizarSelectIndice();
+
+    HIST.igpm=igpm; HIST.ipca=ipca; HIST.inpc=inpc; HIST.ivar=ivar; HIST.incc=incc;
+    renderHistorico();
+
+    document.getElementById('indices-data').textContent = 'Atualizado em ' + agora.toLocaleString('pt-BR');
+    ico.classList.remove('fa-spin');
+
+  }).catch(function(err){
+    document.getElementById('indices-data').textContent = 'Erro ao buscar. Verifique a conexão.';
+    ico.classList.remove('fa-spin');
+    usarFallback();
+  });
+}
+
+function usarFallback(){
+  /* valores de referência 2026 caso a API falhe */
+  INDICES = {
+    'IGP-M': { val:0.52,  acum:6.22,  label:'IGP-M (acum. 12m)' },
+    'IPCA':  { val:0.48,  acum:5.48,  label:'IPCA (acum. 12m)'  },
+    'INPC':  { val:0.45,  acum:5.12,  label:'INPC (acum. 12m)'  },
+    'IVAR':  { val:0.61,  acum:7.08,  label:'IVAR (acum. 12m)'  },
+    'INCC':  { val:0.72,  acum:7.80,  label:'INCC (acum. 12m)'  },
+    'SELIC': { val:1.09,  acum:13.75, label:'SELIC (acum. 12m)' },
+    'CDI':   { val:1.08,  acum:13.65, label:'CDI (acum. 12m)'   }
+  };
+  renderIndices(0.52,0.48,0.45,'6.22','5.48','5.12',0.61,'7.08',0.72,'7.80',1.09,'13.75',1.08,'13.65');
+  atualizarSelectIndice();
+  document.getElementById('indices-data').textContent = 'Referência 2026 (sem conexão com API)';
+}
+
+function tagIndice(val){
+  if(val < 0)    return '<span class="idx-tag tag-ok">Deflação</span>';
+  if(val <= 0.5) return '<span class="idx-tag tag-ok">Baixo</span>';
+  if(val <= 1.0) return '<span class="idx-tag tag-aten">Moderado</span>';
+  return '<span class="idx-tag tag-car">Alto</span>';
+}
+
+function renderIndices(igpm,ipca,inpc,acum_gm,acum_pc,acum_nc,
+                       ivar,acum_iv,incc,acum_ic,selic,acum_sl,cdi,acum_cd){
+  ivar=ivar||0; acum_iv=acum_iv||'0.00'; incc=incc||0; acum_ic=acum_ic||'0.00';
+  selic=selic||0; acum_sl=acum_sl||'0.00'; cdi=cdi||0; acum_cd=acum_cd||'0.00';
+  var grid = document.getElementById('indices-grid');
+  var indices = [
+    {cls:'igpm', nome:'IGP-M', sigla:'FGV',  desc:'Geral de Preços — mais usado em contratos residenciais', val:igpm,  acum:acum_gm, tip:'Reajuste'},
+    {cls:'ipca', nome:'IPCA',  sigla:'IBGE', desc:'Inflação oficial do Brasil — comum em novos contratos',  val:ipca,  acum:acum_pc, tip:'Reajuste'},
+    {cls:'inpc', nome:'INPC',  sigla:'IBGE', desc:'Custo de vida familiar de menor renda',                  val:inpc,  acum:acum_nc, tip:'Reajuste'},
+    {cls:'ivar', nome:'IVAR',  sigla:'IBGE', desc:'Índice de Variação de Aluguéis Residenciais — 2026',     val:ivar,  acum:acum_iv, tip:'Aluguel'},
+    {cls:'incc', nome:'INCC',  sigla:'CBIC', desc:'Custo da Construção Civil — usado em lançamentos',       val:incc,  acum:acum_ic, tip:'Construção'},
+    {cls:'cdi',  nome:'CDI',   sigla:'BCB',  desc:'Referência bancária — caução em poupança/CDB',           val:cdi,   acum:acum_cd, tip:'Referência'},
+    {cls:'igpm', nome:'SELIC', sigla:'BCB',  desc:'Taxa básica de juros — base para financiamentos',        val:selic, acum:acum_sl, tip:'Juro base'}
+  ];
+  grid.innerHTML = indices.map(function(i){
+    var sinal = i.val >= 0 ? '+' : '';
+    var sinalA = parseFloat(i.acum) >= 0 ? '+' : '';
+    return '<div class="idx-card '+i.cls+'">'
+      +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px">'
+      +'<div class="idx-nome">'+i.nome+'</div>'
+      +'<span style="font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;background:var(--cinza2);color:var(--txt2)">'+i.sigla+'</span>'
+      +'</div>'
+      +'<div class="idx-desc">'+i.desc+'</div>'
+      +'<div class="idx-val '+i.cls+'">'+sinal+i.val.toFixed(2)+'%</div>'
+      +'<div class="idx-per">Último mês disponível</div>'
+      +'<div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding-top:8px;border-top:1px solid var(--borda)">'
+      +'<span style="font-size:10px;color:var(--txt3)">Acum. 12m</span>'
+      +'<strong style="font-size:12px;color:var(--txt)">'+sinalA+parseFloat(i.acum).toFixed(2)+'%</strong>'
+      +'</div>'
+      +tagIndice(i.val)
+      +'<div style="font-size:9px;color:var(--txt3);margin-top:4px">'+i.tip+'</div>'
+      +'</div>';
+  }).join('');
+}
+
+function renderHistorico(){
+  var body = document.getElementById('hist-body');
+  var rows = '';
+  function cls(v){ return v > 0 ? 'pos' : v < 0 ? 'neg' : ''; }
+  function fmt(v){ return v === null ? '<span style="color:var(--txt3)">—</span>' : (v>=0?'+':'')+v.toFixed(2)+'%'; }
+  function lastN(arr,i){ var idx=arr.length-1-i; return idx>=0 ? parseFloat((arr[idx]||{}).valor||0) : null; }
+  var n = Math.max(HIST.igpm.length, HIST.ipca.length, HIST.inpc.length, 1);
+  n = Math.min(n, 13);
+  for(var i = n-1; i >= 0; i--){
+    var gm  = lastN(HIST.igpm, i);
+    var pc  = lastN(HIST.ipca, i);
+    var nc  = lastN(HIST.inpc, i);
+    var iv  = HIST.ivar && HIST.ivar.length ? lastN(HIST.ivar, i) : null;
+    var ic  = HIST.incc && HIST.incc.length ? lastN(HIST.incc, i) : null;
+    var dt  = (HIST.ipca[HIST.ipca.length-1-i]||{}).data||'';
+    var partes = dt.split('/');
+    var mes = partes.length===3 ? MESES[parseInt(partes[1])-1]+'/'+partes[2] : dt;
+    rows += '<tr>'
+      +'<td class="mes">'+mes+'</td>'
+      +(gm!==null ? '<td class="'+cls(gm)+'">'+fmt(gm)+'</td>' : '<td class="neu">—</td>')
+      +(pc!==null ? '<td class="'+cls(pc)+'">'+fmt(pc)+'</td>' : '<td class="neu">—</td>')
+      +(nc!==null ? '<td class="'+cls(nc)+'">'+fmt(nc)+'</td>' : '<td class="neu">—</td>')
+      +'<td class="'+(iv!==null?cls(iv):'neu')+'">'+fmt(iv)+'</td>'
+      +'<td class="'+(ic!==null?cls(ic):'neu')+'">'+fmt(ic)+'</td>'
+      +'</tr>';
+  }
+  body.innerHTML = rows || '<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--txt3)">Sem dados</td></tr>';
+}
+
+function atualizarSelectIndice(){
+  var sel = document.getElementById('indice-sel');
+  /* SELIC e CDI são referência, não índices de reajuste de aluguel */
+  var naoReajuste = ['SELIC','CDI'];
+  var grupos = {
+    'Índices de Reajuste de Aluguel': ['IGP-M','IPCA','INPC','IVAR'],
+    'Construção Civil': ['INCC'],
+    'Referência Financeira': ['SELIC','CDI']
+  };
+  var html = '';
+  Object.keys(grupos).forEach(function(grupo){
+    var opts = grupos[grupo].filter(function(k){ return INDICES[k]; }).map(function(k){
+      var idx = INDICES[k];
+      var sinal = idx.acum >= 0 ? '+' : '';
+      return '<option value="'+k+'">'+k+' — acum. 12m: '+sinal+idx.acum.toFixed(2)+'%</option>';
+    }).join('');
+    if(opts) html += '<optgroup label="'+grupo+'">'+opts+'</optgroup>';
+  });
+  html += '<option value="custom">✏️ Outro índice / valor manual</option>';
+  sel.innerHTML = html;
+}
+
+/* ═══════════════════════════════════════════
+   CALCULADORA
+═══════════════════════════════════════════ */
+/* periodo-sel listener movido para init() */
+
+function mascaraValor(el){
+  var raw = el.value.replace(/\D/g,'');
+  if(!raw){ el.value=''; return; }
+  raw = raw.replace(/^0+/,'') || '0';
+  while(raw.length < 3) raw = '0' + raw;
+  var intPart = raw.slice(0, -2);
+  var decPart = raw.slice(-2);
+  intPart = (intPart.replace(/^0+/,'') || '0').replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+  el.value = intPart + ',' + decPart;
+}
+
+function valorNumerico(str){
+  return parseFloat((str||'0').replace(/\./g,'').replace(',','.')) || 0;
+}
+
+function fmtBRL(v){
+  return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+}
+
+function calcular(){
+  var atual = valorNumerico(document.getElementById('val-atual').value);
+  if(atual <= 0){ toast('Informe o valor atual do aluguel','err'); return; }
+
+  var indSel = document.getElementById('indice-sel').value;
+  var periodoSel = document.getElementById('periodo-sel').value;
+
+  var pct = 0;
+  var indNome = '';
+
+  if(indSel === 'custom'){
+    pct = parseFloat(document.getElementById('periodo-custom').value) || 0;
+    indNome = 'Índice manual';
+  } else if(INDICES[indSel]){
+    indNome = indSel;
+    if(periodoSel === 'custom'){
+      pct = parseFloat(document.getElementById('periodo-custom').value) || 0;
+    } else if(periodoSel === '12'){
+      pct = INDICES[indSel].acum;
+    } else {
+      /* proporcional simples para 24 ou 36 meses */
+      var meses = parseInt(periodoSel);
+      pct = (Math.pow(1 + INDICES[indSel].val/100, meses) - 1) * 100;
+    }
+  } else {
+    toast('Selecione um índice','err'); return;
+  }
+
+  var novo = atual * (1 + pct/100);
+  var dif  = novo - atual;
+
+  /* exibe resultado */
+  document.getElementById('res-novo').textContent   = fmtBRL(novo);
+  document.getElementById('res-dif').textContent    = '+ ' + fmtBRL(dif) + ' de aumento (' + (pct>=0?'+':'') + pct.toFixed(2) + '%)';
+  document.getElementById('ri-anterior').textContent = fmtBRL(atual);
+  document.getElementById('ri-indice').textContent   = (pct>=0?'+':'') + pct.toFixed(2) + '%';
+  document.getElementById('ri-aumento').textContent  = fmtBRL(dif);
+
+  /* guarda para compartilhar */
+  window._calcRes = { atual:atual, novo:novo, dif:dif, pct:pct, indice:indNome };
+
+  var el = document.getElementById('resultado');
+  el.classList.add('show');
+  el.scrollIntoView({behavior:'smooth',block:'nearest'});
+  toast('Cálculo realizado!');
+}
+
+function compartilharCalc(){
+  if(!window._calcRes){ toast('Calcule primeiro','err'); return; }
+  var r = window._calcRes;
+  var txt = '📊 *Reajuste de Aluguel — FCosta Corretor*\n\n'
+    + '🏠 Valor atual: *' + fmtBRL(r.atual) + '*\n'
+    + '📈 Índice: *' + r.indice + ' (' + (r.pct>=0?'+':'') + r.pct.toFixed(2) + '%)*\n'
+    + '💰 Novo valor: *' + fmtBRL(r.novo) + '*\n'
+    + '➕ Aumento total: *' + fmtBRL(r.dif) + '* (+' + fmtBRL(r.dif/12) + '/mês)\n\n'
+    + '_Calculado conforme Art. 17 da Lei 8.245/91_\n'
+    + '_Reajuste válido após 12 meses de vigência_\n\n'
+    + '📞 Sérgio Costa — Corretor de Imóveis\n'
+    + 'CRECI-SP 294791-F | CNAI 52708\n'
+    + '🌐 fcostacorretor.com/inquilinato';
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+}
+
+/* ═══════════════════════════════════════════
+   LEI — renderiza e filtra artigos
+═══════════════════════════════════════════ */
+function renderArtigos(lista, termo){
+  var wrap = document.getElementById('artigos-wrap');
+  var count = document.getElementById('lei-count');
+
+  if(!lista.length){
+    wrap.innerHTML = '<div class="sem-res"><i class="fas fa-search"></i><p>Nenhum artigo encontrado para <strong>"'+termo+'"</strong></p></div>';
+    count.textContent = 'Nenhum resultado';
+    return;
+  }
+
+  count.textContent = 'Exibindo ' + lista.length + ' artigo' + (lista.length!==1?'s':'');
+
+  wrap.innerHTML = lista.map(function(a, idx){
+    var corpo = a.texto;
+    if(termo && termo.length > 1){
+      var re = new RegExp('('+escReg(termo)+')','gi');
+      corpo = corpo.replace(re,'<mark>$1</mark>');
+    }
+    return '<div class="artigo" id="art-'+idx+'">'
+      +'<div class="artigo-h" onclick="toggleArt(\'art-'+idx+'\')">'
+      +'<div class="art-num">'+a.num+'</div>'
+      +'<div class="art-assunto">'+a.assunto+'</div>'
+      +'<span class="art-tag at-'+a.tag+'">'+a.tagLabel+'</span>'
+      +'<i class="fas fa-chevron-down art-chev"></i>'
+      +'</div>'
+      +'<div class="artigo-corpo">'+corpo+'</div>'
+      +'</div>';
+  }).join('');
+}
+
+function toggleArt(id){
+  var el = document.getElementById(id);
+  if(!el) return;
+  el.classList.toggle('open');
+}
+
+function filtrarArtigos(termo){
+  var t = (termo||'').toLowerCase().trim();
+  if(!t){ renderArtigos(ARTIGOS,''); return; }
+  var filtrados = ARTIGOS.filter(function(a){
+    return a.num.toLowerCase().includes(t)
+      || a.assunto.toLowerCase().includes(t)
+      || a.texto.toLowerCase().includes(t)
+      || a.tags.some(function(tg){ return tg.includes(t); });
+  });
+  renderArtigos(filtrados, t);
+}
+
+function escReg(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+
+/* busca global (do hero) */
+function buscarGlobal(){
+  var inp = document.getElementById('busca-global');
+  if(!inp) return;
+  var t = inp.value.trim();
+  if(!t) return;
+  /* vai para aba da lei e filtra */
+  var abaLei = document.querySelector('[data-sec="sec-lei"]');
+  if(abaLei) trocarAba(abaLei);
+  var lbusca = document.getElementById('lei-busca');
+  if(lbusca) lbusca.value = t;
+  filtrarArtigos(t);
+  setTimeout(function(){
+    var sec = document.getElementById('sec-lei');
+    if(sec) sec.scrollIntoView({behavior:'smooth'});
+  }, 200);
+}
+
+/* ═══════════════════════════════════════════
+   ABAS
+═══════════════════════════════════════════ */
+function trocarAba(btn){
+  document.querySelectorAll('.aba').forEach(function(b){ b.classList.remove('on'); });
+  document.querySelectorAll('.sec').forEach(function(s){ s.classList.remove('on'); });
+  btn.classList.add('on');
+  var sec = document.getElementById(btn.dataset.sec);
+  if(sec) sec.classList.add('on');
+}
+
+/* ═══════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════ */
+var TT;
+function toast(msg,tipo){
+  var el=document.getElementById('toast');
+  var ico=document.getElementById('t-ico');
+  el.className='show '+(tipo||'ok');
+  ico.className='fas '+(tipo==='err'?'fa-exclamation-circle':'fa-check-circle');
+  ico.style.color=tipo==='err'?'var(--verm)':'var(--verde)';
+  document.getElementById('t-msg').textContent=msg;
+  clearTimeout(TT);
+  TT=setTimeout(function(){ el.className=''; },3200);
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVO — esconde textos do header no mobile
+═══════════════════════════════════════════ */
+function ajustarHeader(){
+  var mobile = window.innerWidth < 420;
+  ['htxt-home','htxt-fca','htxt-wpp'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.style.display = mobile ? 'none' : '';
+  });
+}
+window.addEventListener('resize', ajustarHeader);
+ajustarHeader();
+
+/* ═══════════════════════════════════════════
+   MULTA DE RESCISÃO
+═══════════════════════════════════════════ */
+var rescindente = 'inq';
+function selecionarRescindente(tipo){
+  rescindente = tipo;
+  document.getElementById('opt-inq').classList.toggle('on', tipo==='inq');
+  document.getElementById('opt-loc').classList.toggle('on', tipo==='loc');
+  document.getElementById('aviso-locador').style.display = tipo==='loc' ? 'block' : 'none';
+}
+
+function calcMulta(){
+  var aluguel = valorNumerico(document.getElementById('multa-aluguel').value);
+  var base = parseInt(document.getElementById('multa-base').value);
+  var prazo = parseInt(document.getElementById('multa-prazo').value) || 0;
+  var cumprido = parseInt(document.getElementById('multa-cumprido').value) || 0;
+  if(!aluguel){ toast('Informe o valor do aluguel','err'); return; }
+  if(!prazo || prazo < 1){ toast('Informe o prazo total do contrato','err'); return; }
+  if(cumprido >= prazo){ toast('Contrato já concluído — sem multa devida!'); return; }
+  var multaCheia = aluguel * base;
+  var restante = prazo - cumprido;
+  var pctCumprido = (cumprido / prazo);
+  var multaProporcional = multaCheia * (1 - pctCumprido);
+
+  document.getElementById('multa-valor').textContent = fmtBRL(multaProporcional);
+  document.getElementById('multa-dif').textContent = restante + ' meses restantes de ' + prazo + ' totais';
+  document.getElementById('multa-ri1').textContent = fmtBRL(multaCheia);
+  document.getElementById('multa-ri2').textContent = (pctCumprido*100).toFixed(1) + '%';
+  document.getElementById('multa-ri3').textContent = restante + ' meses';
+
+  window._multaRes = { aluguel, base, prazo, cumprido, restante, multaCheia, multaProporcional, rescindente };
+  var el = document.getElementById('res-multa');
+  el.classList.add('show');
+  el.scrollIntoView({behavior:'smooth',block:'nearest'});
+  toast('Multa calculada!');
+}
+
+function compartilharMulta(){
+  if(!window._multaRes){ toast('Calcule primeiro','err'); return; }
+  var r = window._multaRes;
+  var txt = '📋 *Multa de Rescisão — FCosta Corretor*\n\n'
+    + '👤 Rescindente: *' + (r.rescindente==='inq'?'Inquilino':'Locador') + '*\n'
+    + '🏠 Aluguel: *' + fmtBRL(r.aluguel) + '*\n'
+    + '📅 Prazo: *' + r.prazo + ' meses* · Cumprido: *' + r.cumprido + ' meses*\n'
+    + '⚠️ Multa proporcional: *' + fmtBRL(r.multaProporcional) + '*\n\n'
+    + '📞 Sérgio Costa — Corretor de Imóveis\nCRECI-SP 294791-F\n🌐 fcostacorretor.com';
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+}
+
+/* ═══════════════════════════════════════════
+   COMPARADOR ALUGAR VS COMPRAR
+═══════════════════════════════════════════ */
+function calcComparador(){
+  var aluguel = valorNumerico(document.getElementById('cmp-aluguel').value);
+  var reaj = parseFloat(document.getElementById('cmp-reaj').value)||5;
+  var encargo = valorNumerico(document.getElementById('cmp-encargo').value);
+  var imovel = valorNumerico(document.getElementById('cmp-imovel').value);
+  var entrada = valorNumerico(document.getElementById('cmp-entrada').value);
+  var juros = parseFloat(document.getElementById('cmp-juros').value)||10.5;
+  var anos = parseInt(document.getElementById('cmp-anos').value)||10;
+  var valorizacao = parseFloat(document.getElementById('cmp-valorizacao').value)||4;
+
+  if(!aluguel || !imovel){ toast('Preencha aluguel e valor do imóvel','err'); return; }
+
+  /* Cenário Alugar: soma de aluguéis com reajuste anual + encargos */
+  var totalAlug = 0, alu = aluguel;
+  for(var a=0; a<anos; a++){
+    totalAlug += alu * 12 + encargo * 12;
+    alu *= (1 + reaj/100);
+  }
+
+  /* Cenário Comprar: parcela PRICE 30 anos, patrimônio = valor imóvel valorizado - saldo devedor */
+  var financiado = imovel - entrada;
+  var prazoMeses = 30 * 12;
+  var tm = juros/100/12;
+  var parcela = financiado > 0 ? (financiado * tm * Math.pow(1+tm,prazoMeses)) / (Math.pow(1+tm,prazoMeses)-1) : 0;
+  /* Saldo devedor após N anos */
+  var mesesPagos = anos * 12;
+  var saldoDev = financiado > 0 ? financiado * Math.pow(1+tm,mesesPagos) - parcela*(Math.pow(1+tm,mesesPagos)-1)/tm : 0;
+  saldoDev = Math.max(0, saldoDev);
+  var imovelFuturo = imovel * Math.pow(1 + valorizacao/100, anos);
+  var patrimonio = imovelFuturo - saldoDev;
+  var totalPagoCompra = entrada + parcela * mesesPagos;
+
+  document.getElementById('comp-total-alug').textContent = fmtBRL(totalAlug);
+  document.getElementById('comp-sub-alug').textContent = 'Em '+anos+' anos sem acumular patrimônio';
+  document.getElementById('comp-patrim').textContent = fmtBRL(patrimonio);
+  document.getElementById('comp-sub-comp').textContent = 'Imóvel valendo '+fmtBRL(imovelFuturo)+' − saldo dev. '+fmtBRL(saldoDev);
+
+  var diferenca = patrimonio - totalAlug;
+  var verd = document.getElementById('comp-veredicto');
+  if(diferenca > 0){
+    verd.className = 'comp-veredicto';
+    verd.innerHTML = '🏆 <strong>Comprar sai melhor!</strong> Em '+anos+' anos você acumula <strong>'+fmtBRL(diferenca)+'</strong> a mais do que gastaria alugando.';
+  } else if(diferenca < -5000){
+    verd.className = 'comp-veredicto';
+    verd.style.background = 'var(--verm)';
+    verd.innerHTML = '📊 <strong>Alugar pode ser mais vantajoso</strong> neste cenário. A diferença é de <strong>'+fmtBRL(Math.abs(diferenca))+'</strong>. Considere aplicar a entrada e reavaliar.';
+  } else {
+    verd.className = 'comp-veredicto emp';
+    verd.innerHTML = '⚖️ <strong>Cenários equilibrados.</strong> A diferença é pequena — outros fatores como estabilidade e qualidade de vida devem guiar sua decisão.';
+  }
+
+  window._compRes = { aluguel, anos, totalAlug, imovel, patrimonio, diferenca };
+  document.getElementById('res-comp').style.display = 'block';
+  document.getElementById('res-comp').scrollIntoView({behavior:'smooth',block:'nearest'});
+  toast('Comparativo gerado!');
+}
+
+function compartilharComp(){
+  if(!window._compRes){ toast('Calcule primeiro','err'); return; }
+  var r = window._compRes;
+  var txt = '🏠 *Alugar ou Comprar? — FCosta Corretor*\n\n'
+    + '📅 Período analisado: *'+r.anos+' anos*\n'
+    + '💸 Total gasto alugando: *'+fmtBRL(r.totalAlug)+'*\n'
+    + '🏡 Patrimônio acumulado comprando: *'+fmtBRL(r.patrimonio)+'*\n'
+    + (r.diferenca > 0 ? '✅ Comprar é mais vantajoso por *'+fmtBRL(r.diferenca)+'*' : '📊 Alugar pode ser vantajoso neste cenário') + '\n\n'
+    + '📞 Sérgio Costa — Corretor de Imóveis\nCRECI-SP 294791-F\n🌐 fcostacorretor.com';
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+}
+
+/* ═══════════════════════════════════════════
+   CALCULADORA DE CAUÇÃO
+═══════════════════════════════════════════ */
+function calcCaucao(){
+  var aluguel = valorNumerico(document.getElementById('cau-aluguel').value);
+  var meses = parseInt(document.getElementById('cau-meses').value);
+  if(!aluguel){ toast('Informe o valor do aluguel','err'); return; }
+  var valor = aluguel * meses;
+  var maximo = aluguel * 3;
+  document.getElementById('cau-meses-txt').textContent = meses + ' mês' + (meses>1?'es':'');
+  document.getElementById('cau-valor').textContent = fmtBRL(valor);
+  document.getElementById('cau-max').textContent = fmtBRL(maximo);
+  document.getElementById('res-caucao').style.display = 'block';
+  toast('Caução calculada!');
+}
+
+/* ═══════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════ */
+function init(){
+  /* garante que o DOM está pronto antes de renderizar */
+  if(document.getElementById('artigos-wrap')){
+    renderArtigos(ARTIGOS,'');
+  }
+  carregarIndices();
+
+  /* listener do enter na busca da lei */
+  var lbusca = document.getElementById('lei-busca');
+  if(lbusca){
+    lbusca.addEventListener('input', function(){ filtrarArtigos(this.value); });
+    lbusca.addEventListener('keydown', function(e){ if(e.key==='Enter') filtrarArtigos(this.value); });
+  }
+
+  /* listener busca global */
+  var gbusca = document.getElementById('busca-global');
+  if(gbusca){
+    gbusca.addEventListener('keydown', function(e){ if(e.key==='Enter') buscarGlobal(); });
+  }
+
+  /* periodo custom */
+  var psel = document.getElementById('periodo-sel');
+  if(psel){
+    psel.addEventListener('change', function(){
+      var wrap = document.getElementById('periodo-custom-wrap');
+      if(wrap) wrap.style.display = this.value==='custom' ? 'block' : 'none';
+    });
+  }
+}
+
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+</script>
+</body>
+</html>

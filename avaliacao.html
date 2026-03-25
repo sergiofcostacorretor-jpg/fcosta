@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avaliação FCosta — Acesso Exclusivo</title>
+<meta name="description" content="Acesso exclusivo às ferramentas de avaliação e simulação imobiliária do FCosta Corretor.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --azul:#003da5;--azul-escuro:#002580;--vermelho:#dc1c2d;
+  --gold:#C9A84C;--gold-dark:#9B7A2E;--gold-light:#f5e6b8;
+  --preto:#0d1829;--branco:#fff;--cinza:#f4f6fa;--borda:#e2e8f0;
+  --sombra:0 8px 40px rgba(0,61,165,0.13);
+}
+html{scroll-behavior:smooth;overflow-x:hidden;}
+body{font-family:'DM Sans',sans-serif;background:var(--preto);color:#fff;min-height:100vh;overflow-x:hidden;}
+
+/* ===== TELA DE ACESSO ===== */
+#tela-acesso{
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;padding:24px;
+}
+.bg-animado{
+  position:absolute;inset:0;z-index:0;
+  background:radial-gradient(ellipse 80% 80% at 50% 0%,rgba(0,61,165,0.45) 0%,transparent 70%),
+             radial-gradient(ellipse 60% 60% at 80% 100%,rgba(201,168,76,0.18) 0%,transparent 70%),
+             #0d1829;
+}
+.bg-grade{
+  position:absolute;inset:0;z-index:0;
+  background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);
+  background-size:48px 48px;
+}
+.acesso-box{
+  position:relative;z-index:2;width:100%;max-width:480px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(201,168,76,0.25);
+  border-radius:24px;padding:44px 40px 40px;
+  backdrop-filter:blur(18px);
+  box-shadow:0 32px 80px rgba(0,0,0,0.55),inset 0 1px 0 rgba(255,255,255,0.08);
+  animation:entrar .7s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes entrar{from{opacity:0;transform:translateY(32px);}to{opacity:1;transform:translateY(0);}}
+
+.acesso-logo{display:flex;flex-direction:column;align-items:center;margin-bottom:32px;gap:12px;}
+.acesso-logo img{width:80px;height:80px;border-radius:50%;border:3px solid var(--gold);object-fit:cover;box-shadow:0 0 0 6px rgba(201,168,76,0.15);}
+.acesso-logo-nome{font-family:'Playfair Display',serif;font-size:22px;font-weight:800;color:#fff;letter-spacing:1px;}
+.acesso-logo-sub{font-size:11px;font-weight:700;color:var(--gold);letter-spacing:2.5px;text-transform:uppercase;}
+
+.badge-exclusivo{
+  display:inline-flex;align-items:center;gap:7px;
+  background:linear-gradient(135deg,rgba(201,168,76,0.18),rgba(201,168,76,0.08));
+  border:1px solid rgba(201,168,76,0.4);
+  color:var(--gold);font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  padding:6px 14px;border-radius:20px;margin-bottom:24px;
+}
+.acesso-titulo{font-family:'Playfair Display',serif;font-size:26px;font-weight:800;line-height:1.2;margin-bottom:8px;color:#fff;}
+.acesso-desc{font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7;margin-bottom:28px;}
+
+.form-group{margin-bottom:16px;}
+.form-label{font-size:11px;font-weight:700;color:rgba(255,255,255,0.5);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:7px;display:block;}
+.form-input{
+  width:100%;padding:13px 16px;
+  background:rgba(255,255,255,0.07);
+  border:1.5px solid rgba(255,255,255,0.12);
+  border-radius:10px;font-size:15px;color:#fff;
+  font-family:'DM Sans',sans-serif;transition:border .2s,background .2s;
+  -webkit-appearance:none;
+}
+.form-input::placeholder{color:rgba(255,255,255,0.25);}
+.form-input:focus{outline:none;border-color:var(--gold);background:rgba(255,255,255,0.10);}
+
+.form-input.erro{border-color:var(--vermelho);animation:shake .35s ease;}
+@keyframes shake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-6px);}40%,80%{transform:translateX(6px);}}
+
+.msg-erro{font-size:12px;color:#ff6b6b;margin-top:6px;display:none;}
+
+.btn-acesso{
+  width:100%;padding:15px;margin-top:8px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-dark));
+  color:var(--preto);border:none;border-radius:10px;
+  font-weight:800;font-size:15px;letter-spacing:.5px;
+  cursor:pointer;font-family:'DM Sans',sans-serif;
+  transition:all .25s;box-shadow:0 6px 24px rgba(201,168,76,0.35);
+  display:flex;align-items:center;justify-content:center;gap:9px;
+}
+.btn-acesso:hover{background:linear-gradient(135deg,#dbb84f,var(--gold));transform:translateY(-2px);box-shadow:0 12px 32px rgba(201,168,76,0.5);}
+.btn-acesso:active{transform:translateY(0);}
+.btn-acesso .spinner{display:none;width:18px;height:18px;border:2.5px solid rgba(0,0,0,0.2);border-top-color:#000;border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+.acesso-rodape{margin-top:24px;text-align:center;font-size:12px;color:rgba(255,255,255,0.3);line-height:1.6;}
+.acesso-rodape a{color:rgba(255,255,255,0.45);text-decoration:none;}
+.acesso-rodape a:hover{color:var(--gold);}
+
+/* Toast */
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(30,40,70,0.97);color:#fff;padding:14px 24px;border-radius:12px;font-size:13px;font-weight:600;border:1px solid rgba(255,255,255,0.1);box-shadow:0 8px 32px rgba(0,0,0,0.4);opacity:0;transition:all .35s;pointer-events:none;white-space:nowrap;z-index:9999;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.sucesso{border-color:rgba(37,211,102,0.4);color:#7fffc4;}
+.toast.alerta{border-color:rgba(201,168,76,0.4);color:var(--gold);}
+
+/* ===== ÁREA DE FERRAMENTAS ===== */
+#tela-ferramentas{display:none;min-height:100vh;background:#f4f6fa;color:var(--preto);}
+
+.ferr-header{
+  background:linear-gradient(135deg,var(--preto) 0%,#001d4d 100%);
+  padding:24px 28px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+  box-shadow:0 4px 24px rgba(0,0,0,0.4);
+  flex-wrap:wrap;gap:12px;
+}
+.ferr-header-brand{display:flex;align-items:center;gap:14px;}
+.ferr-header-brand img{width:44px;height:44px;border-radius:50%;border:2px solid var(--gold);object-fit:cover;}
+.ferr-header-brand-txt .nome{font-family:'Playfair Display',serif;font-size:17px;font-weight:800;color:#fff;}
+.ferr-header-brand-txt .sub{font-size:10px;color:var(--gold);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;}
+.ferr-header-btns{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.btn-sair{background:rgba(220,28,45,0.15);border:1px solid rgba(220,28,45,0.35);color:#ff8a8a;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;display:flex;align-items:center;gap:6px;}
+.btn-sair:hover{background:var(--vermelho);color:#fff;border-color:var(--vermelho);}
+.btn-voltar-site{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.7);padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;text-decoration:none;display:flex;align-items:center;gap:6px;}
+.btn-voltar-site:hover{background:rgba(255,255,255,0.15);color:#fff;}
+
+.ferr-admin-badge{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--preto);padding:5px 12px;border-radius:20px;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;}
+
+.ferr-main{max-width:900px;margin:0 auto;padding:40px 24px 80px;}
+
+.ferr-welcome{background:linear-gradient(135deg,#fff8e6,#fef3cc);border:1.5px solid rgba(201,168,76,0.35);border-radius:18px;padding:28px 32px;margin-bottom:36px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+.ferr-welcome-icon{font-size:44px;flex-shrink:0;}
+.ferr-welcome-txt h2{font-family:'Playfair Display',serif;font-size:22px;font-weight:800;color:var(--preto);margin-bottom:4px;}
+.ferr-welcome-txt p{font-size:14px;color:#5a4a1e;line-height:1.6;}
+
+.ferr-secao-titulo{font-family:'Playfair Display',serif;font-size:22px;font-weight:800;color:var(--preto);margin-bottom:20px;padding-left:14px;border-left:4px solid var(--vermelho);display:flex;align-items:center;gap:10px;}
+.ferr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-bottom:48px;}
+
+.tool-card{background:#fff;border-radius:16px;padding:24px;box-shadow:0 4px 20px rgba(0,61,165,0.08);border:2px solid transparent;cursor:pointer;transition:all .25s;text-align:left;}
+.tool-card:hover{border-color:var(--azul);transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,61,165,0.16);}
+.tool-card.gold:hover{border-color:var(--gold);}
+.tool-card-icon{width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:14px;flex-shrink:0;}
+.tool-card-nome{font-weight:800;font-size:16px;color:var(--preto);margin-bottom:6px;}
+.tool-card-desc{font-size:13px;color:#666;line-height:1.6;}
+.tool-card-badge{display:inline-block;font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px;margin-top:10px;letter-spacing:.8px;text-transform:uppercase;}
+
+/* ===== SIMULADOR INTERNO ===== */
+.sim-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);}
+.sim-overlay.ativo{display:flex;}
+.sim-box{background:#fff;width:100%;max-width:620px;max-height:92vh;border-radius:24px 24px 0 0;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.sim-box-header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--borda);padding:18px 22px;display:flex;align-items:center;justify-content:space-between;z-index:10;}
+.sim-box-header h3{font-family:'Playfair Display',serif;font-size:18px;font-weight:800;color:var(--preto);}
+.sim-close{background:var(--cinza);border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--preto);}
+.sim-body{padding:24px 22px 32px;}
+.sim-row{margin-bottom:16px;}
+.sim-label{font-size:11px;font-weight:700;color:#888;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:block;}
+.sim-input,.sim-select{width:100%;padding:12px 14px;border:1.5px solid var(--borda);border-radius:9px;font-size:15px;font-family:'DM Sans',sans-serif;color:var(--preto);background:#fff;transition:border .2s;}
+.sim-input:focus,.sim-select:focus{outline:none;border-color:var(--azul);}
+.btn-calcular{width:100%;padding:14px;background:var(--azul);color:#fff;border:none;border-radius:10px;font-weight:800;font-size:15px;cursor:pointer;font-family:inherit;transition:background .2s;margin-top:6px;}
+.btn-calcular:hover{background:var(--azul-escuro);}
+.resultado-box{background:linear-gradient(135deg,#f0f5ff,#e8f0ff);border:1px solid rgba(0,61,165,0.15);border-radius:12px;padding:20px;margin-top:18px;display:none;}
+.resultado-box.visivel{display:block;}
+.resultado-label{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.resultado-valor{font-size:28px;font-weight:800;color:var(--vermelho);margin-bottom:12px;line-height:1.2;}
+.resultado-detalhes{font-size:13px;color:var(--preto);line-height:1.8;}
+.resultado-detalhes strong{color:var(--azul);}
+.btn-wpp-resultado{width:100%;padding:13px;background:#25d366;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;margin-top:14px;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .2s;}
+.btn-wpp-resultado:hover{background:#1da852;}
+
+/* Tabs simulador */
+.sim-tabs{display:flex;border-bottom:2px solid var(--borda);overflow-x:auto;margin-bottom:0;}
+.sim-tab{padding:13px 18px;font-weight:700;font-size:13px;color:#888;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .2s;}
+.sim-tab.ativo{color:var(--azul);border-bottom-color:var(--azul);}
+.sim-tab-body{padding:22px;}
+.sim-tab-body.oculto{display:none;}
+
+/* Índices info */
+.indice-info-box{background:#fff8e1;border:1px solid #f59e0b;border-radius:10px;padding:13px 15px;font-size:12.5px;color:#92400e;line-height:1.7;margin-top:6px;}
+.indices-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.indice-card{background:#f4f6fa;border-radius:10px;padding:12px 14px;border:1.5px solid var(--borda);}
+.indice-card.destaque{border-color:var(--azul);background:#f0f5ff;}
+.indice-card .ic-nome{font-weight:800;font-size:13px;color:var(--preto);margin-bottom:3px;}
+.indice-card .ic-desc{font-size:11px;color:#666;line-height:1.4;}
+.indice-card .ic-badge{font-size:10px;font-weight:700;color:var(--azul);margin-top:5px;}
+
+/* Financiamento */
+.fin-row-dupla{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:500px){.fin-row-dupla{grid-template-columns:1fr;}}
+
+/* === Lei do Inquilinato === */
+.lei-secao{margin-bottom:22px;}
+.lei-secao h4{font-family:'Playfair Display',serif;font-size:15px;font-weight:800;color:var(--preto);margin-bottom:8px;padding-left:11px;border-left:4px solid var(--vermelho);}
+.lei-artigo{background:#f4f6fa;border-radius:8px;padding:12px 14px;margin-bottom:10px;border-left:3px solid var(--azul);}
+.lei-artigo .art-num{font-size:11px;font-weight:700;color:var(--azul);text-transform:uppercase;letter-spacing:.8px;}
+.lei-artigo p{font-size:13px;margin-top:4px;line-height:1.7;color:var(--preto);}
+
+/* Admin painel extra */
+.admin-section{background:linear-gradient(135deg,#0d1829,#001d4d);border-radius:18px;padding:28px;margin-bottom:24px;border:1px solid rgba(201,168,76,0.2);}
+.admin-section h3{font-family:'Playfair Display',serif;font-size:18px;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.admin-item{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px;text-decoration:none;}
+.admin-item:hover{background:rgba(255,255,255,0.10);border-color:rgba(201,168,76,0.3);}
+.admin-item i{font-size:18px;color:var(--gold);width:24px;flex-shrink:0;}
+.admin-item-txt .nome{font-weight:700;font-size:14px;color:#fff;}
+.admin-item-txt .desc{font-size:12px;color:rgba(255,255,255,0.45);margin-top:2px;}
+
+/* Responsivo */
+@media(max-width:600px){
+  .acesso-box{padding:32px 22px 28px;}
+  .ferr-main{padding:28px 16px 60px;}
+  .ferr-welcome{padding:20px;}
+  .indices-grid{grid-template-columns:1fr;}
+}
+@media(max-width:380px){
+  .acesso-titulo{font-size:22px;}
+  .acesso-box{padding:28px 16px 24px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ==============================
+     TELA DE ACESSO (FORMULÁRIO)
+     ============================== -->
+<div id="tela-acesso">
+  <div class="bg-animado"></div>
+  <div class="bg-grade"></div>
+
+  <div class="acesso-box">
+    <div class="acesso-logo">
+      <img src="https://i.postimg.cc/xTQzc3RV/495379823-122128221800669140-5238985291153506093-n-photoaidcom-cropped.png" alt="FCosta Corretor">
+      <div>
+        <div class="acesso-logo-nome">FCosta Corretor</div>
+        <div class="acesso-logo-sub">CRECI-SP 294791-F &nbsp;·&nbsp; CNAI 52708</div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-bottom:28px;">
+      <div class="badge-exclusivo"><i class="fas fa-lock"></i> Área Exclusiva</div>
+      <div class="acesso-titulo">Avaliações &<br>Simulações</div>
+      <div class="acesso-desc">Preencha seus dados para receber acesso gratuito às nossas ferramentas exclusivas de avaliação imobiliária.</div>
+    </div>
+
+    <div id="form-acesso">
+      <div class="form-group">
+        <label class="form-label" for="inp-nome">Seu nome completo *</label>
+        <input class="form-input" id="inp-nome" type="text" placeholder="Ex: Maria Silva" autocomplete="name">
+        <div class="msg-erro" id="err-nome">Por favor, informe seu nome.</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inp-tel">WhatsApp / Telefone *</label>
+        <input class="form-input" id="inp-tel" type="tel" placeholder="(11) 99999-9999" inputmode="tel" autocomplete="tel">
+        <div class="msg-erro" id="err-tel">Por favor, informe seu telefone.</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inp-interesse">Qual seu interesse? *</label>
+        <select class="form-input" id="inp-interesse" style="cursor:pointer;">
+          <option value="">Selecione uma opção...</option>
+          <option value="Comprar imóvel">🏠 Comprar imóvel</option>
+          <option value="Vender imóvel">💰 Vender imóvel</option>
+          <option value="Alugar imóvel">🔑 Alugar imóvel</option>
+          <option value="Avaliar meu imóvel">📊 Avaliar meu imóvel</option>
+          <option value="Financiamento imobiliário">🏦 Financiamento imobiliário</option>
+          <option value="Simular reajuste de aluguel">📋 Simular reajuste de aluguel</option>
+          <option value="Tirar dúvidas gerais">❓ Tirar dúvidas gerais</option>
+        </select>
+        <div class="msg-erro" id="err-interesse">Por favor, selecione seu interesse.</div>
+      </div>
+
+      <button class="btn-acesso" id="btn-acessar" onclick="solicitarAcesso()">
+        <span id="btn-texto"><i class="fas fa-unlock-alt"></i> Solicitar Acesso Gratuito</span>
+        <div class="spinner" id="btn-spinner"></div>
+      </button>
+
+      <div class="acesso-rodape">
+        <p>Seus dados são tratados com sigilo e privacidade.<br>
+        Ao continuar, você concorda com nossa <a href="https://fcostacorretor.com/politica-de-privacidade" target="_blank">Política de Privacidade</a>.</p>
+        <p style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.2);">v2026 · <a href="https://fcostacorretor.com" target="_blank">fcostacorretor.com</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==============================
+     ÁREA DE FERRAMENTAS
+     ============================== -->
+<div id="tela-ferramentas">
+  <div class="ferr-header">
+    <div class="ferr-header-brand">
+      <img src="https://i.postimg.cc/xTQzc3RV/495379823-122128221800669140-5238985291153506093-n-photoaidcom-cropped.png" alt="FCosta">
+      <div class="ferr-header-brand-txt">
+        <div class="nome">FCosta Corretor</div>
+        <div class="sub">Avaliações & Simulações</div>
+      </div>
+    </div>
+    <div class="ferr-header-btns">
+      <div class="ferr-admin-badge" id="badge-admin" style="display:none;"><i class="fas fa-shield-alt"></i> Admin</div>
+      <a href="https://fcostacorretor.com" class="btn-voltar-site"><i class="fas fa-home"></i> Site</a>
+      <button class="btn-sair" onclick="sair()"><i class="fas fa-sign-out-alt"></i> Sair</button>
+    </div>
+  </div>
+
+  <div class="ferr-main">
+
+    <!-- Bem-vindo -->
+    <div class="ferr-welcome" id="ferr-welcome-box">
+      <div class="ferr-welcome-icon">👋</div>
+      <div class="ferr-welcome-txt">
+        <h2 id="ferr-welcome-nome">Bem-vindo!</h2>
+        <p>Você tem acesso às ferramentas exclusivas de avaliação e simulação imobiliária do FCosta Corretor. Use à vontade!</p>
+      </div>
+    </div>
+
+    <!-- Admin extra -->
+    <div class="admin-section" id="admin-section" style="display:none;">
+      <h3><i class="fas fa-shield-alt"></i> Painel do Administrador</h3>
+      <a href="https://fcostacorretor.com/cadastro.html" target="_blank" class="admin-item">
+        <i class="fas fa-database"></i>
+        <div class="admin-item-txt"><div class="nome">Gerenciar Imóveis (ADM)</div><div class="desc">Cadastrar, editar e remover imóveis do sistema</div></div>
+        <i class="fas fa-external-link-alt" style="color:rgba(255,255,255,0.3);font-size:12px;margin-left:auto;"></i>
+      </a>
+      <a href="https://fcostacorretor.com/portal-do-investidor" target="_blank" class="admin-item">
+        <i class="fas fa-chart-line"></i>
+        <div class="admin-item-txt"><div class="nome">Portal do Investidor</div><div class="desc">MCMV 2026 e ferramentas avançadas</div></div>
+        <i class="fas fa-external-link-alt" style="color:rgba(255,255,255,0.3);font-size:12px;margin-left:auto;"></i>
+      </a>
+      <a href="tel:5511993509109" class="admin-item">
+        <i class="fas fa-phone"></i>
+        <div class="admin-item-txt"><div class="nome">Contato Direto</div><div class="desc">(11) 99350-9109</div></div>
+      </a>
+    </div>
+
+    <!-- Ferramentas -->
+    <div class="ferr-secao-titulo"><i class="fas fa-calculator" style="color:var(--azul);font-size:20px;"></i> Simuladores</div>
+    <div class="ferr-grid">
+
+      <div class="tool-card" onclick="abrirSim('reajuste')">
+        <div class="tool-card-icon" style="background:#fff3e0;color:#e65100;"><i class="fas fa-file-contract"></i></div>
+        <div class="tool-card-nome">Reajuste de Aluguel</div>
+        <div class="tool-card-desc">Calcule o reajuste pelo IGP-M, IPCA, INPC, IPC-FIPE, IVAR ou percentual manual.</div>
+        <span class="tool-card-badge" style="background:#fff3e0;color:#e65100;">IGP-M · IPCA · INPC</span>
+      </div>
+
+      <div class="tool-card" onclick="abrirSim('financiamento')">
+        <div class="tool-card-icon" style="background:#e8f0ff;color:var(--azul);"><i class="fas fa-home"></i></div>
+        <div class="tool-card-nome">Simulador de Financiamento</div>
+        <div class="tool-card-desc">Estime parcelas SAC ou PRICE para financiamento imobiliário com taxa e prazo customizáveis.</div>
+        <span class="tool-card-badge" style="background:#e8f0ff;color:var(--azul);">SAC · PRICE · FGTS</span>
+      </div>
+
+      <div class="tool-card" onclick="abrirSim('rentabilidade')">
+        <div class="tool-card-icon" style="background:#e8fdf2;color:#16a34a;"><i class="fas fa-chart-line"></i></div>
+        <div class="tool-card-nome">Rentabilidade do Imóvel</div>
+        <div class="tool-card-desc">Descubra o rendimento anual do aluguel em relação ao valor do imóvel.</div>
+        <span class="tool-card-badge" style="background:#e8fdf2;color:#16a34a;">Yield · ROI</span>
+      </div>
+
+      <div class="tool-card gold" onclick="abrirSim('avaliacao')">
+        <div class="tool-card-icon" style="background:rgba(201,168,76,0.12);color:var(--gold);"><i class="fas fa-search-dollar"></i></div>
+        <div class="tool-card-nome">Avaliação Estimada</div>
+        <div class="tool-card-desc">Estime o valor de mercado do seu imóvel com base em localização, metragem e características.</div>
+        <span class="tool-card-badge" style="background:var(--gold);color:var(--preto);">EXCLUSIVO</span>
+      </div>
+
+    </div>
+
+    <div class="ferr-secao-titulo" style="border-left-color:var(--gold);"><i class="fas fa-balance-scale" style="color:var(--gold);font-size:20px;"></i> Informações Legais</div>
+    <div class="ferr-grid">
+      <div class="tool-card" onclick="abrirSim('lei')">
+        <div class="tool-card-icon" style="background:#ffeaeb;color:var(--vermelho);"><i class="fas fa-gavel"></i></div>
+        <div class="tool-card-nome">Lei do Inquilinato</div>
+        <div class="tool-card-desc">Resumo dos principais artigos da Lei 8.245/91 sobre direitos e deveres em locações.</div>
+        <span class="tool-card-badge" style="background:#ffeaeb;color:var(--vermelho);">Lei 8.245/91</span>
+      </div>
+      <div class="tool-card" onclick="abrirSim('indices')">
+        <div class="tool-card-icon" style="background:#f3e8ff;color:#9333ea;"><i class="fas fa-chart-bar"></i></div>
+        <div class="tool-card-nome">Índices Econômicos</div>
+        <div class="tool-card-desc">Consulte os valores atuais dos principais índices usados em contratos de aluguel.</div>
+        <span class="tool-card-badge" style="background:#f3e8ff;color:#9333ea;">Atualizado fev/2026</span>
+      </div>
+    </div>
+
+    <div style="background:linear-gradient(135deg,#003da5,#001d4d);border-radius:18px;padding:28px;text-align:center;">
+      <div style="font-size:36px;margin-bottom:12px;">💬</div>
+      <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:800;color:#fff;margin-bottom:8px;">Precisa de uma avaliação real?</div>
+      <div style="font-size:14px;color:rgba(255,255,255,0.65);margin-bottom:20px;">Fale diretamente com o Sergio Costa — CRECI-SP 294791-F</div>
+      <a href="https://wa.me/5511993509109?text=Olá!%20Estou%20na%20página%20de%20avaliações%20do%20FCosta%20e%20gostaria%20de%20uma%20avaliação%20real%20do%20meu%20imóvel." target="_blank" style="display:inline-flex;align-items:center;gap:9px;background:#25d366;color:#fff;text-decoration:none;border-radius:10px;padding:14px 28px;font-weight:800;font-size:15px;transition:background .2s;" onmouseover="this.style.background='#1da852'" onmouseout="this.style.background='#25d366'"><i class="fab fa-whatsapp" style="font-size:20px;"></i> Falar com o Corretor</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==============================
+     MODAIS SIMULADORES
+     ============================== -->
+<div class="sim-overlay" id="sim-overlay" onclick="fecharSim(event)">
+  <div class="sim-box" onclick="event.stopPropagation()">
+    <div class="sim-box-header">
+      <h3 id="sim-titulo">Simulador</h3>
+      <button class="sim-close" onclick="fecharSim()"><i class="fas fa-times"></i></button>
+    </div>
+
+    <!-- REAJUSTE -->
+    <div id="sim-reajuste" style="display:none;">
+      <div class="sim-tabs">
+        <div class="sim-tab ativo" onclick="simTab('reaj-calc','reajuste')">🧮 Calcular</div>
+        <div class="sim-tab" onclick="simTab('reaj-indices','reajuste')">📊 Índices</div>
+        <div class="sim-tab" onclick="simTab('reaj-lei','reajuste')">📋 Lei</div>
+      </div>
+      <div id="reaj-calc" class="sim-tab-body">
+        <div class="sim-row"><label class="sim-label">Valor atual do aluguel (R$)</label><input class="sim-input" type="number" id="reaj-valor" placeholder="Ex: 1500" inputmode="decimal"></div>
+        <div class="sim-row"><label class="sim-label">Índice</label>
+          <select class="sim-select" id="reaj-indice" onchange="reajInfoIndice()">
+            <option value="igpm">IGP-M (FGV) — Mais usado</option>
+            <option value="ipca">IPCA (IBGE) — Inflação oficial</option>
+            <option value="inpc">INPC (IBGE) — Menor renda</option>
+            <option value="ipc">IPC-FIPE — São Paulo</option>
+            <option value="ivar">IVAR (FGV) — Aluguéis</option>
+            <option value="cub">CUB — Construção civil</option>
+            <option value="manual">Informar percentual manualmente</option>
+          </select>
+        </div>
+        <div class="sim-row" id="reaj-row-manual" style="display:none;"><label class="sim-label">Percentual (%)</label><input class="sim-input" type="number" id="reaj-perc" placeholder="Ex: 5,72" step="0.01"></div>
+        <div class="indice-info-box" id="reaj-info"></div>
+        <button class="btn-calcular" onclick="calcReajuste()" style="margin-top:14px;"><i class="fas fa-calculator"></i> Calcular</button>
+        <div class="resultado-box" id="reaj-resultado">
+          <div class="resultado-label">Novo valor do aluguel</div>
+          <div class="resultado-valor" id="reaj-res-valor"></div>
+          <div class="resultado-detalhes" id="reaj-res-det"></div>
+          <button class="btn-wpp-resultado" onclick="wppReajuste()"><i class="fab fa-whatsapp"></i> Enviar resultado ao corretor</button>
+        </div>
+      </div>
+      <div id="reaj-indices" class="sim-tab-body oculto">
+        <div class="indices-grid">
+          <div class="indice-card destaque"><div class="ic-nome">📈 IGP-M</div><div class="ic-desc">O mais utilizado em contratos. Reflete preços no atacado, varejo e construção (FGV).</div><div class="ic-badge">⭐ 6,38% a.a. (fev/26)</div></div>
+          <div class="indice-card"><div class="ic-nome">📊 IPCA</div><div class="ic-desc">Inflação oficial do governo (IBGE). Crescentemente adotado em contratos.</div><div class="ic-badge">5,06% a.a. (fev/26)</div></div>
+          <div class="indice-card"><div class="ic-nome">📉 INPC</div><div class="ic-desc">Famílias de menor renda (IBGE).</div><div class="ic-badge">5,21% a.a. (fev/26)</div></div>
+          <div class="indice-card"><div class="ic-nome">🏙️ IPC-FIPE</div><div class="ic-desc">Calculado para São Paulo. Bom para a capital paulista.</div><div class="ic-badge">5,44% a.a. (fev/26)</div></div>
+          <div class="indice-card"><div class="ic-nome">🏠 IVAR</div><div class="ic-desc">Variação de aluguéis residenciais (FGV, desde 2022).</div><div class="ic-badge">8,15% a.a. (fev/26)</div></div>
+          <div class="indice-card"><div class="ic-nome">🏗️ CUB</div><div class="ic-desc">Custo de construção (SINDUSCON-SP).</div><div class="ic-badge">6,90% a.a. (jan/26)</div></div>
+        </div>
+        <div class="indice-info-box"><strong>⚖️ Atenção:</strong> O índice deve estar no contrato. Reajuste só pode ser aplicado após 12 meses (Art. 17 e 18 da Lei 8.245/91).</div>
+      </div>
+      <div id="reaj-lei" class="sim-tab-body oculto">
+        <div class="lei-secao"><h4>Reajuste — Art. 17 e 18</h4><div class="lei-artigo"><div class="art-num">Art. 17</div><p>É livre a convenção do aluguel, vedada a estipulação em moeda estrangeira e a vinculação à variação cambial.</p></div><div class="lei-artigo"><div class="art-num">Art. 18</div><p>É lícito às partes fixar, de comum acordo, novo valor para o aluguel, bem como inserir ou modificar cláusula de reajuste.</p></div></div>
+        <div class="lei-secao"><h4>Garantias — Art. 37</h4><div class="lei-artigo"><div class="art-num">Art. 43</div><p>É vedada a exigência de mais de uma modalidade de garantia no mesmo contrato de locação.</p></div></div>
+        <div class="lei-secao"><h4>Preferência de compra — Art. 27</h4><div class="lei-artigo"><div class="art-num">Art. 27</div><p>O inquilino tem preferência para adquirir o imóvel locado, em igualdade de condições. O proprietário deve notificá-lo com 30 dias de antecedência.</p></div></div>
+      </div>
+    </div>
+
+    <!-- FINANCIAMENTO -->
+    <div id="sim-financiamento" style="display:none;">
+      <div class="sim-body">
+        <div class="sim-row"><label class="sim-label">Valor do imóvel (R$)</label><input class="sim-input" type="number" id="fin-imovel" placeholder="Ex: 350000" inputmode="decimal"></div>
+        <div class="sim-row"><label class="sim-label">Entrada (R$)</label><input class="sim-input" type="number" id="fin-entrada" placeholder="Ex: 70000" inputmode="decimal"></div>
+        <div class="fin-row-dupla sim-row">
+          <div><label class="sim-label">Prazo (meses)</label><input class="sim-input" type="number" id="fin-prazo" placeholder="360" value="360" inputmode="numeric"></div>
+          <div><label class="sim-label">Taxa anual (%)</label><input class="sim-input" type="number" id="fin-taxa" placeholder="10,5" value="10.5" step="0.1" inputmode="decimal"></div>
+        </div>
+        <div class="sim-row"><label class="sim-label">Sistema de amortização</label>
+          <select class="sim-select" id="fin-sistema">
+            <option value="price">Tabela PRICE (parcelas fixas)</option>
+            <option value="sac">SAC (parcelas decrescentes)</option>
+          </select>
+        </div>
+        <button class="btn-calcular" onclick="calcFinanciamento()"><i class="fas fa-calculator"></i> Simular</button>
+        <div class="resultado-box" id="fin-resultado">
+          <div class="resultado-label">1ª Parcela estimada</div>
+          <div class="resultado-valor" id="fin-res-valor"></div>
+          <div class="resultado-detalhes" id="fin-res-det"></div>
+          <button class="btn-wpp-resultado" onclick="wppFinanciamento()"><i class="fab fa-whatsapp"></i> Falar com o corretor sobre financiamento</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RENTABILIDADE -->
+    <div id="sim-rentabilidade" style="display:none;">
+      <div class="sim-body">
+        <div class="sim-row"><label class="sim-label">Valor do imóvel (R$)</label><input class="sim-input" type="number" id="rent-imovel" placeholder="Ex: 400000" inputmode="decimal"></div>
+        <div class="sim-row"><label class="sim-label">Aluguel mensal recebido (R$)</label><input class="sim-input" type="number" id="rent-aluguel" placeholder="Ex: 2500" inputmode="decimal"></div>
+        <div class="sim-row"><label class="sim-label">Despesas mensais (condomínio, IPTU etc.) (R$)</label><input class="sim-input" type="number" id="rent-despesas" placeholder="Ex: 300 (opcional)" inputmode="decimal"></div>
+        <button class="btn-calcular" onclick="calcRentabilidade()"><i class="fas fa-calculator"></i> Calcular Rentabilidade</button>
+        <div class="resultado-box" id="rent-resultado">
+          <div class="resultado-label">Yield bruto anual</div>
+          <div class="resultado-valor" id="rent-res-valor"></div>
+          <div class="resultado-detalhes" id="rent-res-det"></div>
+          <button class="btn-wpp-resultado" onclick="wppRentabilidade()"><i class="fab fa-whatsapp"></i> Consultar o corretor</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AVALIAÇÃO ESTIMADA -->
+    <div id="sim-avaliacao" style="display:none;">
+      <div class="sim-body">
+        <div class="indice-info-box" style="margin-bottom:16px;"><strong>📌 Estimativa indicativa:</strong> Esta avaliação é baseada em parâmetros gerais do mercado paulistano. Para uma avaliação precisa e personalizada, fale com o Sergio Costa.</div>
+        <div class="sim-row"><label class="sim-label">Tipo do imóvel</label>
+          <select class="sim-select" id="aval-tipo">
+            <option value="ap">Apartamento</option>
+            <option value="casa">Casa</option>
+            <option value="comercial">Comercial / Sala</option>
+            <option value="terreno">Terreno</option>
+          </select>
+        </div>
+        <div class="sim-row"><label class="sim-label">Área útil (m²)</label><input class="sim-input" type="number" id="aval-area" placeholder="Ex: 65" inputmode="decimal"></div>
+        <div class="sim-row"><label class="sim-label">Zona de São Paulo</label>
+          <select class="sim-select" id="aval-zona">
+            <option value="leste">Zona Leste (Itaim Paulista, Guaianases...)</option>
+            <option value="norte">Zona Norte</option>
+            <option value="sul">Zona Sul</option>
+            <option value="oeste">Zona Oeste</option>
+            <option value="centro">Centro Expandido</option>
+          </select>
+        </div>
+        <div class="sim-row"><label class="sim-label">Estado de conservação</label>
+          <select class="sim-select" id="aval-estado">
+            <option value="otimo">Ótimo / Reformado</option>
+            <option value="bom">Bom</option>
+            <option value="regular">Regular</option>
+            <option value="precisaReforma">Precisa de reforma</option>
+          </select>
+        </div>
+        <button class="btn-calcular" onclick="calcAvaliacao()"><i class="fas fa-search-dollar"></i> Estimar Valor</button>
+        <div class="resultado-box" id="aval-resultado">
+          <div class="resultado-label">Faixa de valor estimada</div>
+          <div class="resultado-valor" id="aval-res-valor"></div>
+          <div class="resultado-detalhes" id="aval-res-det"></div>
+          <button class="btn-wpp-resultado" onclick="wppAvaliacao()"><i class="fab fa-whatsapp"></i> Quero uma avaliação real</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ÍNDICES -->
+    <div id="sim-indices" style="display:none;">
+      <div class="sim-body">
+        <div class="indices-grid">
+          <div class="indice-card destaque"><div class="ic-nome">📈 IGP-M</div><div class="ic-desc">Índice Geral de Preços – Mercado (FGV). Mais usado em contratos de aluguel.</div><div class="ic-badge">⭐ 6,38% a.a. (fev/2026)</div></div>
+          <div class="indice-card"><div class="ic-nome">📊 IPCA</div><div class="ic-desc">Inflação oficial (IBGE). Alternativa ao IGP-M muito aceita atualmente.</div><div class="ic-badge">5,06% a.a. (fev/2026)</div></div>
+          <div class="indice-card"><div class="ic-nome">📉 INPC</div><div class="ic-desc">Índice Nacional de Preços ao Consumidor (IBGE), para famílias de menor renda.</div><div class="ic-badge">5,21% a.a. (fev/2026)</div></div>
+          <div class="indice-card"><div class="ic-nome">🏙️ IPC-FIPE</div><div class="ic-desc">Índice de Preços ao Consumidor calculado para São Paulo.</div><div class="ic-badge">5,44% a.a. (fev/2026)</div></div>
+          <div class="indice-card"><div class="ic-nome">🏠 IVAR</div><div class="ic-desc">Índice de Variação de Aluguéis Residenciais (FGV, desde 2022).</div><div class="ic-badge">8,15% a.a. (fev/2026)</div></div>
+          <div class="indice-card"><div class="ic-nome">🏗️ CUB</div><div class="ic-desc">Custo Unitário Básico de Construção (SINDUSCON-SP). Usado em lançamentos.</div><div class="ic-badge">6,90% a.a. (jan/2026)</div></div>
+        </div>
+        <div class="indice-info-box"><strong>⚖️ Importante:</strong> O índice deve estar previsto no contrato de locação. O reajuste só pode ser aplicado após 12 meses conforme Art. 17 e 18 da Lei 8.245/91.</div>
+      </div>
+    </div>
+
+    <!-- LEI -->
+    <div id="sim-lei" style="display:none;">
+      <div class="sim-body">
+        <div class="lei-secao"><h4>Lei nº 8.245/1991 — Inquilinato</h4><p style="font-size:13px;color:#555;line-height:1.7;">Regula as locações de imóveis urbanos no Brasil. Protege direitos e deveres de proprietários e inquilinos.</p></div>
+        <div class="lei-secao"><h4>Reajuste do Aluguel</h4><div class="lei-artigo"><div class="art-num">Art. 17 e 18</div><p>É livre a convenção do aluguel. O reajuste pelo índice contratado só pode ocorrer <strong>a cada 12 meses</strong>.</p></div></div>
+        <div class="lei-secao"><h4>Garantias Locatícias</h4><div class="lei-artigo"><div class="art-num">Art. 37</div><p>São modalidades de garantia: <strong>caução, fiança, seguro de fiança locatícia e cessão fiduciária de cotas</strong>.</p></div><div class="lei-artigo"><div class="art-num">Art. 43</div><p>É vedada a exigência de mais de uma modalidade de garantia no mesmo contrato.</p></div></div>
+        <div class="lei-secao"><h4>Preferência de Compra</h4><div class="lei-artigo"><div class="art-num">Art. 27</div><p>O inquilino tem <strong>preferência de compra</strong> em igualdade de condições com 30 dias de antecedência na notificação.</p></div></div>
+        <div class="lei-secao"><h4>Denúncia Vazia</h4><div class="lei-artigo"><div class="art-num">Art. 46</div><p>Após 30 meses de contrato, o proprietário pode retomar o imóvel sem precisar apresentar motivo (denúncia vazia).</p></div></div>
+        <a href="https://wa.me/5511993509109?text=Olá%20Sergio!%20Tenho%20dúvidas%20sobre%20a%20Lei%20do%20Inquilinato." target="_blank" style="display:flex;align-items:center;justify-content:center;gap:9px;background:#25d366;color:#fff;text-decoration:none;border-radius:10px;padding:13px;font-weight:700;font-size:14px;margin-top:10px;transition:background .2s;" onmouseover="this.style.background='#1da852'" onmouseout="this.style.background='#25d366'"><i class="fab fa-whatsapp"></i> Tirar dúvidas com o FCosta</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================
+// DADOS
+// ============================
+const INDICES = {
+  igpm:{valor:6.38,sigla:'IGP-M',fonte:'IGP-M/FGV — Acumulado 12 meses (fev/2026)'},
+  ipca:{valor:5.06,sigla:'IPCA',fonte:'IPCA/IBGE — Acumulado 12 meses (fev/2026)'},
+  inpc:{valor:5.21,sigla:'INPC',fonte:'INPC/IBGE — Acumulado 12 meses (fev/2026)'},
+  ipc:{valor:5.44,sigla:'IPC-FIPE',fonte:'IPC-FIPE — Acumulado 12 meses (fev/2026)'},
+  ivar:{valor:8.15,sigla:'IVAR',fonte:'IVAR/FGV — Acumulado 12 meses (fev/2026)'},
+  cub:{valor:6.90,sigla:'CUB',fonte:'CUB/SINDUSCON-SP — Acumulado 12 meses (jan/2026)'},
+};
+
+const ADMIN_PASS = '1020';
+let usuarioNome = '';
+let isAdmin = false;
+
+// ============================
+// TOAST
+// ============================
+function toast(msg, tipo=''){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast '+(tipo||'');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3200);
+}
+
+// ============================
+// FORMULÁRIO DE ACESSO
+// ============================
+function solicitarAcesso(){
+  const nome = document.getElementById('inp-nome').value.trim();
+  const tel  = document.getElementById('inp-tel').value.trim();
+  const int  = document.getElementById('inp-interesse').value;
+
+  // Limpar erros
+  ['nome','tel','interesse'].forEach(f=>{
+    document.getElementById('inp-'+f).classList.remove('erro');
+    document.getElementById('err-'+f).style.display='none';
+  });
+
+  // Verificar senha admin em qualquer campo
+  if(nome===ADMIN_PASS||tel===ADMIN_PASS||int===ADMIN_PASS){
+    entrarAdmin();
+    return;
+  }
+
+  let ok=true;
+  if(!nome){document.getElementById('inp-nome').classList.add('erro');document.getElementById('err-nome').style.display='block';ok=false;}
+  if(!tel||tel.replace(/\D/g,'').length<8){document.getElementById('inp-tel').classList.add('erro');document.getElementById('err-tel').style.display='block';ok=false;}
+  if(!int){document.getElementById('inp-interesse').classList.add('erro');document.getElementById('err-interesse').style.display='block';ok=false;}
+  if(!ok)return;
+
+  // Loading
+  const btn=document.getElementById('btn-acessar');
+  document.getElementById('btn-texto').style.display='none';
+  document.getElementById('btn-spinner').style.display='block';
+  btn.disabled=true;
+
+  // Enviar WhatsApp
+  const msg=encodeURIComponent(
+    '🔑 *Solicitação de Acesso — Avaliações FCosta*\n\n'+
+    '👤 *Nome:* '+nome+'\n'+
+    '📱 *WhatsApp:* '+tel+'\n'+
+    '🏠 *Interesse:* '+int+'\n\n'+
+    '_Enviado pela página de Avaliações_'
+  );
+
+  // Abre WhatsApp em nova aba
+  window.open('https://wa.me/5511993509109?text='+msg,'_blank');
+
+  usuarioNome = nome;
+
+  setTimeout(()=>{
+    btn.disabled=false;
+    document.getElementById('btn-texto').style.display='flex';
+    document.getElementById('btn-spinner').style.display='none';
+    entrarFerramentas(false);
+  },800);
+}
+
+function entrarAdmin(){
+  isAdmin=true;
+  usuarioNome='Administrador';
+  entrarFerramentas(true);
+}
+
+function entrarFerramentas(admin){
+  document.getElementById('tela-acesso').style.display='none';
+  document.getElementById('tela-ferramentas').style.display='block';
+  window.scrollTo(0,0);
+
+  const primeiroNome = usuarioNome.split(' ')[0];
+  document.getElementById('ferr-welcome-nome').textContent = admin ? '👨‍💼 Bem-vindo, Administrador!' : 'Olá, '+primeiroNome+'! 🎉';
+
+  if(admin){
+    document.getElementById('admin-section').style.display='block';
+    document.getElementById('badge-admin').style.display='flex';
+    document.getElementById('ferr-welcome-box').style.background='linear-gradient(135deg,#fff8e6,#fef3cc)';
+    toast('Acesso de administrador concedido!','alerta');
+  } else {
+    toast('Acesso liberado! Bem-vindo(a), '+primeiroNome+'! 🎉','sucesso');
+  }
+}
+
+function sair(){
+  usuarioNome=''; isAdmin=false;
+  document.getElementById('tela-ferramentas').style.display='none';
+  document.getElementById('tela-acesso').style.display='flex';
+  document.getElementById('admin-section').style.display='none';
+  document.getElementById('badge-admin').style.display='none';
+  // Limpar form
+  ['inp-nome','inp-tel'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('inp-interesse').value='';
+  window.scrollTo(0,0);
+}
+
+// ============================
+// SIMULADORES
+// ============================
+const SIMS = {
+  reajuste:'Reajuste de Aluguel',
+  financiamento:'Simulador de Financiamento',
+  rentabilidade:'Rentabilidade do Imóvel',
+  avaliacao:'Avaliação Estimada',
+  indices:'Índices Econômicos',
+  lei:'Lei do Inquilinato',
+};
+
+function abrirSim(tipo){
+  document.querySelectorAll('.sim-overlay > .sim-box > [id^="sim-"]').forEach(el=>el.style.display='none');
+  const el=document.getElementById('sim-'+tipo);
+  if(el) el.style.display='block';
+  document.getElementById('sim-titulo').textContent=SIMS[tipo]||'Simulador';
+  document.getElementById('sim-overlay').classList.add('ativo');
+  document.body.style.overflow='hidden';
+  if(tipo==='reajuste') reajInfoIndice();
+}
+
+function fecharSim(e){
+  if(e&&e.target!==document.getElementById('sim-overlay')&&e.type!=='click') return;
+  document.getElementById('sim-overlay').classList.remove('ativo');
+  document.body.style.overflow='';
+}
+
+function simTab(id, prefixo){
+  const par = document.getElementById('sim-'+prefixo);
+  if(!par) return;
+  par.querySelectorAll('.sim-tab-body').forEach(el=>el.classList.add('oculto'));
+  par.querySelectorAll('.sim-tab').forEach(el=>el.classList.remove('ativo'));
+  const alvo = document.getElementById(id);
+  if(alvo) alvo.classList.remove('oculto');
+  // Marcar tab
+  par.querySelectorAll('.sim-tab').forEach(tab=>{
+    if(tab.getAttribute('onclick')&&tab.getAttribute('onclick').includes("'"+id+"'")){
+      tab.classList.add('ativo');
+    }
+  });
+}
+
+// ============================
+// REAJUSTE
+// ============================
+function reajInfoIndice(){
+  const sel=document.getElementById('reaj-indice').value;
+  const row=document.getElementById('reaj-row-manual');
+  const info=document.getElementById('reaj-info');
+  if(sel==='manual'){
+    row.style.display='block';
+    info.innerHTML='<strong>✏️ Modo manual:</strong> Informe o percentual acordado em contrato.';
+  } else {
+    row.style.display='none';
+    const idx=INDICES[sel];
+    info.innerHTML='<strong>📡 Índice atual:</strong> '+idx.sigla+' = <strong>'+idx.valor.toFixed(2).replace('.',',')+'%</strong> ao ano<br><small>'+idx.fonte+'</small>';
+  }
+}
+
+function calcReajuste(){
+  const valor=parseFloat(document.getElementById('reaj-valor').value);
+  if(!valor||valor<=0){toast('Informe o valor do aluguel.');return;}
+  const sel=document.getElementById('reaj-indice').value;
+  let perc;
+  if(sel==='manual'){
+    perc=parseFloat(document.getElementById('reaj-perc').value.replace(',','.'));
+    if(isNaN(perc)){toast('Informe o percentual.');return;}
+  } else {perc=INDICES[sel].valor;}
+  const novo=valor*(1+perc/100);
+  const dif=novo-valor;
+  const idx=sel==='manual'?{sigla:'Manual',fonte:'Percentual: '+perc.toFixed(2).replace('.',',')+'%'}:INDICES[sel];
+  document.getElementById('reaj-res-valor').textContent='R$ '+novo.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+  document.getElementById('reaj-res-det').innerHTML='<strong>Valor anterior:</strong> R$ '+valor.toLocaleString('pt-BR',{minimumFractionDigits:2})+'<br><strong>Aumento:</strong> R$ '+dif.toLocaleString('pt-BR',{minimumFractionDigits:2})+'<br><strong>Índice:</strong> '+idx.sigla+' ('+perc.toFixed(2).replace('.',',')+'%)<br><small>'+idx.fonte+'</small>';
+  document.getElementById('reaj-resultado').classList.add('visivel');
+}
+
+function wppReajuste(){
+  const v=document.getElementById('reaj-res-valor').textContent;
+  const d=document.getElementById('reaj-res-det').innerText;
+  const msg=encodeURIComponent('📋 *Simulação de Reajuste — FCosta*\n\n'+d+'\n\n*Novo valor: '+v+'*');
+  window.open('https://wa.me/5511993509109?text='+msg,'_blank');
+}
+
+// ============================
+// FINANCIAMENTO
+// ============================
+function calcFinanciamento(){
+  const imovel=parseFloat(document.getElementById('fin-imovel').value)||0;
+  const entrada=parseFloat(document.getElementById('fin-entrada').value)||0;
+  const prazo=parseInt(document.getElementById('fin-prazo').value)||360;
+  const taxaAnual=parseFloat(document.getElementById('fin-taxa').value)||10.5;
+  const sistema=document.getElementById('fin-sistema').value;
+
+  if(!imovel||imovel<=0){toast('Informe o valor do imóvel.');return;}
+  const financiado=imovel-entrada;
+  if(financiado<=0){toast('A entrada não pode ser maior que o imóvel.');return;}
+
+  const taxaMensal=taxaAnual/12/100;
+  let parcela1, totalPago;
+
+  if(sistema==='price'){
+    parcela1=financiado*(taxaMensal*Math.pow(1+taxaMensal,prazo))/(Math.pow(1+taxaMensal,prazo)-1);
+    totalPago=parcela1*prazo;
+  } else {
+    const amort=financiado/prazo;
+    const juros1=financiado*taxaMensal;
+    parcela1=amort+juros1;
+    totalPago=amort*prazo+(financiado*(financiado+financiado/prazo)*taxaMensal/2);
+  }
+
+  const totalJuros=totalPago-financiado;
+  const pctEntrada=((entrada/imovel)*100).toFixed(1);
+
+  document.getElementById('fin-res-valor').textContent='R$ '+parcela1.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+  document.getElementById('fin-res-det').innerHTML=
+    '<strong>Valor financiado:</strong> R$ '+financiado.toLocaleString('pt-BR',{minimumFractionDigits:2})+'<br>'+
+    '<strong>Entrada:</strong> R$ '+entrada.toLocaleString('pt-BR',{minimumFractionDigits:2})+' ('+pctEntrada+'%)<br>'+
+    '<strong>Prazo:</strong> '+prazo+' meses ('+Math.round(prazo/12)+' anos)<br>'+
+    '<strong>Taxa:</strong> '+taxaAnual.toString().replace('.',',')+'% a.a. / '+taxaMensal.toFixed(4).replace('.',',')+'% a.m.<br>'+
+    '<strong>Sistema:</strong> '+sistema.toUpperCase()+'<br>'+
+    '<strong>Total de juros estimado:</strong> R$ '+totalJuros.toLocaleString('pt-BR',{minimumFractionDigits:2})+'<br>'+
+    '<small>⚠️ Simulação estimada. Consulte o banco para valores exatos.</small>';
+  document.getElementById('fin-resultado').classList.add('visivel');
+}
+
+function wppFinanciamento(){
+  const v=document.getElementById('fin-res-valor').textContent;
+  const msg=encodeURIComponent('🏦 *Simulação de Financiamento — FCosta*\n\n1ª Parcela estimada: '+v+'\n\nGostaria de mais informações sobre financiamento imobiliário.');
+  window.open('https://wa.me/5511993509109?text='+msg,'_blank');
+}
+
+// ============================
+// RENTABILIDADE
+// ============================
+function calcRentabilidade(){
+  const imovel=parseFloat(document.getElementById('rent-imovel').value)||0;
+  const aluguel=parseFloat(document.getElementById('rent-aluguel').value)||0;
+  const despesas=parseFloat(document.getElementById('rent-despesas').value)||0;
+  if(!imovel||!aluguel){toast('Preencha o valor do imóvel e aluguel.');return;}
+  const aluguelLiquido=aluguel-despesas;
+  const yieldBruto=((aluguel*12)/imovel*100);
+  const yieldLiq=((aluguelLiquido*12)/imovel*100);
+  let avaliacao='';
+  if(yieldBruto>=7)avaliacao='🟢 Ótima rentabilidade para SP';
+  else if(yieldBruto>=5)avaliacao='🟡 Rentabilidade razoável';
+  else avaliacao='🔴 Abaixo da média de mercado';
+  document.getElementById('rent-res-valor').textContent=yieldBruto.toFixed(2).replace('.',',')+'% a.a.';
+  document.getElementById('rent-res-det').innerHTML=
+    '<strong>Aluguel bruto mensal:</strong> R$ '+aluguel.toLocaleString('pt-BR',{minimumFractionDigits:2})+'<br>'+
+    '<strong>Aluguel líquido mensal:</strong> R$ '+aluguelLiquido.toLocaleString('pt-BR',{minimumFractionDigits:2})+'<br>'+
+    '<strong>Yield líquido:</strong> '+yieldLiq.toFixed(2).replace('.',',')+'% a.a.<br>'+
+    '<strong>Avaliação:</strong> '+avaliacao+'<br>'+
+    '<small>Média SP: ~6% a.a. bruto (dados fev/2026)</small>';
+  document.getElementById('rent-resultado').classList.add('visivel');
+}
+
+function wppRentabilidade(){
+  const msg=encodeURIComponent('📊 *Análise de Rentabilidade — FCosta*\n\nGostaria de uma análise de rentabilidade do meu imóvel. Yield obtido: '+document.getElementById('rent-res-valor').textContent);
+  window.open('https://wa.me/5511993509109?text='+msg,'_blank');
+}
+
+// ============================
+// AVALIAÇÃO ESTIMADA
+// ============================
+function calcAvaliacao(){
+  const tipo=document.getElementById('aval-tipo').value;
+  const area=parseFloat(document.getElementById('aval-area').value)||0;
+  const zona=document.getElementById('aval-zona').value;
+  const estado=document.getElementById('aval-estado').value;
+
+  if(!area||area<=0){toast('Informe a área do imóvel.');return;}
+
+  // Preço base por m² (R$) por zona e tipo
+  const BASE = {
+    leste:{ap:5200,casa:4800,comercial:5800,terreno:2200},
+    norte:{ap:5800,casa:5400,comercial:6200,terreno:2600},
+    sul:  {ap:6500,casa:6000,comercial:7000,terreno:3000},
+    oeste:{ap:9500,casa:8500,comercial:10000,terreno:5000},
+    centro:{ap:8000,casa:7500,comercial:9000,terreno:4000},
+  };
+  const ESTADO_MULT={otimo:1.10,bom:1.00,regular:0.90,precisaReforma:0.78};
+
+  const base=BASE[zona][tipo];
+  const mult=ESTADO_MULT[estado];
+  const valorMid=base*area*mult;
+  const valorMin=valorMid*0.88;
+  const valorMax=valorMid*1.12;
+
+  const fmt=v=>'R$ '+Math.round(v).toLocaleString('pt-BR');
+  document.getElementById('aval-res-valor').textContent=fmt(valorMin)+' – '+fmt(valorMax);
+  document.getElementById('aval-res-det').innerHTML=
+    '<strong>Estimativa central:</strong> '+fmt(valorMid)+'<br>'+
+    '<strong>Área:</strong> '+area+' m² · <strong>Preço/m²:</strong> '+fmt(base*mult)+'/m²<br>'+
+    '<strong>Zona:</strong> '+zona.charAt(0).toUpperCase()+zona.slice(1)+'<br>'+
+    '<strong>Conservação:</strong> '+document.getElementById('aval-estado').options[document.getElementById('aval-estado').selectedIndex].text+'<br>'+
+    '<small>⚠️ Estimativa orientativa baseada em médias de mercado. Para avaliação precisa, consulte o corretor.</small>';
+  document.getElementById('aval-resultado').classList.add('visivel');
+}
+
+function wppAvaliacao(){
+  const v=document.getElementById('aval-res-valor').textContent;
+  const msg=encodeURIComponent('🏠 *Avaliação Estimada — FCosta*\n\nFaixa estimada: '+v+'\n\nGostaria de uma avaliação real e personalizada do meu imóvel.');
+  window.open('https://wa.me/5511993509109?text='+msg,'_blank');
+}
+
+function wppRentabilidade2(){wppRentabilidade();}
+
+// Init
+reajInfoIndice();
+</script>
+</body>
+</html>

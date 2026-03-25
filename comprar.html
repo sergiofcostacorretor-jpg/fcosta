@@ -1,0 +1,76 @@
+<style>
+.fl-wrap{max-width:100%;margin:0 0 20px;padding:0}
+.fl-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:12px 16px;box-shadow:0 2px 8px rgba(0,61,165,0.06)}
+.fl-bar select,.fl-bar input{padding:7px 10px;font-size:13px;border:1px solid #d0d5dd;border-radius:7px;background:#f9fafb;color:#111;font-family:inherit;min-width:130px}
+.fl-bar select:focus,.fl-bar input:focus{outline:none;border-color:#003da5}
+.fl-btn-limpar{padding:7px 14px;background:#f0f4fb;border:1px solid #d0d5dd;border-radius:7px;font-size:13px;font-weight:600;color:#003da5;cursor:pointer;font-family:inherit;white-space:nowrap}
+.fl-btn-limpar:hover{background:#e0eaff}
+.fl-contador{font-size:12px;color:#888;margin-left:auto;white-space:nowrap}
+.fl-nada{display:none;grid-column:1/-1;text-align:center;padding:48px 20px;color:#888}
+.fl-nada i{font-size:40px;display:block;margin-bottom:12px;opacity:0.25}
+</style>
+
+<div class="fl-wrap">
+  <div class="fl-bar">
+    <select id="fl-tipo" onchange="flFiltrar()">
+      <option value="">Todos os tipos</option>
+      <option>Apartamento</option>
+      <option>Casa</option>
+      <option>Sobrado</option>
+      <option>Terreno</option>
+      <option>Comercial</option>
+      <option>Studio</option>
+    </select>
+    <select id="fl-dorms" onchange="flFiltrar()">
+      <option value="">Todos os quartos</option>
+      <option value="1">1 quarto</option>
+      <option value="2">2 quartos</option>
+      <option value="3">3 quartos</option>
+      <option value="4">4+ quartos</option>
+    </select>
+    <input id="fl-busca" type="text" placeholder="Buscar por nome ou bairro..." oninput="flFiltrar()" style="flex:1;min-width:160px">
+    <button class="fl-btn-limpar" onclick="flLimpar()"><i class="fas fa-times"></i> Limpar</button>
+    <span class="fl-contador" id="fl-contador"></span>
+  </div>
+</div>
+
+<script>
+function flFiltrar(){
+  var tipo=document.getElementById('fl-tipo').value.toLowerCase();
+  var dorms=document.getElementById('fl-dorms').value;
+  var busca=document.getElementById('fl-busca').value.toLowerCase().trim();
+  var listas=['comprar-lista','alugar-lista','lancamentos-lista'];
+  var cards=[];
+  listas.forEach(function(id){
+    var el=document.getElementById(id);
+    if(el)cards=cards.concat(Array.from(el.querySelectorAll('.card')));
+  });
+  var vis=0;
+  cards.forEach(function(c){
+    var titulo=(c.querySelector('.card-titulo')||c).textContent.toLowerCase();
+    var sigla=(c.querySelector('.card-sigla')||c).textContent.toLowerCase();
+    var okBusca=!busca||(titulo.includes(busca)||sigla.includes(busca));
+    var okTipo=!tipo||titulo.includes(tipo);
+    var okDorms=!dorms||titulo.includes(dorms+' quarto')||titulo.includes(dorms+'q')||titulo.includes(dorms+' dorm');
+    var show=okBusca&&okTipo&&okDorms;
+    c.style.display=show?'':'none';
+    if(show)vis++;
+  });
+  var contador=document.getElementById('fl-contador');
+  if(contador)contador.textContent=vis>0?vis+' imóvel(is) encontrado(s)':'';
+  listas.forEach(function(id){
+    var el=document.getElementById(id);
+    if(!el)return;
+    var nada=el.querySelector('.fl-nada');
+    var total=el.querySelectorAll('.card:not([style*="display: none"])').length;
+    if(!nada){nada=document.createElement('div');nada.className='fl-nada';nada.innerHTML='<i class="fas fa-search"></i>Nenhum imóvel encontrado com esses filtros';el.appendChild(nada);}
+    nada.style.display=total===0?'block':'none';
+  });
+}
+function flLimpar(){
+  document.getElementById('fl-tipo').value='';
+  document.getElementById('fl-dorms').value='';
+  document.getElementById('fl-busca').value='';
+  flFiltrar();
+}
+</script>

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lançamentos — FCosta Corretor SP</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--az:#003da5;--vm:#dc1c2d;--bg:#f8f9fc;--borda:#e4e9f2;--tx:#0d1829;--tx2:#374561;--tx3:#8a9bb5;--vd:#16a34a;--am:#b45309}
+body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--tx2)}
+header{background:#fff;border-bottom:1px solid var(--borda);position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,61,165,.05)}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;max-width:1200px;margin:0 auto}
+.logo{font-family:"Playfair Display",serif;font-size:22px;font-weight:800;color:var(--az);text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo img{width:44px;height:44px;border-radius:50%;object-fit:cover}
+nav ul{list-style:none;display:flex;gap:24px;align-items:center}
+nav a{text-decoration:none;color:var(--tx2);font-weight:500;font-size:14px}
+nav a:hover{color:var(--vm)}
+@media(max-width:640px){nav ul{display:none}}
+.hero{background:linear-gradient(135deg,#92400e,#b45309);color:#fff;padding:50px 20px;text-align:center;margin-bottom:40px}
+.hero h1{font-family:"Playfair Display",serif;font-size:40px;font-weight:800;margin-bottom:12px}
+.hero p{font-size:15px;opacity:.9;margin-bottom:20px}
+@media(max-width:640px){.hero h1{font-size:28px}}
+.back-btn{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.2);color:#fff;padding:9px 18px;border:1px solid rgba(255,255,255,.35);border-radius:7px;cursor:pointer;font-size:13px;font-weight:600;font-family:"DM Sans",sans-serif;margin-bottom:20px}
+.btn-wpp-hero{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border:none;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;background:#fff;color:#b45309;font-family:"DM Sans",sans-serif}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+.filtros{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;align-items:center}
+.fbt{padding:7px 16px;border-radius:20px;border:1.5px solid var(--borda);background:#fff;color:var(--tx2);font-size:12px;font-weight:600;cursor:pointer;font-family:"DM Sans",sans-serif}
+.fbt.on{background:var(--az);border-color:var(--az);color:#fff}
+.busca{flex:1;min-width:160px;background:#fff;border:1.5px solid var(--borda);border-radius:8px;padding:8px 14px;font-size:13px;outline:none;font-family:"DM Sans",sans-serif}
+.busca:focus{border-color:var(--az)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;margin-bottom:60px}
+.card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(0,61,165,.08);transition:all .3s;cursor:pointer}
+.card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,61,165,.14)}
+.card-img{height:220px;background:#eee;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:48px}
+.card-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.card:hover .card-img img{transform:scale(1.04)}
+.badge{position:absolute;top:12px;left:12px;background:var(--am);color:#fff;padding:5px 11px;border-radius:5px;font-size:11px;font-weight:700}
+.logo-badge{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.93);border-radius:7px;padding:4px 8px}
+.logo-badge img{max-width:64px;max-height:28px;object-fit:contain;display:block}
+.home-badge{position:absolute;bottom:10px;left:12px;background:var(--am);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px}
+.faixa-badge{position:absolute;bottom:10px;right:12px;color:#fff;font-size:10px;font-weight:800;padding:4px 10px;border-radius:10px}
+.card-body{padding:18px}
+.card-const{font-size:11px;color:var(--vm);font-weight:700;margin-bottom:6px}
+.card-titulo{font-family:"Playfair Display",serif;font-size:17px;font-weight:700;color:var(--tx);margin-bottom:10px;line-height:1.3}
+.card-info{font-size:12px;color:var(--tx3);margin-bottom:5px;display:flex;align-items:center;gap:5px}
+.card-preco{font-size:20px;font-weight:700;color:var(--vm);margin-bottom:14px}
+.card-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cbtn{padding:10px;border:none;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;font-family:"DM Sans",sans-serif;transition:all .2s}
+.cbtn-wpp{background:#25d366;color:#fff}.cbtn-wpp:hover{background:#1db954}
+.cbtn-det{background:var(--bg);color:var(--az);border:1.5px solid var(--borda)}.cbtn-det:hover{background:var(--az);color:#fff;border-color:var(--az)}
+.empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--tx3)}
+.empty i{font-size:48px;margin-bottom:16px;display:block;opacity:.4}
+.loading{grid-column:1/-1;text-align:center;padding:60px;color:var(--tx3)}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:500;align-items:flex-end;justify-content:center}
+.modal-bg.open{display:flex}
+@media(min-width:640px){.modal-bg{align-items:center;padding:20px}}
+.modal{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:700px;max-height:94svh;overflow-y:auto;position:relative}
+@media(min-width:640px){.modal{border-radius:16px;max-height:92vh}}
+.modal-handle{width:40px;height:4px;background:#ddd;border-radius:4px;margin:14px auto 0}
+@media(min-width:640px){.modal-handle{display:none}}
+.modal-close{position:absolute;top:12px;right:14px;background:rgba(0,0,0,.55);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;z-index:20;transition:background .2s}
+.modal-close:hover{background:var(--vm)}
+.gal{background:#111;position:relative;overflow:hidden}
+.gal img{width:100%;max-height:440px;object-fit:contain;display:block}
+.gal-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.60);border:2px solid rgba(255,255,255,.65);color:#fff;width:46px;height:46px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .2s;box-shadow:0 2px 12px rgba(0,0,0,.5);z-index:10}
+.gal-btn:hover{background:var(--vm);border-color:#fff;transform:translateY(-50%) scale(1.1)}
+.gal-prev{left:12px}.gal-next{right:12px}
+.gal-pag{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.68);color:#fff;font-size:13px;font-weight:700;padding:5px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.25);letter-spacing:1px;white-space:nowrap}
+.gal-swipe-hint{position:absolute;bottom:42px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.50);color:rgba(255,255,255,.8);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 12px;border-radius:20px;pointer-events:none;white-space:nowrap}
+@media(min-width:640px){.gal-swipe-hint{display:none}}
+.thumbs{display:flex;gap:6px;padding:10px 14px;overflow-x:auto;background:#1a1a1a}
+.thumb{width:56px;height:56px;border-radius:7px;object-fit:cover;cursor:pointer;border:2px solid rgba(255,255,255,.15);flex-shrink:0;opacity:.6;transition:all .2s}
+.thumb:hover{opacity:1;border-color:rgba(255,255,255,.6)}
+.thumb.on{border-color:#fff;opacity:1;box-shadow:0 0 0 2px var(--vm)}
+/* VIDEO */
+.m-video-section{margin:0 0 16px;border-radius:12px;overflow:hidden;border:1.5px solid var(--borda)}
+.m-video-label{background:linear-gradient(135deg,var(--vm),#b51525);color:#fff;font-size:12px;font-weight:700;letter-spacing:.5px;padding:10px 16px;display:flex;align-items:center;gap:7px}
+.m-video-inner iframe,.m-video-inner video{width:100%;display:block;border:none}
+.m-video-link{display:flex;align-items:center;justify-content:center;gap:10px;padding:22px;background:linear-gradient(135deg,#dc1c2d,#b51525);color:#fff;text-decoration:none;font-weight:700;font-size:14px;font-family:"DM Sans",sans-serif}
+.m-video-link:hover{opacity:.88}
+/* MODAL CONTENT */
+.mc{padding:22px 22px 32px}
+.m-id{display:inline-block;background:var(--az);color:#fff;font-size:11px;font-weight:700;letter-spacing:1.5px;padding:4px 12px;border-radius:20px;margin-bottom:12px}
+.m-titulo{font-family:"Playfair Display",serif;font-size:24px;font-weight:800;color:var(--tx);margin-bottom:10px;line-height:1.3}
+.m-preco{font-size:28px;font-weight:700;color:var(--vm);margin-bottom:16px}
+.m-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.mtag{background:var(--bg);border:1px solid var(--borda);border-radius:6px;padding:6px 13px;font-size:13px;color:var(--tx2);display:flex;align-items:center;gap:6px}
+.m-const-box{background:rgba(220,28,45,.05);border:1px solid rgba(220,28,45,.15);border-radius:10px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.m-const-box img{max-height:40px;max-width:90px;object-fit:contain}
+.m-const-nome{font-size:15px;font-weight:700;color:var(--vm)}
+.m-desc{font-size:14px;color:var(--tx2);line-height:1.8;margin-bottom:20px;white-space:pre-line;border-top:1px solid var(--borda);padding-top:16px}
+.m-btns{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mbtn{padding:15px;border:none;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:"DM Sans",sans-serif;transition:all .2s}
+.mbtn-wpp{background:#25d366;color:#fff;box-shadow:0 3px 12px rgba(37,211,102,.3)}
+.mbtn-wpp:hover{background:#1db954}
+.mbtn-fechar{background:var(--bg);color:var(--tx2);border:1.5px solid var(--borda)}
+.mbtn-fechar:hover{background:var(--vm);color:#fff;border-color:var(--vm)}
+footer{background:var(--tx);color:#fff;padding:36px 20px;text-align:center;margin-top:60px}
+footer p{opacity:.7;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <a href="/" class="logo">
+      <img src="https://i.postimg.cc/xTQzc3RV/495379823-122128221800669140-5238985291153506093-n-photoaidcom-cropped.png" alt="FCosta">
+      <span>FCosta</span>
+    </a>
+    <nav><ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/comprar">Comprar</a></li>
+      <li><a href="/alugar">Alugar</a></li>
+      <li><strong style="color:var(--am)">Lançamentos</strong></li>
+    </ul></nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <button class="back-btn" onclick="location.href='/'"><i class="fas fa-arrow-left"></i> Voltar</button>
+    <h1>Lançamentos Imobiliários</h1>
+    <p>Conheça os novos empreendimentos mais exclusivos de São Paulo</p>
+    <button class="btn-wpp-hero" onclick="window.open('https://wa.me/5511993509109?text=Ol%C3%A1%20FCosta!%20Tenho%20interesse%20em%20lan%C3%A7amentos.','_blank')">
+      <i class="fab fa-whatsapp"></i> Falar com Corretor
+    </button>
+  </div>
+</section>
+
+<div class="container">
+  <div class="filtros">
+    <input type="text" class="busca" id="busca" placeholder="Buscar lancamento..." oninput="renderLista()">
+    <button class="fbt on" data-fase="">Todos</button>
+    <button class="fbt" data-fase="Planta">Planta</button>
+    <button class="fbt" data-fase="Em construcao">Em construcao</button>
+    <button class="fbt" data-fase="Pronto para morar">Pronto</button>
+    <button class="fbt" data-fase="Pre-lancamento">Pre-lancamento</button>
+  </div>
+  <div class="grid" id="grid">
+    <div class="loading"><i class="fas fa-spinner fa-spin" style="font-size:32px;display:block;margin-bottom:12px;color:var(--az)"></i>Carregando...</div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal-bg">
+  <div class="modal" id="modal">
+    <div class="modal-handle"></div>
+    <button class="modal-close" id="btn-fechar"><i class="fas fa-times"></i></button>
+    <div class="gal" id="gal" style="display:none">
+      <img id="gal-img" src="" alt="">
+      <button class="gal-btn gal-prev" id="btn-prev"><i class="fas fa-chevron-left"></i></button>
+      <button class="gal-btn gal-next" id="btn-next"><i class="fas fa-chevron-right"></i></button>
+      <div class="gal-pag" id="gal-pag"></div>
+      <div class="gal-swipe-hint" id="gal-swipe-hint" style="display:none">deslize</div>
+    </div>
+    <div class="thumbs" id="thumbs" style="display:none"></div>
+    <div class="mc">
+      <div class="m-id" id="m-id"></div>
+      <div class="m-titulo" id="m-titulo"></div>
+      <div class="m-preco" id="m-preco"></div>
+      <div class="m-tags" id="m-tags"></div>
+      <div class="m-const-box" id="m-const" style="display:none"></div>
+      <div class="m-video-section" id="m-video-section" style="display:none">
+        <div class="m-video-label"><i class="fas fa-play-circle"></i> Video do Empreendimento</div>
+        <div class="m-video-inner" id="m-video-inner"></div>
+      </div>
+      <div class="m-desc" id="m-desc" style="display:none"></div>
+      <div class="m-btns">
+        <button class="mbtn mbtn-wpp" id="m-wpp-btn"><i class="fab fa-whatsapp"></i> Tenho Interesse</button>
+        <button class="mbtn mbtn-fechar" id="m-fechar-btn"><i class="fas fa-times"></i> Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer><p>2026 FCosta Corretor - Imoveis em Sao Paulo</p></footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+<script>
+try{firebase.initializeApp({apiKey:"AIzaSyAH-QF57Igr9fzBCqkAP28IRRE-QHp_2Z4",authDomain:"fcosta-31125.firebaseapp.com",databaseURL:"https://fcosta-31125-default-rtdb.firebaseio.com",projectId:"fcosta-31125",storageBucket:"fcosta-31125.firebasestorage.app",messagingSenderId:"826619190234",appId:"1:826619190234:web:347cdf5d9078433daabee3"});}catch(e){}
+var db=firebase.database();
+var LISTA=[],FASE='',BIDX=0,BURLS=[];
+
+db.ref('fcosta_imoveis').on('value',function(s){
+  var d=s.val()||{};
+  LISTA=Object.values(d).filter(function(i){return i&&i.sigla==='FCL'&&i.status!=='rascunho';})
+    .sort(function(a,b){return new Date(b.dataCriacao||0)-new Date(a.dataCriacao||0);});
+  renderLista();
+});
+
+document.querySelectorAll('.fbt').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('.fbt').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on');FASE=b.dataset.fase;renderLista();
+  });
+});
+
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function escId(s){return(s||'').replace(/'/g,"\'");}
+
+function toArr(v){
+  if(!v)return[];
+  if(Array.isArray(v))return v.filter(Boolean);
+  if(typeof v==='object')return Object.keys(v).sort(function(a,b){return Number(a)-Number(b);}).map(function(k){return v[k];}).filter(Boolean);
+  return[];
+}
+
+function renderLista(){
+  var q=(document.getElementById('busca').value||'').toLowerCase().trim();
+  var lista=LISTA.filter(function(i){
+    var ok=!FASE||(i.fase||'')===FASE;
+    var oq=!q||(i.titulo+' '+(i.construtora||'')+' '+(i.local||'')).toLowerCase().includes(q);
+    return ok&&oq;
+  });
+  var g=document.getElementById('grid');
+  if(!lista.length){g.innerHTML='<div class="empty"><i class="fas fa-building"></i><h3>Nenhum lancamento encontrado</h3><p>Tente outros filtros.</p></div>';return;}
+  var CORES={'HIS 1':'#16a34a','HIS 2':'#0891b2','HMP':'#7c3aed','Faixa 4':'#d97706'};
+  g.innerHTML=lista.map(function(im){
+    var fotos=toArr(im.fotos);
+    var foto=fotos.length>0?fotos[im.destaquePhoto||0]:null;
+    var preco=im.preco?'R$ '+im.preco:'';
+    var faixaHtml='';
+    if(im.programaHabitacional==='MCMV'&&im.faixaEnquadramento){
+      var fk=Object.keys(CORES).find(function(k){return im.faixaEnquadramento.toUpperCase().includes(k.toUpperCase());});
+      if(fk)faixaHtml='<div class="faixa-badge" style="background:'+CORES[fk]+'">'+fk+'</div>';
+    }
+    var pgBadge=fotos.length>1?'<div style="position:absolute;bottom:10px;left:12px;background:rgba(0,0,0,.62);color:#fff;font-size:10px;font-weight:700;padding:3px 9px;border-radius:10px;display:flex;align-items:center;gap:4px;"><i class="fas fa-images"></i> '+fotos.length+' fotos</div>':'';
+    var vidBadge=im.videoUrl?'<div style="position:absolute;top:10px;left:12px;background:#dc1c2d;color:#fff;font-size:10px;font-weight:700;padding:3px 9px;border-radius:10px;display:flex;align-items:center;gap:4px;"><i class="fas fa-play"></i> Video</div>':'<div class="badge">'+esc(im.id||'FCL')+'</div>';
+    var uid=escId((im._uid||im.id||''));
+    return '<div class="card" onclick="abrirDet(''+uid+'')"><div class="card-img">'
+      +(foto?'<img src="'+esc(foto)+'" alt="'+esc(im.titulo||'')+'">':"")
+      +vidBadge
+      +(im.logoConstrutora?'<div class="logo-badge"><img src="'+esc(im.logoConstrutora)+'" alt="logo"></div>':'')
+      +(im.exibirHome?'<div class="home-badge">Destaque</div>':'')
+      +faixaHtml+pgBadge
+      +'</div><div class="card-body">'
+      +(im.construtora?'<div class="card-const"><i class="fas fa-building"></i> '+esc(im.construtora)+'</div>':'')
+      +'<h3 class="card-titulo">'+esc(im.titulo||'')+'</h3>'
+      +(im.local?'<div class="card-info"><i class="fas fa-map-marker-alt"></i> '+esc(im.local)+'</div>':'')
+      +(im.fase?'<div class="card-info"><i class="fas fa-hard-hat"></i> '+esc(im.fase)+'</div>':'')
+      +(im.videoUrl?'<div class="card-info" style="color:#dc1c2d"><i class="fas fa-play-circle"></i> Com video</div>':'')
+      +(preco?'<div class="card-preco">'+preco+'</div>':'')
+      +'<div class="card-btns">'
+      +'<button class="cbtn cbtn-wpp" onclick="event.stopPropagation();wpp(''+escId(im.id||'')+'',''+escId(im.titulo||'')+'')"><i class="fab fa-whatsapp"></i> Interesse</button>'
+      +'<button class="cbtn cbtn-det" onclick="event.stopPropagation();abrirDet(''+uid+'')"><i class="fas fa-images"></i> Ver Book</button>'
+      +'</div></div></div>';
+  }).join('');
+}
+
+function montarVideo(videoUrl){
+  var secao=document.getElementById('m-video-section');
+  var inner=document.getElementById('m-video-inner');
+  if(!videoUrl||!videoUrl.trim()){secao.style.display='none';inner.innerHTML='';return;}
+  var url=videoUrl.trim();
+  var html='';
+  var ytMatch=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/|v\/))([\w-]{11})/);
+  if(ytMatch){
+    html='<iframe src="https://www.youtube.com/embed/'+ytMatch[1]+'?rel=0&modestbranding=1" height="280" allowfullscreen></iframe>';
+  } else if(url.indexOf('vimeo.com')>-1){
+    var vmMatch=url.match(/vimeo\.com\/(\d+)/);
+    if(vmMatch)html='<iframe src="https://player.vimeo.com/video/'+vmMatch[1]+'" height="280" allowfullscreen></iframe>';
+  } else if(url.match(/\.(mp4|webm|ogg)(\?.*)?$/i)){
+    html='<video src="'+esc(url)+'" controls height="280" style="width:100%;background:#000"></video>';
+  } else {
+    html='<a href="'+esc(url)+'" target="_blank" rel="noopener" class="m-video-link"><i class="fab fa-youtube" style="font-size:24px"></i> Assistir Video</a>';
+  }
+  inner.innerHTML=html;
+  secao.style.display='block';
+}
+
+function abrirDet(uid){
+  var im=LISTA.find(function(i){return(i._uid||i.id||'')===uid;});
+  if(!im)return;
+  BURLS=toArr(im.fotos);
+  BIDX=im.destaquePhoto||0;
+  if(BIDX>=BURLS.length)BIDX=0;
+  var galEl=document.getElementById('gal');
+  var thEl=document.getElementById('thumbs');
+  var hint=document.getElementById('gal-swipe-hint');
+  var prevBtn=document.getElementById('btn-prev');
+  var nextBtn=document.getElementById('btn-next');
+  if(BURLS.length>0){
+    galEl.style.display='block';
+    prevBtn.style.display=BURLS.length>1?'flex':'none';
+    nextBtn.style.display=BURLS.length>1?'flex':'none';
+    if(hint)hint.style.display=BURLS.length>1?'block':'none';
+    thEl.style.display=BURLS.length>1?'flex':'none';
+    updGal();
+  } else {
+    galEl.style.display='none';thEl.style.display='none';
+    prevBtn.style.display='none';nextBtn.style.display='none';
+  }
+  document.getElementById('m-id').textContent=im.id||'';
+  document.getElementById('m-titulo').textContent=im.titulo||'';
+  document.getElementById('m-preco').textContent=im.preco?'R$ '+im.preco:'';
+  var tags='';
+  if(im.local)tags+='<span class="mtag"><i class="fas fa-map-marker-alt"></i> '+esc(im.local)+'</span>';
+  if(im.fase)tags+='<span class="mtag"><i class="fas fa-hard-hat"></i> '+esc(im.fase)+'</span>';
+  if(im.quartos)tags+='<span class="mtag"><i class="fas fa-bed"></i> '+esc(im.quartos)+'</span>';
+  if(im.area)tags+='<span class="mtag"><i class="fas fa-ruler-combined"></i> '+esc(im.area)+'</span>';
+  if(im.driveUrl)tags+='<span class="mtag" style="cursor:pointer" onclick="window.open(''+esc(im.driveUrl)+'','_blank')"><i class="fab fa-google-drive" style="color:#4285f4"></i> Material</span>';
+  document.getElementById('m-tags').innerHTML=tags;
+  var cEl=document.getElementById('m-const');
+  if(im.construtora){
+    cEl.style.display='flex';
+    cEl.innerHTML=(im.logoConstrutora?'<img src="'+esc(im.logoConstrutora)+'" alt="logo">':'<i class="fas fa-building" style="color:var(--vm);font-size:22px"></i>')
+      +'<div><div class="m-const-nome">'+esc(im.construtora)+'</div></div>';
+  } else {cEl.style.display='none';}
+  montarVideo(im.videoUrl||'');
+  var dEl=document.getElementById('m-desc');
+  if(im.descricao){dEl.style.display='block';dEl.textContent=im.descricao;}
+  else dEl.style.display='none';
+  var msg='Ol%C3%A1%20FCosta!%20Tenho%20interesse%20no%20lan%C3%A7amento%20'+encodeURIComponent((im.id||'')+' - '+(im.titulo||''));
+  document.getElementById('m-wpp-btn').onclick=function(){window.open('https://wa.me/5511993509109?text='+msg,'_blank');};
+  document.getElementById('modal-bg').classList.add('open');
+  document.body.style.overflow='hidden';
+  document.getElementById('modal').scrollTop=0;
+}
+
+function updGal(){
+  if(!BURLS.length)return;
+  document.getElementById('gal-img').src=BURLS[BIDX];
+  document.getElementById('gal-pag').textContent=(BIDX+1)+' / '+BURLS.length;
+  document.getElementById('thumbs').innerHTML=BURLS.map(function(u,i){
+    return '<img src="'+u+'" class="thumb'+(i===BIDX?' on':'')+'" onclick="goBook('+i+')" alt="">';
+  }).join('');
+}
+
+window.goBook=function(i){BIDX=i;updGal();};
+document.getElementById('btn-prev').onclick=function(){BIDX=Math.max(0,BIDX-1);updGal();};
+document.getElementById('btn-next').onclick=function(){BIDX=Math.min(BURLS.length-1,BIDX+1);updGal();};
+
+function fechar(){
+  document.getElementById('modal-bg').classList.remove('open');
+  document.body.style.overflow='';
+  document.getElementById('m-video-inner').innerHTML='';
+}
+document.getElementById('btn-fechar').onclick=fechar;
+document.getElementById('m-fechar-btn').onclick=fechar;
+document.getElementById('modal-bg').addEventListener('click',function(e){if(e.target===this)fechar();});
+
+function wpp(id,titulo){
+  window.open('https://wa.me/5511993509109?text='+encodeURIComponent('Ola FCosta! Tenho interesse no lancamento '+id+' - '+titulo),'_blank');
+}
+
+var tx0=0;
+document.getElementById('gal').addEventListener('touchstart',function(e){tx0=e.touches[0].clientX;},{passive:true});
+document.getElementById('gal').addEventListener('touchend',function(e){
+  var d=tx0-e.changedTouches[0].clientX;
+  if(Math.abs(d)>40){BIDX=Math.max(0,Math.min(BURLS.length-1,BIDX+(d>0?1:-1)));updGal();}
+});
+document.addEventListener('keydown',function(e){
+  if(!document.getElementById('modal-bg').classList.contains('open'))return;
+  if(e.key==='Escape')fechar();
+  if(e.key==='ArrowLeft'){BIDX=Math.max(0,BIDX-1);updGal();}
+  if(e.key==='ArrowRight'){BIDX=Math.min(BURLS.length-1,BIDX+1);updGal();}
+});
+</script>
+</body>
+</html>
