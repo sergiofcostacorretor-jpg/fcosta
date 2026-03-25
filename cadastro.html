@@ -656,7 +656,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
 </div>
 
 <div class="toast-container" id="toasts"></div>
-
+<div id="area-contrato" style="text-align: center; margin: 20px;">
+    <a href="contrato.html" style="text-decoration: none;">
+        <button type="button" style="background-color: #D4AF37; color: black; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+            ABRIR CONTRATO F COSTA
+        </button>
+    </a>
+</div>
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
@@ -699,7 +705,7 @@ const app  = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db   = getDatabase(app);
 
-onAuthStateChanged(auth, user => {
+
   if (user) {
     document.getElementById('tela-login').style.display = 'none';
     document.getElementById('tela-painel').style.display = 'block';
