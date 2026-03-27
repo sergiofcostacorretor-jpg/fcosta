@@ -8,7 +8,6 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
-  /* PDF.js worker — inicializado aqui fora do módulo ES para compatibilidade máxima */
   window.addEventListener('DOMContentLoaded', function() {
     if (typeof pdfjsLib !== 'undefined') {
       pdfjsLib.GlobalWorkerOptions.workerSrc =
@@ -87,8 +86,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
 .topbar-btn.site{background:var(--bg3);color:var(--txt);border:1.5px solid var(--borda2);}
 .topbar-btn.site:hover{background:var(--borda2);color:var(--txt);}
 .topbar-btn.novo{background:var(--vermelho);color:#fff;}
+/* Documentação Imobiliária */
+.topbar-btn.docs{background:rgba(46,196,182,0.15);color:#2EC4B6;border:1.5px solid rgba(46,196,182,0.4);}
+.topbar-btn.docs:hover{background:rgba(46,196,182,0.28);color:#1aada0;transform:translateY(-1px);}
+.nav-docs{background:rgba(46,196,182,0.12);color:rgba(46,196,182,0.95) !important;border-left-color:rgba(46,196,182,0.5) !important;}
+.nav-docs:hover{background:rgba(46,196,182,0.22) !important;color:#fff !important;}
+.nav-docs i{color:#2EC4B6 !important;}
 .topbar-btn.novo:hover{background:var(--verm2);}
-/* ── TOPBAR MOBILE: esconde texto, mantém ícones ── */
 @media(max-width:600px){
   .topbar{padding:10px 12px;}
   .topbar-btn span{display:none;}
@@ -293,8 +297,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
     <div class="nav-item nav-parceiros" onclick="window.open('https://fcostacorretor.com/parceiros-fcosta','_blank')">
       <i class="fas fa-building"></i> Painel de Construtoras
     </div>
-    <div class="nav-item" onclick="window.open('https://fcostacorretor.com/contrato-fcosta','_blank')">
+    <div class="nav-item" onclick="window.open('https://fcostacorretor.com/contratos-fcosta','_blank')">
       <i class="fas fa-file-contract"></i> Contratos
+    </div>
+    <div class="nav-item nav-docs" onclick="window.open('https://fcostacorretor.com/documentacao-imobiliaria','_blank')">
+      <i class="fas fa-folder-open"></i> Documentação Imobiliária
     </div>
   </nav>
   <div class="sidebar-footer">
@@ -316,7 +323,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
     <div class="topbar-right">
       <button class="topbar-btn site" onclick="window.open('https://fcostacorretor.com','_blank')"><i class="fas fa-globe"></i> <span>Ver Site</span></button>
       <button class="topbar-btn parceiros" onclick="window.open('https://fcostacorretor.com/parceiros-fcosta','_blank')"><i class="fas fa-building"></i> <span>Construtoras</span></button>
-      <button class="topbar-btn site" onclick="window.open('https://fcostacorretor.com/contrato-fcosta','_blank')"><i class="fas fa-file-contract"></i> <span>Contratos</span></button>
+      <button class="topbar-btn site" onclick="window.open('https://fcostacorretor.com/contratos-fcosta','_blank')"><i class="fas fa-file-contract"></i> <span>Contratos</span></button>
+      <button class="topbar-btn docs" onclick="window.open('https://fcostacorretor.com/documentacao-imobiliaria','_blank')"><i class="fas fa-folder-open"></i> <span>Documentação</span></button>
       <button class="topbar-btn novo" onclick="irPara('form-imovel','FCV')"><i class="fas fa-plus"></i> <span>Novo Imóvel</span></button>
     </div>
   </div>
@@ -556,8 +564,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
           <div class="field form-full"><label>Imagem</label>
             <div class="upload-area" style="height:100px;"><input type="file" id="cur-imagem" accept="image/*" onchange="previewCurImg(this)"><div style="display:flex;align-items:center;gap:12px;justify-content:center;"><i class="fas fa-image" style="font-size:24px;color:var(--txt2);"></i><span style="font-size:13px;color:var(--txt2);">Clique para selecionar imagem</span></div></div>
             <img id="cur-img-preview" style="display:none;width:100%;max-height:200px;object-fit:cover;border-radius:8px;margin-top:10px;">
-          <div id="area-contrato" style="text-align: center; margin: 20px;">
-    <a href="/contrato.html" style="text-decoration: none;">údo da dica..."></textarea></div>
+          </div>
+          <div class="field form-full"><label>Conteúdo <span class="req">*</span></label><textarea id="cur-conteudo" style="min-height:140px;" placeholder="Conteúdo da dica..."></textarea></div>
         </div>
         <div class="form-actions">
           <button class="btn-form btn-excluir" id="btn-excluir-cur" style="display:none;" onclick="confirmarExcluirCur()"><i class="fas fa-trash"></i> Excluir</button>
@@ -656,13 +664,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-
 </div>
 
 <div class="toast-container" id="toasts"></div>
-<div id="area-contratos-fcosta" style="text-align: center; margin: 20px;">
-    <a href="contratos-fcosta.html" style="text-decoration: none;">
-        <button type="button" style="background-color: #D4AF37; color: black; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
-            ABRIR CONTRATO F COSTA
-        </button>
-    </a>
-</div>
+
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
@@ -705,7 +707,7 @@ const app  = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db   = getDatabase(app);
 
-
+onAuthStateChanged(auth, user => {
   if (user) {
     document.getElementById('tela-login').style.display = 'none';
     document.getElementById('tela-painel').style.display = 'block';
@@ -1261,21 +1263,5 @@ function toast(msg,tipo='sucesso'){
   t.className=`toast ${tipo}`;t.innerHTML=`<i class="${icons[tipo]||icons.sucesso}"></i> ${msg}`;c.appendChild(t);setTimeout(()=>t.remove(),3500);
 }
 </script>
- <div style="text-align: center; margin: 20px;">
-    <a href="contrato.html" style="text-decoration: none;">
-        <button type="button" style="background-color: #D4AF37; color: black; padding: 15px 30px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px;">
-            ABRIR CONTRATO F COSTA
-        </button>
-    </a>
-</div>
-
-</body>
-</html>
-    <a href="contrato.html" style="text-decoration: none;">
-        <button type="button" style="background-color: #D4AF37; color: black; padding: 15px 30px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px;">
-            ABRIR CONTRATO F COSTA
-        </button>
-    </a>
-</div>
 </body>
 </html>

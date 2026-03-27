@@ -1,0 +1,2266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PTAM — Parecer Técnico de Avaliação Mercadológica | FCosta Corretor</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:#07111F; --navy2:#0D1B2E; --navy3:#122440; --card:#0F1E33; --card2:#152540;
+  --gold:#D4A843; --gold2:#F0C96A; --gold3:#A07828; --border:rgba(212,168,67,0.22);
+  --border2:rgba(255,255,255,0.07); --text:#E2E8F4; --muted:#7A8BA8; --muted2:#4A5A72;
+  --blue:#4A9FD4; --green:#3DBB8F; --orange:#E8873A; --red:#D95B5B;
+  --purple:#9B72CF; --teal:#2EC4B6; --pink:#E8698A;
+  --font-body:14px; --font-label:12px; --font-small:11px; --font-heading:13px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--navy);color:var(--text);font-family:'DM Sans',sans-serif;
+  font-size:var(--font-body);font-weight:400;line-height:1.65;overflow-x:hidden}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--navy2)}
+::-webkit-scrollbar-thumb{background:var(--gold3);border-radius:3px}
+
+/* ═══════ PRINT ═══════ */
+@media print {
+  body{background:#fff!important;color:#111!important;font-size:12pt!important}
+  .no-print,.page-nav,.site-header,.hero-section,.fab-bar{display:none!important}
+  .print-section{page-break-before:always}
+  .card{background:#fff!important;border:1px solid #ccc!important;color:#111!important}
+  input,textarea,select{border:1px solid #aaa!important;background:#fff!important;color:#111!important}
+  .gold-text{color:#8B6914!important}
+  .section-title{color:#003da5!important}
+  @page{margin:15mm 12mm;size:A4}
+}
+
+/* ═══════ LAYOUT ═══════ */
+.page-wrap{max-width:1280px;margin:0 auto;padding:0 24px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+
+/* ═══════ HEADER ═══════ */
+.site-header{background:linear-gradient(180deg,#040c18 0%,var(--navy2) 100%);
+  border-bottom:1px solid var(--border);padding:14px 0;position:sticky;top:0;z-index:200;backdrop-filter:blur(20px)}
+.hx{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mark{width:38px;height:38px;background:linear-gradient(135deg,var(--gold),var(--gold3));
+  border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.brand-name{font-family:'DM Serif Display',serif;font-size:1.05rem;color:var(--gold);line-height:1}
+.brand-sub{font-size:0.65rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
+.creci-badge{font-size:0.68rem;color:var(--muted);border:1px solid var(--border);
+  padding:4px 10px;border-radius:20px}
+.creci-badge b{color:var(--gold)}
+.header-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:8px;
+  font-size:0.78rem;font-weight:600;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .2s}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold3));color:#07111F}
+.btn-gold:hover{opacity:.88}
+.btn-outline{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);color:var(--muted)}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ═══════ PROGRESS NAV ═══════ */
+.page-nav{background:var(--navy2);border-bottom:1px solid var(--border2);overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+.page-nav::-webkit-scrollbar{display:none}
+.nav-inner{display:flex;gap:0}
+.nav-tab{padding:12px 18px;font-size:0.78rem;color:var(--muted);cursor:pointer;
+  border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;font-weight:500;
+  background:none;border-top:none;border-left:none;border-right:none;font-family:'DM Sans',sans-serif}
+.nav-tab:hover{color:var(--text)}
+.nav-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* ═══════ SECTIONS ═══════ */
+.section{padding:36px 0}
+.section-hidden{display:none}
+.section-title{font-family:'DM Serif Display',serif;font-size:1.5rem;color:#fff;margin-bottom:4px}
+.section-sub{font-size:0.85rem;color:var(--muted);margin-bottom:24px}
+.sec-tag{display:inline-flex;align-items:center;gap:6px;font-size:0.68rem;color:var(--gold);
+  text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+
+/* ═══════ CARDS ═══════ */
+.card{background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:20px}
+.card-title{font-size:var(--font-heading);font-weight:700;color:var(--gold);
+  text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px;
+  padding-bottom:8px;border-bottom:1px solid var(--border2)}
+.card-subtitle{font-size:var(--font-small);color:var(--muted);margin-bottom:14px;font-style:italic}
+
+/* ═══════ FORM FIELDS ═══════ */
+.field-group{margin-bottom:12px}
+.field-label{font-size:var(--font-label);font-weight:700;color:var(--gold2);
+  letter-spacing:.5px;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.field-label .req{color:var(--red);font-size:10px}
+.field-label .law{font-size:10px;color:var(--muted);font-style:italic;font-weight:400;margin-left:4px}
+.input-field{width:100%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);
+  border-radius:8px;padding:9px 12px;color:var(--text);font-family:'DM Sans',sans-serif;
+  font-size:var(--font-body);outline:none;transition:border-color .25s,box-shadow .25s;font-weight:400}
+.input-field:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,168,67,.12)}
+.input-field::placeholder{color:var(--muted2)}
+.input-field.calc-result{background:rgba(212,168,67,.08);border-color:rgba(212,168,67,.3);
+  color:var(--gold2);font-weight:700;cursor:default}
+textarea.input-field{resize:vertical;min-height:80px;line-height:1.6}
+select.input-field{cursor:pointer}
+.input-field:read-only{opacity:.75;cursor:default}
+
+/* ═══════ CLAUSULAS ═══════ */
+.clausula-block{background:var(--card);border:1px solid var(--border2);border-radius:12px;
+  margin-bottom:16px;overflow:hidden}
+.clausula-header{padding:14px 18px;display:flex;align-items:center;gap:12px;
+  cursor:pointer;border-bottom:1px solid rgba(255,255,255,.04);transition:background .2s}
+.clausula-header:hover{background:rgba(255,255,255,.02)}
+.clausula-num{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold3));
+  display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;
+  color:#07111F;flex-shrink:0}
+.clausula-title{font-size:var(--font-heading);font-weight:700;color:#fff;flex:1;line-height:1.3}
+.clausula-badge{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600;
+  background:rgba(212,168,67,.12);color:var(--gold);border:1px solid rgba(212,168,67,.25)}
+.clausula-arrow{color:var(--muted);font-size:.8rem;transition:transform .3s}
+.clausula-body{display:none;padding:18px}
+.clausula-body.open{display:block}
+.clausula-text{font-size:var(--font-body);line-height:1.85;color:var(--text);margin-bottom:12px;text-align:justify}
+.clausula-text b,.clausula-text strong{color:var(--gold2);font-weight:700}
+.clausula-editavel{background:rgba(74,159,212,.07);border:1px dashed rgba(74,159,212,.3);
+  border-radius:8px;padding:12px;margin-top:10px}
+.clausula-editavel-label{font-size:11px;color:var(--blue);font-weight:700;
+  text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.legal-base{background:rgba(212,168,67,.06);border-left:3px solid var(--gold3);
+  border-radius:0 8px 8px 0;padding:10px 14px;margin-top:12px}
+.legal-base-title{font-size:10px;font-weight:700;color:var(--gold3);
+  text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px}
+.legal-base-text{font-size:var(--font-small);color:var(--muted);line-height:1.7;font-style:italic}
+
+/* ═══════ PTAM ═══════ */
+.ptam-header{background:linear-gradient(135deg,var(--navy3),var(--card2));
+  border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:24px}
+.ptam-num{font-family:'DM Serif Display',serif;font-size:2rem;color:var(--gold);line-height:1}
+.ptam-label{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:2px}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-top:12px}
+.photo-slot{border:2px dashed rgba(212,168,67,.3);border-radius:10px;
+  aspect-ratio:4/3;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:8px;cursor:pointer;transition:all .25s;overflow:hidden;position:relative;background:rgba(255,255,255,.03)}
+.photo-slot:hover{border-color:var(--gold);background:rgba(212,168,67,.05)}
+.photo-slot img{width:100%;height:100%;object-fit:cover;border-radius:8px;position:absolute;inset:0}
+.photo-slot .photo-label{font-size:11px;color:var(--muted);text-align:center;z-index:1}
+.photo-slot input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+.photo-remove{position:absolute;top:6px;right:6px;background:rgba(217,91,91,.85);
+  border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;
+  color:#fff;font-size:12px;display:none;align-items:center;justify-content:center;z-index:2}
+
+/* ═══════ REFERENCIAL CARDS ═══════ */
+.ref-card{background:var(--card);border:1.5px solid var(--border2);border-radius:14px;
+  padding:18px;position:relative;transition:border-color .2s}
+.ref-card.active-ref{border-color:rgba(212,168,67,.4)}
+.ref-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.ref-num{width:30px;height:30px;background:linear-gradient(135deg,var(--gold),var(--gold3));
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:.8rem;font-weight:700;color:#07111F;flex-shrink:0}
+.ref-status{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600}
+.ref-status.obrig{background:rgba(217,91,91,.15);color:var(--red);border:1px solid rgba(217,91,91,.3)}
+.ref-status.opt{background:rgba(61,187,143,.1);color:var(--green);border:1px solid rgba(61,187,143,.3)}
+.ref-remove{background:rgba(217,91,91,.15);border:1px solid rgba(217,91,91,.3);
+  color:var(--red);border-radius:6px;padding:3px 8px;cursor:pointer;font-size:11px;
+  font-family:'DM Sans',sans-serif;transition:all .2s}
+.ref-remove:hover{background:rgba(217,91,91,.3)}
+.add-ref-btn{display:flex;align-items:center;justify-content:center;gap:8px;
+  border:2px dashed rgba(212,168,67,.3);border-radius:14px;padding:20px;
+  cursor:pointer;color:var(--gold);font-size:.85rem;font-weight:600;
+  transition:all .25s;background:rgba(212,168,67,.04);font-family:'DM Sans',sans-serif}
+.add-ref-btn:hover{border-color:var(--gold);background:rgba(212,168,67,.1)}
+
+/* ═══════ RESULT BOX ═══════ */
+.result-box{background:linear-gradient(135deg,rgba(212,168,67,.12),rgba(212,168,67,.05));
+  border:1.5px solid var(--border);border-radius:14px;padding:22px}
+.result-main{font-family:'DM Serif Display',serif;font-size:2.4rem;color:var(--gold);line-height:1;margin:8px 0}
+.result-label{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:2px}
+.result-range{font-size:.82rem;color:var(--muted);margin-top:8px}
+.result-m2{font-size:1.1rem;color:var(--gold2);font-weight:700}
+
+/* ═══════ CHART ═══════ */
+.chart-container{background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:18px}
+.chart-title{font-size:var(--font-label);font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px}
+canvas{width:100%!important}
+
+/* ═══════ TABLE ═══════ */
+.data-table{width:100%;border-collapse:collapse;font-size:var(--font-label)}
+.data-table th{background:rgba(212,168,67,.1);color:var(--gold2);font-weight:700;
+  text-transform:uppercase;letter-spacing:1px;padding:9px 12px;text-align:left;
+  border-bottom:2px solid var(--border);font-size:10px}
+.data-table td{padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--text);font-size:var(--font-label)}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:rgba(255,255,255,.02)}
+.data-table .td-gold{color:var(--gold);font-weight:700}
+
+/* ═══════ MAP ═══════ */
+.map-container{border-radius:12px;overflow:hidden;border:1px solid var(--border2);position:relative}
+.map-frame{width:100%;height:320px;border:none}
+.map-overlay-label{position:absolute;bottom:10px;left:10px;background:rgba(7,17,31,.9);
+  border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:11px;color:var(--gold)}
+
+/* ═══════ STATUS BADGES ═══════ */
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;
+  padding:3px 9px;border-radius:10px;font-weight:700}
+.badge-green{background:rgba(61,187,143,.15);color:var(--green);border:1px solid rgba(61,187,143,.3)}
+.badge-gold{background:rgba(212,168,67,.12);color:var(--gold);border:1px solid rgba(212,168,67,.3)}
+.badge-red{background:rgba(217,91,91,.12);color:var(--red);border:1px solid rgba(217,91,91,.3)}
+.badge-blue{background:rgba(74,159,212,.12);color:var(--blue);border:1px solid rgba(74,159,212,.3)}
+
+/* ═══════ SUMMARY ROW ═══════ */
+.sum-row{display:flex;justify-content:space-between;align-items:center;
+  padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:var(--font-label)}
+.sum-row:last-child{border-bottom:none;padding-top:12px;margin-top:4px}
+.sum-label{color:var(--muted)}
+.sum-val{color:var(--text);font-weight:600}
+.sum-total .sum-label{color:var(--gold2);font-weight:700;font-size:var(--font-body)}
+.sum-total .sum-val{color:var(--gold);font-weight:700;font-size:1.1rem;font-family:'DM Serif Display',serif}
+
+/* ═══════ CHECKLIST ═══════ */
+.check-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;
+  border-bottom:1px solid rgba(255,255,255,.04)}
+.check-item:last-child{border-bottom:none}
+.check-box{width:18px;height:18px;accent-color:var(--gold);flex-shrink:0;margin-top:1px}
+.check-name{font-size:var(--font-body);color:var(--text);font-weight:500}
+.check-where{font-size:var(--font-small);color:var(--muted);margin-top:1px}
+
+/* ═══════ SIGNATURE ═══════ */
+.sig-box{border:1.5px dashed rgba(212,168,67,.4);border-radius:10px;padding:20px;text-align:center;min-height:80px}
+.sig-line{border-top:1px solid var(--muted2);margin-top:40px;padding-top:8px;
+  font-size:var(--font-small);color:var(--muted);text-align:center}
+
+/* ═══════ DIVIDER ═══════ */
+.divider{border:none;border-top:1px solid var(--border2);margin:20px 0}
+
+/* ═══════ INFO TOOLTIP ═══════ */
+.tip{cursor:help;color:var(--blue);font-size:11px;
+  background:rgba(74,159,212,.12);border-radius:50%;
+  width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center}
+
+/* ═══════ FAB ═══════ */
+.fab-bar{position:fixed;bottom:24px;right:24px;display:flex;flex-direction:column;gap:8px;z-index:100}
+.fab{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;cursor:pointer;border:none;transition:all .2s;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.fab-print{background:linear-gradient(135deg,var(--gold),var(--gold3))}
+.fab-print:hover{transform:scale(1.1)}
+.fab-top{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:var(--muted)}
+.fab-top:hover{background:rgba(255,255,255,.18)}
+
+/* ═══════ SECTION TRANSITIONS ═══════ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.section:not(.section-hidden){animation:fadeUp .35s ease}
+
+@media(max-width:768px){
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+  .photo-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ HEADER ═══════════════════ -->
+<header class="site-header no-print">
+  <div class="page-wrap">
+    <div class="hx">
+      <div class="brand">
+        <div class="brand-mark">🏠</div>
+        <div>
+          <div class="brand-name">FCosta Corretor</div>
+          <div class="brand-sub">Zona Leste · Itaim Paulista</div>
+        </div>
+      </div>
+      <div class="creci-badge">CRECI-SP <b id="hdr-creci">294791-F</b> | CNAI <b id="hdr-cnai">52708</b></div>
+      <div class="header-actions">
+        <button class="btn btn-outline" onclick="window.print()">🖨️ Imprimir / PDF</button>
+        <button class="btn btn-gold" onclick="calcularTudo()">⚡ Calcular</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════ NAV ═══════════════════ -->
+<nav class="page-nav no-print">
+  <div class="page-wrap">
+    <div class="nav-inner">
+      <button class="nav-tab active" onclick="showSec('identificacao',this)">📋 Identificação</button>
+      <button class="nav-tab" onclick="showSec('imovel',this)">🏠 Imóvel Avaliando</button>
+      <button class="nav-tab" onclick="showSec('documentacao',this)">📁 Documentação</button>
+      <button class="nav-tab" onclick="showSec('referenciais',this)">📊 Referenciais</button>
+      <button class="nav-tab" onclick="showSec('calculo',this)">🧮 Cálculo & Resultado</button>
+      <button class="nav-tab" onclick="showSec('locacao',this)">🔑 Locação</button>
+      <button class="nav-tab" onclick="showSec('laudo',this)">📝 Laudo & Cláusulas</button>
+      <button class="nav-tab" onclick="showSec('checklist',this)">✅ Checklist</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════
+     SEC 1: IDENTIFICAÇÃO DO PTAM
+══════════════════════════════════════════════════ -->
+<div id="sec-identificacao" class="section">
+<div class="page-wrap">
+
+  <!-- PTAM Header Card -->
+  <div class="ptam-header">
+    <div class="grid-2" style="align-items:center;gap:24px">
+      <div>
+        <div class="ptam-label">Parecer Técnico de Avaliação Mercadológica</div>
+        <div style="display:flex;align-items:baseline;gap:12px;margin:8px 0">
+          <div class="ptam-num" id="disp-ptam-num">PTAM Nº —</div>
+          <div class="badge badge-gold">📅 <span id="disp-data">—</span></div>
+        </div>
+        <div style="font-size:var(--font-small);color:var(--muted);line-height:1.7">
+          Conforme Resolução COFECI-SP Nº 1.066/2007 e NBR 14.653-2 (ABNT)<br>
+          <span id="disp-corretor" style="color:var(--gold2);font-weight:600"></span>
+        </div>
+      </div>
+      <div style="text-align:right">
+        <div class="ptam-label">Finalidade do PTAM</div>
+        <div id="disp-finalidade" style="font-size:1rem;color:#fff;font-weight:600;margin-top:6px">—</div>
+        <div style="margin-top:8px"><span class="badge badge-green">✓ Documento Profissional</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="gap:18px">
+    <!-- Dados do Corretor -->
+    <div class="card">
+      <div class="card-title">👤 Dados do Corretor Avaliador</div>
+      <div class="card-subtitle">Preencha seus dados — aparecem em todo o documento</div>
+      <div class="field-group">
+        <div class="field-label">Nome Completo <span class="req">*</span></div>
+        <input class="input-field" id="corretor-nome" placeholder="Ex: Felipe Costa" oninput="atualizarHeader()">
+      </div>
+      <div class="grid-2">
+        <div class="field-group">
+          <div class="field-label">CRECI <span class="req">*</span></div>
+          <input class="input-field" id="corretor-creci" placeholder="294791-F" oninput="atualizarHeader()">
+        </div>
+        <div class="field-group">
+          <div class="field-label">CNAI</div>
+          <input class="input-field" id="corretor-cnai" placeholder="52708" oninput="atualizarHeader()">
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="field-group">
+          <div class="field-label">WhatsApp</div>
+          <input class="input-field" id="corretor-wpp" placeholder="(11) 99350-9109">
+        </div>
+        <div class="field-group">
+          <div class="field-label">E-mail</div>
+          <input class="input-field" id="corretor-email" placeholder="contato@fcostacorretor.com">
+        </div>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Imobiliária / Marca</div>
+        <input class="input-field" id="corretor-marca" placeholder="FCosta Corretor — Zona Leste SP">
+      </div>
+    </div>
+
+    <!-- Dados do PTAM -->
+    <div class="card">
+      <div class="card-title">📋 Identificação do Parecer</div>
+      <div class="grid-2">
+        <div class="field-group">
+          <div class="field-label">Número do PTAM <span class="req">*</span></div>
+          <input class="input-field" id="ptam-numero" placeholder="001/2025" oninput="atualizarHeader()">
+        </div>
+        <div class="field-group">
+          <div class="field-label">Data de Emissão <span class="req">*</span></div>
+          <input class="input-field" type="date" id="ptam-data" oninput="atualizarHeader()">
+        </div>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Finalidade da Avaliação <span class="req">*</span></div>
+        <select class="input-field" id="ptam-finalidade" onchange="atualizarHeader()">
+          <option value="">Selecione…</option>
+          <option>Compra e Venda</option>
+          <option>Locação Residencial</option>
+          <option>Locação Comercial</option>
+          <option>Garantia Bancária / Financiamento</option>
+          <option>Partilha de Bens (Divórcio/Inventário)</option>
+          <option>Doação / Herança</option>
+          <option>Seguro Imobiliário</option>
+          <option>Ação Judicial / Perícia</option>
+          <option>Declaração de IR — Patrimônio</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Solicitante (Nome Completo) <span class="req">*</span></div>
+        <input class="input-field" id="solic-nome" placeholder="Nome do cliente solicitante">
+      </div>
+      <div class="grid-2">
+        <div class="field-group">
+          <div class="field-label">CPF / CNPJ do Solicitante</div>
+          <input class="input-field" id="solic-cpf" placeholder="000.000.000-00">
+        </div>
+        <div class="field-group">
+          <div class="field-label">Contato do Solicitante</div>
+          <input class="input-field" id="solic-tel" placeholder="(11) 9XXXX-XXXX">
+        </div>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Forma de Vistoria</div>
+        <select class="input-field" id="ptam-vistoria">
+          <option>Vistoria Presencial Completa</option>
+          <option>Vistoria Externa (Fachada)</option>
+          <option>Análise Documental + Fotos Fornecidas</option>
+          <option>Análise Remota (Mercado Digital)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SEC 2: IMÓVEL AVALIANDO
+══════════════════════════════════════════════════ -->
+<div id="sec-imovel" class="section section-hidden">
+<div class="page-wrap">
+  <div class="sec-tag">🏠 Imóvel Avaliando</div>
+  <div class="section-title">Características do Imóvel Avaliando</div>
+  <div class="section-sub">Preencha todos os dados do imóvel objeto da avaliação</div>
+
+  <div class="grid-2" style="gap:18px;margin-bottom:18px">
+    <!-- Localização -->
+    <div class="card">
+      <div class="card-title">📍 Localização</div>
+      <div class="field-group">
+        <div class="field-label">Endereço Completo <span class="req">*</span></div>
+        <input class="input-field" id="av-endereco" placeholder="Rua, número, complemento" oninput="atualizarMapa()">
+      </div>
+      <div class="grid-3">
+        <div class="field-group">
+          <div class="field-label">Bairro <span class="req">*</span></div>
+          <input class="input-field" id="av-bairro" placeholder="Itaim Paulista">
+        </div>
+        <div class="field-group">
+          <div class="field-label">CEP</div>
+          <input class="input-field" id="av-cep" placeholder="08000-000" oninput="buscarCEP()">
+        </div>
+        <div class="field-group">
+          <div class="field-label">Município / UF</div>
+          <input class="input-field" id="av-cidade" placeholder="São Paulo / SP">
+        </div>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Latitude / Longitude (opcional)</div>
+        <div class="grid-2">
+          <input class="input-field" id="av-lat" placeholder="-23.5505">
+          <input class="input-field" id="av-lng" placeholder="-46.6333">
+        </div>
+      </div>
+      <!-- Google Maps embed -->
+      <div class="map-container" style="margin-top:12px">
+        <iframe id="mapFrame" class="map-frame"
+          src="https://maps.google.com/maps?q=Itaim+Paulista,+São+Paulo&output=embed&z=15"
+          allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="map-overlay-label">📌 Localização do Imóvel</div>
+      </div>
+      <button class="btn btn-outline" style="margin-top:8px;width:100%" onclick="atualizarMapa()">🗺️ Atualizar Mapa</button>
+    </div>
+
+    <!-- Características Físicas -->
+    <div class="card">
+      <div class="card-title">📐 Características Físicas</div>
+      <div class="field-group">
+        <div class="field-label">Tipo do Imóvel <span class="req">*</span></div>
+        <select class="input-field" id="av-tipo" onchange="calcularTudo()">
+          <option value="">Selecione…</option>
+          <option>Apartamento</option>
+          <option>Casa Padrão</option>
+          <option>Casa em Condomínio</option>
+          <option>Sobrado</option>
+          <option>Kitnet / Studio</option>
+          <option>Sala Comercial</option>
+          <option>Loja / Ponto Comercial</option>
+          <option>Galpão / Pavilhão</option>
+          <option>Terreno Urbano</option>
+          <option>Terreno Rural</option>
+          <option>Sítio / Chácara</option>
+        </select>
+      </div>
+      <div class="grid-2">
+        <div class="field-group">
+          <div class="field-label">Área Útil (m²) <span class="req">*</span></div>
+          <input class="input-field" id="av-area-util" type="number" placeholder="65" oninput="calcularTudo()">
+        </div>
+        <div class="field-group">
+          <div class="field-label">Área Total (m²)</div>
+          <input class="input-field" id="av-area-total" type="number" placeholder="80">
+        </div>
+      </div>
+      <div class="grid-4">
+        <div class="field-group">
+          <div class="field-label">Dormitórios</div>
+          <input class="input-field" id="av-dorms" type="number" placeholder="2" min="0">
+        </div>
+        <div class="field-group">
+          <div class="field-label">Suítes</div>
+          <input class="input-field" id="av-suites" type="number" placeholder="0" min="0">
+        </div>
+        <div class="field-group">
+          <div class="field-label">Banheiros</div>
+          <input class="input-field" id="av-banhs" type="number" placeholder="1" min="0">
+        </div>
+        <div class="field-group">
+          <div class="field-label">Vagas</div>
+          <input class="input-field" id="av-vagas" type="number" placeholder="1" min="0">
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="field-group">
+          <div class="field-label">Andar / Pavimento</div>
+          <input class="input-field" id="av-andar" placeholder="3º andar / Térreo">
+        </div>
+        <div class="field-group">
+          <div class="field-label">Ano de Construção</div>
+          <input class="input-field" id="av-ano" type="number" placeholder="2005">
+        </div>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Estado de Conservação <span class="req">*</span></div>
+        <select class="input-field" id="av-conservacao" onchange="calcularTudo()">
+          <option value="">Selecione…</option>
+          <option value="1.08">Novo (até 3 anos)</option>
+          <option value="1.04">Ótimo — Reformado Recentemente</option>
+          <option value="1.00">Bom — Bem Conservado</option>
+          <option value="0.95">Regular — Pequenos Reparos</option>
+          <option value="0.88">Ruim — Reformas Necessárias</option>
+          <option value="0.75">Péssimo — Grande Reforma</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Padrão de Acabamento <span class="req">*</span></div>
+        <select class="input-field" id="av-padrao" onchange="calcularTudo()">
+          <option value="">Selecione…</option>
+          <option value="1.25">Luxo — Alto Padrão</option>
+          <option value="1.10">Superior</option>
+          <option value="1.00">Médio Padrão</option>
+          <option value="0.90">Simples</option>
+          <option value="0.78">Popular / Econômico</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Infraestrutura e Acabamentos -->
+  <div class="card" style="margin-bottom:18px">
+    <div class="card-title">🏗️ Infraestrutura & Acabamentos</div>
+    <div class="card-subtitle">Marque todos os itens presentes no imóvel — influenciam no coeficiente de valor</div>
+    <div class="grid-3" id="infraGrid">
+      <!-- gerado por JS -->
+    </div>
+    <div style="margin-top:14px">
+      <div class="field-label">Descrição Livre de Infraestrutura / Lazer</div>
+      <textarea class="input-field" id="av-infra-obs" placeholder="Ex: Sacada com churrasqueira, piso porcelanato, armários embutidos em todos os quartos, split em todos os ambientes, portaria 24h, câmeras, academia, piscina, playground…" style="min-height:70px"></textarea>
+    </div>
+  </div>
+
+  <!-- Fotos do Imóvel -->
+  <div class="card" style="margin-bottom:18px">
+    <div class="card-title">📸 Registro Fotográfico do Imóvel Avaliando</div>
+    <div class="card-subtitle">Adicione fotos de cada cômodo e da fachada. Mín. 5 fotos recomendadas pelo CRECI-SP.</div>
+    <div class="photo-grid" id="photoGridPrincipal">
+      <!-- Gerado por JS -->
+    </div>
+  </div>
+
+  <!-- Observações do imóvel -->
+  <div class="card">
+    <div class="card-title">📝 Observações Gerais do Imóvel Avaliando</div>
+    <div class="field-group">
+      <div class="field-label">Descrição Completa / Particularidades</div>
+      <textarea class="input-field" id="av-descricao"
+        placeholder="Descreva detalhadamente o imóvel: localização privilegiada, diferenciais, benfeitorias, situação documental, confrontações, serviços de entorno (escolas, supermercados, transporte público), pontos negativos que afetam o valor etc."
+        style="min-height:120px"></textarea>
+    </div>
+    <div class="grid-2">
+      <div class="field-group">
+        <div class="field-label">Matrícula do Imóvel</div>
+        <input class="input-field" id="av-matricula" placeholder="Nº da matrícula no CRI">
+      </div>
+      <div class="field-group">
+        <div class="field-label">Inscrição Municipal (SQL)</div>
+        <input class="input-field" id="av-sql" placeholder="Inscrição IPTU">
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="field-group">
+        <div class="field-label">Zoneamento</div>
+        <input class="input-field" id="av-zoneamento" placeholder="ZR-2, ZM, ZEU…">
+      </div>
+      <div class="field-group">
+        <div class="field-label">Zona de Valor (Prefeitura)</div>
+        <input class="input-field" id="av-zona-valor" placeholder="Ex: Zona 28">
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SEC 3: DOCUMENTAÇÃO
+══════════════════════════════════════════════════ -->
+<div id="sec-documentacao" class="section section-hidden">
+<div class="page-wrap">
+  <div class="sec-tag">📁 Documentação</div>
+  <div class="section-title">Documentação — Por Tipo de Transação</div>
+  <div class="section-sub">Selecione a transação para ver os documentos detalhados com base legal completa</div>
+
+  <div style="margin-bottom:18px">
+    <div class="field-label">Tipo de Transação para Documentação</div>
+    <select class="input-field" id="doc-tipo-transacao" onchange="mostrarDocTransacao()" style="max-width:400px">
+      <option value="">Selecione a transação…</option>
+      <option value="compravenda">Compra e Venda à Vista</option>
+      <option value="financiamento">Compra com Financiamento Bancário</option>
+      <option value="locacao">Locação Residencial</option>
+      <option value="locacao-comercial">Locação Comercial</option>
+      <option value="doacao">Doação de Imóvel</option>
+      <option value="inventario">Inventário e Partilha</option>
+      <option value="permuta">Permuta Imobiliária</option>
+      <option value="usucapiao">Usucapião</option>
+    </select>
+  </div>
+
+  <div id="doc-container">
+    <div class="card" style="text-align:center;padding:40px">
+      <div style="font-size:3rem;margin-bottom:12px">📁</div>
+      <div style="color:var(--muted)">Selecione uma transação acima para ver os documentos detalhados com base legal</div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SEC 4: IMÓVEIS REFERENCIAIS
+══════════════════════════════════════════════════ -->
+<div id="sec-referenciais" class="section section-hidden">
+<div class="page-wrap">
+  <div class="sec-tag">📊 Pesquisa de Mercado</div>
+  <div class="section-title">Imóveis Referenciais — Comparandos</div>
+  <div class="section-sub">Mín. 3 obrigatórios para cálculo da média. Máx. 10. A partir do 3º os valores são calculados automaticamente.</div>
+
+  <div id="refs-container" style="display:flex;flex-direction:column;gap:16px;margin-bottom:16px">
+    <!-- Gerado por JS -->
+  </div>
+
+  <div id="add-ref-btn" class="add-ref-btn" onclick="adicionarReferencial()" style="margin-bottom:24px">
+    <span style="font-size:1.4rem">+</span> Adicionar Referencial (máx. 10)
+  </div>
+
+  <!-- Tabela Resumo -->
+  <div class="card" style="margin-bottom:18px">
+    <div class="card-title">📋 Tabela Resumo dos Referenciais</div>
+    <div style="overflow-x:auto">
+      <table class="data-table" id="tabela-refs">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Endereço / Referencial</th>
+            <th>Tipo</th>
+            <th>Área (m²)</th>
+            <th>Valor Total (R$)</th>
+            <th>Valor/m² (R$)</th>
+            <th>Fator</th>
+            <th>Valor/m² Ajustado</th>
+          </tr>
+        </thead>
+        <tbody id="tabela-refs-body">
+          <tr><td colspan="8" style="text-align:center;color:var(--muted);padding:20px">Preencha os referenciais acima</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SEC 5: CÁLCULO & RESULTADO
+══════════════════════════════════════════════════ -->
+<div id="sec-calculo" class="section section-hidden">
+<div class="page-wrap">
+  <div class="sec-tag">🧮 Avaliação</div>
+  <div class="section-title">Cálculo & Resultado da Avaliação</div>
+  <div class="section-sub">Todos os valores calculados automaticamente a partir dos dados preenchidos</div>
+
+  <div class="grid-2" style="gap:18px;margin-bottom:18px">
+
+    <!-- Parâmetros de cálculo -->
+    <div class="card">
+      <div class="card-title">⚙️ Parâmetros do Cálculo</div>
+      <div class="field-group">
+        <div class="field-label">Método de Avaliação</div>
+        <select class="input-field" id="calc-metodo" onchange="calcularTudo()">
+          <option value="comparativo">Comparativo Direto de Dados de Mercado (ABNT NBR 14.653-2)</option>
+          <option value="renda">Método da Renda (capitalização do aluguel)</option>
+          <option value="custo">Método do Custo (custo de reprodução)</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Fator de Oferta (desconto negociação)</div>
+        <select class="input-field" id="calc-fator-oferta" onchange="calcularTudo()">
+          <option value="0.92">8% — Mercado com alta oferta (típico SP)</option>
+          <option value="0.95">5% — Mercado equilibrado</option>
+          <option value="0.98">2% — Imóvel muito procurado</option>
+          <option value="1.00">0% — Não aplicar fator de oferta</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Depreciação por Idade (%)</div>
+        <input class="input-field calc-result" id="calc-depreciacao" readonly placeholder="Calculada automaticamente">
+      </div>
+      <div class="field-group">
+        <div class="field-label">Coef. Conservação (selecionado)</div>
+        <input class="input-field calc-result" id="calc-coef-conservacao" readonly placeholder="—">
+      </div>
+      <div class="field-group">
+        <div class="field-label">Coef. Padrão Acabamento (selecionado)</div>
+        <input class="input-field calc-result" id="calc-coef-padrao" readonly placeholder="—">
+      </div>
+      <div class="field-group">
+        <div class="field-label">Coef. de Infraestrutura (calculado)</div>
+        <input class="input-field calc-result" id="calc-coef-infra" readonly placeholder="—">
+      </div>
+    </div>
+
+    <!-- Resultado Principal -->
+    <div>
+      <div class="result-box" style="margin-bottom:16px">
+        <div class="result-label">VALOR MÉDIO DOS REFERENCIAIS (R$/m²)</div>
+        <div class="result-main" id="res-medio-m2">R$ —</div>
+        <div class="result-range" id="res-n-refs">Baseado em <b>0</b> referenciais</div>
+      </div>
+      <div class="result-box">
+        <div class="result-label">VALOR DE AVALIAÇÃO DO IMÓVEL</div>
+        <div class="result-main" id="res-valor-final">R$ —</div>
+        <div class="result-range" id="res-faixa">Faixa: <span id="res-min">—</span> a <span id="res-max">—</span></div>
+        <div style="margin-top:10px">
+          <span class="result-label">VALOR/m²</span>
+          <div class="result-m2" id="res-vm2">R$ —/m²</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fórmulas -->
+  <div class="card" style="margin-bottom:18px">
+    <div class="card-title">📐 Fórmulas Aplicadas</div>
+    <div class="grid-2">
+      <div>
+        <div style="font-size:var(--font-label);color:var(--muted);margin-bottom:6px;font-weight:700">VALOR/m² AJUSTADO DE CADA REFERENCIAL</div>
+        <div style="background:rgba(212,168,67,.08);border:1px solid var(--border);border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:var(--gold2)">
+          V_aj = (V_total ÷ Área_m²) × F_homog<br>
+          F_homog = F_conserv × F_padrão × F_localiz
+        </div>
+        <div style="font-size:var(--font-small);color:var(--muted);margin-top:6px;line-height:1.6">
+          Onde: <b>V_aj</b> = valor ajustado/m²; <b>F_homog</b> = fator de homogeneização;<br>
+          <b>F_conserv</b> = fator de conservação; <b>F_padrão</b> = padrão de acabamento;<br>
+          <b>F_localiz</b> = fator de localização do referencial.
+        </div>
+      </div>
+      <div>
+        <div style="font-size:var(--font-label);color:var(--muted);margin-bottom:6px;font-weight:700">VALOR FINAL DO IMÓVEL AVALIANDO</div>
+        <div style="background:rgba(212,168,67,.08);border:1px solid var(--border);border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:var(--gold2)">
+          V_final = Média(V_aj) × Área_útil<br>
+            × F_oferta × F_conserv × F_padrão<br>
+            × F_infra × (1 - Depreciação)
+        </div>
+        <div style="font-size:var(--font-small);color:var(--muted);margin-top:6px;line-height:1.6">
+          Onde: <b>Média(V_aj)</b> = média aritmética dos V/m² ajustados;<br>
+          <b>F_oferta</b> = desconto negociação; <b>F_infra</b> = infraestrutura.<br>
+          Faixa de valor: ±5% sobre o valor central (NBR 14.653).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gráficos -->
+  <div class="grid-2" style="gap:18px;margin-bottom:18px">
+    <div class="chart-container">
+      <div class="chart-title">📊 Valor/m² por Referencial vs. Avaliando</div>
+      <canvas id="chartBarras" height="220"></canvas>
+    </div>
+    <div class="chart-container">
+      <div class="chart-title">📈 Dispersão — Área x Valor Total</div>
+      <canvas id="chartScatter" height="220"></canvas>
+    </div>
+  </div>
+
+  <!-- Tabela de Cálculo Detalhado -->
+  <div class="card" style="margin-bottom:18px">
+    <div class="card-title">🔢 Memória de Cálculo Detalhada</div>
+    <div style="overflow-x:auto">
+      <table class="data-table" id="tabela-calculo">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Referencial</th>
+            <th>Área (m²)</th>
+            <th>Valor Total</th>
+            <th>V/m² Bruto</th>
+            <th>F. Conserv.</th>
+            <th>F. Padrão</th>
+            <th>F. Localiz.</th>
+            <th>V/m² Ajustado</th>
+          </tr>
+        </thead>
+        <tbody id="tabela-calculo-body">
+          <tr><td colspan="9" style="text-align:center;color:var(--muted);padding:20px">Preencha os referenciais para ver o cálculo</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Resumo de custos ITBI -->
+  <div class="card">
+    <div class="card-title">💰 Estimativa de Custos de Transação</div>
+    <div class="card-subtitle">Calculados automaticamente sobre o valor de avaliação</div>
+    <div class="grid-2">
+      <div>
+        <div class="sum-row"><span class="sum-label">Valor de Avaliação</span><span class="sum-val" id="custo-base">R$ —</span></div>
+        <div class="sum-row"><span class="sum-label">ITBI (3% sobre valor venal — SP)</span><span class="sum-val" id="custo-itbi">R$ —</span></div>
+        <div class="sum-row"><span class="sum-label">Escritura Pública (~1,2%)</span><span class="sum-val" id="custo-escritura">R$ —</span></div>
+        <div class="sum-row"><span class="sum-label">Registro RI (~0,7%)</span><span class="sum-val" id="custo-registro">R$ —</span></div>
+        <div class="sum-row sum-total"><span class="sum-label">Total Custos Cartoriais (estimado)</span><span class="sum-val" id="custo-total">R$ —</span></div>
+      </div>
+      <div>
+        <div class="sum-row"><span class="sum-label">Comissão Corretor (6% — COFECI)</span><span class="sum-val" id="custo-comissao">R$ —</span></div>
+        <div class="sum-row"><span class="sum-label">Aluguel Sugerido (0,5%/mês)</span><span class="sum-val" id="custo-aluguel">R$ —</span></div>
+        <div class="sum-row"><span class="sum-label">Cap Rate Anual (locação)</span><span class="sum-val" id="custo-caprate">—%</span></div>
+        <div class="sum-row"><span class="sum-label">Prazo Médio Retorno (locação)</span><span class="sum-val" id="custo-retorno">— anos</span></div>
+        <div class="field-group" style="margin-top:12px">
+          <div class="field-label" style="font-size:11px">Comissão Personalizada (%)</div>
+          <input class="input-field" id="custom-comissao" type="number" placeholder="6" step="0.5" min="0" max="20" oninput="calcularTudo()" style="font-size:13px">
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SEC 6: LOCAÇÃO
+══════════════════════════════════════════════════ -->
+<div id="sec-locacao" class="section section-hidden">
+<div class="page-wrap">
+  <div class="sec-tag">🔑 Avaliação de Locação</div>
+  <div class="section-title">Parecer de Valor Locatício</div>
+  <div class="section-sub">Cálculo do valor mensal de locação baseado no mercado e no valor de avaliação</div>
+
+  <div class="grid-2" style="gap:18px;margin-bottom:18px">
+    <div class="card">
+      <div class="card-title">📊 Parâmetros de Locação</div>
+      <div class="field-group">
+        <div class="field-label">Tipo de Locação</div>
+        <select class="input-field" id="loc-tipo" onchange="calcLocacao()">
+          <option value="residencial">Residencial — Lei 8.245/91</option>
+          <option value="comercial">Comercial — Lei 8.245/91</option>
+          <option value="temporada">Temporada (máx. 90 dias)</option>
+          <option value="industrial">Industrial / Galpão</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Taxa de Rendimento Locativo (%/mês sobre valor do imóvel)</div>
+        <input class="input-field" id="loc-taxa" type="number" step="0.1" placeholder="0.5" value="0.5" oninput="calcLocacao()">
+        <div style="font-size:10px;color:var(--muted);margin-top:4px">Média mercado SP: 0,4% a 0,6% a.m. para residencial</div>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Valor do Imóvel (R$) — do PTAM</div>
+        <input class="input-field calc-result" id="loc-valor-imovel" readonly placeholder="Calculado na aba Cálculo">
+      </div>
+      <div class="field-group">
+        <div class="field-label">Índice de Reajuste Contratual</div>
+        <select class="input-field" id="loc-indice">
+          <option>IGPM (FGV)</option>
+          <option>IPCA (IBGE)</option>
+          <option>IPC (FIPE)</option>
+          <option>INPC (IBGE)</option>
+        </select>
+      </div>
+      <div class="grid-2">
+        <div class="field-group">
+          <div class="field-label">Prazo Mínimo Sugerido</div>
+          <select class="input-field" id="loc-prazo">
+            <option value="12">12 meses</option>
+            <option value="24" selected>24 meses (padrão)</option>
+            <option value="30">30 meses</option>
+            <option value="36">36 meses</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Carência (meses)</div>
+          <input class="input-field" id="loc-carencia" type="number" placeholder="0" min="0" max="3">
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="result-box" style="margin-bottom:16px">
+        <div class="result-label">ALUGUEL MENSAL SUGERIDO</div>
+        <div class="result-main" id="loc-res-aluguel">R$ —</div>
+        <div class="result-range" id="loc-res-faixa">Faixa: — a —</div>
+      </div>
+      <div class="result-box">
+        <div class="result-label">RETORNO ANUAL ESTIMADO</div>
+        <div class="result-main" id="loc-res-retorno" style="font-size:1.8rem">— %/ano</div>
+        <div class="result-range" id="loc-res-prazo-ret">Prazo de retorno: — anos</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Encargos da locação -->
+  <div class="card" style="margin-bottom:18px">
+    <div class="card-title">💵 Composição dos Encargos Mensais</div>
+    <div class="card-subtitle">Detalhamento completo para o locatário</div>
+    <div class="grid-2">
+      <div>
+        <div class="sum-row"><span class="sum-label">Aluguel mensal</span><span class="sum-val" id="enc-aluguel">R$ —</span></div>
+        <div class="sum-row"><span class="sum-label">IPTU (rateio mensal estimado)</span><span class="sum-val" id="enc-iptu">A informar</span></div>
+        <div class="sum-row"><span class="sum-label">Condomínio</span><span class="sum-val" id="enc-cond">A informar</span></div>
+        <div class="sum-row"><span class="sum-label">Seguro Incêndio (obrigatório)</span><span class="sum-val" id="enc-seguro">~R$ 25–80/mês</span></div>
+        <div class="sum-row sum-total"><span class="sum-label">Total estimado encargos</span><span class="sum-val" id="enc-total">R$ —</span></div>
+      </div>
+      <div>
+        <div class="field-group">
+          <div class="field-label">IPTU Mensal Estimado (R$)</div>
+          <input class="input-field" id="enc-iptu-val" type="number" placeholder="0" oninput="calcEncargos()">
+        </div>
+        <div class="field-group">
+          <div class="field-label">Condomínio (R$/mês)</div>
+          <input class="input-field" id="enc-cond-val" type="number" placeholder="0" oninput="calcEncargos()">
+        </div>
+        <div class="field-group">
+          <div class="field-label">Seguro Incêndio (R$/mês)</div>
+          <input class="input-field" id="enc-seg-val" type="number" placeholder="45" oninput="calcEncargos()">
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SEC 7: LAUDO & CLÁUSULAS
+══════════════════════════════════════════════════ -->
+<div id="sec-laudo" class="section section-hidden">
+<div class="page-wrap">
+  <div class="sec-tag">📝 Laudo Técnico</div>
+  <div class="section-title">Cláusulas Detalhadas — PTAM e Contratos</div>
+  <div class="section-sub">Cláusulas completas com base legal. Campos editáveis em destaque azul.</div>
+
+  <!-- PTAM CLÁUSULAS -->
+  <h3 style="font-family:'DM Serif Display',serif;color:var(--gold);margin:0 0 16px;font-size:1.2rem">
+    📋 I — Cláusulas do Parecer Técnico (PTAM)
+  </h3>
+  <div id="clausulas-ptam-container"></div>
+
+  <hr class="divider">
+
+  <h3 style="font-family:'DM Serif Display',serif;color:var(--gold);margin:16px 0;font-size:1.2rem">
+    🔑 II — Cláusulas do Contrato de Locação (Lei 8.245/91)
+  </h3>
+  <div id="clausulas-locacao-container"></div>
+
+  <hr class="divider">
+
+  <h3 style="font-family:'DM Serif Display',serif;color:var(--gold);margin:16px 0;font-size:1.2rem">
+    🤝 III — Cláusulas da Promessa de Compra e Venda
+  </h3>
+  <div id="clausulas-cv-container"></div>
+
+  <hr class="divider">
+
+  <!-- Conclusão e Assinatura -->
+  <div class="card" style="margin-top:24px">
+    <div class="card-title">✍️ Conclusão & Assinatura do Avaliador</div>
+    <div class="field-group">
+      <div class="field-label">Conclusão do Parecer (texto editável)</div>
+      <textarea class="input-field" id="conclusao-texto"
+        style="min-height:140px;font-size:var(--font-body)"
+        placeholder="Ex: Com base na pesquisa mercadológica realizada, na análise das características intrínsecas e extrínsecas do imóvel descrito, mediante o método comparativo direto de dados de mercado conforme preconiza a NBR 14.653-2/2011 (ABNT), este subscritor conclui que o valor de mercado do referido imóvel, para fins de [FINALIDADE], é da ordem de R$ [VALOR], podendo variar entre R$ [MÍNIMO] e R$ [MÁXIMO], expressando faixa de ±5% sobre o valor central, conforme recomendação normativa…"></textarea>
+    </div>
+    <div class="grid-2" style="margin-top:16px">
+      <div>
+        <div class="sig-box">
+          <div style="font-size:var(--font-small);color:var(--muted)">Assinatura do Avaliador</div>
+          <div class="sig-line" id="sig-nome-corretor">_________________________________</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px" id="sig-creci-corretor">CRECI-SP — | CNAI —</div>
+        </div>
+      </div>
+      <div>
+        <div class="field-group">
+          <div class="field-label">Local de Emissão</div>
+          <input class="input-field" id="sig-local" placeholder="São Paulo — SP">
+        </div>
+        <div class="field-group">
+          <div class="field-label">Data</div>
+          <input class="input-field" type="date" id="sig-data">
+        </div>
+        <div style="font-size:var(--font-small);color:var(--muted);margin-top:8px;line-height:1.65;font-style:italic">
+          Este documento é de responsabilidade exclusiva do corretor avaliador subscritor, nos termos da Resolução COFECI Nº 1.066/2007. Validade: 90 dias.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SEC 8: CHECKLIST
+══════════════════════════════════════════════════ -->
+<div id="sec-checklist" class="section section-hidden">
+<div class="page-wrap">
+  <div class="sec-tag">✅ Checklist</div>
+  <div class="section-title">Checklist Completo de Documentos</div>
+  <div class="section-sub">Marque os documentos já obtidos. Base legal detalhada para cada item.</div>
+  <div id="checklist-container"></div>
+</div>
+</div>
+
+<!-- FAB -->
+<div class="fab-bar no-print">
+  <button class="fab fab-print" onclick="window.print()" title="Imprimir / PDF">🖨️</button>
+  <button class="fab fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo">↑</button>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+
+<script>
+// ═══════════════════════════════════════════════
+// NAVEGAÇÃO
+// ═══════════════════════════════════════════════
+function showSec(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.add('section-hidden'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.remove('section-hidden');
+  if (el) el.classList.add('active');
+  if (id === 'checklist') buildChecklist();
+  if (id === 'laudo') buildClausulas();
+  if (id === 'calculo') calcularTudo();
+}
+
+// ═══════════════════════════════════════════════
+// HEADER DINÂMICO
+// ═══════════════════════════════════════════════
+function atualizarHeader() {
+  const creci = document.getElementById('corretor-creci').value || '294791-F';
+  const cnai = document.getElementById('corretor-cnai').value || '52708';
+  const nome = document.getElementById('corretor-nome').value;
+  const num = document.getElementById('ptam-numero').value;
+  const data = document.getElementById('ptam-data').value;
+  const finalidade = document.getElementById('ptam-finalidade').value;
+
+  document.getElementById('hdr-creci').textContent = creci;
+  document.getElementById('hdr-cnai').textContent = cnai;
+  document.getElementById('disp-ptam-num').textContent = num ? 'PTAM Nº ' + num : 'PTAM Nº —';
+  document.getElementById('disp-corretor').textContent = nome ? 'Avaliador: ' + nome + ' | CRECI-SP ' + creci : '';
+  document.getElementById('disp-finalidade').textContent = finalidade || '—';
+  document.getElementById('sig-nome-corretor').textContent = nome || '_________________________________';
+  document.getElementById('sig-creci-corretor').textContent = (creci ? 'CRECI-SP ' + creci : '') + (cnai ? ' | CNAI ' + cnai : '');
+
+  if (data) {
+    const d = new Date(data + 'T12:00:00');
+    document.getElementById('disp-data').textContent = d.toLocaleDateString('pt-BR');
+  }
+}
+
+// ═══════════════════════════════════════════════
+// MAPA
+// ═══════════════════════════════════════════════
+function atualizarMapa() {
+  const end = document.getElementById('av-endereco').value;
+  const bairro = document.getElementById('av-bairro').value;
+  const cidade = document.getElementById('av-cidade').value;
+  const q = encodeURIComponent([end, bairro, cidade].filter(Boolean).join(', ') || 'Itaim Paulista, São Paulo');
+  document.getElementById('mapFrame').src = `https://maps.google.com/maps?q=${q}&output=embed&z=16`;
+}
+
+// ═══════════════════════════════════════════════
+// INFRAESTRUTURA
+// ═══════════════════════════════════════════════
+const INFRA_ITEMS = [
+  { id:'inf_portaria', label:'Portaria 24h', fator:0.012 },
+  { id:'inf_cameras', label:'Câmeras CFTV', fator:0.006 },
+  { id:'inf_piscina', label:'Piscina', fator:0.018 },
+  { id:'inf_academia', label:'Academia / Fitness', fator:0.010 },
+  { id:'inf_playground', label:'Playground', fator:0.007 },
+  { id:'inf_salao', label:'Salão de Festas', fator:0.008 },
+  { id:'inf_elevador', label:'Elevador', fator:0.014 },
+  { id:'inf_gerador', label:'Gerador de Energia', fator:0.010 },
+  { id:'inf_solar', label:'Energia Solar', fator:0.012 },
+  { id:'inf_gourmet', label:'Área Gourmet', fator:0.009 },
+  { id:'inf_churrasco', label:'Churrasqueira', fator:0.007 },
+  { id:'inf_sacada', label:'Sacada / Varanda', fator:0.008 },
+  { id:'inf_armarios', label:'Armários Embutidos', fator:0.010 },
+  { id:'inf_split', label:'Ar-condicionado Split', fator:0.009 },
+  { id:'inf_porcelanato', label:'Piso Porcelanato/Mármores', fator:0.007 },
+  { id:'inf_blindagem', label:'Porta Blindada', fator:0.006 },
+  { id:'inf_interfone', label:'Interfone / Vídeo', fator:0.004 },
+  { id:'inf_fibra', label:'Fibra Óptica no Cond.', fator:0.003 },
+];
+
+function buildInfraGrid() {
+  const g = document.getElementById('infraGrid');
+  if (!g) return;
+  g.innerHTML = INFRA_ITEMS.map(i => `
+    <label style="display:flex;align-items:center;gap:8px;padding:8px 10px;
+      background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+      border-radius:8px;cursor:pointer;font-size:var(--font-label);transition:all .2s"
+      onmouseover="this.style.borderColor='rgba(212,168,67,.3)'"
+      onmouseout="this.style.borderColor='rgba(255,255,255,.07)'">
+      <input type="checkbox" id="${i.id}" style="accent-color:var(--gold);width:14px;height:14px" onchange="calcularTudo()">
+      <span style="color:var(--text)">${i.label}</span>
+      <span style="margin-left:auto;font-size:10px;color:var(--green)">+${(i.fator*100).toFixed(1)}%</span>
+    </label>`).join('');
+}
+
+function calcCoefInfra() {
+  let f = 1.0;
+  INFRA_ITEMS.forEach(i => {
+    const el = document.getElementById(i.id);
+    if (el && el.checked) f += i.fator;
+  });
+  return Math.min(f, 1.30); // cap 30%
+}
+
+// ═══════════════════════════════════════════════
+// FOTOS
+// ═══════════════════════════════════════════════
+const FOTO_SLOTS = [
+  'Fachada Principal','Sala de Estar','Cozinha','Dormitório 1','Dormitório 2',
+  'Banheiro','Área de Serviço','Área Externa / Quintal','Vista / Sacada','Garagem'
+];
+
+function buildPhotoGrid(containerId, slots) {
+  const g = document.getElementById(containerId);
+  if (!g) return;
+  g.innerHTML = slots.map((nome, idx) => `
+    <div class="photo-slot" id="slot-${containerId}-${idx}">
+      <span style="font-size:1.5rem">📷</span>
+      <span class="photo-label">${nome}</span>
+      <input type="file" accept="image/*" onchange="loadPhoto(this,'slot-${containerId}-${idx}')">
+    </div>`).join('');
+}
+
+function loadPhoto(input, slotId) {
+  if (!input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const slot = document.getElementById(slotId);
+    slot.innerHTML = `<img src="${e.target.result}" alt="foto">
+      <input type="file" accept="image/*" onchange="loadPhoto(this,'${slotId}')">`;
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+
+// ═══════════════════════════════════════════════
+// REFERENCIAIS
+// ═══════════════════════════════════════════════
+let refsData = [];
+let refCount = 0;
+
+function adicionarReferencial(force) {
+  if (refsData.length >= 10 && !force) { alert('Máximo de 10 referenciais atingido.'); return; }
+  const idx = refsData.length;
+  refCount++;
+  const id = 'ref-' + refCount;
+  const obrig = idx < 3;
+  refsData.push({ id, idx });
+
+  const container = document.getElementById('refs-container');
+  const div = document.createElement('div');
+  div.className = 'ref-card' + (obrig ? ' active-ref' : '');
+  div.id = 'card-' + id;
+  div.innerHTML = `
+    <div class="ref-card-header">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="ref-num">${idx+1}</div>
+        <div>
+          <div style="font-size:var(--font-body);font-weight:700;color:#fff">Referencial ${idx+1}</div>
+          <div style="font-size:10px;color:var(--muted)">Imóvel comparando</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="ref-status ${obrig?'obrig':'opt'}">${obrig?'Obrigatório':'Opcional'}</span>
+        ${!obrig ? `<button class="ref-remove" onclick="removerReferencial('${id}')">✕ Remover</button>` : ''}
+      </div>
+    </div>
+    <div class="grid-2" style="gap:14px">
+      <div>
+        <div class="field-group">
+          <div class="field-label">Endereço / Identificação <span class="req">*</span></div>
+          <input class="input-field" id="${id}-end" placeholder="Rua, nº ou referência de mercado" oninput="calcularTudo()">
+        </div>
+        <div class="grid-2">
+          <div class="field-group">
+            <div class="field-label">Bairro</div>
+            <input class="input-field" id="${id}-bairro" placeholder="Bairro">
+          </div>
+          <div class="field-group">
+            <div class="field-label">Fonte / Anúncio</div>
+            <select class="input-field" id="${id}-fonte">
+              <option>Pesquisa Direta</option>
+              <option>ZAP Imóveis</option>
+              <option>OLX</option>
+              <option>Viva Real</option>
+              <option>Quinto Andar</option>
+              <option>Captação Própria</option>
+              <option>Oferta de Colega</option>
+              <option>CRECI Banco de Dados</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="field-group">
+            <div class="field-label">Área (m²) <span class="req">*</span></div>
+            <input class="input-field" id="${id}-area" type="number" placeholder="70" oninput="calcularTudo()">
+          </div>
+          <div class="field-group">
+            <div class="field-label">Dorms</div>
+            <input class="input-field" id="${id}-dorms" type="number" placeholder="2" min="0">
+          </div>
+          <div class="field-group">
+            <div class="field-label">Vagas</div>
+            <input class="input-field" id="${id}-vagas" type="number" placeholder="1" min="0">
+          </div>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Valor Total (R$) <span class="req">*</span></div>
+          <input class="input-field" id="${id}-valor" type="number" placeholder="350000" oninput="calcularTudo()">
+        </div>
+      </div>
+      <div>
+        <div class="field-group">
+          <div class="field-label">Conservação do Referencial</div>
+          <select class="input-field" id="${id}-conserv" onchange="calcularTudo()">
+            <option value="1.08">Novo</option>
+            <option value="1.04">Ótimo</option>
+            <option value="1.00" selected>Bom</option>
+            <option value="0.95">Regular</option>
+            <option value="0.88">Ruim</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Padrão do Referencial</div>
+          <select class="input-field" id="${id}-padrao" onchange="calcularTudo()">
+            <option value="1.25">Luxo</option>
+            <option value="1.10">Superior</option>
+            <option value="1.00" selected>Médio</option>
+            <option value="0.90">Simples</option>
+            <option value="0.78">Popular</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Fator de Localização do Referencial</div>
+          <select class="input-field" id="${id}-localiz" onchange="calcularTudo()">
+            <option value="1.00" selected>1,00 — Equivalente ao avaliando</option>
+            <option value="1.05">1,05 — Localização levemente superior</option>
+            <option value="1.10">1,10 — Localização superior</option>
+            <option value="0.95">0,95 — Localização levemente inferior</option>
+            <option value="0.90">0,90 — Localização inferior</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Valor/m² (calculado)</div>
+          <input class="input-field calc-result" id="${id}-vm2" readonly placeholder="—">
+        </div>
+        <div class="field-group">
+          <div class="field-label">Valor/m² Ajustado (calculado)</div>
+          <input class="input-field calc-result" id="${id}-vm2aj" readonly placeholder="—">
+        </div>
+      </div>
+    </div>
+    <!-- Fotos do referencial -->
+    <div style="margin-top:14px">
+      <div class="card-title" style="font-size:11px;margin-bottom:8px">📸 Fotos do Referencial ${idx+1}</div>
+      <div class="photo-grid" id="refphoto-${id}" style="grid-template-columns:repeat(auto-fill,minmax(140px,1fr))"></div>
+      <!-- Mapa do referencial -->
+      <div style="margin-top:10px">
+        <div class="field-label" style="font-size:11px;margin-bottom:6px">🗺️ Localização no Mapa</div>
+        <div class="map-container">
+          <iframe id="refmap-${id}" class="map-frame" style="height:200px"
+            src="https://maps.google.com/maps?q=São+Paulo&output=embed&z=13"
+            allowfullscreen loading="lazy"></iframe>
+        </div>
+        <button class="btn btn-outline" style="margin-top:6px;font-size:11px;padding:5px 12px"
+          onclick="atualizarMapaRef('${id}')">🗺️ Atualizar Mapa</button>
+      </div>
+    </div>`;
+
+  container.appendChild(div);
+  buildPhotoGrid(`refphoto-${id}`, ['Fachada','Interior','Área Externa']);
+
+  if (refsData.length >= 10) {
+    document.getElementById('add-ref-btn').style.display = 'none';
+  }
+}
+
+function removerReferencial(id) {
+  const card = document.getElementById('card-' + id);
+  if (card) card.remove();
+  refsData = refsData.filter(r => r.id !== id);
+  document.getElementById('add-ref-btn').style.display = 'flex';
+  calcularTudo();
+}
+
+function atualizarMapaRef(id) {
+  const end = document.getElementById(id + '-end')?.value || '';
+  const bairro = document.getElementById(id + '-bairro')?.value || '';
+  const q = encodeURIComponent([end, bairro, 'São Paulo'].filter(Boolean).join(', '));
+  const frame = document.getElementById('refmap-' + id);
+  if (frame) frame.src = `https://maps.google.com/maps?q=${q}&output=embed&z=16`;
+}
+
+// Inicializa 3 referenciais obrigatórios
+function initRefs() {
+  for (let i = 0; i < 3; i++) adicionarReferencial(true);
+}
+
+// ═══════════════════════════════════════════════
+// CÁLCULO PRINCIPAL
+// ═══════════════════════════════════════════════
+let chartBarras = null, chartScatter = null;
+
+function calcularTudo() {
+  const areaUtil = parseFloat(document.getElementById('av-area-util')?.value) || 0;
+  const conservVal = parseFloat(document.getElementById('av-conservacao')?.value) || 1.0;
+  const padraoVal = parseFloat(document.getElementById('av-padrao')?.value) || 1.0;
+  const anoConst = parseInt(document.getElementById('av-ano')?.value) || 0;
+  const fatorOferta = parseFloat(document.getElementById('calc-fator-oferta')?.value) || 0.92;
+  const infraCoef = calcCoefInfra();
+
+  // Depreciação por idade (Ross-Heidecke simplificado)
+  let deprec = 0;
+  if (anoConst > 0) {
+    const idade = new Date().getFullYear() - anoConst;
+    deprec = Math.min(0.5, idade * 0.008); // ~0.8% ao ano, máx 50%
+  }
+
+  // Calcular V/m² de cada referencial
+  const vmList = [];
+  const vmajList = [];
+  const labels = [];
+  const valTotais = [];
+  const areas = [];
+  let tbody = '';
+
+  const cards = document.querySelectorAll('.ref-card');
+  let count = 0;
+  cards.forEach((card, i) => {
+    const id = card.id.replace('card-', '');
+    const area = parseFloat(document.getElementById(id + '-area')?.value) || 0;
+    const valor = parseFloat(document.getElementById(id + '-valor')?.value) || 0;
+    const cRef = parseFloat(document.getElementById(id + '-conserv')?.value) || 1.0;
+    const pRef = parseFloat(document.getElementById(id + '-padrao')?.value) || 1.0;
+    const lRef = parseFloat(document.getElementById(id + '-localiz')?.value) || 1.0;
+    const end = document.getElementById(id + '-end')?.value || 'Ref. ' + (i+1);
+
+    if (area > 0 && valor > 0) {
+      const vm2 = valor / area;
+      // Homogeneização: traz o referencial para o padrão do avaliando
+      const fHomog = (conservVal / cRef) * (padraoVal / pRef) * (1 / lRef);
+      const vm2aj = vm2 * fHomog;
+
+      vmList.push(vm2);
+      vmajList.push(vm2aj);
+      labels.push('Ref. ' + (i+1));
+      valTotais.push(valor);
+      areas.push(area);
+      count++;
+
+      // Campo exibição
+      const vm2el = document.getElementById(id + '-vm2');
+      const vm2ajel = document.getElementById(id + '-vm2aj');
+      if (vm2el) vm2el.value = 'R$ ' + vm2.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+      if (vm2ajel) vm2ajel.value = 'R$ ' + vm2aj.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+
+      tbody += `<tr>
+        <td>${i+1}</td>
+        <td>${end.substring(0,30)}</td>
+        <td>${area}</td>
+        <td>R$ ${vm2.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+        <td>${cRef.toFixed(2)}</td>
+        <td>${pRef.toFixed(2)}</td>
+        <td>${lRef.toFixed(2)}</td>
+        <td class="td-gold">R$ ${vm2aj.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+      </tr>`;
+    }
+  });
+
+  const el = document.getElementById('tabela-calculo-body');
+  if (el) el.innerHTML = tbody || '<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:20px">Preencha os referenciais</td></tr>';
+
+  // Resultado
+  const resmedioM2El = document.getElementById('res-medio-m2');
+  const resFinalEl = document.getElementById('res-valor-final');
+  const resVm2El = document.getElementById('res-vm2');
+  const resFaixaEl = document.getElementById('res-faixa');
+  const resNEl = document.getElementById('res-n-refs');
+
+  if (count >= 3 && areaUtil > 0) {
+    const mediaVm2 = vmajList.reduce((a,b)=>a+b,0) / vmajList.length;
+    const valorFinal = mediaVm2 * areaUtil * fatorOferta * (1 - deprec);
+    const valorMin = valorFinal * 0.95;
+    const valorMax = valorFinal * 1.05;
+    const vm2Final = valorFinal / areaUtil;
+
+    const fmt = v => 'R$ ' + v.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+    if (resmedioM2El) resmedioM2El.textContent = 'R$ ' + mediaVm2.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+    if (resFinalEl) resFinalEl.textContent = fmt(valorFinal);
+    if (resVm2El) resVm2El.textContent = 'R$ ' + vm2Final.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}) + '/m²';
+    if (resFaixaEl) document.getElementById('res-min').textContent = fmt(valorMin);
+    if (document.getElementById('res-max')) document.getElementById('res-max').textContent = fmt(valorMax);
+    if (resNEl) resNEl.innerHTML = 'Baseado em <b>' + count + '</b> referencial' + (count>1?'is':'');
+
+    // Custos
+    document.getElementById('custo-base').textContent = fmt(valorFinal);
+    document.getElementById('custo-itbi').textContent = fmt(valorFinal * 0.03);
+    document.getElementById('custo-escritura').textContent = fmt(valorFinal * 0.012);
+    document.getElementById('custo-registro').textContent = fmt(valorFinal * 0.007);
+    document.getElementById('custo-total').textContent = fmt(valorFinal * 0.049);
+    const comPerc = parseFloat(document.getElementById('custom-comissao')?.value) || 6;
+    document.getElementById('custo-comissao').textContent = fmt(valorFinal * comPerc / 100);
+    const alugMensal = valorFinal * 0.005;
+    document.getElementById('custo-aluguel').textContent = fmt(alugMensal);
+    document.getElementById('custo-caprate').textContent = (alugMensal * 12 / valorFinal * 100).toFixed(2) + '%/ano';
+    document.getElementById('custo-retorno').textContent = (valorFinal / (alugMensal * 12)).toFixed(1) + ' anos';
+
+    // Locação
+    document.getElementById('loc-valor-imovel').value = fmt(valorFinal);
+    calcLocacao();
+
+    // Depreciação e coefs
+    document.getElementById('calc-depreciacao').value = (deprec * 100).toFixed(1) + '%';
+    document.getElementById('calc-coef-conservacao').value = conservVal.toFixed(2);
+    document.getElementById('calc-coef-padrao').value = padraoVal.toFixed(2);
+    document.getElementById('calc-coef-infra').value = infraCoef.toFixed(3);
+
+    // Gráficos
+    renderCharts(labels, vmajList, areas, valTotais, mediaVm2);
+
+    // Tabela refs
+    atualizarTabelaRefs();
+  } else {
+    if (resmedioM2El) resmedioM2El.textContent = 'R$ —';
+    if (resFinalEl) resFinalEl.textContent = count < 3 ? '⚠️ Mín. 3 referenciais' : '⚠️ Informe a área útil';
+    if (resNEl) resNEl.innerHTML = 'Preenchidos: <b>' + count + '</b>/3 mínimos';
+  }
+}
+
+function atualizarTabelaRefs() {
+  const cards = document.querySelectorAll('.ref-card');
+  let html = '';
+  let i = 0;
+  cards.forEach(card => {
+    const id = card.id.replace('card-', '');
+    const end = document.getElementById(id + '-end')?.value || '—';
+    const tipo = document.getElementById('av-tipo')?.value || '—';
+    const area = document.getElementById(id + '-area')?.value || '—';
+    const valor = parseFloat(document.getElementById(id + '-valor')?.value) || 0;
+    const vm2 = area && valor ? (valor / area).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}) : '—';
+    const vm2aj = document.getElementById(id + '-vm2aj')?.value || '—';
+    i++;
+    html += `<tr>
+      <td>${i}</td>
+      <td>${end.substring(0,28)}</td>
+      <td>${tipo}</td>
+      <td>${area}</td>
+      <td>${valor ? 'R$ ' + valor.toLocaleString('pt-BR',{minimumFractionDigits:2}) : '—'}</td>
+      <td>${vm2}</td>
+      <td>—</td>
+      <td class="td-gold">${vm2aj}</td>
+    </tr>`;
+  });
+  const tb = document.getElementById('tabela-refs-body');
+  if (tb) tb.innerHTML = html || '<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:20px">Preencha os referenciais</td></tr>';
+}
+
+// ═══════════════════════════════════════════════
+// GRÁFICOS
+// ═══════════════════════════════════════════════
+function renderCharts(labels, vmajList, areas, valores, mediaVm2) {
+  const ctx1 = document.getElementById('chartBarras')?.getContext('2d');
+  const ctx2 = document.getElementById('chartScatter')?.getContext('2d');
+  if (!ctx1 || !ctx2) return;
+
+  const baseColor = 'rgba(212,168,67,';
+  const gridColor = 'rgba(255,255,255,0.06)';
+  const fontColor = '#7A8BA8';
+
+  if (chartBarras) chartBarras.destroy();
+  chartBarras = new Chart(ctx1, {
+    type: 'bar',
+    data: {
+      labels: [...labels, 'Média'],
+      datasets: [{
+        label: 'R$/m² Ajustado',
+        data: [...vmajList, mediaVm2],
+        backgroundColor: [...vmajList.map((_,i)=> baseColor + '0.7)'), 'rgba(61,187,143,0.8)'],
+        borderColor: [...vmajList.map(()=> baseColor + '1)'), 'rgba(61,187,143,1)'],
+        borderWidth: 1.5, borderRadius: 4,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: true,
+      plugins: { legend:{labels:{color:fontColor,font:{size:11}}}, tooltip:{callbacks:{label:ctx=>'R$ '+ctx.parsed.y.toLocaleString('pt-BR',{minimumFractionDigits:2})}}},
+      scales: {
+        y:{ grid:{color:gridColor}, ticks:{color:fontColor,font:{size:10}, callback:v=>'R$ '+v.toLocaleString('pt-BR',{maximumFractionDigits:0})} },
+        x:{ grid:{display:false}, ticks:{color:fontColor,font:{size:10}} }
+      }
+    }
+  });
+
+  if (chartScatter) chartScatter.destroy();
+  const scatterData = areas.map((a,i)=>({x:a,y:valores[i]}));
+  chartScatter = new Chart(ctx2, {
+    type: 'scatter',
+    data: {
+      datasets:[{
+        label:'Referencial (Área x Valor)',
+        data: scatterData,
+        backgroundColor: baseColor+'0.75)',
+        pointRadius: 7,
+        pointHoverRadius: 10,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: true,
+      plugins:{ legend:{labels:{color:fontColor,font:{size:11}}},
+        tooltip:{callbacks:{label:ctx=>`Área: ${ctx.parsed.x}m² | Valor: R$ ${ctx.parsed.y.toLocaleString('pt-BR',{minimumFractionDigits:2})}`}}
+      },
+      scales:{
+        x:{ title:{display:true,text:'Área (m²)',color:fontColor,font:{size:11}}, grid:{color:gridColor}, ticks:{color:fontColor,font:{size:10}} },
+        y:{ title:{display:true,text:'Valor (R$)',color:fontColor,font:{size:11}}, grid:{color:gridColor}, ticks:{color:fontColor,font:{size:10},callback:v=>'R$ '+v.toLocaleString('pt-BR',{maximumFractionDigits:0})} }
+      }
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════
+// LOCAÇÃO CALC
+// ═══════════════════════════════════════════════
+function calcLocacao() {
+  const taxa = parseFloat(document.getElementById('loc-taxa')?.value) || 0.5;
+  const valorIm = parseFloat(document.getElementById('loc-valor-imovel')?.value?.replace(/[^\d,.]/g,'')?.replace(',','.')) || 0;
+  const alugMensal = valorIm * taxa / 100;
+  const alugMin = alugMensal * 0.93;
+  const alugMax = alugMensal * 1.07;
+  const retAnual = (alugMensal * 12 / valorIm * 100);
+  const prazoRet = valorIm / (alugMensal * 12);
+
+  const fmt = v => 'R$ ' + v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const el1 = document.getElementById('loc-res-aluguel');
+  const el2 = document.getElementById('loc-res-faixa');
+  const el3 = document.getElementById('loc-res-retorno');
+  const el4 = document.getElementById('loc-res-prazo-ret');
+  const el5 = document.getElementById('enc-aluguel');
+
+  if (el1) el1.textContent = alugMensal > 0 ? fmt(alugMensal) : 'R$ —';
+  if (el2) el2.textContent = alugMensal > 0 ? `Faixa: ${fmt(alugMin)} a ${fmt(alugMax)}` : 'Faixa: — a —';
+  if (el3) el3.textContent = retAnual > 0 ? retAnual.toFixed(2) + ' %/ano' : '— %/ano';
+  if (el4) el4.textContent = retAnual > 0 ? `Prazo de retorno: ${prazoRet.toFixed(1)} anos` : 'Prazo de retorno: — anos';
+  if (el5) el5.textContent = alugMensal > 0 ? fmt(alugMensal) : 'R$ —';
+  calcEncargos();
+}
+
+function calcEncargos() {
+  const alugStr = document.getElementById('enc-aluguel')?.textContent || '0';
+  const alug = parseFloat(alugStr.replace(/[^\d,]/g,'').replace(',','.')) || 0;
+  const iptu = parseFloat(document.getElementById('enc-iptu-val')?.value) || 0;
+  const cond = parseFloat(document.getElementById('enc-cond-val')?.value) || 0;
+  const seg = parseFloat(document.getElementById('enc-seg-val')?.value) || 45;
+  const total = alug + iptu + cond + seg;
+  const fmt = v => v > 0 ? 'R$ ' + v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}) : 'R$ —';
+  const el = document.getElementById('enc-total');
+  if (el) el.textContent = fmt(total);
+  if (document.getElementById('enc-iptu')) document.getElementById('enc-iptu').textContent = iptu > 0 ? fmt(iptu) : 'A informar';
+  if (document.getElementById('enc-cond')) document.getElementById('enc-cond').textContent = cond > 0 ? fmt(cond) : 'A informar';
+  if (document.getElementById('enc-seguro')) document.getElementById('enc-seguro').textContent = fmt(seg) + '/mês';
+}
+
+// ═══════════════════════════════════════════════
+// DOCUMENTAÇÃO — por transação
+// ═══════════════════════════════════════════════
+const DOC_TRANSACOES = {
+  compravenda: {
+    titulo: 'Compra e Venda à Vista',
+    cor: 'var(--blue)',
+    grupos: [
+      { titulo: '📤 DOCUMENTOS DO VENDEDOR', cor: 'var(--orange)', docs: [
+        { doc:'**RG e CPF** — Originais e cópias autenticadas', onde:'Cartório de PN / Polícia Civil', obrig:true, lei:'Art. 215, CC/2002 — Escritura pública exige identificação das partes' },
+        { doc:'**Certidão de Casamento** (ou Nascimento se solteiro)', onde:'Cartório de Registro Civil', obrig:true, lei:'Art. 1.647, CC/2002 — Cônjuge deve anuir na alienação de imóvel (outorga uxória/marital)' },
+        { doc:'**Matrícula atualizada do imóvel** (≤30 dias)', onde:'Cartório de Registro de Imóveis — CRI competente', obrig:true, lei:'Art. 1.245, CC/2002 — Transferência de imóveis somente se perfectibiliza com o registro. Art. 167, Lei 6.015/73 — Atos sujeitos a registro.' },
+        { doc:'**Certidão negativa de débitos municipais** (IPTU, taxas)', onde:'Prefeitura Municipal — portal online', obrig:true, lei:'Art. 130, CTN — IPTU é obrigação propter rem, acompanha o imóvel na transferência; exigência consolidada pelo TJSP.' },
+        { doc:'**Certidão negativa de protestos** — últimos 5 anos', onde:'Tabelionato de Protesto — CRC-SP / portal online', obrig:true, lei:'Art. 1º, Lei 9.492/97 — Protesto é instrumento de constituição em mora; certidão exigida para dar segurança ao comprador.' },
+        { doc:'**Certidões de ações cíveis, trabalhistas e criminais**', onde:'TJSP e-SAJ / TRF3 / TST — online', obrig:true, lei:'Art. 593, CPC/2015 — Fraude à execução; Súmula 375 STJ — protege terceiro de boa-fé adquirente.' },
+        { doc:'**Certidão negativa federal** (Receita Federal + PGFN)', onde:'Portal Receita Federal — gratuita online', obrig:true, lei:'Art. 205, CTN — Prova de quitação de tributos; créditos tributários são preferenciais na execução.' },
+        { doc:'**Certidão negativa estadual** (SEFAZ-SP — ICMS, IPVA, ITCMD)', onde:'Portal SEFAZ-SP — online', obrig:true, lei:'Art. 206, CTN — Certidão positiva com efeito negativo; necessária quando há parcelamentos.' },
+        { doc:'**Comprovante de endereço atualizado** (≤90 dias)', onde:'Concessionária (água/luz/gás/banco)', obrig:true, lei:'Exigência cartorial e de compliance bancário conforme Resolução BACEN 2.025.' },
+        { doc:'**Habite-se / Auto de Conclusão de Obra** — se imóvel novo', onde:'Prefeitura Municipal — alvará', obrig:false, lei:'Art. 44, Lei 11.977/09 (Minha Casa) e Decreto Municipal SP 32.329/92 — Habite-se prova regularidade construtiva.' },
+        { doc:'**Procuração Pública** — se o vendedor não puder comparecer', onde:'Cartório de Notas (Tabelionato)', obrig:false, lei:'Art. 657–658, CC/2002 — Procuração para atos de alienação deve ser pública, com poderes expressos e específicos.' },
+      ]},
+      { titulo: '📥 DOCUMENTOS DO COMPRADOR', cor: 'var(--blue)', docs: [
+        { doc:'**RG e CPF**', onde:'Cartório de PN / Polícia Civil / online', obrig:true, lei:'Art. 215, CC/2002 — Identificação obrigatória das partes no ato notarial.' },
+        { doc:'**Certidão de Casamento** com regime de bens averbado', onde:'Cartório de Registro Civil', obrig:true, lei:'Art. 1.647, CC/2002 — Casados em regime de comunhão precisam de anuência do cônjuge para aquisição de imóvel.' },
+        { doc:'**Comprovante de endereço** atualizado', onde:'Concessionária', obrig:true, lei:'Exigência cartorial de identificação do qualificado na escritura — Art. 215, §1º, CC/2002.' },
+        { doc:'**Comprovante de renda** (holerite, DECORE, extrato bancário)', onde:'Empregador / Contador / Banco', obrig:false, lei:'Recomendado para Due Diligence e declaração de origem lícita dos recursos (Lei 9.613/98 — Lavagem de Capitais).' },
+        { doc:'**Declaração de origem dos recursos** (se valor alto)', onde:'Própria declaração assinada', obrig:false, lei:'Lei 9.613/98, Art. 9º — Operações imobiliárias acima de R$ 30.000 devem ser comunicadas ao COAF.' },
+      ]},
+      { titulo: '🏠 DOCUMENTOS DO IMÓVEL', cor: 'var(--gold)', docs: [
+        { doc:'**Matrícula atualizada** (≤30 dias)', onde:'CRI competente', obrig:true, lei:'Art. 1.245, CC/2002 c/c Art. 167, Lei 6.015/73.' },
+        { doc:'**Certidão de Valor Venal** / IPTU do exercício', onde:'Prefeitura SP — portal online', obrig:true, lei:'Base de cálculo do ITBI — Art. 38, CTN; Decreto Municipal SP 55.586/2014.' },
+        { doc:'**Guia ITBI paga** — 3% sobre maior valor (venal ou declarado)', onde:'Prefeitura SP — portal online', obrig:true, lei:'Art. 156, II, CF/88; Art. 35–42, CTN; Lei Municipal SP 11.154/91 — ITBI é condição para lavratura da escritura.' },
+        { doc:'**Certidão negativa de condomínio** (se apartamento)', onde:'Síndico / Administradora', obrig:false, lei:'Art. 1.345, CC/2002 — O adquirente responde pelos débitos condominiais anteriores à aquisição (obrigação propter rem).' },
+        { doc:'**Certidão negativa SABESP** (água e esgoto)', onde:'SABESP — portal online', obrig:false, lei:'Prática consagrada em cartórios SP; débitos de saneamento acompanham o imóvel conforme jurisprudência TJSP.' },
+        { doc:'**Averbação de construção** na matrícula (se houver obra)', onde:'Cartório de Registro de Imóveis', obrig:true, lei:'Art. 167, I, nº 4, Lei 6.015/73 — Construção deve estar averbada para o RI registrar a transferência.' },
+      ]},
+    ],
+    fluxo: ['Proposta','Contrato de Promessa','Levantamento de Docs','Pagar ITBI','Escritura no Cartório','Registro no RI'],
+    custos: [
+      {l:'ITBI',v:'3% sobre o maior valor (venal ou declarado) — SP'},
+      {l:'Escritura Pública (Tabela TJSP)',v:'~1% a 1,5% do valor do imóvel'},
+      {l:'Registro no Cartório RI',v:'~0,5% a 1% do valor do imóvel'},
+      {l:'Certidões diversas',v:'R$ 30 a R$ 150 cada'},
+      {l:'Total cartoriais estimado',v:'~5% a 6% do valor do imóvel'},
+    ]
+  },
+
+  financiamento: {
+    titulo: 'Compra com Financiamento Bancário (SFH/SFI)',
+    cor: 'var(--green)',
+    grupos: [
+      { titulo: '📥 COMPRADOR / MUTUÁRIO', cor:'var(--green)', docs: [
+        { doc:'**RG, CPF e CNH** — originais', onde:'Polícia Civil / DETRAN / Cartório', obrig:true, lei:'Resolução CMN 4.676/2018 — Exigências de identificação para crédito imobiliário.' },
+        { doc:'**Certidão de Casamento atualizada** com regime de bens', onde:'Cartório de Registro Civil', obrig:true, lei:'Art. 1.647, CC/2002; Resolução CEF 013/2020 — Cônjuge é codevedor solidário nos financiamentos habitacionais SFH.' },
+        { doc:'**Holerite dos últimos 3 meses** (ou 6 se renda variável)', onde:'Empregador', obrig:true, lei:'Instrução Normativa CEF 062/2019 — Comprova capacidade de pagamento das prestações (máx. 30% da renda).' },
+        { doc:'**Declaração de IR** — 2 últimos exercícios completos', onde:'Receita Federal — e-CAC', obrig:true, lei:'Instrução Normativa RFB 1.888/2019; exigência bancária para comprovação de renda e patrimônio.' },
+        { doc:'**Extrato bancário dos últimos 3 meses**', onde:'Banco do mutuário', obrig:true, lei:'Lei 9.613/98 (Lavagem de Capitais) + Resolução CMN 4.676/2018 — origem de recursos.' },
+        { doc:'**Extrato FGTS atualizado**', onde:'App FGTS / CEF — online', obrig:false, lei:'Lei 8.036/90, Art. 20, VIII — Uso do FGTS para moradia própria; Instrução Normativa MTE.' },
+        { doc:'**Comprovante de endereço** (≤90 dias)', onde:'Concessionária', obrig:true, lei:'Resolução CMN 4.676/2018.' },
+        { doc:'**Declaração de não propriedade de imóvel** (uso FGTS)', onde:'Própria declaração + CEF', obrig:false, lei:'Art. 9º-A, Lei 8.036/90 — Veda uso do FGTS a quem possui imóvel no município de residência.' },
+        { doc:'**Certidão negativa de débitos** (federal + estadual)', onde:'Receita Federal / SEFAZ — online', obrig:false, lei:'Exigência do banco financiador; mutuário com débitos ativos pode ter crédito negado.' },
+      ]},
+      { titulo: '📤 VENDEDOR', cor:'var(--orange)', docs: [
+        { doc:'**RG, CPF, Certidão de Casamento**', onde:'Cartório de PN', obrig:true, lei:'Art. 215, CC/2002 — identificação na escritura.' },
+        { doc:'**Matrícula atualizada** (≤30 dias)', onde:'CRI competente', obrig:true, lei:'Art. 1.245, CC/2002.' },
+        { doc:'**Certidões negativas** (protestos, cíveis, fiscais, trabalhistas)', onde:'Cartórios / TJ / TST — online', obrig:true, lei:'Banco pode suspender liberação se houver ações contra o vendedor que indiquem risco de fraude à execução (Art. 593 CPC).' },
+        { doc:'**Certidão negativa IPTU**', onde:'Prefeitura — online', obrig:true, lei:'Art. 130, CTN — responsabilidade propter rem.' },
+      ]},
+      { titulo: '🏠 IMÓVEL', cor:'var(--gold)', docs: [
+        { doc:'**Matrícula atualizada** sem ônus, livre de gravames', onde:'CRI competente', obrig:true, lei:'Banco exige imóvel livre de hipoteca, alienação fiduciária, penhora ou arresto (Art. 1.521, CC/2002).' },
+        { doc:'**Habite-se e averbação de construção**', onde:'Prefeitura / CRI', obrig:true, lei:'Resolução CEF 013/2020 — imóvel irregular não é aceito como garantia do SFH/SFI.' },
+        { doc:'**Planta e memorial descritivo aprovados**', onde:'Prefeitura Municipal', obrig:true, lei:'NBR 14.653-2/2011 (ABNT); exigência do engenheiro avaliador do banco.' },
+        { doc:'**Laudo de avaliação bancária — PTAM/PTAI**', onde:'Engenheiro CREA / Arquiteto CAU credenciado', obrig:true, lei:'Resolução CMN 4.676/2018, Art. 11 — banco deve contratar avaliação independente antes da concessão do crédito.' },
+        { doc:'**Certidão de Valor Venal** (IPTU)', onde:'Prefeitura — online', obrig:true, lei:'Base de cálculo ITBI + referência para valor de avaliação bancária.' },
+      ]},
+    ],
+    custos: [
+      {l:'ITBI',v:'3% sobre o maior valor (venal/declarado) — SP'},
+      {l:'Escritura + Registro (alienação fiduciária)',v:'~1,5% a 2% (tabela progressiva TJSP)'},
+      {l:'Laudo de avaliação bancária (PTAM/PTAI)',v:'R$ 800 a R$ 3.000'},
+      {l:'IOF e seguros obrigatórios MIP + DFI',v:'Embutidos na parcela mensal'},
+      {l:'Taxa de análise de crédito bancária',v:'R$ 0 a R$ 500 (varia por banco)'},
+    ]
+  },
+
+  locacao: {
+    titulo: 'Locação Residencial — Lei 8.245/91',
+    cor: 'var(--teal)',
+    grupos: [
+      { titulo: '🏠 LOCADOR (Proprietário)', cor:'var(--teal)', docs: [
+        { doc:'**RG, CPF e Certidão de Casamento** (ou estado civil)', onde:'Cartório de PN', obrig:true, lei:'Art. 47, §2º, Lei 8.245/91 — locador deve ser identificado no contrato; cônjuge deve anuir (Art. 1.647, CC/2002).' },
+        { doc:'**Matrícula atualizada do imóvel**', onde:'Cartório de Registro de Imóveis', obrig:true, lei:'Art. 8º, Lei 8.245/91 — locatário tem direito de exigir prova da titularidade do locador.' },
+        { doc:'**IPTU do exercício atual**', onde:'Prefeitura — online', obrig:true, lei:'Art. 22, VIII, Lei 8.245/91 — incumbe ao locador pagar IPTU, salvo disposição em contrário expressa no contrato.' },
+        { doc:'**Certidão negativa de débitos condominiais** (se apto)', onde:'Síndico / Administradora', obrig:false, lei:'Art. 1.345, CC/2002 — débitos anteriores seguem o imóvel; Art. 22, X, Lei 8.245/91 — locador responde pelo condomínio.' },
+        { doc:'**Procuração pública** (se administrado por terceiro)', onde:'Cartório de Notas', obrig:false, lei:'Art. 657, CC/2002 — administração de imóveis por terceiros exige poderes expressos de representação.' },
+      ]},
+      { titulo: '👤 LOCATÁRIO', cor:'var(--blue)', docs: [
+        { doc:'**RG e CPF** — originais', onde:'Polícia Civil / Cartório', obrig:true, lei:'Art. 47, §2º, Lei 8.245/91 — qualificação obrigatória das partes.' },
+        { doc:'**Certidão de Casamento** (se casado)', onde:'Cartório de PN', obrig:true, lei:'Art. 2º, Lei 8.245/91 — cônjuge é parte no contrato; ambos devem assinar (Art. 1.647, CC/2002).' },
+        { doc:'**Comprovante de renda** (mín. 3x o valor do aluguel)', onde:'Holerite / DECORE / Extrato bancário', obrig:true, lei:'Prática consolidada de mercado; não há lei específica, mas decorre do Art. 822, CC/2002 — análise da capacidade do devedor.' },
+        { doc:'**Comprovante de endereço** atualizado (≤90 dias)', onde:'Concessionária / banco', obrig:true, lei:'Art. 47, §2º, Lei 8.245/91 — qualificação completa das partes.' },
+        { doc:'**Certidão negativa de protestos**', onde:'Tabelionato de Protesto — online', obrig:true, lei:'Prática de mercado; protestos indicam inadimplência prévia e são relevantes para análise de crédito do locatário.' },
+        { doc:'**Extrato bancário 3 meses** ou **Declaração IR**', onde:'Banco / Receita Federal', obrig:false, lei:'Recomendado para autônomos e informais; comprova capacidade financeira real.' },
+        { doc:'**Certidão negativa de ações cíveis**', onde:'TJSP — e-SAJ online', obrig:false, lei:'Recomendado; ações de despejo anterior ou dívidas locatícias podem indicar risco de inadimplência.' },
+      ]},
+      { titulo: '🛡️ GARANTIAS — Escolher UMA (Art. 37, Lei 8.245/91)', cor:'var(--green)', docs: [
+        { doc:'**FIANÇA** — Fiador com imóvel próprio quitado no mesmo município', onde:'Documentos do fiador + matrícula do imóvel (CRI)', obrig:false, lei:'Art. 37, I, Lei 8.245/91 — fiança locatícia. Art. 822–839, CC/2002 — natureza e efeitos da fiança. Proibida fiança em residência familiar única sem autorização judicial (Súmula 549 STJ).' },
+        { doc:'**CAUÇÃO em dinheiro** — até 3 aluguéis', onde:'Conta poupança conjunta (locador + locatário)', obrig:false, lei:'Art. 37, II, Lei 8.245/91 — caução. Art. 38, §2º — deve ser depositada em caderneta de poupança específica. Devolução corrigida ao fim do contrato.' },
+        { doc:'**SEGURO FIANÇA** — apólice de seguradora credenciada', onde:'Seguradora conveniada', obrig:false, lei:'Art. 37, III, Lei 8.245/91 — seguro-fiança locatícia; substitui o fiador com cobertura de inadimplência, multas e danos ao imóvel.' },
+        { doc:'**CESSÃO FIDUCIÁRIA** de quotas de fundo de investimento', onde:'Banco / Gestora de fundos', obrig:false, lei:'Art. 37, IV, Lei 8.245/91 — cessão fiduciária de quotas de fundo de investimento; modalidade mais moderna, exige conta investimento.' },
+      ]},
+    ],
+    custos: [
+      {l:'Honorários de intermediação (CRECI-SP)',v:'10% a 12% do valor do aluguel no 1º mês (prática SP)'},
+      {l:'Taxa de corretagem (locação)',v:'Equivalente a 1 mês de aluguel — negociável'},
+      {l:'Seguro incêndio (obrigatório por lei)',v:'Média R$ 25 a R$ 80/mês (Art. 22, VIII, L. 8.245/91)'},
+      {l:'Caução (se elegida)',v:'Até 3 aluguéis — depositado em poupança'},
+    ]
+  },
+
+  doacao: {
+    titulo: 'Doação de Imóvel',
+    cor: 'var(--pink)',
+    grupos: [
+      { titulo: '📤 DOADOR', cor:'var(--pink)', docs: [
+        { doc:'**RG, CPF, Certidão de Casamento** do doador', onde:'Cartório de PN', obrig:true, lei:'Art. 541, CC/2002 — doação formalizada por escritura pública quando o bem for imóvel; Art. 215, CC/2002 — qualificação das partes.' },
+        { doc:'**Matrícula atualizada** (≤30 dias)', onde:'CRI competente', obrig:true, lei:'Art. 543, CC/2002 — doador deve ser proprietário; Art. 1.245, CC/2002 — transferência se dá com o registro.' },
+        { doc:'**Certidões negativas** (protestos, cíveis, fiscais)', onde:'Cartórios / TJ — online', obrig:true, lei:'Art. 158, CC/2002 — doação em fraude contra credores é anulável; exigência cartorial de certidões.' },
+        { doc:'**Certidão de Valor Venal** do imóvel', onde:'Prefeitura — online', obrig:true, lei:'Base de cálculo do ITCMD — Art. 155, I, CF/88.' },
+      ]},
+      { titulo: '📥 DONATÁRIO (Beneficiário)', cor:'var(--blue)', docs: [
+        { doc:'**RG, CPF e Certidão de Casamento**', onde:'Cartório de PN', obrig:true, lei:'Art. 215, CC/2002 — qualificação das partes no ato notarial.' },
+      ]},
+      { titulo: '💰 TRIBUTAÇÃO', cor:'var(--gold)', docs: [
+        { doc:'**Guia ITCMD** (Imposto sobre Transmissão Causa Mortis e Doação) — 4% em SP', onde:'SEFAZ-SP — portal online', obrig:true, lei:'Art. 155, I, CF/88; Lei Estadual SP 10.705/2000 — alíquota de 4% sobre o valor venal para doação de imóveis. Recolhimento prévio à escritura.' },
+        { doc:'**Declaração de doação no IR** (doador e donatário)', onde:'Receita Federal — e-CAC', obrig:true, lei:'Instrução Normativa RFB 1.571/2015 — doações devem ser declaradas; ganho de capital pode incidir se valor declarado for superior ao de aquisição.' },
+      ]},
+    ],
+    custos: [
+      {l:'ITCMD',v:'4% sobre valor venal (SP) — Lei SP 10.705/2000'},
+      {l:'Escritura de Doação',v:'~1% do valor do imóvel (tabela TJSP)'},
+      {l:'Registro no CRI',v:'~0,5% do valor do imóvel'},
+      {l:'Ganho de capital (doador)',v:'Pode incidir IRPF se houver valorização'},
+    ]
+  },
+
+  inventario: {
+    titulo: 'Inventário e Partilha (Herança)',
+    cor: 'var(--red)',
+    grupos: [
+      { titulo: '📜 DOCUMENTOS DO FALECIDO', cor:'var(--red)', docs: [
+        { doc:'**Certidão de Óbito** (original)', onde:'Cartório de Registro Civil — online', obrig:true, lei:'Art. 1.784, CC/2002 — abertura da sucessão se dá com o óbito. Certidão de óbito é o marco inicial do inventário.' },
+        { doc:'**RG, CPF, Certidão de Casamento** do falecido', onde:'Documentos pessoais / Cartório', obrig:true, lei:'Art. 620, CPC/2015 — petição inicial do inventário deve identificar o autor da herança e seu estado civil.' },
+        { doc:'**Matrícula atualizada de todos os imóveis** do espólio', onde:'CRI — para cada imóvel', obrig:true, lei:'Art. 624, I, CPC/2015 — inventariante deve trazer descrição dos bens imóveis à partilha.' },
+        { doc:'**Certidões negativas fiscais** (federal, estadual, municipal)', onde:'Receita / SEFAZ / Prefeitura — online', obrig:true, lei:'Art. 192, CTN — herança só é entregue após quitação dos tributos devidos pelo espólio.' },
+        { doc:'**Testamento** (se houver) — registrado em cartório', onde:'Cartório de Notas — registro central CNB', obrig:false, lei:'Art. 1.856–1.864, CC/2002 — testamento deve ser aberto e cumprido; registros no Sistema CNB (Art. 1.865, CC).' },
+      ]},
+      { titulo: '👨‍👩‍👦 HERDEIROS (cada um)', cor:'var(--purple)', docs: [
+        { doc:'**RG e CPF** de cada herdeiro', onde:'Documentos pessoais', obrig:true, lei:'Art. 627, I, CPC/2015 — qualificação de todos os herdeiros na petição de inventário.' },
+        { doc:'**Certidão de Nascimento** (comprova grau de parentesco)', onde:'Cartório de PN — online', obrig:true, lei:'Art. 1.829, CC/2002 — ordem de vocação hereditária; certidão comprova parentesco em linha reta.' },
+        { doc:'**Certidão de Casamento** de cada herdeiro casado', onde:'Cartório de PN — online', obrig:true, lei:'Art. 1.829, I–II, CC/2002 — cônjuge concorre com descendentes dependendo do regime; regime de bens dos herdeiros importa para partilha.' },
+        { doc:'**Certidão de óbito** de herdeiro pré-morto (se houver)', onde:'Cartório de PN', obrig:false, lei:'Art. 1.851, CC/2002 — direito de representação; os filhos do herdeiro pré-morto herdam por estirpe.' },
+      ]},
+      { titulo: '📑 PROCEDIMENTO', cor:'var(--gold)', docs: [
+        { doc:'**Escritura de Inventário Extrajudicial** (via Cartório de Notas)', onde:'Cartório de Notas — qualquer comarca', obrig:false, lei:'Art. 610, CPC/2015 — inventário extrajudicial é cabível quando: todos os herdeiros são maiores e capazes, há consenso e o falecido não deixou testamento. Resolução CNJ 35/2007.' },
+        { doc:'**Inventário Judicial** (quando há menores ou litígio)', onde:'Vara de Família e Sucessões / Órfãos', obrig:false, lei:'Art. 616, CPC/2015 — inventário judicial é obrigatório se há herdeiro menor, incapaz ou em litígio sobre a partilha.' },
+        { doc:'**Guia ITCMD** paga (4% sobre o valor do quinhão)', onde:'SEFAZ-SP — online', obrig:true, lei:'Art. 155, I, CF/88; Lei SP 10.705/2000 — ITCMD incide sobre transmissão causa mortis; base de cálculo é o valor venal do quinhão hereditário.' },
+      ]},
+    ],
+    custos: [
+      {l:'ITCMD (herança)',v:'4% sobre valor de cada quinhão (SP) — Lei SP 10.705/2000'},
+      {l:'Honorários advocatícios',v:'Mín. 6% do valor do espólio (OAB — Tabela)'},
+      {l:'Escritura de Inventário Extrajudicial',v:'Tabela TJSP — ~1% a 2% do patrimônio'},
+      {l:'Emolumentos do CRI',v:'~0,5% a 1% por imóvel registrado'},
+    ]
+  },
+
+  permuta: {
+    titulo: 'Permuta Imobiliária',
+    cor: 'var(--purple)',
+    grupos: [
+      { titulo: '🔄 AMBAS AS PARTES (Permutantes)', cor:'var(--purple)', docs: [
+        { doc:'**RG, CPF e Certidão de Casamento** de cada permutante', onde:'Cartório de PN', obrig:true, lei:'Art. 533, CC/2002 — permuta segue as regras da compra e venda (Art. 481–532, CC); identificação obrigatória na escritura.' },
+        { doc:'**Matrícula atualizada de CADA imóvel** permutado', onde:'CRI de cada imóvel', obrig:true, lei:'Art. 533, CC/2002 — cada imóvel é objeto de alienação recíproca; ambos devem estar livres de ônus.' },
+        { doc:'**Certidões negativas de ambos os permutantes** (protestos, cíveis, fiscais)', onde:'Cartórios / TJ — online', obrig:true, lei:'Art. 593, CPC/2015 — fraude à execução; ambos assumem riscos recíprocos, portanto certidões são exigidas de ambos.' },
+        { doc:'**IPTU e certidão de débitos** de cada imóvel', onde:'Prefeitura de cada município — online', obrig:true, lei:'Art. 130, CTN — débitos de IPTU seguem o imóvel (propter rem); comprador recíproco assume os débitos.' },
+        { doc:'**Guia ITBI sobre a TORNA** (diferença de valores)', onde:'Prefeitura — online', obrig:true, lei:'Art. 533, parágrafo único, CC/2002 — se os bens não forem de igual valor, há torna (diferença em dinheiro); ITBI incide apenas sobre a torna (Súmula TJSP 108/2012).' },
+      ]},
+    ],
+    custos: [
+      {l:'ITBI',v:'Apenas sobre a torna (diferença de valores) — 3% SP'},
+      {l:'Escritura de Permuta',v:'~1% a 1,5% sobre o maior valor dos imóveis (tabela TJSP)'},
+      {l:'Registros (2 CRIs)',v:'~0,5% a 1% em cada cartório'},
+    ]
+  },
+
+  usucapiao: {
+    titulo: 'Usucapião Extrajudicial e Judicial',
+    cor: 'var(--teal)',
+    grupos: [
+      { titulo: '📋 DOCUMENTOS DO REQUERENTE', cor:'var(--teal)', docs: [
+        { doc:'**RG, CPF e Certidão de Casamento**', onde:'Cartório de PN', obrig:true, lei:'Art. 216-A, Lei 6.015/73 — requerente deve ser qualificado no pedido extrajudicial de usucapião.' },
+        { doc:'**Planta e memorial descritivo** assinados por profissional habilitado (CREA/CAU)', onde:'Engenheiro ou Arquiteto com ART/RRT', obrig:true, lei:'Art. 216-A, §2º, Lei 6.015/73 — planta georreferenciada e memorial descritivo são documentos obrigatórios para o pedido extrajudicial.' },
+        { doc:'**Certidão da matrícula** ou transcrição (ou negativa de matrícula)', onde:'CRI da circunscrição', obrig:true, lei:'Art. 216-A, §1º, Lei 6.015/73 — cartório verificará a cadeia dominial para identificar eventual proprietário tabular.' },
+        { doc:'**Ata notarial de posse** lavrada por tabelião', onde:'Cartório de Notas (qualquer tabelião)', obrig:true, lei:'Art. 216-A, caput, Lei 6.015/73 — ata notarial é o instrumento que formaliza a posse mansa, pacífica e ininterrupta perante o tabelião.' },
+        { doc:'**Justo título** (se modalidade ordinária)', onde:'Escritura / Compromisso particular / Cessão', obrig:false, lei:'Art. 1.242, CC/2002 — usucapião ordinária (10 anos) exige justo título e boa-fé; justo título é o negócio jurídico hábil à aquisição, mas com vício.' },
+        { doc:'**Certidões negativas de litígios e ônus** sobre o imóvel', onde:'TJ / CRI — online', obrig:true, lei:'Art. 216-A, §2º, II, Lei 6.015/73 — cartório deve verificar ausência de controvérsia judicial ou extrajudicial sobre a posse.' },
+        { doc:'**Comprovantes de posse** (contas, impostos, fotos datadas, testemunhos)', onde:'Concessionária / Prefeitura / qualquer documento', obrig:false, lei:'Art. 1.238–1.244, CC/2002 — posse deve ser demonstrada por provas materiais que comprovem exercício contínuo e com animus domini.' },
+      ]},
+    ],
+    custos: [
+      {l:'Planta georreferenciada (CREA/CAU)',v:'R$ 800 a R$ 3.500 (varia por tamanho)'},
+      {l:'Ata notarial de posse',v:'R$ 200 a R$ 600 (tabela TJSP)'},
+      {l:'Emolumentos do CRI (registro)',v:'Tabela TJSP — sobre valor do imóvel'},
+      {l:'Honorários advocatícios (judicial)',v:'Mín. 10% do valor do imóvel (OAB)'},
+    ]
+  },
+};
+
+function mostrarDocTransacao() {
+  const tipo = document.getElementById('doc-tipo-transacao').value;
+  const container = document.getElementById('doc-container');
+  if (!tipo) {
+    container.innerHTML = '<div class="card" style="text-align:center;padding:40px"><div style="font-size:3rem;margin-bottom:12px">📁</div><div style="color:var(--muted)">Selecione uma transação</div></div>';
+    return;
+  }
+  const data = DOC_TRANSACOES[tipo];
+  if (!data) return;
+
+  let html = `<div style="margin-bottom:18px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+      <div style="width:4px;height:40px;background:${data.cor};border-radius:2px"></div>
+      <div>
+        <div style="font-family:'DM Serif Display',serif;font-size:1.3rem;color:#fff">${data.titulo}</div>
+        <div style="font-size:var(--font-small);color:var(--muted)">Documentos exigidos com base legal completa</div>
+      </div>
+    </div>`;
+
+  data.grupos.forEach(grupo => {
+    html += `<div class="card" style="margin-bottom:14px;border-color:${grupo.cor}22">
+      <div class="card-title" style="color:${grupo.cor}">${grupo.titulo}</div>`;
+    grupo.docs.forEach(d => {
+      const tag = d.obrig ? '<span class="badge badge-red" style="font-size:10px">Obrigatório</span>' : '<span class="badge badge-green" style="font-size:10px">Se aplicável</span>';
+      html += `<div style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05)">
+        <div style="display:flex;align-items:flex-start;gap:10px">
+          <div style="flex:1">
+            <div style="font-size:var(--font-body);color:var(--text);font-weight:500;line-height:1.5">${d.doc.replace(/\*\*(.*?)\*\*/g,'<strong style="color:var(--gold2)">$1</strong>')}</div>
+            <div style="font-size:var(--font-small);color:var(--muted);margin-top:3px">📍 ${d.onde}</div>
+            <div class="legal-base" style="margin-top:8px">
+              <div class="legal-base-title">⚖️ Base Legal</div>
+              <div class="legal-base-text">${d.lei}</div>
+            </div>
+          </div>
+          <div style="flex-shrink:0">${tag}</div>
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+  });
+
+  if (data.custos) {
+    html += `<div class="card" style="background:rgba(212,168,67,.06);border-color:rgba(212,168,67,.25)">
+      <div class="card-title">💰 Custos Estimados da Transação</div>`;
+    data.custos.forEach(c => {
+      html += `<div class="sum-row"><span class="sum-label">${c.l}</span><span class="sum-val" style="color:var(--gold)">${c.v}</span></div>`;
+    });
+    html += '</div>';
+  }
+
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════
+// CLÁUSULAS DO LAUDO
+// ═══════════════════════════════════════════════
+const CLAUSULAS_PTAM = [
+  {
+    num:1, titulo:'Objeto e Identificação do Imóvel Avaliando',
+    badge:'ABNT NBR 14.653-2',
+    texto:`O presente Parecer Técnico de Avaliação Mercadológica — <strong>PTAM</strong> — tem por objeto a determinação do valor de mercado do imóvel descrito a seguir, para a finalidade expressamente indicada na capa deste documento, conforme determinado pelo <strong>solicitante identificado</strong>, respeitadas as normas técnicas da ABNT NBR 14.653-2/2011 e as diretrizes do COFECI-SP.
+
+O imóvel avaliando está localizado no endereço acima descrito, com as características físicas, construtivas e de localização detalhadas na Seção "Imóvel Avaliando" deste documento, incluindo área útil, área total, número de dormitórios, vagas, padrão construtivo, estado de conservação e infraestrutura de lazer e segurança.`,
+    editavel: true, editavel_label:'Complementar descrição do imóvel avaliando',
+    editavel_placeholder:'Ex.: Imóvel situado no 3º andar do Edifício X, com vista para a área verde, reformado integralmente em 2022, apresentando piso porcelanato 60x60, teto rebaixado com LED em todos os ambientes…',
+    lei_titulo:'Base Legal e Normativa',
+    lei_texto:'Art. 215, §1º, CC/2002 — identificação e qualificação do bem; ABNT NBR 14.653-2/2011 — Avaliação de Bens Parte 2: Imóveis Urbanos; Resolução COFECI Nº 1.066/2007 — regulamenta o Parecer Técnico de Avaliação Mercadológica realizado por Corretor de Imóveis.'
+  },
+  {
+    num:2, titulo:'Metodologia de Avaliação — Método Comparativo Direto',
+    badge:'ABNT NBR 14.653-2 — Item 8',
+    texto:`O método adotado é o <strong>Método Comparativo Direto de Dados de Mercado</strong>, que consiste na identificação do valor do imóvel avaliando por meio da comparação com imóveis de características similares (comparandos/referenciais) que se encontram ou encontraram disponíveis no mercado imobiliário da mesma região ou de regiões homogêneas.
+
+A homogeneização dos referenciais é realizada mediante a aplicação de <strong>fatores de homogeneização</strong>, que expressam as diferenças existentes entre os referenciais e o imóvel avaliando, com relação a: padrão construtivo, estado de conservação, localização, área e demais atributos relevantes. Após a homogeneização, calcula-se a <strong>média aritmética</strong> dos valores unitários ajustados, sendo este o valor unitário de referência para o imóvel avaliando.
+
+Aplica-se ainda o <strong>fator de oferta</strong>, que representa o desconto médio obtido em negociação de mercado, e os coeficientes de depreciação física, infraestrutura e padrão de acabamento do próprio imóvel avaliando, obtendo-se ao final o valor de avaliação.`,
+    editavel: false,
+    lei_titulo:'Base Legal — ABNT NBR 14.653-2/2011',
+    lei_texto:'Item 8 da ABNT NBR 14.653-2/2011 — Método Comparativo Direto de Dados de Mercado: método direto; fundamentação I, II ou III conforme o número e grau de semelhança dos referenciais. Mín. 3 referenciais para fundamentação de Grau I (Art. 8.2.1 da norma).'
+  },
+  {
+    num:3, titulo:'Homogeneização dos Referenciais — Fatores de Ajuste',
+    badge:'NBR 14.653-2 — Homogeneização',
+    texto:`A <strong>homogeneização</strong> é o processo de ajuste dos valores dos imóveis referenciais (comparandos) para torná-los comparáveis ao imóvel avaliando, eliminando as diferenças de atributos que impactam o valor. Os fatores de homogeneização utilizados neste parecer são:
+
+<strong>a) Fator de Conservação (Fc)</strong>: ajusta a diferença de estado de conservação entre o referencial e o avaliando. Imóvel avaliando em estado "Bom" comparado a referencial "Ótimo" recebe fator &lt;1.
+
+<strong>b) Fator de Padrão (Fp)</strong>: ajusta a diferença de padrão construtivo e de acabamento. Escala: Luxo (1,25) / Superior (1,10) / Médio (1,00) / Simples (0,90) / Popular (0,78).
+
+<strong>c) Fator de Localização (Fl)</strong>: ajusta a diferença de localização entre referencial e avaliando. Imóvel referencial em localização superior ao avaliando recebe fator &gt;1 na inversão (traz o referencial para o padrão do avaliando).
+
+<strong>d) Fator de Oferta (Fo)</strong>: reduz o valor de oferta para o valor provável de transação. Padrão de mercado em São Paulo: 8% (Fo = 0,92), podendo variar conforme a liquidez do segmento.
+
+<strong>Fórmula:</strong> V_aj = (V_total / Área) × (Fc_av/Fc_ref) × (Fp_av/Fp_ref) × (1/Fl_ref)`,
+    editavel: false,
+    lei_titulo:'Base Legal',
+    lei_texto:'ABNT NBR 14.653-2/2011, Itens 8.2 e 8.2.1 — Homogeneização e método comparativo. Nota Técnica IBAPE-SP — Fatores de Homogeneização em Avaliações de Imóveis Urbanos.'
+  },
+  {
+    num:4, titulo:'Depreciação Física — Metodologia Ross-Heidecke',
+    badge:'Ross-Heidecke',
+    texto:`A <strong>depreciação física</strong> representa a perda de valor do imóvel avaliando em razão da sua idade e do estado de conservação, calculada pela metodologia de <strong>Ross-Heidecke</strong>, amplamente adotada em avaliações imobiliárias no Brasil.
+
+Neste parecer, a depreciação é estimada à razão de <strong>0,8% ao ano</strong> sobre o valor de reposição da construção, limitada ao máximo de 50%, aplicada como fator redutor sobre o valor médio dos referenciais. O percentual efetivo calculado é exibido automaticamente na aba "Cálculo & Resultado" deste documento, em função do ano de construção informado.
+
+O terreno <strong>não se deprecia</strong>. A depreciação incide exclusivamente sobre as benfeitorias e a construção. Para imóveis exclusivamente de terreno (lotes), o fator de depreciação não é aplicado.`,
+    editavel: false,
+    lei_titulo:'Base Legal',
+    lei_texto:'ABNT NBR 14.653-2/2011, Anexo B — Métodos de depreciação física: Ross-Heidecke, Lineares e Outros. NBR 14.653-1/2019 — Conceitos gerais de avaliação. Norma de Avaliação IBAPE-SP.'
+  },
+  {
+    num:5, titulo:'Resultado, Valor de Avaliação e Faixa de Variação',
+    badge:'Resultado Final',
+    texto:`Com base na metodologia descrita, no número de referenciais pesquisados e nos fatores de homogeneização aplicados, o valor de mercado do imóvel avaliando, para a finalidade expressamente declarada, é o apresentado na aba <strong>"Cálculo & Resultado"</strong> deste documento, calculado automaticamente a partir dos dados inseridos.
+
+A <strong>faixa de variação</strong> de ±5% sobre o valor central representa a incerteza inerente ao processo avaliativo, conforme recomendado pela ABNT NBR 14.653-2/2011. O avaliador recomenda que qualquer negociação se realize dentro desta faixa, devendo o valor de oferta/pedido ser posicionado na parte superior da faixa e o valor final de fechamento próximo ao valor central.
+
+O resultado deste parecer tem <strong>validade de 90 (noventa) dias</strong> a contar da data de emissão, podendo sofrer revisão caso ocorram variações relevantes de mercado.`,
+    editavel: true, editavel_label:'Observações específicas sobre o resultado',
+    editavel_placeholder:'Ex.: O valor apurado está dentro da faixa praticada para imóveis similares no bairro X, com tendência de valorização de Y% ao ano conforme pesquisa…',
+    lei_titulo:'Base Legal',
+    lei_texto:'ABNT NBR 14.653-2/2011 — Item 8.2.1 (faixa de variação admissível de ±10% para fundamentação grau III, ±15% para grau II); Resolução COFECI Nº 1.066/2007 — o PTAM tem validade de 90 dias e responsabilidade civil do corretor subscritor.'
+  },
+  {
+    num:6, titulo:'Responsabilidade do Avaliador e Limitações do Parecer',
+    badge:'COFECI Res. 1.066/2007',
+    texto:`Este Parecer Técnico de Avaliação Mercadológica — PTAM — foi elaborado de acordo com os critérios técnicos e éticos estabelecidos pelo COFECI-SP, pelo Código de Ética dos Corretores de Imóveis (Lei 6.530/78 e Decreto 81.871/78) e pelas normas ABNT NBR 14.653.
+
+<strong>O avaliador declara que:</strong>
+(a) não possui interesse direto ou indireto no imóvel avaliando ou em qualquer das partes envolvidas na transação;
+(b) a avaliação foi realizada com base em pesquisa de mercado própria, dados públicos e informações fornecidas pelo solicitante;
+(c) os valores obtidos refletem a opinião técnica e fundamentada do profissional subscrito, não constituindo garantia de negociação;
+(d) eventuais informações incorretas fornecidas pelo solicitante ou não verificáveis eximem o avaliador de responsabilidade pelos seus efeitos no resultado.
+
+<strong>Limitações:</strong> Este PTAM não substitui laudo de engenharia estrutural, vistoria de regularidade documental ou parecer jurídico. O avaliador não realizou sondagem do solo, análise de risco geotécnico, nem verificação de passivos ambientais.`,
+    editavel: true, editavel_label:'Adicionar limitações específicas deste parecer',
+    editavel_placeholder:'Ex.: O acesso ao imóvel foi restrito ao exterior. Fotos internas fornecidas pelo proprietário. Não foi possível verificar…',
+    lei_titulo:'Base Legal',
+    lei_texto:'Lei 6.530/78 e Decreto 81.871/78 — Profissão de Corretor de Imóveis; Resolução COFECI Nº 1.066/2007, Art. 4º — responsabilidade civil do avaliador; Código Civil — Art. 186, 927 e 944 — responsabilidade civil subjetiva do profissional liberal.'
+  },
+];
+
+const CLAUSULAS_LOCACAO = [
+  {
+    num:1, titulo:'DO OBJETO E DA QUALIFICAÇÃO DAS PARTES',
+    badge:'Art. 47, Lei 8.245/91',
+    texto:`Pelo presente instrumento, o <strong>LOCADOR</strong> (qualificado no cabeçalho) declara dar em locação ao <strong>LOCATÁRIO</strong> (qualificado no cabeçalho) o imóvel urbano descrito neste instrumento, destinado exclusivamente para uso <strong>residencial</strong> da família do Locatário, sendo vedada a cessão, sublocação ou qualquer outra forma de transferência de uso, total ou parcial, sem expressa e prévia autorização escrita do Locador.
+
+O imóvel objeto desta locação é o descrito no PTAM, com as seguintes características: endereço completo, área útil, número de cômodos, vagas de garagem e dependências, conforme verificação in loco realizada por ocasião da vistoria de entrega, cujo laudo é parte integrante deste contrato.`,
+    editavel: true, editavel_label:'Qualificar as partes (nome, CPF, endereço, estado civil)',
+    editavel_placeholder:'LOCADOR: [Nome], brasileiro, [estado civil], [profissão], RG nº [X], CPF nº [X], residente em [endereço]…\nLOCATÁRIO: [Nome], …',
+    lei_titulo:'Base Legal',
+    lei_texto:'Art. 47, §2º, Lei 8.245/91 — qualificação das partes; Art. 2º, Lei 8.245/91 — havendo cônjuge ou companheiro, ambos devem ser locatários; Art. 1.647, CC/2002 — outorga conjugal para alienação e locação de imóvel por prazo superior a 10 anos.'
+  },
+  {
+    num:2, titulo:'DO PRAZO, PRORROGAÇÃO E RENOVAÇÃO',
+    badge:'Art. 46–47, Lei 8.245/91',
+    texto:`A locação é celebrada pelo prazo de <strong>[PRAZO] meses</strong>, iniciando-se em [DATA DE INÍCIO] e encerrando-se em [DATA TÉRMINO].
+
+<strong>Prorrogação automática:</strong> Findo o prazo ajustado, se o locatário permanecer no imóvel por mais de 30 dias sem oposição do locador, a locação considera-se prorrogada automaticamente por prazo indeterminado (Art. 47, Lei 8.245/91), mantidas todas as demais cláusulas do contrato.
+
+<strong>Locação por prazo indeterminado:</strong> Qualquer das partes poderá denunciar a locação mediante aviso prévio de 30 dias. O locatário, ao ser notificado, terá 30 dias para desocupar. O locador somente poderá retomar o imóvel nas hipóteses taxativas do Art. 47, Lei 8.245/91.
+
+<strong>Renovação Compulsória (locação comercial):</strong> O locatário comercial que explorar o mesmo ramo por mínimo de 3 anos tem direito à renovação compulsória, devendo ajuizar ação renovatória com antecedência mínima de 1 ano do término do contrato (Art. 51 c/c Art. 71, Lei 8.245/91).`,
+    editavel: true, editavel_label:'Preencher prazo e datas',
+    editavel_placeholder:'Prazo: ___ meses\nData de Início: ___/___/______\nData de Término: ___/___/______',
+    lei_titulo:'Base Legal',
+    lei_texto:'Art. 46, Lei 8.245/91 — locação por prazo igual ou superior a 30 meses; Art. 47, Lei 8.245/91 — locação por prazo inferior a 30 meses ou prorrogada; Art. 51, Lei 8.245/91 — renovação compulsória para fins não residenciais.'
+  },
+  {
+    num:3, titulo:'DO VALOR DO ALUGUEL E DO REAJUSTE',
+    badge:'Art. 17–18, Lei 8.245/91',
+    texto:`O valor do aluguel mensal é de <strong>R$ [VALOR] ([VALOR POR EXTENSO])</strong>, a ser pago até o dia [DIA] de cada mês, mediante [FORMA DE PAGAMENTO: boleto / TED / PIX], no seguinte dado bancário: [DADOS].
+
+<strong>Reajuste anual:</strong> O aluguel será reajustado anualmente pela variação do índice <strong>[IGP-M / IPCA / IPC / INPC]</strong>, apurado nos 12 meses anteriores à data de reajuste, sendo vedado o reajuste em prazo inferior a 12 meses ou em percentual superior à variação do índice contratado.
+
+<strong>Aluguel em atraso:</strong> O não pagamento no vencimento sujeita o locatário à multa moratória de <strong>2%</strong> sobre o valor em atraso, juros de mora de <strong>1% ao mês</strong> e atualização monetária pelo mesmo índice de reajuste do contrato, calculados pro rata die.
+
+<strong>Revisão judicial:</strong> Qualquer das partes poderá solicitar revisão judicial do aluguel caso o valor ajustado não reflita o preço de mercado, após decorridos 3 anos da última fixação ou revisão (ação revisional).`,
+    editavel: true, editavel_label:'Preencher valor do aluguel, índice e vencimento',
+    editavel_placeholder:'Valor do aluguel: R$ ___________\nVencimento: dia ___ de cada mês\nÍndice de reajuste: IGPM / IPCA / IPC\nForma de pagamento: PIX / boleto / TED\nChave PIX / dados bancários: ___________',
+    lei_titulo:'Base Legal',
+    lei_texto:'Art. 17–18, Lei 8.245/91 — livre convenção do aluguel; Art. 19, Lei 8.245/91 — ação revisional (3 anos); Art. 52, Lei 8.245/91 — reajuste; Resolução BACEN — atualização monetária; Lei 10.192/2001 — vedação de cláusula de escala móvel com periodicidade inferior a 1 ano.'
+  },
+  {
+    num:4, titulo:'DOS ENCARGOS, TAXAS E UTILIDADES',
+    badge:'Art. 22–23, Lei 8.245/91',
+    texto:`São de responsabilidade do <strong>LOCATÁRIO</strong>, além do aluguel:
+• <strong>Condomínio</strong> (despesas ordinárias): taxa de condomínio mensal, manutenção de elevadores, limpeza, salários e encargos dos funcionários do condomínio, consumo de água/gás nas áreas comuns, pequenos reparos nas áreas comuns (Art. 23, XII, Lei 8.245/91);
+• <strong>IPTU</strong> e taxas municipais (somente se expressa e especificamente atribuído ao locatário neste contrato — cláusula específica);
+• <strong>Conta de energia elétrica, água, gás</strong> e demais utilidades de consumo do imóvel locado;
+• <strong>Seguro contra incêndio</strong>, obrigatório por lei, a ser contratado pelo locatário ou locador (conforme ajuste) junto à seguradora idônea, com valor segurado compatível com o custo de reposição do imóvel.
+
+São de responsabilidade do <strong>LOCADOR</strong>:
+• Impostos e taxas extraordinárias incidentes sobre o imóvel (IPTU quando não transferido ao locatário);
+• Despesas extraordinárias de condomínio (obras estruturais, fundo de reserva, pintura de fachada, substituição de equipamentos);
+• Vícios e defeitos ocultos preexistentes à locação.`,
+    editavel: true, editavel_label:'Ajustar responsabilidades (IPTU, condomínio, seguro)',
+    editavel_placeholder:'IPTU: ( ) Locador ( ) Locatário — valor estimado R$___/mês\nCondomínio: R$___/mês (ordinário)\nSeguro incêndio: ( ) Locador contrata ( ) Locatário contrata',
+    lei_titulo:'Base Legal',
+    lei_texto:'Art. 22, VIII e X, Lei 8.245/91 — obrigações do locador; Art. 23, I, XI, XII, Lei 8.245/91 — obrigações do locatário; Art. 22, §único — condomínio extraordinário é do locador; Súmula TJSP 59 — IPTU pode ser transferido por cláusula expressa.'
+  },
+  {
+    num:5, titulo:'DAS BENFEITORIAS E DA CONSERVAÇÃO DO IMÓVEL',
+    badge:'Art. 35–36, Lei 8.245/91',
+    texto:`<strong>Benfeitorias necessárias:</strong> As realizadas pelo locatário para conservar ou evitar deterioração do imóvel são indenizáveis, independentemente de autorização do locador.
+
+<strong>Benfeitorias úteis e voluptuárias:</strong> Somente poderão ser realizadas pelo locatário mediante <strong>autorização prévia e escrita</strong> do locador. Realizadas com autorização, as benfeitorias úteis são indenizáveis; as voluptuárias, não, podendo o locatário retirá-las ao fim da locação sem que haja dano ao imóvel.
+
+<strong>Renúncia ao direito de retenção:</strong> As partes poderão convencionar (e é RECOMENDADO que o façam) a renúncia do locatário ao direito de retenção por benfeitorias úteis, permanecendo apenas a indenizabilidade das necessárias.
+
+<strong>Conservação:</strong> O locatário é obrigado a restituir o imóvel ao final da locação no mesmo estado em que o recebeu, ressalvado o desgaste natural pelo uso ordinário, devidamente documentado no laudo de vistoria de entrada.`,
+    editavel: true, editavel_label:'Listar benfeitorias existentes e autorizações específicas',
+    editavel_placeholder:'Benfeitorias já existentes no imóvel: [listar]\nAutorizações específicas concedidas ao locatário: [listar]\nRenúncia à retenção: ( ) Sim ( ) Não',
+    lei_titulo:'Base Legal',
+    lei_texto:'Art. 35, Lei 8.245/91 — benfeitorias necessárias; Art. 36, Lei 8.245/91 — benfeitorias úteis e voluptuárias; Art. 96, CC/2002 — conceito de benfeitorias; Art. 578, CC/2002 — salvo convenção em contrário, as benfeitorias necessárias são do locador.'
+  },
+  {
+    num:6, titulo:'DA RESCISÃO, MULTA E DEVOLUÇÃO DO IMÓVEL',
+    badge:'Art. 4º, Lei 8.245/91',
+    texto:`<strong>Rescisão pelo locatário:</strong> O locatário poderá devolver o imóvel antes do término do prazo ajustado, pagando multa proporcional ao período faltante do contrato, calculada sobre o aluguel vigente, na proporção de <strong>[X meses] de aluguel ou [X]%</strong> do valor total do contrato restante.
+
+<strong>Rescisão sem multa:</strong> O locatário não pagará multa rescisória se a devolução decorrer de: (a) transferência pelo empregador para outra localidade, desde que notificado o locador com 30 dias de antecedência; (b) rescisão por descumprimento do locador.
+
+<strong>Devolução do imóvel:</strong> O imóvel deve ser entregue limpo, com todas as chaves, controles e documentos, nas mesmas condições do laudo de vistoria de entrada. Divergências apuradas no laudo de vistoria de saída serão descontadas da caução ou cobradas diretamente do locatário (ou do fiador/garantidor).
+
+<strong>Prazo para entrega das chaves:</strong> O locatário deve entregar as chaves até o último dia do contrato ou 30 dias após a notificação (no caso de prorrogação por prazo indeterminado), sob pena de pagar aluguel e encargos até a efetiva entrega.`,
+    editavel: true, editavel_label:'Definir multa rescisória e condições de devolução',
+    editavel_placeholder:'Multa rescisória: ___% do valor total restante do contrato ou equivalente a ___ aluguéis\nPrazo para devolução após notificação: ___ dias\nCondições de vistoria: ___',
+    lei_titulo:'Base Legal',
+    lei_texto:'Art. 4º, Lei 8.245/91 — multa proporcional pelo locatário; Art. 4º, §único — rescisão sem multa por transferência de empregador; Art. 23, III, Lei 8.245/91 — obrigação de restituição no estado de recebimento; Súmula 214 STJ — multa deve ser proporcional ao período faltante.'
+  },
+  {
+    num:7, titulo:'DA GARANTIA LOCATÍCIA',
+    badge:'Art. 37, Lei 8.245/91',
+    texto:`As partes elegem como garantia da presente locação: <strong>[MODALIDADE ESCOLHIDA]</strong>, nos termos do Art. 37 da Lei 8.245/91, sendo vedada a exigência de mais de uma modalidade de garantia por contrato.
+
+<strong>FIANÇA:</strong> O fiador (qualificado no preâmbulo) é responsável solidariamente com o locatário por todas as obrigações decorrentes deste contrato (aluguel, encargos, multas, danos ao imóvel), inclusive após o término do prazo contratual, enquanto o locatário permanecer no imóvel (mesmo em prorrogação), salvo notificação expressa ao locador.
+
+<strong>CAUÇÃO EM DINHEIRO:</strong> No valor de R$ [X] (equivalente a [Y] aluguéis), depositado na Caderneta de Poupança nº [X], agência [X], banco [X], em conta conjunta de locador e locatário. Será restituído corrigido pela poupança ao final da locação, deduzidas as pendências apuradas.
+
+<strong>SEGURO FIANÇA:</strong> Apólice nº [X], emitida pela seguradora [X], cobrindo: inadimplência de aluguel por até [X] meses, danos ao imóvel até R$ [X] e encargos.`,
+    editavel: true, editavel_label:'Preencher dados da garantia escolhida',
+    editavel_placeholder:'Modalidade: ( ) Fiança ( ) Caução ( ) Seguro Fiança ( ) Cessão Fiduciária\n\nFIADOR: Nome: ___ CPF: ___ RG: ___ Imóvel garantidor: Matrícula nº ___ CRI ___\n\nCAUÇÃO: Valor: R$___ Banco: ___ Ag: ___ Conta Poupança nº: ___\n\nSEGURO: Seguradora: ___ Apólice nº: ___',
+    lei_titulo:'Base Legal',
+    lei_texto:'Art. 37, I–IV, Lei 8.245/91 — modalidades de garantia; Art. 39, Lei 8.245/91 — fiador responde pela locação prorrogada; Art. 38, §2º, Lei 8.245/91 — caução em dinheiro em caderneta de poupança; Súmula 549 STJ — fiança de bem de família é válida para locação; Súmula 214 STJ.'
+  },
+  {
+    num:8, titulo:'DA VISTORIA DE ENTREGA E LAUDO DE CONSERVAÇÃO',
+    badge:'Art. 22, I, Lei 8.245/91',
+    texto:`É parte integrante e indissociável deste contrato o <strong>Laudo de Vistoria de Entrega</strong>, elaborado em conjunto pelas partes na data de entrega das chaves, descrevendo detalhadamente o estado de conservação de cada cômodo, instalações elétricas e hidráulicas, esquadrias, revestimentos, pintura, mobiliário (se houver) e equipamentos.
+
+O laudo de vistoria é o instrumento único de aferição das condições do imóvel no início e no fim da locação. <strong>Na ausência de laudo, presume-se que o imóvel foi entregue em perfeito estado</strong> (Art. 22, I, Lei 8.245/91), prejudicando o locatário que não poderá comprovar danos preexistentes.
+
+O laudo deve ser assinado por ambas as partes, podendo ser acompanhado de fotografias datadas e numeradas, e é recomendada a lavratura de <strong>Ata Notarial de Vistoria</strong> pelo tabelião, com valor probatório reforçado.`,
+    editavel: true, editavel_label:'Descrever estado do imóvel cômodo a cômodo',
+    editavel_placeholder:'SALA: Piso ___ / Paredes ___ / Teto ___ / Esquadrias ___\nCOZINHA: Piso ___ / Armários ___ / Torneiras ___\nDORMITÓRIO 1: ___ …\n\nInstalações elétricas: ___ / Instalações hidráulicas: ___\nObservações gerais: ___',
+    lei_titulo:'Base Legal',
+    lei_texto:'Art. 22, I, Lei 8.245/91 — locador deve entregar imóvel em estado de servir ao uso a que se destina; Art. 23, III, Lei 8.245/91 — locatário obrigado a restituir no estado de recebimento; Art. 384, CPC/2015 — ata notarial como prova pré-constituída.'
+  },
+];
+
+const CLAUSULAS_CV = [
+  {
+    num:1, titulo:'DO OBJETO E DAS PARTES',
+    badge:'Art. 462, CC/2002',
+    texto:`Pelo presente instrumento particular de <strong>Promessa de Compra e Venda</strong>, o <strong>PROMITENTE VENDEDOR</strong> (qualificado no preâmbulo) promete vender ao <strong>PROMITENTE COMPRADOR</strong> (qualificado no preâmbulo) o imóvel descrito neste instrumento, pelo preço e condições aqui estabelecidos.
+
+O imóvel objeto desta promessa é o descrito no PTAM acima, livre e desembaraçado de quaisquer ônus reais, dívidas, hipotecas, penhoras, arrestos, sequestros ou outras restrições de domínio, conforme será comprovado pelas certidões relacionadas neste documento.
+
+A promessa de compra e venda registrada no CRI confere ao promitente comprador direito real oponível a terceiros, garantindo-lhe a adjudicação compulsória em caso de recusa do vendedor (Art. 1.417, CC/2002).`,
+    editavel: true, editavel_label:'Qualificar VENDEDOR e COMPRADOR',
+    editavel_placeholder:'PROMITENTE VENDEDOR: Nome:___ CPF:___ RG:___ Estado civil:___ Regime de bens:___ Endereço:___\n\nPROMITENTE COMPRADOR: Nome:___ CPF:___ RG:___ Estado civil:___ Regime de bens:___ Endereço:___',
+    lei_titulo:'Base Legal',
+    lei_texto:'Art. 462, CC/2002 — promessa de compra e venda; Art. 1.417, CC/2002 — direito real do promitente comprador; Art. 1.418, CC/2002 — adjudicação compulsória; Lei 6.766/79 — parcelamento do solo (se loteamento).'
+  },
+  {
+    num:2, titulo:'DO PREÇO, SINAL E FORMA DE PAGAMENTO',
+    badge:'Art. 462, CC/2002',
+    texto:`O imóvel é prometido vender pelo preço total de <strong>R$ [VALOR] ([VALOR POR EXTENSO])</strong>, a ser pago da seguinte forma:
+
+<strong>Sinal (Arras):</strong> R$ [X] ([X por extenso]), pago neste ato ao Promitente Vendedor, a título de arras confirmatórias, nos termos do Art. 417, CC/2002.
+
+<strong>Parcelas intermediárias:</strong> R$ [X] em [Y] parcelas mensais de R$ [Z], vencendo a primeira em [DATA], reajustadas mensalmente pelo [ÍNDICE].
+
+<strong>Saldo devedor:</strong> R$ [X], a ser pago na data da lavratura da escritura definitiva, mediante [forma: dinheiro / financiamento bancário / FGTS].
+
+<strong>Arras confirmatórias:</strong> O sinal pago constitui arras confirmatórias. Em caso de desistência pelo Promitente Comprador, o sinal é perdido em favor do Promitente Vendedor. Em caso de desistência pelo Promitente Vendedor, este devolverá o sinal em dobro (Art. 418, CC/2002).`,
+    editavel: true, editavel_label:'Preencher valores e condições de pagamento',
+    editavel_placeholder:'Preço total: R$ ___________\nSinal (arras): R$ ___________ pago em: ___/___/______\nParcelas: ___ x R$ ___________ (vencto. dia ___ de cada mês)\nSaldo na escritura: R$ ___________\nForma do saldo: ( ) à vista ( ) financiamento ( ) FGTS',
+    lei_titulo:'Base Legal',
+    lei_texto:'Art. 417–420, CC/2002 — arras confirmatórias e penitenciais; Art. 462–466, CC/2002 — promessa de compra e venda; Art. 27, Lei 4.591/64 — pagamento escalonado em incorporações; Súmula 543 STJ — devolução das arras.'
+  },
+  {
+    num:3, titulo:'DO PRAZO PARA ESCRITURA E POSSE',
+    badge:'Art. 1.245, CC/2002',
+    texto:`As partes comprometem-se a comparecer ao Cartório de Notas designado para a lavratura da Escritura Pública de Compra e Venda no prazo de <strong>[X] dias / [MESES]</strong> contados da data da assinatura desta promessa, ou imediatamente após a liberação do financiamento bancário (se aplicável).
+
+<strong>Posse:</strong> A posse direta do imóvel será transferida ao Promitente Comprador na data da <strong>lavratura e assinatura da escritura pública</strong> (ou na data do pagamento integral do preço, o que ocorrer primeiro), ficando vedada a ocupação antecipada, salvo acordo expresso em contrário.
+
+<strong>Transferência de responsabilidades:</strong> A partir da data da posse, o Promitente Comprador assume integralmente as obrigações de IPTU, condomínio, concessionárias e demais encargos do imóvel.`,
+    editavel: true, editavel_label:'Definir prazo para escritura e data de posse',
+    editavel_placeholder:'Prazo para escritura: ___ dias da assinatura (ou após liberação do financiamento)\nData prevista para escritura: ___/___/______\nCartório de Notas designado: ___\nData de posse: ___/___/______\nCondição de posse antecipada: ___',
+    lei_titulo:'Base Legal',
+    lei_texto:'Art. 1.245, CC/2002 — transferência do domínio pelo registro; Art. 492, CC/2002 — riscos e vantagens ao comprador com a tradição; Art. 1.258, CC/2002 — posse e domínio; Art. 463, CC/2002 — conclusão do contrato definitivo.'
+  },
+  {
+    num:4, titulo:'DAS CERTIDÕES E REGULARIDADE DOCUMENTAL',
+    badge:'Art. 593, CPC/2015',
+    texto:`O Promitente Vendedor declara, sob as penas da lei, que o imóvel está livre de quaisquer ônus, dívidas, gravames, litígios ou ações judiciais que possam comprometer a transferência de propriedade, obrigando-se a apresentar até a data da escritura:
+
+• Matrícula atualizada (≤30 dias) sem averbações de ônus;
+• Certidões negativas de protestos, ações cíveis, criminais, trabalhistas e fiscais (federal, estadual e municipal);
+• Certidão negativa de débitos de condomínio;
+• Guia de ITBI paga (responsabilidade: [definir quem paga]);
+• Certidão negativa de IPTU.
+
+O descumprimento destas obrigações pelo Vendedor gera o direito ao Comprador de rescindir o contrato com restituição em dobro das arras e perdas e danos, independentemente de interpelação judicial (Art. 418, CC/2002).`,
+    editavel: true, editavel_label:'Responsabilidades sobre ITBI e custos cartoriais',
+    editavel_placeholder:'ITBI (3% do valor): responsabilidade do ( ) Comprador ( ) Vendedor ( ) Dividir\nEscritura: responsabilidade do ( ) Comprador ( ) Vendedor\nRegistro CRI: responsabilidade do ( ) Comprador ( ) Vendedor',
+    lei_titulo:'Base Legal',
+    lei_texto:'Art. 593, CPC/2015 — fraude à execução; Súmula 375, STJ — boa-fé do adquirente; Art. 418, CC/2002 — arras e perdas por inadimplemento; Art. 184, CTN — crédito tributário grava o imóvel (responsabilidade propter rem).'
+  },
+];
+
+function buildClausulas() {
+  buildClausulasContainer('clausulas-ptam-container', CLAUSULAS_PTAM, 'ptam');
+  buildClausulasContainer('clausulas-locacao-container', CLAUSULAS_LOCACAO, 'loc');
+  buildClausulasContainer('clausulas-cv-container', CLAUSULAS_CV, 'cv');
+}
+
+function buildClausulasContainer(containerId, clausulas, prefix) {
+  const el = document.getElementById(containerId);
+  if (!el || el.innerHTML) return;
+  el.innerHTML = clausulas.map(c => `
+    <div class="clausula-block" id="${prefix}-cl-${c.num}">
+      <div class="clausula-header" onclick="toggleCl('${prefix}-cl-${c.num}')">
+        <div class="clausula-num">${c.num}</div>
+        <div class="clausula-title">CLÁUSULA ${c.num}ª — ${c.titulo}</div>
+        ${c.badge ? `<span class="clausula-badge">${c.badge}</span>` : ''}
+        <span class="clausula-arrow">▼</span>
+      </div>
+      <div class="clausula-body" id="${prefix}-cl-body-${c.num}">
+        <div class="clausula-text">${c.texto}</div>
+        ${c.editavel ? `
+          <div class="clausula-editavel">
+            <div class="clausula-editavel-label">✏️ Campo Editável — ${c.editavel_label}</div>
+            <textarea class="input-field" placeholder="${c.editavel_placeholder}" style="min-height:90px;font-size:13px"></textarea>
+          </div>` : ''}
+        <div class="legal-base">
+          <div class="legal-base-title">⚖️ ${c.lei_titulo || 'Base Legal'}</div>
+          <div class="legal-base-text">${c.lei_texto}</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function toggleCl(id) {
+  const body = document.getElementById(id.replace(/-cl-/, '-cl-body-'));
+  const arrow = document.querySelector(`#${CSS.escape(id)} .clausula-arrow`);
+  if (!body) return;
+  const open = body.classList.contains('open');
+  body.classList.toggle('open', !open);
+  if (arrow) arrow.style.transform = open ? '' : 'rotate(180deg)';
+}
+
+// ═══════════════════════════════════════════════
+// CHECKLIST
+// ═══════════════════════════════════════════════
+const CHECKLIST_GROUPS = [
+  { cat:'🪪 Documentos Pessoais das Partes', items:[
+    { doc:'RG / CNH (originais)', onde:'SSP / DETRAN / Polícia Civil', lei:'Art. 215, §1º, CC — qualificação na escritura pública', tipo:'Ambas as partes', obrig:true },
+    { doc:'CPF — Comprovante de situação cadastral', onde:'Receita Federal — gratuito online', lei:'Resolução COFECI — identificação fiscal obrigatória', tipo:'Ambas as partes', obrig:true },
+    { doc:'Certidão de Nascimento (solteiros sem filhos)', onde:'Cartório de Registro Civil — gratuito online', lei:'Art. 215, CC — estado civil', tipo:'Solteiros', obrig:true },
+    { doc:'Certidão de Casamento com averbação de regime', onde:'Cartório de PN — gratuito online', lei:'Art. 1.647, CC — outorga uxória/marital', tipo:'Casados', obrig:true },
+    { doc:'Certidão de Casamento com averbação de divórcio', onde:'Cartório de PN — gratuito online', lei:'Art. 1.647, CC — dispensa outorga após divórcio', tipo:'Divorciados', obrig:true },
+    { doc:'Certidão de Óbito do cônjuge (viúvos)', onde:'Cartório de PN — gratuito online', lei:'Art. 1.784, CC — abertura da sucessão', tipo:'Viúvos', obrig:true },
+    { doc:'Comprovante de residência ≤90 dias', onde:'Concessionária / banco / cartão', lei:'Art. 215, §1º, CC — qualificação completa', tipo:'Ambas as partes', obrig:true },
+    { doc:'Declaração de origem lícita dos recursos (≥R$30k)', onde:'Declaração própria assinada', lei:'Lei 9.613/98, Art. 9º — COAF — Anti-Lavagem', tipo:'Comprador', obrig:false },
+  ]},
+  { cat:'🏠 Documentos do Imóvel', items:[
+    { doc:'Certidão de Matrícula atualizada (≤30 dias)', onde:'Cartório de Registro de Imóveis — online', lei:'Art. 1.245, CC c/c Art. 167, Lei 6.015/73', tipo:'Obrigatório', obrig:true },
+    { doc:'IPTU do exercício atual', onde:'Prefeitura — portal online', lei:'Art. 130, CTN — propter rem', tipo:'Obrigatório', obrig:true },
+    { doc:'Certidão de Valor Venal', onde:'Prefeitura SP — online', lei:'Base de cálculo ITBI — Art. 38, CTN', tipo:'Compra/Venda', obrig:true },
+    { doc:'Guia ITBI paga', onde:'Prefeitura SP — portal online', lei:'Art. 156, II, CF/88; Lei Municipal SP 11.154/91', tipo:'Compra/Venda', obrig:true },
+    { doc:'Habite-se / Auto de Conclusão de Obra', onde:'Prefeitura Municipal', lei:'Dec. Municipal SP 32.329/92', tipo:'Imóveis novos', obrig:false },
+    { doc:'Averbação de construção na matrícula', onde:'Cartório de RI', lei:'Art. 167, I, nº 4, Lei 6.015/73', tipo:'Com construção', obrig:true },
+    { doc:'Planta aprovada pela Prefeitura', onde:'Prefeitura Municipal', lei:'NBR 14.653-2/2011 — avaliação bancária', tipo:'Financiamento', obrig:true },
+    { doc:'Certidão negativa de condomínio', onde:'Síndico / Administradora', lei:'Art. 1.345, CC — propter rem', tipo:'Apartamentos', obrig:false },
+    { doc:'Certidão negativa SABESP', onde:'SABESP — online', lei:'Jurisprudência TJSP — débitos de saneamento', tipo:'Recomendado', obrig:false },
+    { doc:'Laudo de avaliação bancária (PTAM/PTAI)', onde:'Engenheiro CREA / Arquiteto CAU', lei:'Resolução CMN 4.676/2018, Art. 11', tipo:'Financiamento', obrig:true },
+  ]},
+  { cat:'⚖️ Certidões Negativas do Vendedor', items:[
+    { doc:'Certidão negativa de protestos', onde:'Tabelionato de Protesto SP — online', lei:'Art. 1º, Lei 9.492/97 — protesto formaliza inadimplência', tipo:'Obrigatório', obrig:true },
+    { doc:'Certidão de ações cíveis — TJSP', onde:'TJSP e-SAJ — gratuito online', lei:'Art. 593, CPC — fraude à execução; Súmula 375 STJ', tipo:'Obrigatório', obrig:true },
+    { doc:'Certidão de ações trabalhistas — TST', onde:'TST CNDT — gratuito online', lei:'CLT — execução trabalhista pode gravar bens', tipo:'Recomendado/PJ', obrig:false },
+    { doc:'Certidão negativa federal (RFB + PGFN)', onde:'Receita Federal — gratuito online', lei:'Art. 205–206, CTN — quitação de tributos', tipo:'Obrigatório', obrig:true },
+    { doc:'Certidão negativa estadual — SEFAZ-SP', onde:'SEFAZ-SP — online', lei:'Art. 206, CTN — certidão positiva com efeito negativo', tipo:'Obrigatório', obrig:true },
+    { doc:'Certidão negativa municipal', onde:'Prefeitura SP — online', lei:'Art. 206, CTN; IPTU propter rem', tipo:'Obrigatório', obrig:true },
+    { doc:'Certidão negativa criminal — TJSP', onde:'TJSP — online', lei:'Recomendado; crimes patrimoniais podem indicar fraudes', tipo:'Recomendado', obrig:false },
+    { doc:'Certidão de feitos ajuizados — TRF3 (Federal)', onde:'TRF3 — online', lei:'Art. 593, CPC — fraude à execução em esfera federal', tipo:'Recomendado', obrig:false },
+  ]},
+  { cat:'💰 Tributação e Impostos', items:[
+    { doc:'Guia ITBI paga — 3% sobre maior valor (SP)', onde:'Prefeitura SP — portal online', lei:'Art. 156, II, CF/88; Art. 35-42, CTN; Lei Mun. SP 11.154/91', tipo:'Compra/Venda', obrig:true },
+    { doc:'Guia ITCMD — 4% sobre valor venal (SP)', onde:'SEFAZ-SP — online', lei:'Art. 155, I, CF/88; Lei SP 10.705/2000', tipo:'Doação/Herança', obrig:true },
+    { doc:'Declaração de Ganho de Capital (GCAP)', onde:'Receita Federal — Programa GCAP', lei:'Art. 2º, Lei 7.713/88 — IRPF sobre ganho de capital', tipo:'Vendedor PF', obrig:false },
+    { doc:'DIRCAM / DIMOB (imobiliárias)', onde:'Receita Federal — SPED', lei:'IN RFB 1.115/2010 — obrigações acessórias do corretor', tipo:'Corretor/Imobiliária', obrig:false },
+  ]},
+  { cat:'📑 Documentos Específicos de Financiamento', items:[
+    { doc:'Holerite dos últimos 3 meses', onde:'Empregador', lei:'Resolução CMN 4.676/2018 — comprovação de renda', tipo:'Comprador — CLT', obrig:true },
+    { doc:'Declaração de IR — 2 últimos exercícios', onde:'Receita Federal — e-CAC', lei:'IN RFB 1.888/2019 — comprovação patrimonial', tipo:'Comprador', obrig:true },
+    { doc:'Extrato bancário 3 meses', onde:'Banco do mutuário', lei:'Lei 9.613/98 — origem de recursos', tipo:'Comprador', obrig:true },
+    { doc:'Extrato FGTS atualizado', onde:'App FGTS / CEF — online', lei:'Art. 20, VIII, Lei 8.036/90 — uso para moradia', tipo:'Se usar FGTS', obrig:false },
+    { doc:'Declaração de não propriedade de imóvel', onde:'Própria declaração + Cartório', lei:'Art. 9º-A, Lei 8.036/90', tipo:'Se usar FGTS', obrig:false },
+  ]},
+];
+
+function buildChecklist() {
+  const el = document.getElementById('checklist-container');
+  if (!el || el.innerHTML) return;
+  el.innerHTML = CHECKLIST_GROUPS.map(group => `
+    <div style="margin-bottom:24px">
+      <h3 style="font-family:'DM Serif Display',serif;font-size:1.1rem;color:#fff;
+        margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.07)">${group.cat}</h3>
+      <div style="display:flex;flex-direction:column;gap:4px">
+        ${group.items.map(item => `
+          <div style="background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:10px;
+            padding:12px 14px;display:flex;align-items:flex-start;gap:10px">
+            <input type="checkbox" class="check-box" style="accent-color:var(--gold)">
+            <div style="flex:1">
+              <div style="font-size:var(--font-body);color:var(--text);font-weight:600">${item.doc}</div>
+              <div style="font-size:var(--font-small);color:var(--muted);margin-top:2px">📍 ${item.onde}</div>
+              <div style="font-size:10px;color:var(--muted2);margin-top:2px;font-style:italic">⚖️ ${item.lei}</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">
+              <span class="badge ${item.obrig ? 'badge-red' : 'badge-green'}" style="font-size:9px;white-space:nowrap">${item.obrig ? 'Obrigatório' : 'Recomendado'}</span>
+              <span class="badge badge-blue" style="font-size:9px;white-space:nowrap">${item.tipo}</span>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════
+// INICIALIZAÇÃO
+// ═══════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  buildInfraGrid();
+  buildPhotoGrid('photoGridPrincipal', FOTO_SLOTS);
+  initRefs();
+  // Data padrão
+  document.getElementById('ptam-data').value = new Date().toISOString().split('T')[0];
+  document.getElementById('sig-data').value = new Date().toISOString().split('T')[0];
+  atualizarHeader();
+});
+</script>
+</body>
+</html>
