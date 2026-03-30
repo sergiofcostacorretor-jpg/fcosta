@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biblioteca de Exegese Sagrada</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #faf3e2;
+  --parchment: #f0e6c8;
+  --parchment-dark: #e5d8ae;
+  --ink: #1a0f05;
+  --ink-soft: #3d2b1a;
+  --gold: #8a6010;
+  --gold-light: #c9960a;
+  --gold-glow: #e8b84b;
+  --red: #6b1010;
+  --red-light: #a01818;
+  --border: #b89650;
+  --border-light: #d4b87a;
+  --sidebar-bg: #2a1a08;
+  --sidebar-text: #d4b87a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'EB Garamond', serif;
+  height: 100vh;
+  overflow: hidden;
+}
+.wrapper { display: flex; height: 100vh; }
+#sidebar {
+  width: 260px;
+  min-width: 260px;
+  background: var(--sidebar-bg);
+  display: flex;
+  flex-direction: column;
+  border-right: 2px solid var(--gold);
+  overflow: hidden;
+}
+.sb-logo {
+  padding: 18px 15px;
+  background: linear-gradient(180deg, #1a0c03 0%, #2a1a08 100%);
+  border-bottom: 1px solid var(--gold);
+  text-align: center;
+}
+.sb-logo .ornament { color: var(--gold-glow); font-size: 1.4rem; letter-spacing: 4px; }
+.sb-logo h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  color: var(--gold-light);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-top: 5px;
+}
+#book-list {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold) transparent;
+}
+#book-list::-webkit-scrollbar { width: 4px; }
+#book-list::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+.group-label {
+  padding: 14px 15px 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  color: var(--gold-glow);
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  border-top: 1px solid rgba(200,160,80,0.2);
+  margin-top: 4px;
+}
+.group-label:first-child { border-top: none; }
+.book-item {
+  padding: 7px 20px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-size: 0.97rem;
+  color: #c8b090;
+  border-left: 3px solid transparent;
+  line-height: 1.3;
+}
+.book-item:hover { background: rgba(200,160,80,0.12); color: var(--gold-glow); }
+.book-item.active {
+  background: rgba(200,160,80,0.18);
+  border-left: 3px solid var(--gold-glow);
+  color: #f5dfa0;
+  font-weight: 500;
+}
+#main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--paper);
+}
+#book-header {
+  background: linear-gradient(180deg, #f5ead0 0%, var(--paper) 100%);
+  border-bottom: 1px solid var(--border-light);
+  padding: 20px 30px 15px;
+  flex-shrink: 0;
+}
+.header-inner { display: flex; align-items: center; gap: 20px; }
+.book-icon {
+  width: 55px;
+  height: 55px;
+  background: var(--sidebar-bg);
+  border: 2px solid var(--gold);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+.header-text h1 { font-family: 'Cinzel', serif; font-size: 1.8rem; color: var(--red); line-height: 1; }
+.header-text .subtitle { font-size: 0.95rem; color: var(--ink-soft); margin-top: 3px; font-style: italic; }
+.meta-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border-light);
+  border-top: 1px solid var(--border-light);
+  flex-shrink: 0;
+}
+.meta-cell { background: var(--parchment); padding: 10px 14px; }
+.meta-cell .label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  color: var(--gold);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.meta-cell .value { font-size: 0.9rem; color: var(--ink); line-height: 1.3; }
+.content-area { flex: 1; display: flex; gap: 0; overflow: hidden; }
+#summary-panel {
+  width: 340px;
+  min-width: 340px;
+  border-right: 1px solid var(--border-light);
+  overflow-y: auto;
+  padding: 20px;
+  background: var(--parchment);
+  scrollbar-width: thin;
+}
+#summary-panel::-webkit-scrollbar { width: 4px; }
+#summary-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.summary-section { margin-bottom: 18px; }
+.summary-section h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  color: var(--gold);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: 5px;
+  margin-bottom: 8px;
+}
+.summary-section p { font-size: 0.95rem; line-height: 1.65; color: var(--ink-soft); }
+.verse-box {
+  background: var(--sidebar-bg);
+  border-left: 3px solid var(--gold-glow);
+  padding: 12px 14px;
+  border-radius: 0 4px 4px 0;
+  margin-top: 8px;
+}
+.verse-box .verse-text { color: #e8d8b0; font-style: italic; font-size: 1rem; line-height: 1.6; }
+.verse-box .verse-ref { color: var(--gold-light); font-family: 'Cinzel', serif; font-size: 0.7rem; margin-top: 6px; }
+.tag-list { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+.tag {
+  background: var(--sidebar-bg);
+  color: var(--gold-light);
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  padding: 3px 8px;
+  border-radius: 2px;
+  letter-spacing: 1px;
+}
+#chat-panel { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+#chat-log {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+#chat-log::-webkit-scrollbar { width: 4px; }
+#chat-log::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.msg { max-width: 82%; font-size: 1rem; line-height: 1.65; animation: fadeUp 0.25s ease; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.msg-ai {
+  background: var(--parchment);
+  border: 1px solid var(--border-light);
+  border-left: 4px solid var(--red);
+  padding: 14px 16px;
+  border-radius: 0 8px 8px 0;
+  align-self: flex-start;
+  color: var(--ink);
+}
+.msg-ai .msg-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  color: var(--red-light);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.msg-user {
+  background: var(--sidebar-bg);
+  border: 1px solid var(--gold);
+  padding: 12px 16px;
+  border-radius: 8px 0 0 8px;
+  align-self: flex-end;
+  color: #e8d5a8;
+}
+.msg-user .msg-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  color: var(--gold-light);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.typing-indicator { display: flex; gap: 4px; padding: 5px 0; align-items: center; }
+.typing-dot {
+  width: 7px; height: 7px;
+  background: var(--gold);
+  border-radius: 50%;
+  animation: bounce 1.2s infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+  40% { transform: translateY(-6px); opacity: 1; }
+}
+.input-section {
+  padding: 12px 16px;
+  background: var(--parchment);
+  border-top: 1px solid var(--border-light);
+  flex-shrink: 0;
+}
+.input-row { display: flex; gap: 8px; align-items: flex-end; }
+#user-query {
+  flex: 1;
+  padding: 11px 14px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: 'EB Garamond', serif;
+  font-size: 1rem;
+  background: #fff;
+  color: var(--ink);
+  resize: none;
+  min-height: 44px;
+  max-height: 100px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+#user-query:focus { border-color: var(--gold); }
+#user-query::placeholder { color: #aaa; font-style: italic; }
+.btn-send {
+  background: var(--red);
+  color: #f0e0c0;
+  border: none;
+  padding: 11px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 1.5px;
+  transition: background 0.2s;
+  white-space: nowrap;
+  height: 44px;
+}
+.btn-send:hover { background: var(--red-light); }
+.btn-send:disabled { background: #999; cursor: not-allowed; }
+.quick-prompts { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+.quick-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--ink-soft);
+  font-family: 'EB Garamond', serif;
+  font-size: 0.82rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-style: italic;
+}
+.quick-btn:hover { background: var(--sidebar-bg); color: var(--gold-light); border-color: var(--gold); }
+#welcome-screen {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 15px;
+  padding: 40px;
+  text-align: center;
+}
+#welcome-screen .welcome-ornament { font-size: 3rem; color: var(--gold-light); letter-spacing: 8px; }
+#welcome-screen h2 { font-family: 'Cinzel', serif; font-size: 1.8rem; color: var(--red); }
+#welcome-screen p { font-size: 1.1rem; color: var(--ink-soft); max-width: 500px; line-height: 1.7; font-style: italic; }
+.welcome-divider { width: 200px; height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); }
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div id="sidebar">
+    <div class="sb-logo">
+      <div class="ornament">&#10022; &#10022; &#10022;</div>
+      <h2>Biblioteca de Exegese</h2>
+    </div>
+    <div id="book-list"></div>
+  </div>
+  <div id="main">
+    <div id="book-header">
+      <div class="header-inner">
+        <div class="book-icon" id="book-icon">&#128214;</div>
+        <div class="header-text">
+          <h1 id="txt-title">Selecione um Livro</h1>
+          <div class="subtitle" id="txt-subtitle">Escolha um livro na barra lateral para iniciar o estudo exeg&#233;tico</div>
+        </div>
+      </div>
+    </div>
+    <div class="meta-strip" id="meta-strip" style="display:none">
+      <div class="meta-cell"><div class="label">&#10022; Autoria</div><div class="value" id="txt-author">&#8212;</div></div>
+      <div class="meta-cell"><div class="label">&#10022; Per&#237;odo</div><div class="value" id="txt-period">&#8212;</div></div>
+      <div class="meta-cell"><div class="label">&#10022; G&#234;nero</div><div class="value" id="txt-genre">&#8212;</div></div>
+      <div class="meta-cell"><div class="label">&#10022; Cap&#237;tulos</div><div class="value" id="txt-chapters">&#8212;</div></div>
+    </div>
+    <div class="content-area">
+      <div id="summary-panel" style="display:none">
+        <div class="summary-section"><h3>&#10022; Contexto Hist&#243;rico</h3><p id="txt-context">&#8212;</p></div>
+        <div class="summary-section"><h3>&#10022; Prop&#243;sito &amp; Tema Central</h3><p id="txt-purpose">&#8212;</p></div>
+        <div class="summary-section">
+          <h3>&#10022; Vers&#237;culo Chave</h3>
+          <div class="verse-box">
+            <div class="verse-text" id="txt-verse-text">&#8212;</div>
+            <div class="verse-ref" id="txt-verse-ref">&#8212;</div>
+          </div>
+        </div>
+        <div class="summary-section"><h3>&#10022; Temas Teol&#243;gicos</h3><div class="tag-list" id="txt-tags"></div></div>
+        <div class="summary-section"><h3>&#10022; Estrutura do Livro</h3><p id="txt-structure">&#8212;</p></div>
+      </div>
+      <div id="chat-panel">
+        <div id="welcome-screen">
+          <div class="welcome-ornament">&#10022; &#10022; &#10022;</div>
+          <h2>Biblioteca de Exegese Sagrada</h2>
+          <div class="welcome-divider"></div>
+          <p>Uma ferramenta para o estudo profundo das Escrituras. Selecione qualquer um dos 66 livros can&#244;nicos na barra lateral e consulte um assistente teol&#243;gico com acesso ao conhecimento exeg&#233;tico completo.</p>
+          <div class="welcome-divider"></div>
+          <p style="font-size:0.9rem; color:var(--gold);">&#9733; Pentateuco &bull; Hist&#243;ricos &bull; Po&#233;ticos &bull; Prof&#233;ticos &bull; Evangelhos &bull; Ep&#237;stolas &#9733;</p>
+        </div>
+        <div id="chat-log" style="display:none"></div>
+        <div class="input-section" id="input-section" style="display:none">
+          <div class="quick-prompts" id="quick-prompts"></div>
+          <div class="input-row">
+            <textarea id="user-query" rows="1" placeholder="Fa&#231;a uma pergunta exeg&#233;tica sobre este livro..."></textarea>
+            <button class="btn-send" id="btn-send" onclick="processQuery()">CONSULTAR</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+var BIBLIA = {
+  "Genesis": { nome:"G\u00eanesis", icon:"\ud83c\udf0d", author:"Mois\u00e9s", period:"c. 1446\u20131406 a.C.", genre:"Narrativa/Teologia", chapters:50, context:"Escrito durante a peregrina\u00e7\u00e3o de Israel no deserto, G\u00eanesis responde \u00e0s quest\u00f5es fundamentais da origem: do cosmos, da humanidade, do pecado e da reden\u00e7\u00e3o prometida.", purpose:"Revelar a cria\u00e7\u00e3o pelo Deus soberano, explicar a entrada do pecado e da morte no mundo, e narrar o in\u00edcio do plano redentor de Deus atrav\u00e9s da elei\u00e7\u00e3o de Abra\u00e3o e seus descendentes.", verse_text:'"Farei de ti uma grande na\u00e7\u00e3o, e te ab\u00en\u00e7oarei, e engrandecerei o teu nome; e tu ser\u00e1s uma b\u00en\u00e7\u00e3o."', verse_ref:"Gn 12:2", tags:["Cria\u00e7\u00e3o","Queda","Alian\u00e7a","Elei\u00e7\u00e3o","Promessa","Patriarcas","Protoevangelium"], structure:"Duas grandes partes: Primeval History (1\u201311): cria\u00e7\u00e3o, queda, dil\u00favio, Babel; e Patriarcal History (12\u201350): Abra\u00e3o, Isaque, Jac\u00f3 e Jos\u00e9." },
+  "Exodo": { nome:"\u00caxodo", icon:"\ud83d\udd25", author:"Mois\u00e9s", period:"c. 1446\u20131406 a.C.", genre:"Narrativa/Lei", chapters:40, context:"Narra a escravid\u00e3o de Israel no Egito e a interven\u00e7\u00e3o divina de liberta\u00e7\u00e3o sob Mois\u00e9s.", purpose:"Revelar Deus como Libertador e estabelecer a alian\u00e7a do Sinai com Israel.", verse_text:'"Eu sou o SENHOR teu Deus, que te tirei da terra do Egito, da casa da servid\u00e3o."', verse_ref:"Ex 20:2", tags:["Liberta\u00e7\u00e3o","Alian\u00e7a do Sinai","Lei Mosaica","Tabern\u00e1culo","Pragas","P\u00e1scoa","Teofania"], structure:"Escravid\u00e3o e chamado de Mois\u00e9s (1\u20136); As 10 Pragas e P\u00e1scoa (7\u201312); Travessia do Mar e jornada ao Sinai (13\u201318); Alian\u00e7a e Lei no Sinai (19\u201324); Instru\u00e7\u00f5es do Tabern\u00e1culo (25\u201340)." },
+  "Levitico": { nome:"Lev\u00edtico", icon:"\ud83d\udd6f\ufe0f", author:"Mois\u00e9s", period:"c. 1446\u20131406 a.C.", genre:"Lei/Liturgia", chapters:27, context:"Dado no Monte Sinai, \u00e9 o manual de santidade e culto para o sacerd\u00f3cio lev\u00edtico de Israel.", purpose:"Estabelecer o sistema sacrificial, as leis de pureza e santidade, e o calend\u00e1rio lit\u00fargico de Israel.", verse_text:'"Sede santos, porque eu, o Senhor vosso Deus, sou santo."', verse_ref:"Lv 19:2", tags:["Santidade","Sacrif\u00edcio","Expia\u00e7\u00e3o","Sacerd\u00f3cio","Dia do Propici\u00e1t\u00f3rio","Pureza","Lei Cerimonial"], structure:"Ofertas e sacrif\u00edcios (1\u20137); Consagra\u00e7\u00e3o dos sacerdotes (8\u201310); Leis de pureza (11\u201315); Dia da Expia\u00e7\u00e3o \u2013 Yom Kippur (16); C\u00f3digo de Santidade (17\u201326); Votos e d\u00edzimos (27)." },
+  "Numeros": { nome:"N\u00fameros", icon:"\ud83c\udfd5\ufe0f", author:"Mois\u00e9s", period:"c. 1446\u20131406 a.C.", genre:"Narrativa/Lei", chapters:36, context:"Cobre a peregrina\u00e7\u00e3o de Israel pelo deserto entre o Sinai e os campos de Moabe.", purpose:"Narrar as consequ\u00eancias da incredulidade e desobedi\u00eancia de Israel, mas tamb\u00e9m a fidelidade de Deus.", verse_text:'"O Senhor te aben\u00e7oe e te guarde; o Senhor fa\u00e7a resplandecer o seu rosto sobre ti..."', verse_ref:"Nm 6:24-25", tags:["Peregrina\u00e7\u00e3o","Incredulidade","Julgamento","Fidelidade de Deus","Censo","Pureza","Profecias de Bala\u00e3o"], structure:"Prepara\u00e7\u00f5es no Sinai (1\u201310:10); Jornada e rebeli\u00f5es (10:11\u201319); A gera\u00e7\u00e3o da incredulidade julgada (20\u201325); Prepara\u00e7\u00e3o da nova gera\u00e7\u00e3o (26\u201336)." },
+  "Deuteronomio": { nome:"Deuteron\u00f4mio", icon:"\ud83d\udcdc", author:"Mois\u00e9s", period:"c. 1406 a.C.", genre:"Discursos/Lei", chapters:34, context:"S\u00e9rie de discursos de Mois\u00e9s \u00e0s margens do Jord\u00e3o antes de Israel entrar em Cana\u00e3.", purpose:"Renovar o pacto com a nova gera\u00e7\u00e3o, recordar a lei e os atos de Deus.", verse_text:'"Ouve, Israel: o Senhor nosso Deus \u00e9 o \u00fanico Senhor. Amar\u00e1s o Senhor teu Deus de todo o teu cora\u00e7\u00e3o..."', verse_ref:"Dt 6:4-5", tags:["Shema","Alian\u00e7a","Renova\u00e7\u00e3o","Lei","B\u00en\u00e7\u00e3o/Maldi\u00e7\u00e3o","Amor a Deus","Elei\u00e7\u00e3o"], structure:"Revis\u00e3o hist\u00f3rica (1\u20134); Segunda declara\u00e7\u00e3o da Lei (5\u201326); Cerim\u00f4nia de b\u00en\u00e7\u00e3os e maldi\u00e7\u00f5es (27\u201330); Sucess\u00e3o de Josu\u00e9 e morte de Mois\u00e9s (31\u201334)." },
+  "Josue": { nome:"Josu\u00e9", icon:"\u2694\ufe0f", author:"Josu\u00e9 (com adi\u00e7\u00f5es posteriores)", period:"c. 1400\u20131380 a.C.", genre:"Narrativa Hist\u00f3rica", chapters:24, context:"Narra o cumprimento da promessa territorial feita a Abra\u00e3o: a conquista e divis\u00e3o de Cana\u00e3.", purpose:"Demonstrar a fidelidade de Deus em cumprir Suas promessas.", verse_text:'"Sede fortes e corajosos. N\u00e3o te deixes intimidar nem te atemorizes, pois o Senhor teu Deus estar\u00e1 contigo por onde quer que andares."', verse_ref:"Js 1:9", tags:["Conquista","Promessa cumprida","Fidelidade de Deus","Obedi\u00eancia","Terra","Alian\u00e7a","Raabe"], structure:"Entrada em Cana\u00e3 e Raabe (1\u20135); Campanhas militares (6\u201312); Divis\u00e3o da terra (13\u201321); Renova\u00e7\u00e3o da alian\u00e7a e morte de Josu\u00e9 (22\u201324)." },
+  "Juizes": { nome:"Ju\u00edzes", icon:"\ud83d\udd04", author:"Desconhecido (talvez Samuel)", period:"c. 1380\u20131050 a.C.", genre:"Narrativa Hist\u00f3rica", chapters:21, context:"Cobre o per\u00edodo ca\u00f3tico entre a morte de Josu\u00e9 e a monarquia.", purpose:"Mostrar as consequ\u00eancias tr\u00e1gicas da apostasia e da aus\u00eancia de lideran\u00e7a fiel.", verse_text:'"Naqueles dias n\u00e3o havia rei em Israel; cada um fazia o que achava certo aos seus pr\u00f3prios olhos."', verse_ref:"Jz 21:25", tags:["Ciclo da apostasia","Ju\u00edzes","Gra\u00e7a","Idolatria","Sans\u00e3o","D\u00e9bora","Gide\u00e3o"], structure:"Introdu\u00e7\u00e3o: conquista incompleta (1\u20132); Ciclos dos ju\u00edzes maiores e menores (3\u201316); Ap\u00eandices mostrando o caos moral (17\u201321)." },
+  "Rute": { nome:"Rute", icon:"\ud83c\udf3e", author:"Desconhecido (possivelmente Samuel)", period:"c. 1100 a.C. (per\u00edodo dos Ju\u00edzes)", genre:"Narrativa", chapters:4, context:"Ambientado no per\u00edodo dos Ju\u00edzes, conta a hist\u00f3ria de uma moabita que abra\u00e7a o povo e o Deus de Israel.", purpose:"Ilustrar a lealdade do hesed divino (amor fiel e bondade) e a inclus\u00e3o de gent\u00edos no povo de Deus.", verse_text:'"Onde tu morreres, morrerei, e ali serei sepultada."', verse_ref:"Rt 1:17", tags:["Hesed","Reden\u00e7\u00e3o","Kinsman-Redeemer","Gent\u00edos","Genealogia de Davi","Fidelidade","Provid\u00eancia"], structure:"Emigra\u00e7\u00e3o para Moabe e perda (1); Rute colhe na propriedade de Boaz (2); Rute se aproxima de Boaz (3); Reden\u00e7\u00e3o e casamento (4)." },
+  "1Samuel": { nome:"1 Samuel", icon:"\ud83d\udc51", author:"Desconhecido (possivelmente Samuel, Nat\u00e3, Gade)", period:"c. 1050\u20131000 a.C.", genre:"Narrativa Hist\u00f3rica", chapters:31, context:"Narra a transi\u00e7\u00e3o de Israel do per\u00edodo teocr\u00e1tico dos ju\u00edzes para a monarquia.", purpose:"Mostrar a rejei\u00e7\u00e3o de Saul e a elei\u00e7\u00e3o de Davi segundo o cora\u00e7\u00e3o de Deus.", verse_text:'"O homem v\u00ea o que est\u00e1 diante dos olhos, por\u00e9m o Senhor v\u00ea o cora\u00e7\u00e3o."', verse_ref:"1Sm 16:7", tags:["Monarquia","Saul","Davi","Samuel","Ungido","Obedi\u00eancia","Rejei\u00e7\u00e3o"], structure:"Samuel como juiz e profeta (1\u20137); Israel pede um rei; reinado de Saul (8\u201315); Ascens\u00e3o de Davi e queda de Saul (16\u201331)." },
+  "2Samuel": { nome:"2 Samuel", icon:"\u2721\ufe0f", author:"Desconhecido", period:"c. 1000\u2013970 a.C.", genre:"Narrativa Hist\u00f3rica", chapters:24, context:"Cobre o reinado de Davi sobre Israel.", purpose:"Revelar o cumprimento da promessa dav\u00eddica (2Sm 7): Deus estabeleceria o trono de Davi para sempre.", verse_text:'"A tua casa e o teu reino ser\u00e3o estabelecidos para sempre diante de ti; o teu trono ser\u00e1 firme para sempre."', verse_ref:"2Sm 7:16", tags:["Alian\u00e7a Dav\u00eddica","Pecado e consequ\u00eancias","Messias","Bate-Seba","Absal\u00e3o","Fidelidade","Reinado"], structure:"Reinado sobre Jud\u00e1 e toda Israel (1\u20135); Arca e Alian\u00e7a Dav\u00eddica (6\u20137); Conquistas militares (8\u201310); Pecado com Bate-Seba e consequ\u00eancias (11\u201320); Ap\u00eandices (21\u201324)." },
+  "1Reis": { nome:"1 Reis", icon:"\ud83c\udfdb\ufe0f", author:"Desconhecido (tradi\u00e7\u00e3o diz Jeremias)", period:"c. 970\u2013853 a.C.", genre:"Narrativa Hist\u00f3rica", chapters:22, context:"Narra desde o reinado glorioso de Salom\u00e3o at\u00e9 a divis\u00e3o do reino.", purpose:"Demonstrar que a obedi\u00eancia \u00e0 Alian\u00e7a dav\u00eddica traz prosperidade, enquanto a apostasia leva ao ju\u00edzo divino.", verse_text:'"E se o teu cora\u00e7\u00e3o se desviar e n\u00e3o ouvires... perec\u00eareis da terra que vos dou."', verse_ref:"1Rs 9:6-7", tags:["Salom\u00e3o","Templo","Apostasia","Divis\u00e3o do reino","Elias","Profecia","Ju\u00edzo"], structure:"Reinado de Salom\u00e3o e constru\u00e7\u00e3o do Templo (1\u201311); Divis\u00e3o do reino (12); Reis de Israel e Jud\u00e1; minist\u00e9rio de Elias (13\u201322)." },
+  "2Reis": { nome:"2 Reis", icon:"\u26a1", author:"Desconhecido", period:"c. 853\u2013560 a.C.", genre:"Narrativa Hist\u00f3rica", chapters:25, context:"Continua a hist\u00f3ria dos dois reinos at\u00e9 a queda de Samaria (722 a.C.) e de Jerusal\u00e9m (586 a.C.).", purpose:"Mostrar o cumprimento das advert\u00eancias prof\u00e9ticas: a idolatria persistente levou \u00e0 destrui\u00e7\u00e3o nacional.", verse_text:'"Tudo isso aconteceu porque os filhos de Israel pecaram contra o Senhor seu Deus..."', verse_ref:"2Rs 17:7", tags:["Eliseu","Queda de Samaria","Destrui\u00e7\u00e3o de Jerusal\u00e9m","Ex\u00edlio","Reforma de Josias","Cumprimento prof\u00e9tico","Ju\u00edzo"], structure:"Minist\u00e9rio de Eliseu (1\u20139); Decl\u00ednio de Israel (10\u201317); Hezequias e Senaqueribe (18\u201321); Reforma de Josias (22\u201323); Queda de Jerusal\u00e9m e ex\u00edlio (24\u201325)." },
+  "1Cronicas": { nome:"1 Cr\u00f4nicas", icon:"\ud83d\udc9f", author:"Esdras (tradi\u00e7\u00e3o)", period:"c. 450\u2013400 a.C.", genre:"Narrativa Hist\u00f3rica/Teol\u00f3gica", chapters:29, context:"Escrito ap\u00f3s o ex\u00edlio para a comunidade restaurada, reinterpretando a hist\u00f3ria de Israel com foco teol\u00f3gico.", purpose:"Encorajar a comunidade p\u00f3s-ex\u00edlica reafirmando a continuidade da alian\u00e7a dav\u00eddica.", verse_text:'"Minha miseric\u00f3rdia n\u00e3o se apartar\u00e1 dele, como a retirei de Saul..."', verse_ref:"1Cr 17:13", tags:["Genealogias","Davi","Templo","Culto","Alian\u00e7a Dav\u00eddica","P\u00f3s-ex\u00edlio","Continuidade"], structure:"Genealogias de Ad\u00e3o a Davi (1\u20139); Reinado de Davi com foco no Templo e culto (10\u201329)." },
+  "2Cronicas": { nome:"2 Cr\u00f4nicas", icon:"\ud83d\udd2e", author:"Esdras (tradi\u00e7\u00e3o)", period:"c. 450\u2013400 a.C.", genre:"Narrativa Hist\u00f3rica/Teol\u00f3gica", chapters:36, context:"Continua a narrativa de 1 Cr\u00f4nicas desde Salom\u00e3o at\u00e9 o decreto de Ciro.", purpose:"Demonstrar que a fidelidade ao Templo e \u00e0 Tor\u00e1 determina o destino da na\u00e7\u00e3o.", verse_text:'"Se o meu povo, que se chama pelo meu nome, se humilhar e orar e procurar a minha face... ent\u00e3o ouvirei dos c\u00e9us..."', verse_ref:"2Cr 7:14", tags:["Salom\u00e3o","Templo","Reformas","Arrependimento","Apostasia","Restaura\u00e7\u00e3o","Miseric\u00f3rdia"], structure:"Reinado de Salom\u00e3o e Templo (1\u20139); Reis de Jud\u00e1 com \u00eanfase nas reformas (10\u201336); Decreto de Ciro (36:22-23)." },
+  "Esdras": { nome:"Esdras", icon:"\ud83d\udcd6", author:"Esdras", period:"c. 458\u2013430 a.C.", genre:"Narrativa Hist\u00f3rica", chapters:10, context:"Documenta o retorno dos exilados \u00e0 Jud\u00e1 em duas ondas: a primeira liderada por Zorobabel (538 a.C.) e a segunda por Esdras (458 a.C.).", purpose:"Mostrar a fidelidade de Deus em cumprir Suas promessas de restaura\u00e7\u00e3o.", verse_text:'"Porque Esdras tinha preparado o seu cora\u00e7\u00e3o para buscar a lei do Senhor, para a cumprir."', verse_ref:"Ed 7:10", tags:["Retorno do ex\u00edlio","Templo","Reforma","Tor\u00e1","Zorobabel","Fidelidade"], structure:"Primeiro retorno e reconstru\u00e7\u00e3o do Templo (1\u20136); Segundo retorno liderado por Esdras e reforma (7\u201310)." },
+  "Neemias": { nome:"Neemias", icon:"\ud83e\uddf1", author:"Neemias (com partes de Esdras)", period:"c. 445\u2013430 a.C.", genre:"Mem\u00f3rias/Narrativa", chapters:13, context:"Neemias, copeiro do rei persa Artaxerxes I, recebe permiss\u00e3o para reconstruir os muros de Jerusal\u00e9m.", purpose:"Mostrar que a reconstru\u00e7\u00e3o f\u00edsica (muros) deve acompanhar a renova\u00e7\u00e3o espiritual (alian\u00e7a, lei).", verse_text:'"A alegria do Senhor \u00e9 a nossa for\u00e7a."', verse_ref:"Ne 8:10b", tags:["Reconstru\u00e7\u00e3o","Lideran\u00e7a","Ora\u00e7\u00e3o","Renova\u00e7\u00e3o da alian\u00e7a","Oposi\u00e7\u00e3o","Reforma social","Neemias"], structure:"Miss\u00e3o de Neemias: reconstru\u00e7\u00e3o dos muros (1\u20137); Esdras l\u00ea a Lei; renova\u00e7\u00e3o da alian\u00e7a (8\u201310); Reforma e repopula\u00e7\u00e3o (11\u201313)." },
+  "Ester": { nome:"Ester", icon:"\ud83d\udc78", author:"Desconhecido", period:"c. 486\u2013465 a.C. (reinado de Xerxes)", genre:"Narrativa", chapters:10, context:"Ambientado na corte persa de Susa, conta a hist\u00f3ria da rainha judia Ester e de Mordecai que impedem o genoc\u00eddio do povo judeu.", purpose:"Mostrar a provid\u00eancia soberana de Deus na preserva\u00e7\u00e3o de Seu povo mesmo na di\u00e1spora.", verse_text:'"Quem sabe se para uma ocasi\u00e3o como esta chegaste ao reino?"', verse_ref:"Et 4:14", tags:["Provid\u00eancia","Coragem","Preserva\u00e7\u00e3o de Israel","Purim","Di\u00e1spora","Invers\u00e3o","Identidade judaica"], structure:"Ester se torna rainha (1\u20132); Ham\u00e3 trama o genoc\u00eddio (3\u20134); Ester intervem com coragem (5\u20137); Revers\u00e3o e vit\u00f3ria; institui\u00e7\u00e3o do Purim (8\u201310)." },
+  "Jo": { nome:"J\u00f3", icon:"\u26a1", author:"Desconhecido", period:"Indefinido (possivelmente patriarcal)", genre:"Poesia/Sabedoria", chapters:42, context:"O livro trata do mais antigo e profundo dilema teol\u00f3gico: o sofrimento do justo.", purpose:"Desafiar a teologia simplista da retribu\u00ed\u00e7\u00e3o e revelar que a resposta para o sofrimento est\u00e1 na soberania e na confian\u00e7a em Deus.", verse_text:'"Eu sei que o meu Redentor vive, e que por \u00faltimo se levantar\u00e1 sobre a terra."', verse_ref:"J\u00f3 19:25", tags:["Sofrimento","Soberania de Deus","Teodiceia","Sabedoria","Retribu\u00ed\u00e7\u00e3o","Confian\u00e7a","Redentor"], structure:"Pr\u00f3logo em prosa: a aposta celestial (1\u20132); Di\u00e1logos de J\u00f3 com tr\u00eas amigos (3\u201331); Discurso de Eli\u00fa (32\u201337); Discurso divino do redemoinho (38\u201341); Restaura\u00e7\u00e3o de J\u00f3 (42)." },
+  "Salmos": { nome:"Salmos", icon:"\ud83c\udfb5", author:"Davi (73), Asafe (12), Filhos de Cor\u00e9 (11), Salom\u00e3o (2), Mois\u00e9s (1), an\u00f4nimos", period:"c. 1440\u2013400 a.C.", genre:"Poesia/Hinos", chapters:150, context:"O Salt\u00e9rio \u00e9 o hino\u00e1rio oficial de Israel, coletado ao longo de s\u00e9culos para uso na liturgia do Templo.", purpose:"Prover a linguagem para toda forma de comunica\u00e7\u00e3o com Deus: louvor, lamento, a\u00e7\u00e3o de gra\u00e7as, confiss\u00e3o e esperan\u00e7a messi\u00e2nica.", verse_text:'"O Senhor \u00e9 o meu pastor; nada me faltar\u00e1."', verse_ref:"Sl 23:1", tags:["Louvor","Lamento","Messi\u00e2nico","Torah","Coroa\u00e7\u00e3o","Peregrina\u00e7\u00e3o","Confian\u00e7a"], structure:"Dividido em 5 livros (1\u201341; 42\u201372; 73\u201389; 90\u2013106; 107\u2013150), espelhando o Pentateuco." },
+  "Proverbios": { nome:"Prov\u00e9rbios", icon:"\ud83d\udca1", author:"Salom\u00e3o (majoritariamente), Agur, Lemuel", period:"c. 970\u2013700 a.C.", genre:"Sabedoria/Poesia", chapters:31, context:"Coletado durante o reinado de Salom\u00e3o e compilado no per\u00edodo de Ezequias.", purpose:"Transmitir a sabedoria para a vida cotidiana, ensinando que o temor do Senhor \u00e9 o princ\u00edpio de toda sabedoria.", verse_text:'"O temor do Senhor \u00e9 o princ\u00edpio da sabedoria."', verse_ref:"Pv 9:10", tags:["Sabedoria","Temor do Senhor","Instru\u00e7\u00e3o","Car\u00e1ter","Vida pr\u00e1tica","Mulher virtuosa","Justi\u00e7a"], structure:"Elogios da Sabedoria (1\u20139); Prov\u00e9rbios de Salom\u00e3o (10\u201322:16); Palavras dos s\u00e1bios (22:17\u201324:34); Prov\u00e9rbios copiados por Ezequias (25\u201329); Palavras de Agur e Lemuel (30\u201331)." },
+  "Eclesiastes": { nome:"Eclesiastes", icon:"\ud83c\udf00", author:"Qohelet (identificado com Salom\u00e3o ou como personagem)", period:"c. 940\u2013930 a.C. ou p\u00f3s-ex\u00edlico", genre:"Sabedoria/Filosofia", chapters:12, context:"Um s\u00e1bio reflete sobre o significado da vida humana \u00e0 luz de sua pr\u00f3pria experi\u00eancia.", purpose:"Demonstrar que toda a busca humana por significado debaixo do sol, separada de Deus, \u00e9 vaidade.", verse_text:'"Vaidade das vaidades, diz o pregador; tudo \u00e9 vaidade."', verse_ref:"Ec 1:2", tags:["Vaidade","Existencialismo","Sabedoria","Prazer","Trabalho","Morte","Temor de Deus"], structure:"Tema: tudo \u00e9 vaidade (1\u20132); Investiga\u00e7\u00f5es sobre sabedoria, trabalho e tempo (3\u20136); Instru\u00e7\u00e3o sapencial (7\u201311:6); Conclus\u00e3o: teme a Deus (11:7\u201312)." },
+  "Cantares": { nome:"C\u00e2ntico dos C\u00e2nticos", icon:"\ud83c\udf39", author:"Salom\u00e3o ou em honra a ele", period:"c. 970\u2013930 a.C.", genre:"Poesia Er\u00f3tica/Amor", chapters:8, context:"Cole\u00e7\u00e3o de poemas de amor entre um amado e sua amada.", purpose:"Celebrar a beleza do amor conjugal como d\u00e1diva divina.", verse_text:'"Eu sou do meu amado e o meu amado \u00e9 meu."', verse_ref:"Ct 6:3", tags:["Amor conjugal","Alegoria","Desejo","Beleza","Fidelidade","Sexualidade sagrada","Parceria"], structure:"S\u00e9rie de poemas dram\u00e1ticos ou di\u00e1logos entre amado, amada e coro." },
+  "Isaias": { nome:"Isa\u00edas", icon:"\ud83e\udd85", author:"Isa\u00edas (com debates sobre Is 40\u201366)", period:"c. 740\u2013680 a.C.", genre:"Profecia", chapters:66, context:"Isa\u00edas profetizou em Jerusal\u00e9m durante o per\u00edodo de crise ass\u00edria, mas seus or\u00e1culos abrangem do julgamento at\u00e9 a restaura\u00e7\u00e3o escatol\u00f3gica.", purpose:"Chamar Israel ao arrependimento, anunciar o Servo Sofredor e proclamar a futura glorifica\u00e7\u00e3o de Si\u00e3o.", verse_text:'"Mas ele foi ferido por causa das nossas transgress\u00f5es e mo\u00eddo por causa das nossas iniquidades..."', verse_ref:"Is 53:5", tags:["Santo de Israel","Servo Sofredor","Cria\u00e7\u00e3o Nova","Messias","Ju\u00edzo","Restaura\u00e7\u00e3o","Emmanuel"], structure:"Or\u00e1culos de julgamento (1\u201339); O Livro do Consolo: restaura\u00e7\u00e3o (40\u201355); Comunidade escatol\u00f3gica e cria\u00e7\u00e3o nova (56\u201366)." },
+  "Jeremias": { nome:"Jeremias", icon:"\ud83d\ude2d", author:"Jeremias (com Baruque como escriba)", period:"c. 627\u2013580 a.C.", genre:"Profecia/Lamento", chapters:52, context:"Jeremias profetizou durante os anos finais do Reino de Jud\u00e1 at\u00e9 a destrui\u00e7\u00e3o de Jerusal\u00e9m em 586 a.C.", purpose:"Anunciar o ju\u00edzo inevit\u00e1vel e a esperan\u00e7a da Nova Alian\u00e7a que Deus um dia estabeleceria.", verse_text:'"Porei a minha lei no seu interior e a escreverei no seu cora\u00e7\u00e3o."', verse_ref:"Jr 31:33", tags:["Nova Alian\u00e7a","Apostasia","Ex\u00edlio","Lamento","Profeta sofredor","Julgamento","Restaura\u00e7\u00e3o"], structure:"Chamado e or\u00e1culos de julgamento (1\u201325); Epis\u00f3dios biogr\u00e1ficos (26\u201345); Or\u00e1culos contra as na\u00e7\u00f5es (46\u201351); Ap\u00eandice hist\u00f3rico (52)." },
+  "Lamentacoes": { nome:"Lamenta\u00e7\u00f5es", icon:"\ud83d\udc94", author:"Jeremias (tradi\u00e7\u00e3o)", period:"c. 586 a.C.", genre:"Poesia/Lamento", chapters:5, context:"Cinco poemas acr\u00f3sticos lamentando a destrui\u00e7\u00e3o de Jerusal\u00e9m e do Templo pela Babil\u00f4nia.", purpose:"Articular o sofrimento da queda de Jerusal\u00e9m e afirmar a miseric\u00f3rdia de Deus que nunca se esgota.", verse_text:'"As miseric\u00f3rdias do Senhor s\u00e3o a raz\u00e3o pela qual n\u00e3o somos consumidos."', verse_ref:"Lm 3:22", tags:["Lamento","Destrui\u00e7\u00e3o de Jerusal\u00e9m","Pecado","Sofrimento","Miseric\u00f3rdia","Esperan\u00e7a","Arrependimento"], structure:"Lamentos sobre Si\u00e3o destru\u00edda (1\u20132); O lamento individual (3); Contempla\u00e7\u00e3o da trag\u00e9dia (4); Ora\u00e7\u00e3o de restaura\u00e7\u00e3o (5)." },
+  "Ezequiel": { nome:"Ezequiel", icon:"\ud83d\udc41\ufe0f", author:"Ezequiel", period:"c. 593\u2013571 a.C.", genre:"Profecia/Vis\u00e3o", chapters:48, context:"Ezequiel profetizou entre os exilados na Babil\u00f4nia, como sacerdote-profeta.", purpose:"Responsabilizar Israel por seu pecado e proclamar a restaura\u00e7\u00e3o futura com um novo Templo e nova vida pelo Esp\u00edrito.", verse_text:'"Darei a v\u00f3s novo cora\u00e7\u00e3o e porei dentro de v\u00f3s novo esp\u00edrito... porei o meu Esp\u00edrito dentro de v\u00f3s."', verse_ref:"Ez 36:26-27", tags:["Gl\u00f3ria de Deus","Esp\u00edrito","Vis\u00f5es","Novo Templo","Responsabilidade individual","Vale de Ossos","Restaura\u00e7\u00e3o"], structure:"Julgamento sobre Israel antes da queda (1\u201324); Or\u00e1culos contra as na\u00e7\u00f5es (25\u201332); Esperan\u00e7a e restaura\u00e7\u00e3o ap\u00f3s a queda (33\u201348)." },
+  "Daniel": { nome:"Daniel", icon:"\ud83e\udd81", author:"Daniel", period:"c. 605\u2013535 a.C.", genre:"Narrativa/Apocal\u00edptico", chapters:12, context:"Daniel, exilado em Babil\u00f4nia, mant\u00e9m sua fidelidade a Deus na corte pag\u00e3 enquanto recebe vis\u00f5es apocal\u00edpticas.", purpose:"Encorajar judeus fi\u00e9is sob imp\u00e9rios opressores, demonstrando que Deus governa toda a hist\u00f3ria.", verse_text:'"No tempo desses reis o Deus dos c\u00e9us levantar\u00e1 um reino que n\u00e3o ser\u00e1 jamais destru\u00eddo..."', verse_ref:"Dn 2:44", tags:["Apocal\u00edptico","Filho do Homem","Forno ardente","Le\u00e3o","Reino de Deus","Soberania divina","Fidelidade"], structure:"Narrativas de fidelidade na corte babil\u00f4nica (1\u20136); Vis\u00f5es apocal\u00edpticas de Daniel (7\u201312)." },
+  "Oseias": { nome:"Os\u00e9ias", icon:"\ud83d\udc8d", author:"Os\u00e9ias", period:"c. 750\u2013722 a.C.", genre:"Profecia", chapters:14, context:"Os\u00e9ias profetizou no Reino do Norte durante o declinio final que levaria \u00e0 conquista ass\u00edria.", purpose:"Denunciar a infidelidade de Israel e proclamar o amor tenaz e redentor de Deus.", verse_text:'"Voltai, \u00f3 Israel, ao Senhor teu Deus, pois ca\u00edste pela tua iniquidade."', verse_ref:"Os 14:1", tags:["Amor divino","Infidelidade","Alian\u00e7a conjugal","Apostasia","Miseric\u00f3rdia","Arrependimento"], structure:"Os\u00e9ias e G\u00f4mer como par\u00e1bola (1\u20133); Or\u00e1culos de julgamento e restaura\u00e7\u00e3o intercalados (4\u201314)." },
+  "Joel": { nome:"Joel", icon:"\ud83e\udd97", author:"Joel", period:"Debatido: s\u00e9c. IX ou IV a.C.", genre:"Profecia/Apocal\u00edptico", chapters:3, context:"Uma praga de gafanhotos devastou Jud\u00e1, servindo como ponto de partida para uma reflex\u00e3o sobre o Dia do Senhor.", purpose:"Chamar ao arrependimento diante do ju\u00edzo iminente e proclamar a promessa de derramamento do Esp\u00edrito.", verse_text:'"Nos \u00faltimos dias, diz Deus, derramarei do meu Esp\u00edrito sobre toda a carne..."', verse_ref:"Jl 2:28", tags:["Dia do Senhor","Esp\u00edrito Santo","Arrependimento","Restaura\u00e7\u00e3o","Gafanhotos","Pentecostes","Escatologia"], structure:"A praga de gafanhotos como julgamento (1); Chamado ao arrependimento (2); Julgamento das na\u00e7\u00f5es e restaura\u00e7\u00e3o de Jud\u00e1 (3)." },
+  "Amos": { nome:"Am\u00f3s", icon:"\u2696\ufe0f", author:"Am\u00f3s", period:"c. 760\u2013750 a.C.", genre:"Profecia", chapters:9, context:"Am\u00f3s, um pastor de Tecoa em Jud\u00e1, foi enviado ao rico Reino do Norte para denunciar a injusti\u00e7a social.", purpose:"Anunciar que o culto externo sem justi\u00e7a social \u00e9 abomina\u00e7\u00e3o a Deus.", verse_text:'"Mas corra o julgamento como as \u00e1guas, e a justi\u00e7a como um ribeiro perene."', verse_ref:"Am 5:24", tags:["Justi\u00e7a social","Profecia","Dia do Senhor","Opress\u00e3o dos pobres","Julgamento","Restaura\u00e7\u00e3o"], structure:"Or\u00e1culos contra as na\u00e7\u00f5es (1\u20132); Or\u00e1culos contra Israel (3\u20136); Cinco vis\u00f5es do julgamento (7\u20139:10); Promessa de restaura\u00e7\u00e3o (9:11-15)." },
+  "Obadias": { nome:"Obadias", icon:"\ud83c\udfd4\ufe0f", author:"Obadias", period:"c. 586 a.C.", genre:"Profecia", chapters:1, context:"O livro mais curto do AT proclama julgamento sobre Edom por seu papel na queda de Jerusal\u00e9m.", purpose:"Declarar que a arrog\u00e2ncia e a trai\u00e7\u00e3o receber\u00e3o julgamento divino.", verse_text:'"O reino ser\u00e1 do Senhor."', verse_ref:"Ob 21b", tags:["Edom","Ju\u00edzo","Arrog\u00e2ncia","Trai\u00e7\u00e3o","Dia do Senhor","Israel restaurado"], structure:"Julgamento anunciado contra Edom (1\u20139); Raz\u00f5es: crime contra Jac\u00f3 (10\u201314); O Dia do Senhor; vit\u00f3ria de Israel (15\u201321)." },
+  "Jonas": { nome:"Jonas", icon:"\ud83d\udc0b", author:"Desconhecido (Jonas como personagem)", period:"c. 780\u2013750 a.C. ou p\u00f3s-ex\u00edlico", genre:"Narrativa Prof\u00e9tica", chapters:4, context:"Jonas recebe ordem de ir a N\u00ednive, capital do cruel Imp\u00e9rio Ass\u00edrio, e prega arrependimento.", purpose:"Desafiar o exclusivismo de Israel mostrando que a gra\u00e7a de Deus se estende tamb\u00e9m \u00e0s na\u00e7\u00f5es gent\u00edias.", verse_text:'"Eu sei que \u00e9s um Deus gracioso e misericordioso, tardio em irar-te e rico em bondade..."', verse_ref:"Jn 4:2", tags:["Miss\u00e3o gent\u00edlica","Miseric\u00f3rdia","Arrependimento","Exclusivismo","Soberania","Gra\u00e7a universal"], structure:"Fuga e tempestade (1); Ora\u00e7\u00e3o do ventre do peixe (2); Prega\u00e7\u00e3o e arrependimento de N\u00ednive (3); Desgosto de Jonas; li\u00e7\u00e3o da miseric\u00f3rdia (4)." },
+  "Miqueias": { nome:"Miqu\u00e9ias", icon:"\ud83c\udfe8", author:"Miqu\u00e9ias", period:"c. 735\u2013700 a.C.", genre:"Profecia", chapters:7, context:"Contempor\u00e2neo de Isa\u00edas, Miqu\u00e9ias profetizou sobre julgamento e restaura\u00e7\u00e3o com aten\u00e7\u00e3o especial \u00e0 injusti\u00e7a dos l\u00edderes.", purpose:"Denounciar a corrup\u00e7\u00e3o dos l\u00edderes, profetizar o nascimento do Messias em Bel\u00e9m e declarar os requisitos de Deus.", verse_text:'"O que o Senhor pede de ti: que pratiques a justi\u00e7a, ames a miseric\u00f3rdia, e andes humildemente com o teu Deus."', verse_ref:"Mq 6:8", tags:["Justi\u00e7a","Miseric\u00f3rdia","Humildade","Messias em Bel\u00e9m","Julgamento sobre l\u00edderes","Restaura\u00e7\u00e3o","Si\u00e3o"], structure:"Julgamento sobre Israel e Jud\u00e1 (1\u20133); Esperan\u00e7a messi\u00e2nica (4\u20135); Controver\u00e9sia do Senhor com Israel (6\u20137)." },
+  "Naum": { nome:"Naum", icon:"\ud83d\udca5", author:"Naum", period:"c. 663\u2013612 a.C.", genre:"Profecia", chapters:3, context:"Naum anuncia a destrui\u00e7\u00e3o de N\u00ednive, capital ass\u00edria.", purpose:"Proclamar a justi\u00e7a vingativa de Deus contra o Imp\u00e9rio Ass\u00edrio opressor.", verse_text:'"O Senhor \u00e9 bom; \u00e9 um forte ref\u00fagio no dia da ang\u00fastia."', verse_ref:"Na 1:7", tags:["Ju\u00edzo","N\u00ednive","Ass\u00edria","Justi\u00e7a divina","Vingança de Deus","Fim dos opressores"], structure:"Teofania do Deus vingador e protetor (1); Queda de N\u00ednive narrada com detalhes v\u00edvidos (2\u20133)." },
+  "Habacuque": { nome:"Habacuque", icon:"\u2753", author:"Habacuque", period:"c. 605 a.C.", genre:"Profecia/Di\u00e1logo", chapters:3, context:"Habacuque questiona Deus sobre a injusti\u00e7a em Jud\u00e1 e a ascens\u00e3o dos babil\u00f4nios opressores.", purpose:"Mostrar que a f\u00e9 genuina pode coexistir com a d\u00favida. O justo vivere pela f\u00e9.", verse_text:'"O justo viver\u00e1 pela sua f\u00e9."', verse_ref:"Hc 2:4", tags:["F\u00e9","D\u00favida","Soberania de Deus","Justi\u00e7a","Babil\u00f4nia","Lamento","Confian\u00e7a"], structure:"Primeira queixa: injusti\u00e7a em Jud\u00e1 (1:1-4); Resposta divina (1:5-11); Segunda queixa (1:12\u20132:1); Resposta: o justo vive pela f\u00e9 (2); Salmo de confian\u00e7a (3)." },
+  "Sofonias": { nome:"Sofonias", icon:"\ud83c\udf0b", author:"Sofonias", period:"c. 640\u2013609 a.C.", genre:"Profecia", chapters:3, context:"Sofonias, bisneto do rei Ezequias, profetizou durante o reinado de Josias.", purpose:"Advertir sobre o julgamento total que vem sobre Jud\u00e1 e as na\u00e7\u00f5es, mas reservar a promessa de restaura\u00e7\u00e3o.", verse_text:'"O Senhor teu Deus est\u00e1 no meio de ti, poderoso para salvar; ele se deleitar\u00e1 em ti com alegria..."', verse_ref:"Sf 3:17", tags:["Dia do Senhor","Julgamento","Remanescente humilde","Alegria de Deus","Restaura\u00e7\u00e3o","Si\u00e3o"], structure:"Dia do Senhor como julgamento sobre Jud\u00e1 (1); Julgamento sobre as na\u00e7\u00f5es (2); Purifica\u00e7\u00e3o de Jerusal\u00e9m; canto de alegria (3)." },
+  "Ageu": { nome:"Ageu", icon:"\ud83c\udfd7\ufe0f", author:"Ageu", period:"c. 520 a.C.", genre:"Profecia", chapters:2, context:"Ageu profetizou para a comunidade retornada do ex\u00edlio que havia paralisado a reconstru\u00e7\u00e3o do Templo por 16 anos.", purpose:"Motivar a comunidade p\u00f3s-ex\u00edlica a retomar e completar a reconstru\u00e7\u00e3o do Templo.", verse_text:'"A gl\u00f3ria desta \u00faltima casa ser\u00e1 maior do que a da primeira, diz o Senhor dos Ex\u00e9rcitos."', verse_ref:"Ag 2:9", tags:["Templo","Reconstru\u00e7\u00e3o","P\u00f3s-ex\u00edlio","Prioridades espirituais","Gl\u00f3ria","Zorobabel"], structure:"Chamado a reconstruir o Templo (1); Encorajamento para os desanimados; promessa da gl\u00f3ria futura (2)." },
+  "Zacarias": { nome:"Zacarias", icon:"\ud83d\udd4a\ufe0f", author:"Zacarias", period:"c. 520\u2013480 a.C.", genre:"Profecia/Apocal\u00edptico", chapters:14, context:"Contempor\u00e2neo de Ageu, Zacarias encorajou a reconstru\u00e7\u00e3o do Templo atrav\u00e9s de oito vis\u00f5es noturnas e or\u00e1culos messi\u00e2nicos.", purpose:"Encorajar a comunidade p\u00f3s-ex\u00edlica com a vis\u00e3o do Messias e do estabelecimento final do Reino de Deus.", verse_text:'"Eis que o teu Rei vir\u00e1 a ti, justo e salvador, humilde, montado num jumento..."', verse_ref:"Zc 9:9", tags:["Messias","Oito vis\u00f5es","Rei montado em jumento","Pastor ferido","Escatologia","Templo","Esp\u00edrito de gra\u00e7a"], structure:"Oito vis\u00f5es noturnas (1\u20136); Perguntas sobre o jejum; promessas de restaura\u00e7\u00e3o (7\u20138); Dois 'fardos' \u2013 or\u00e1culos messi\u00e2nicos e escatol\u00f3gicos (9\u201314)." },
+  "Malaquias": { nome:"Malaquias", icon:"\ud83d\udd25", author:"Malaquias", period:"c. 433\u2013420 a.C.", genre:"Profecia/Disputa", chapters:4, context:"\u00daltimo livro prof\u00e9tico can\u00f4nico, Malaquias endere\u00e7a a comunidade p\u00f3s-ex\u00edlica que havia voltado \u00e0 tibieza religiosa.", purpose:"Chamar o povo ao amor fiel a Deus e anunciar o precursor que prepararia o caminho do Senhor.", verse_text:'"Eis que envio o meu mensageiro, que preparar\u00e1 o caminho diante de mim..."', verse_ref:"Ml 3:1", tags:["Amor de Deus","Tibieza","D\u00edzimos","Precursor de Jo\u00e3o Batista","Ju\u00edzo final","Mensageiro","Sol da justi\u00e7a"], structure:"Amor de Deus questionado (1:1-5); Sacerd\u00f3cio corrompido (1:6\u20132:9); Infidelidade no casamento e d\u00edzimos (2:10\u20133:12); O Dia do Senhor; promessa do precursor Elias (3:13\u20134:6)." },
+  "Mateus": { nome:"Mateus", icon:"\u2721\ufe0f", author:"Mateus (ap\u00f3stolo, coletor de impostos)", period:"c. 50\u201370 d.C.", genre:"Evangelho", chapters:28, context:"Escrito primariamente para uma audi\u00eancia judaica, Mateus apresenta Jesus como o Messias dav\u00eddico prometido.", purpose:"Provar a judeus que Jesus \u00e9 o Cristo prometido pelo AT e apresentar Seus ensinamentos \u00e9ticos.", verse_text:'"Fazei disc\u00edpulos de todas as na\u00e7\u00f5es, batizando-os em nome do Pai, do Filho e do Esp\u00edrito Santo..."', verse_ref:"Mt 28:19", tags:["Messias","Serm\u00e3o do Monte","Cinco discursos","Reino dos C\u00e9us","Cumprimento do AT","Igreja","Filho de Davi"], structure:"Genealogia e inf\u00e2ncia (1\u20132); Jo\u00e3o Batista e batismo (3\u20134); Serm\u00e3o do Monte (5\u20137); Milagres e oposi\u00e7\u00e3o (8\u201312); Par\u00e1bolas do Reino (13); Paix\u00e3o, morte e ressurrei\u00e7\u00e3o (26\u201328)." },
+  "Marcos": { nome:"Marcos", icon:"\u26a1", author:"Marcos (Jo\u00e3o Marcos, companheiro de Pedro)", period:"c. 55\u201365 d.C.", genre:"Evangelho", chapters:16, context:"O Evangelho mais curto e provavelmente o mais antigo, escrito para uma audi\u00eancia romana/gent\u00edlica.", purpose:"Apresentar Jesus como o Servo poderoso de Deus que age com autoridade divina.", verse_text:'"O Filho do Homem tamb\u00e9m n\u00e3o veio para ser servido, mas para servir e dar a sua vida em resgate de muitos."', verse_ref:"Mc 10:45", tags:["Servo de Deus","Segredo messi\u00e2nico","A\u00e7\u00e3o imediata","Cruz","Milagres","Discipulado","Filho de Deus"], structure:"Minist\u00e9rio na Galileia (1\u20138:26); Viagem a Jerusal\u00e9m (8:27\u201310); Minist\u00e9rio em Jerusal\u00e9m (11\u201313); Paix\u00e3o, morte e ressurrei\u00e7\u00e3o (14\u201316)." },
+  "Lucas": { nome:"Lucas", icon:"\ud83c\udf0d", author:"Lucas (m\u00e9dico, companheiro de Paulo)", period:"c. 60\u201370 d.C.", genre:"Evangelho", chapters:24, context:"Evangelista de forma\u00e7\u00e3o helenista, Lucas escreve para Te\u00f3filo uma narrativa hist\u00f3rica cuidadosamente pesquisada.", purpose:"Apresentar Jesus como o Salvador universal de toda a humanidade.", verse_text:'"O Filho do Homem veio buscar e salvar o que estava perdido."', verse_ref:"Lc 19:10", tags:["Salvador universal","Pobres e marginalizados","Mulheres","Esp\u00edrito Santo","Perd\u00e3o","Par\u00e1bolas","Gent\u00edos"], structure:"Inf\u00e2ncia de Jo\u00e3o e Jesus (1\u20132); Minist\u00e9rio na Galileia (4\u20139); Grande jornada a Jerusal\u00e9m (10\u201319:27); Paix\u00e3o e ressurrei\u00e7\u00e3o (22\u201324)." },
+  "Joao": { nome:"Jo\u00e3o", icon:"\u2728", author:"Jo\u00e3o ap\u00f3stolo (filho de Zebedeu)", period:"c. 85\u201395 d.C.", genre:"Evangelho Teol\u00f3gico", chapters:21, context:"O mais teol\u00f3gico dos evangelhos, com forte \u00eanfase na identidade divina de Jesus.", purpose:"Demonstrar que Jesus \u00e9 o Logos eterno de Deus encarnado para que os leitores creiam e tenham vida.", verse_text:'"Porque Deus amou o mundo de tal maneira que deu o seu Filho unig\u00eanito, para que todo aquele que nele crer n\u00e3o pere\u00e7a, mas tenha a vida eterna."', verse_ref:"Jo 3:16", tags:["Logos","Eu Sou","Sinal","Crer/F\u00e9","Vida eterna","Incarna\u00e7\u00e3o","Amor de Deus"], structure:"Pr\u00f3logo: o Logos encarnado (1:1-18); Sete sinais do minist\u00e9rio p\u00fablico (1:19\u201312); Discursos de despedida (13\u201317); Paix\u00e3o, morte e ressurrei\u00e7\u00e3o (18\u201321)." },
+  "Atos": { nome:"Atos dos Ap\u00f3stolos", icon:"\ud83c\udf0e", author:"Lucas", period:"c. 62\u201370 d.C.", genre:"Narrativa Hist\u00f3rica", chapters:28, context:"Continua\u00e7\u00e3o do Evangelho de Lucas, Atos narra a expans\u00e3o da Igreja desde Jerusal\u00e9m at\u00e9 Roma.", purpose:"Mostrar que a miss\u00e3o da Igreja \u00e9 divinamente guiada pelo Esp\u00edrito Santo.", verse_text:'"Recebereis poder, ao descer sobre v\u00f3s o Esp\u00edrito Santo, e sereis minhas testemunhas at\u00e9 aos confins da terra."', verse_ref:"At 1:8", tags:["Esp\u00edrito Santo","Miss\u00e3o","Igreja primitiva","Pedro","Paulo","Pentecostes","Expans\u00e3o do Evangelho"], structure:"Pentecostes e Igreja em Jerusal\u00e9m (1\u20137); Expans\u00e3o para Samaria e costas (8\u201312); Tr\u00eas viagens mission\u00e1rias de Paulo (13\u201321); Pris\u00e3o e jornada a Roma (22\u201328)." },
+  "Romanos": { nome:"Romanos", icon:"\u271d\ufe0f", author:"Paulo", period:"c. 57 d.C.", genre:"Ep\u00edstola Teol\u00f3gica", chapters:16, context:"Escrita de Corinto antes de ir a Roma, \u00e9 a exposi\u00e7\u00e3o mais sistem\u00e1tica do Evangelho de Paulo.", purpose:"Expor a doutrina da justifica\u00e7\u00e3o pela f\u00e9 e as implica\u00e7\u00f5es \u00e9ticas e eclesiول\u00f3gicas da gra\u00e7a salvadora.", verse_text:'"Tendo sido justificados pela f\u00e9, temos paz com Deus por meio de nosso Senhor Jesus Cristo."', verse_ref:"Rm 5:1", tags:["Justifica\u00e7\u00e3o","Gra\u00e7a","Elei\u00e7\u00e3o","Israel","Judeu e gentio","\u00c9tica","Esp\u00edrito vs carne"], structure:"Condena\u00e7\u00e3o universal (1\u20133); Justifica\u00e7\u00e3o pela f\u00e9 (3\u20135); Santifica\u00e7\u00e3o e liberta\u00e7\u00e3o do pecado (6\u20138); Israel e a soberania de Deus (9\u201311); \u00c9tica crist\u00e3 e comunidade (12\u201316)." },
+  "1Corintios": { nome:"1 Cor\u00edntios", icon:"\ud83c\udfdb\ufe0f", author:"Paulo", period:"c. 55 d.C.", genre:"Ep\u00edstola Pastoral", chapters:16, context:"Escrita para a comunidade de Corinto, cidade cosmopolita, lidando com divis\u00f5es, imoralidade e erros doutrin\u00e1rios.", purpose:"Corrigir divis\u00f5es e ensinar sobre a centralidade do amor, dons espirituais e a ressurrei\u00e7\u00e3o corporal.", verse_text:'"O amor nunca falha..."', verse_ref:"1Co 13:8a", tags:["Amor","Dons espirituais","Ressurrei\u00e7\u00e3o","Divis\u00f5es","Ceia do Senhor","Cruz","Sabedoria de Deus"], structure:"Divis\u00f5es e sabedoria da cruz (1\u20134); Imoralidade e quest\u00f5es \u00e9ticas (5\u20137); Alimentos sacrificados a \u00eddolos (8\u201310); Culto ordenado e dons espirituais (11\u201314); Ressurrei\u00e7\u00e3o (15); Conclus\u00f5es (16)." },
+  "2Corintios": { nome:"2 Cor\u00edntios", icon:"\ud83d\udcaa", author:"Paulo", period:"c. 55\u201356 d.C.", genre:"Ep\u00edstola/Apolog\u00e9tica", chapters:13, context:"A mais pessoal das cartas de Paulo, escrita ap\u00f3s uma crise de relacionamento com Corinto.", purpose:"Defender a legitimidade do verdadeiro apostolado e explorar como a fraqueza humana se torna ve\u00edculo do poder divino.", verse_text:'"O meu poder se aperfei\u00e7oa na fraqueza."', verse_ref:"2Co 12:9b", tags:["Fraqueza e poder","Minist\u00e9rio","Sofrimento","Novo pacto","Reconcilia\u00e7\u00e3o","Generosidade","Apostolado"], structure:"Defesa do minist\u00e9rio apostólico (1\u20137); Coleta para Jerusal\u00e9m (8\u20139); Defesa apaixonada contra os falsos ap\u00f3stolos (10\u201313)." },
+  "Galatas": { nome:"G\u00e1latas", icon:"\u2693", author:"Paulo", period:"c. 49\u201355 d.C.", genre:"Ep\u00edstola Apolog\u00e9tica", chapters:6, context:"Escrita com urg\u00eancia e tom apaixonado para comunidades da Gal\u00e1cia onde judaizantes insistiam na circuncis\u00e3o.", purpose:"Defender a justifica\u00e7\u00e3o unicamente pela f\u00e9 em Cristo e afirmar a liberdade crist\u00e3 como fruto do Esp\u00edrito.", verse_text:'"N\u00e3o h\u00e1 judeu nem grego, n\u00e3o h\u00e1 escravo nem livre, n\u00e3o h\u00e1 homem nem mulher; porque todos v\u00f3s sois um em Cristo Jesus."', verse_ref:"Gl 3:28", tags:["Sola fide","Justifica\u00e7\u00e3o","Liberdade","Lei vs Gra\u00e7a","Fruto do Esp\u00edrito","Crucificado com Cristo","Judaizantes"], structure:"Defesa do Evangelho recebido por revela\u00e7\u00e3o (1\u20132); Justifica\u00e7\u00e3o por f\u00e9, n\u00e3o pela Lei (3\u20134); Vida de liberdade guiada pelo Esp\u00edrito (5\u20136)." },
+  "Efesios": { nome:"Ef\u00e9sios", icon:"\ud83c\udfc0", author:"Paulo", period:"c. 60\u201362 d.C. (cativeiro)", genre:"Ep\u00edstola Teol\u00f3gica", chapters:6, context:"Uma das cartas do cativeiro, apresenta a vis\u00e3o mais elevada da Paulo sobre a Igreja como corpo de Cristo.", purpose:"Revelar o 'mist\u00e9rio' do plano eterno de Deus: a unidade de judeus e gent\u00edos em Cristo.", verse_text:'"Porque pela gra\u00e7a sois salvos, mediante a f\u00e9; e isso n\u00e3o vem de v\u00f3s; \u00e9 dom de Deus."', verse_ref:"Ef 2:8", tags:["Igreja como Corpo","Mist\u00e9rio","Judeu e gentio","Armadura espiritual","Unidade","Predestina\u00e7\u00e3o","Gra\u00e7a"], structure:"B\u00en\u00e7\u00e3os espirituais e plano eterno de Deus (1\u20133); Chamado a viver \u00e0 altura da voca\u00e7\u00e3o: unidade, amor, armadura (4\u20136)." },
+  "Filipenses": { nome:"Filipenses", icon:"\ud83d\ude0a", author:"Paulo", period:"c. 60\u201362 d.C. (cativeiro)", genre:"Ep\u00edstola", chapters:4, context:"Carta \u00edntima e gozosa escrita da pris\u00e3o a uma das comunidades mais queridas de Paulo.", purpose:"Encorajar \u00e0 alegria crist\u00e3 genuina mesmo no sofrimento e \u00e0 unidade e humildade modelada em Cristo.", verse_text:'"Alegrai-vos no Senhor sempre; outra vez digo: alegrai-vos."', verse_ref:"Fp 4:4", tags:["Alegria","Humildade","Kenosis","Cristo como modelo","Paz de Deus","Contentamento","Corrida espiritual"], structure:"A\u00e7\u00f5es de gra\u00e7as e situa\u00e7\u00e3o de Paulo (1); Hino Ken\u00f3tico: humildade de Cristo (2); Advert\u00eancias contra falsos mestres (3); Exorta\u00e7\u00f5es \u00e0 alegria, paz e contentamento (4)." },
+  "Colossenses": { nome:"Colossenses", icon:"\ud83c\udf1f", author:"Paulo", period:"c. 60\u201362 d.C. (cativeiro)", genre:"Ep\u00edstola Cristol\u00f3gica", chapters:4, context:"Escrita a Colossos para combater um sincretismo her\u00e9tico que misturava adora\u00e7\u00e3o a anjos com a f\u00e9 crist\u00e3.", purpose:"Afirmar a suprem\u00e1cia e sufici\u00eancia absolutas de Cristo sobre toda a cria\u00e7\u00e3o.", verse_text:'"Ele \u00e9 a imagem do Deus invis\u00edvel, o primog\u00eanito de toda cria\u00e7\u00e3o."', verse_ref:"Cl 1:15", tags:["Suprem\u00e1cia de Cristo","Hino cristol\u00f3gico","Falsa filosofia","Pleroma","Vida em Cristo","Poderes c\u00f3smicos","Sufici\u00eancia"], structure:"Hino cristol\u00f3gico e ora\u00e7\u00e3o (1); Advert\u00eancia contra a falsa filosofia (2); Vida nova em Cristo (3); Rela\u00e7\u00f5es dom\u00e9sticas e conclus\u00f5es (4)." },
+  "1Tessalonicenses": { nome:"1 Tessalonicenses", icon:"\u23f3", author:"Paulo (com Silas e Timóteo)", period:"c. 51 d.C.", genre:"Ep\u00edstola", chapters:5, context:"Uma das primeiras cartas de Paulo, escrita \u00e0 jovem comunidade de Tess\u00e2lonica.", purpose:"Encorajar \u00e0 perseveran\u00e7a na f\u00e9 e esclarecer d\u00favidas escatol\u00f3gicas sobre os mortos antes da parousia.", verse_text:'"O Senhor mesmo, com voz de mando, com voz de arcanjo e com a trombeta de Deus, descer\u00e1 dos c\u00e9us..."', verse_ref:"1Ts 4:16", tags:["Escatologia","Parousia","Ressurrei\u00e7\u00e3o","Santidade","Perseveran\u00e7a","Segunda vinda"], structure:"A\u00e7\u00e3o de gra\u00e7as e defesa do minist\u00e9rio de Paulo (1\u20133); Exorta\u00e7\u00f5es \u00e0 santidade (4:1-12); Instru\u00e7\u00e3o sobre a parousia e os mortos (4:13\u20135:11); Exorta\u00e7\u00f5es finais (5:12-28)." },
+  "2Tessalonicenses": { nome:"2 Tessalonicenses", icon:"\ud83d\udcc5", author:"Paulo (com Silas e Tim\u00f3teo)", period:"c. 51\u201352 d.C.", genre:"Ep\u00edstola", chapters:3, context:"Segunda carta \u00e0 mesma comunidade para corrigir interpreta\u00e7\u00f5es equivocadas sobre o Dia do Senhor.", purpose:"Corrigir erros escatol\u00f3gicos e exortar ao trabalho diligente e \u00e0 ordem na comunidade.", verse_text:'"Se algu\u00e9m n\u00e3o quer trabalhar, tampouco coma."', verse_ref:"2Ts 3:10", tags:["Escatologia","Homem da iniquidade","Dia do Senhor","Apostasia","Trabalho","Ordem","Perseveran\u00e7a"], structure:"Encorajamento na persegui\u00e7\u00e3o (1); Instru\u00e7\u00f5es sobre o Dia do Senhor e o Homem da Iniquidade (2); Exorta\u00e7\u00e3o ao trabalho ordenado (3)." },
+  "1Timoteo": { nome:"1 Tim\u00f3teo", icon:"\ud83d\udccb", author:"Paulo", period:"c. 62\u201365 d.C.", genre:"Ep\u00edstola Pastoral", chapters:6, context:"Uma das tr\u00eas Ep\u00edstolas Pastorais, escrita ao jovem co-trabalhador de Paulo em \u00c9feso.", purpose:"Guiar Tim\u00f3teo na lideran\u00e7a da igreja de \u00c9feso: proteger a s\u00e3 doutrina e organizar o culto.", verse_text:'"Cristo Jesus veio ao mundo para salvar os pecadores, dos quais eu sou o principal."', verse_ref:"1Tm 1:15", tags:["Lideran\u00e7a eclesi\u00e1stica","S\u00e3 doutrina","Falsos mestres","Bispos e di\u00e1conos","Culto","Pastoral","Piedade"], structure:"Falsos mestres e o verdadeiro Evangelho (1); Instru\u00e7\u00f5es sobre culto e lideran\u00e7a (2\u20133); Falsa ascese e verdadeira piedade (4); Grupos na comunidade (5\u20136)." },
+  "2Timoteo": { nome:"2 Tim\u00f3teo", icon:"\u2709\ufe0f", author:"Paulo", period:"c. 66\u201367 d.C.", genre:"Ep\u00edstola/Testamento", chapters:4, context:"Provavelmente a \u00faltima carta de Paulo, escrita da pris\u00e3o romana pouco antes de sua execu\u00e7\u00e3o.", purpose:"Encorajar Tim\u00f3teo a perseverar na proclama\u00e7\u00e3o do Evangelho e transmitir a tocha da f\u00e9.", verse_text:'"Toda a Escritura \u00e9 divinamente inspirada e proveit\u00f3sa para ensinar, para repreender, para corrigir, para instruir em justi\u00e7a."', verse_ref:"2Tm 3:16", tags:["Inspira\u00e7\u00e3o das Escrituras","Perseveran\u00e7a","Sofrimento","\u00daltima carta de Paulo","S\u00e3 doutrina","Prega\u00e7\u00e3o","Corrida terminada"], structure:"Exorta\u00e7\u00e3o \u00e0 coragem e sofrimento pelo Evangelho (1\u20132); Advert\u00eancia sobre apostasia e fidelidade \u00e0s Escrituras (3); \u00daltimo encargo: pregar a Palavra; despedida final (4)." },
+  "Tito": { nome:"Tito", icon:"\ud83c\udfd6\ufe0f", author:"Paulo", period:"c. 63\u201365 d.C.", genre:"Ep\u00edstola Pastoral", chapters:3, context:"Escrita a Tito, deixado em Creta para organizar as igrejas.", purpose:"Guiar Tito na ordena\u00e7\u00e3o de l\u00edderes qualificados e no combate \u00e0 falsa doutrina.", verse_text:'"A gra\u00e7a salvadora de Deus se manifestou a todos os homens, ensinando-nos a renunciar \u00e0s impiedades..."', verse_ref:"Tt 2:11-12", tags:["S\u00e3 doutrina","Lideran\u00e7a","Judaizantes","Gra\u00e7a que ensina","Boas obras","Car\u00e1ter crist\u00e3o","Creta"], structure:"Qualifica\u00e7\u00f5es dos l\u00edderes e combate \u00e0 falsa doutrina (1); Instru\u00e7\u00f5es para grupos espec\u00edficos (2); Gra\u00e7a que transforma e boa cidadania (3)." },
+  "Filemom": { nome:"Filemom", icon:"\ud83e\udd1d", author:"Paulo", period:"c. 60\u201362 d.C. (cativeiro)", genre:"Carta Pessoal", chapters:1, context:"A carta mais curta de Paulo, pedindo que Filemom receba de volta On\u00e9simo, seu escravo fugitivo agora convertido.", purpose:"Modelar como o Evangelho transforma estruturas sociais: Paulo intercede por On\u00e9simo como Cristo intercede por n\u00f3s.", verse_text:'"J\u00e1 n\u00e3o como escravo, mas acima de escravo, como irm\u00e3o amado..."', verse_ref:"Fm 15-16", tags:["Reconcilia\u00e7\u00e3o","Gra\u00e7a","Interce\u00ess\u00e3o","Escravid\u00e3o","Irm\u00e3ndade em Cristo","Igualdade","Brevidade"], structure:"Sauda\u00e7\u00e3o e a\u00e7\u00e3o de gra\u00e7as por Filemom (1-7); S\u00faplica por On\u00e9simo (8-21); Conclus\u00e3o e sauda\u00e7\u00f5es (22-25)." },
+  "Hebreus": { nome:"Hebreus", icon:"\ud83c\udff9", author:"Desconhecido (atribu\u00edda a Paulo, Apolos, Barnab\u00e9 ou outros)", period:"c. 60\u201370 d.C.", genre:"Homilia/Ep\u00edstola", chapters:13, context:"Escrita a crist\u00e3os de origem judaica sob press\u00e3o para voltarem ao judaismo.", purpose:"Demonstrar a supremacia e a definitividade de Cristo como cumprimento de todo o sistema lev\u00edtico.", verse_text:'"Jesus Cristo \u00e9 o mesmo ontem, hoje e para sempre."', verse_ref:"Hb 13:8", tags:["Supremacia de Cristo","Sumo Sacerdote","Melquisedec","Nova Alian\u00e7a","Tipologia","Perseveran\u00e7a","F\u00e9 (Hb 11)"], structure:"Cristo superior aos anjos, a Mois\u00e9s, ao sacerd\u00f3cio aar\u00f4nico (1\u20137); Cristo como sumo sacerdote da Nova Alian\u00e7a (8\u201310:18); Exorta\u00e7\u00f5es \u00e0 perseveran\u00e7a na f\u00e9 (10:19\u201313)." },
+  "Tiago": { nome:"Tiago", icon:"\u2696\ufe0f", author:"Tiago, irm\u00e3o do Senhor", period:"c. 45\u201350 d.C.", genre:"Ep\u00edstola Sapiencial", chapters:5, context:"Uma das cartas mais antigas do NT, escrita por Tiago de Jerusal\u00e9m \u00e0 di\u00e1spora judaico-crist\u00e3.", purpose:"Exortar \u00e0 consist\u00eancia entre f\u00e9 e obras e ensinar sabedoria pr\u00e1tica para a vida crist\u00e3.", verse_text:'"A f\u00e9 sem obras \u00e9 morta."', verse_ref:"Tg 2:26b", tags:["F\u00e9 e obras","Sabedoria pr\u00e1tica","L\u00edngua","Parcialidade","Riquezas","Ora\u00e7\u00e3o da f\u00e9","Paci\u00eancia"], structure:"Alegria nas provações e sabedoria (1); Imparcialidade e f\u00e9 com obras (2); L\u00edngua e sabedoria (3); Conflitos e humildade (4); Riquezas, paci\u00eancia e ora\u00e7\u00e3o (5)." },
+  "1Pedro": { nome:"1 Pedro", icon:"\ud83e\ude82", author:"Pedro (ap\u00f3stolo)", period:"c. 62\u201364 d.C.", genre:"Ep\u00edstola", chapters:5, context:"
