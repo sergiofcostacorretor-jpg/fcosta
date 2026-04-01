@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FCOSTA - Sistema de Gestão Imobiliária e Jurídica</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{
+  --ouro:#C9A84C;--ouro-claro:#e8c96a;--azul:#0a1628;--azul-medio:#112240;
+  --texto:#1a1a1a;--borda:#d4c4a0;--verde-edit:#1a6b3c;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#1a1a2e;font-family:'EB Garamond',Georgia,serif;font-size:12pt;color:var(--texto);line-height:1.7;}
+
+/* TOOLBAR */
+.toolbar{background:var(--azul);padding:8px 20px;position:fixed;width:100%;top:0;z-index:9999;display:flex;align-items:center;gap:10px;border-bottom:3px solid var(--ouro);flex-wrap:wrap;}
+.btn-home{background:var(--ouro);color:var(--azul);padding:7px 14px;border-radius:3px;text-decoration:none;font-weight:700;font-family:'Oswald',sans-serif;font-size:9.5pt;letter-spacing:.5px;white-space:nowrap;transition:background .2s;}
+.btn-home:hover{background:var(--ouro-claro);}
+.toolbar select{padding:7px 10px;font-size:9.5pt;border:1px solid var(--ouro);border-radius:3px;min-width:280px;font-family:'Oswald',sans-serif;background:var(--azul-medio);color:#fff;}
+.toolbar select option{background:var(--azul-medio);color:#fff;}
+.btn-toolbar{padding:7px 14px;cursor:pointer;font-weight:700;font-family:'Oswald',sans-serif;font-size:9pt;border:1.5px solid var(--ouro);border-radius:3px;background:transparent;color:var(--ouro);white-space:nowrap;transition:all .2s;letter-spacing:.4px;}
+.btn-toolbar:hover{background:var(--ouro);color:var(--azul);}
+.btn-toolbar.salvar{border-color:#27ae60;color:#27ae60;}
+.btn-toolbar.salvar:hover{background:#27ae60;color:#fff;}
+.btn-toolbar.pdf{border-color:#e74c3c;color:#e74c3c;}
+.btn-toolbar.pdf:hover{background:#e74c3c;color:#fff;}
+
+/* DICA EDIÇÃO */
+.dica-edicao{background:#fffbe6;border:1.5px solid var(--ouro);border-radius:4px;padding:7px 14px;font-family:'Oswald',sans-serif;font-size:8.5pt;color:#7a5c00;letter-spacing:.3px;white-space:nowrap;}
+
+/* PAINEL ARQUIVO */
+.arquivo-panel{position:fixed;right:0;top:55px;bottom:0;width:280px;background:var(--azul-medio);border-left:2px solid var(--ouro);overflow-y:auto;padding:15px;z-index:8000;transform:translateX(100%);transition:transform .3s;}
+.arquivo-panel.aberto{transform:translateX(0);}
+.arquivo-panel h4{font-family:'Oswald',sans-serif;color:var(--ouro);font-size:12pt;letter-spacing:1px;margin-bottom:10px;border-bottom:1px solid var(--ouro);padding-bottom:6px;}
+.arquivo-busca{width:100%;padding:7px;border:1px solid var(--ouro);border-radius:3px;background:#0d1b35;color:#fff;font-size:10pt;margin-bottom:10px;font-family:'EB Garamond',serif;}
+.arquivo-item{background:#0d1b35;border:1px solid #1e3a5f;border-radius:4px;padding:8px 10px;margin-bottom:6px;transition:border-color .2s;}
+.arquivo-item:hover{border-color:var(--ouro);}
+.arquivo-item .nome{color:#e8e8e8;font-size:10pt;font-weight:600;}
+.arquivo-item .meta{color:#aaa;font-size:8.5pt;margin-top:2px;}
+.arquivo-item .tipo-badge{display:inline-block;background:var(--ouro);color:var(--azul);font-size:7pt;font-family:'Oswald',sans-serif;padding:1px 5px;border-radius:2px;margin-right:4px;letter-spacing:.3px;}
+.arquivo-item .del-btn{float:right;color:#e74c3c;background:none;border:none;cursor:pointer;font-size:14px;line-height:1;}
+.arquivo-vazio{color:#888;font-size:10pt;text-align:center;padding:20px 0;}
+.toggle-arquivo{position:fixed;right:280px;top:50%;transform:translateY(-50%);background:var(--azul);border:2px solid var(--ouro);color:var(--ouro);padding:8px 5px;border-radius:4px 0 0 4px;cursor:pointer;z-index:8001;writing-mode:vertical-rl;font-family:'Oswald',sans-serif;font-size:9pt;letter-spacing:1px;transition:right .3s;}
+.toggle-arquivo.fechado{right:0;}
+
+/* A4 — FIX: espaçamento topo e base corrigidos */
+.document-container{
+  padding-top: 75px;   /* toolbar ~55px + folga visual 20px */
+  padding-bottom: 60px;
+  transition:padding-right .3s;
+}
+.document-container.arquivo-aberto{padding-right:295px;}
+
+.a4-page{
+  width:210mm;
+  min-height:297mm;
+  margin: 24px auto 32px; /* topo e base generosos para não cortar */
+  background:#fff;
+  padding: 22mm 22mm 24mm; /* padding-bottom maior para não cortar última linha */
+  box-shadow:0 8px 40px rgba(0,0,0,.6);
+  box-sizing:border-box;
+  position:relative;
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:12pt;
+  line-height:1.65;
+  overflow: visible; /* garante que conteúdo não seja clipado */
+}
+
+/* ─────────────────────────────────────────────
+   CAMPOS EDITÁVEIS (dados: nome, data, valor)
+───────────────────────────────────────────── */
+.campo-edit{
+  font-weight:700!important;color:#000;
+  border:none;border-bottom:1.5px dashed var(--ouro);
+  background:#fffdf5;font-size:inherit;font-family:inherit;line-height:inherit;
+  outline:none;transition:border-color .2s,background .2s,box-shadow .2s;
+  padding:1px 4px 0;display:inline-block;white-space:pre-wrap;
+  word-break:break-word;overflow-wrap:break-word;cursor:text;
+  border-radius:2px;min-width:30px;max-width:100%;vertical-align:baseline;
+}
+.campo-edit:focus{border-bottom-color:var(--verde-edit);background:#f0fff4;box-shadow:0 2px 0 0 var(--verde-edit);}
+.campo-edit:empty::before{content:attr(data-placeholder);color:#b8a070;font-weight:400;font-style:italic;pointer-events:none;}
+
+textarea.campo-expansivel{
+  display:block;width:100%;min-height:60px;overflow:hidden;resize:none;
+  font-weight:700!important;color:#000;border:1.5px dashed var(--ouro);
+  background:#fffdf5;font-size:12pt;font-family:Arial,Helvetica,sans-serif;
+  outline:none;transition:border-color .2s,background .2s;
+  padding:6px 10px;line-height:1.65;border-radius:3px;box-sizing:border-box;
+}
+textarea.campo-expansivel:focus{border-color:var(--verde-edit);background:#f0fff4;}
+
+/* ─────────────────────────────────────────────
+   CLÁUSULA — TEXTO EDITÁVEL (duplo clique)
+───────────────────────────────────────────── */
+p.clausula-texto{
+  text-align:justify;margin:0;padding:8px 12px 6px;
+  font-size:12pt;font-family:Arial,Helvetica,sans-serif;line-height:1.65;
+  border-left:3px solid var(--borda);border-right:3px solid var(--borda);
+  background:#fefefe;position:relative;
+  cursor:default;
+  transition:background .2s, border-color .2s;
+}
+p.clausula-texto:hover::after{
+  content:'✏️  duplo clique para editar';
+  position:absolute;top:4px;right:8px;
+  font-size:7.5pt;color:#b8a070;font-family:'Oswald',sans-serif;
+  letter-spacing:.4px;pointer-events:none;opacity:.85;
+}
+p.clausula-texto.editando{
+  outline:none;
+  background:#f0fff4;
+  border-left:3px solid var(--verde-edit);
+  border-right:3px solid var(--verde-edit);
+  cursor:text;
+  box-shadow:inset 0 0 0 1px #c3ebd1;
+}
+p.clausula-texto.editando::after{
+  content:'✔  clique fora para confirmar';
+  color:var(--verde-edit);
+  opacity:1;
+}
+
+/* TIPOGRAFIA JURÍDICA */
+h2.titulo-contrato{font-family:'Oswald',sans-serif;text-align:center;text-transform:uppercase;font-size:15pt;margin-bottom:4px;color:var(--azul);letter-spacing:1.5px;border-bottom:2.5px solid var(--azul);padding-bottom:8px;}
+.subtitulo-contrato{text-align:center;font-size:9pt;color:#555;margin-bottom:0;font-style:italic;font-family:Arial,Helvetica,sans-serif;}
+h3.clausula-titulo{font-family:'Oswald',sans-serif;font-size:10.5pt;color:#fff;text-transform:uppercase;background:var(--azul);padding:5px 12px;margin:10px 0 0;letter-spacing:.8px;}
+
+/* LEI BLOCO */
+.lei-bloco{background:#f0ede4;border-left:4px solid var(--ouro);border-bottom:2px solid #c8b87a;border-right:1px solid #c8b87a;border-top:1px solid #ddd4b0;padding:7px 12px 9px 14px;margin:0;}
+.lei-bloco .lei-header{font-family:'Oswald',sans-serif;font-size:9pt;color:#8a6b1a;letter-spacing:.8px;text-transform:uppercase;margin-bottom:5px;display:flex;align-items:center;gap:6px;font-weight:700;}
+.lei-bloco .lei-header::before{content:'§';font-size:12pt;color:#8a6b1a;font-weight:700;}
+.lei-item{font-size:9.5pt;color:#1e2a38;margin-bottom:5px;padding-left:8px;border-left:2px solid #b8a050;line-height:1.55;font-family:Arial,Helvetica,sans-serif;}
+.lei-item strong{color:#0a1628;font-weight:700;}
+.lei-item:last-child{margin-bottom:0;}
+
+/* CABEÇALHO */
+.header-fcosta{display:flex;align-items:center;gap:18px;border-bottom:4px double var(--ouro);padding-bottom:14px;margin-bottom:14px;}
+.logo-fcosta{width:80px;height:80px;border-radius:50%;border:2.5px solid var(--ouro);object-fit:cover;}
+.header-info .marca{font-family:'Oswald',sans-serif;font-size:24pt;color:var(--azul);line-height:1;font-weight:700;letter-spacing:2px;}
+.header-info .subtag{font-size:9pt;font-weight:700;color:var(--ouro);letter-spacing:.8px;}
+.header-info .creci{margin-top:4px;font-size:8.5pt;color:#555;}
+.header-data{margin-left:auto;text-align:right;font-size:9pt;color:#777;font-style:italic;}
+
+/* ASSINATURAS */
+.bloco-assinaturas{margin-top:30px;padding-bottom:10px;}
+.assinaturas{display:flex;justify-content:space-around;text-align:center;gap:30px;margin-top:20px;}
+.assinatura-box{width:45%;}
+.linha-ass{border-top:1.5px solid #000;margin-bottom:6px;padding-top:4px;}
+.ass-nome{font-size:10pt;font-weight:700;font-family:Arial,sans-serif;}
+.ass-qualif{font-size:9pt;color:#555;margin-top:2px;font-family:Arial,sans-serif;}
+.local-data{text-align:center;margin-top:25px;font-size:11pt;font-family:Arial,sans-serif;}
+
+/* RECIBO */
+.recibo-frame{border:2px solid #000;padding:25px;margin-top:10px;position:relative;}
+.valor-box{float:right;border:2.5px solid #000;padding:6px 18px;font-weight:700;font-size:16pt;background:#eee;font-family:'Oswald',sans-serif;}
+
+/* PLACEHOLDER */
+.placeholder-msg{text-align:center;padding:80px 20px;color:#aaa;font-family:'Oswald',sans-serif;letter-spacing:1px;}
+.placeholder-msg .icon{font-size:48pt;margin-bottom:15px;opacity:.3;}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99999;align-items:center;justify-content:center;}
+.modal-overlay.ativo{display:flex;}
+.modal-box{background:#fff;border-radius:6px;padding:30px;max-width:420px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.5);}
+.modal-box h4{font-family:'Oswald',sans-serif;color:var(--azul);font-size:14pt;margin-bottom:8px;}
+.modal-box p.modal-desc{font-size:10pt;color:#666;margin-bottom:14px;font-family:'EB Garamond',serif;}
+.modal-box input{width:100%;padding:10px;border:1.5px solid #ccc;border-radius:4px;font-size:11pt;margin-bottom:10px;font-family:'EB Garamond',serif;}
+.modal-box input:focus{border-color:var(--ouro);outline:none;}
+.modal-btns{display:flex;gap:10px;justify-content:flex-end;margin-top:4px;}
+.modal-btns button{padding:9px 20px;border-radius:4px;cursor:pointer;font-family:'Oswald',sans-serif;font-size:10pt;border:none;}
+.btn-cancelar{background:#eee;color:#555;}
+.btn-cancelar:hover{background:#ddd;}
+.btn-confirmar{background:var(--azul);color:var(--ouro);font-weight:700;}
+.btn-confirmar:hover{background:#1a3a6b;}
+
+/* NOTIFICAÇÃO */
+.notif{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--azul);color:var(--ouro);padding:12px 25px;border-radius:4px;font-family:'Oswald',sans-serif;font-size:10.5pt;letter-spacing:.5px;border:1px solid var(--ouro);z-index:99999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;}
+.notif.show{opacity:1;}
+
+/* IMPRESSÃO */
+@media print{
+  .toolbar,.toggle-arquivo,.arquivo-panel,.no-print,.modal-overlay,.notif{display:none!important;}
+  body{background:white;}
+  .document-container{padding:0!important;}
+  .a4-page{box-shadow:none;width:100%;margin:0;padding:15mm 20mm 18mm;}
+  .lei-bloco,.clausula-titulo,.clausula-texto{break-inside:avoid;}
+  .campo-edit{border-bottom:none!important;background:transparent!important;box-shadow:none!important;display:inline!important;white-space:pre-wrap!important;}
+  textarea.campo-expansivel{border:none!important;background:transparent!important;resize:none!important;overflow:visible!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  p.clausula-texto::after{display:none!important;}
+  p.clausula-texto{border-left:3px solid var(--borda)!important;border-right:3px solid var(--borda)!important;background:#fefefe!important;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <a href="https://fcostacorretor.com/" target="_blank" class="btn-home">🏠 FCOSTA</a>
+  <select id="selectModel" onchange="gerarConteudo()">
+    <option value="">— SELECIONE O DOCUMENTO —</option>
+    <optgroup label="📋 LOCAÇÃO (LEI 8.245/91)">
+      <option value="loc_residencial">Locação Residencial Completa (30 Meses)</option>
+      <option value="loc_comercial">Locação Não Residencial / Comercial</option>
+      <option value="loc_built_suit">Contrato Built-to-Suit (Art. 54-A)</option>
+      <option value="loc_temporada">Locação por Temporada (Férias/Eventos)</option>
+      <option value="comodato">Contrato de Comodato de Imóvel</option>
+    </optgroup>
+    <optgroup label="🤝 CORRETAGEM / INTERMEDIAÇÃO">
+      <option value="exclusividade_venda">Autorização de Venda com Exclusividade</option>
+      <option value="venda_sem_exclusividade">Autorização de Venda SEM Exclusividade</option>
+      <option value="autorizacao_locacao">Autorização de Locação e Gestão</option>
+    </optgroup>
+    <optgroup label="🏠 COMPRA E VENDA">
+      <option value="compra_venda">Compromisso de Compra e Venda de Imóvel</option>
+    </optgroup>
+    <optgroup label="🧾 RECIBOS">
+      <option value="recibo_aluguel">Recibo de Aluguel (Cálculo Automático de Mora)</option>
+      <option value="recibo_compras">Recibo de Compras Diversas - FCOSTA</option>
+    </optgroup>
+  </select>
+  <button class="btn-toolbar salvar" onclick="abrirModalSalvar()">💾 SALVAR</button>
+  <button class="btn-toolbar pdf" onclick="gerarPDF()">📄 PDF</button>
+  <button class="btn-toolbar" onclick="window.print()">🖨️ IMPRIMIR</button>
+  <button class="btn-toolbar" onclick="toggleArquivo()" style="border-color:#8e44ad;color:#8e44ad;" id="btnArquivo">📁 ARQUIVO (0)</button>
+  <span class="dica-edicao no-print">✏️ Duplo clique em qualquer cláusula para editar o texto</span>
+</div>
+
+<!-- PAINEL ARQUIVO -->
+<div class="arquivo-panel" id="arquivoPanel">
+  <h4>📁 ARQUIVO DE CONTRATOS</h4>
+  <div style="display:flex;gap:6px;margin-bottom:10px;">
+    <button onclick="exportarArquivo()" style="flex:1;padding:6px;font-size:8pt;background:#27ae60;color:#fff;border:none;border-radius:3px;cursor:pointer;font-family:'Oswald',sans-serif;font-weight:700;letter-spacing:.3px;">⬇️ EXPORTAR JSON</button>
+    <button onclick="importarArquivo()" style="flex:1;padding:6px;font-size:8pt;background:#2980b9;color:#fff;border:none;border-radius:3px;cursor:pointer;font-family:'Oswald',sans-serif;font-weight:700;letter-spacing:.3px;">⬆️ IMPORTAR JSON</button>
+  </div>
+  <input type="text" class="arquivo-busca" id="arquivoBusca" placeholder="🔍 Buscar por nome ou tipo..." oninput="renderArquivo()">
+  <div id="arquivoLista"></div>
+</div>
+<div class="toggle-arquivo fechado" id="toggleArqBtn" onclick="toggleArquivo()">ARQUIVO</div>
+
+<!-- CONTAINER PRINCIPAL -->
+<div class="document-container" id="docContainer">
+  <div class="a4-page" id="a4page">
+    <header class="header-fcosta">
+      <img src="https://i.postimg.cc/xTQzc3RV/495379823-122128221800669140-5238985291153506093-n-photoaidcom-cropped.png" class="logo-fcosta" alt="Logo FCOSTA">
+      <div class="header-info">
+        <div class="marca">FCOSTA</div>
+        <div class="subtag">GESTÃO IMOBILIÁRIA &amp; CONSULTORIA JURÍDICA</div>
+        <div class="creci"><strong>CRECI 294791-F | CNAI 52708</strong></div>
+      </div>
+      <div class="header-data" id="headerData"></div>
+    </header>
+    <div id="editor">
+      <div class="placeholder-msg">
+        <div class="icon">⚖️</div>
+        <div>Selecione um modelo de documento<br>no menu superior para iniciar</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL SALVAR -->
+<div class="modal-overlay" id="modalSalvar">
+  <div class="modal-box">
+    <h4>💾 Salvar Contrato no Arquivo</h4>
+    <p class="modal-desc">Preencha os dados para identificar este contrato.</p>
+    <input type="text" id="modalNome" placeholder="Nome do cliente / contratante principal *" maxlength="80">
+    <input type="text" id="modalObs" placeholder="Observação (ex: Ap. 42 Centro, Rua das Flores)" maxlength="100">
+    <div class="modal-btns">
+      <button class="btn-cancelar" onclick="fecharModal()">✕ Cancelar</button>
+      <button class="btn-confirmar" onclick="salvarContrato()">💾 Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIFICAÇÃO -->
+<div class="notif" id="notif"></div>
+
+<script>
+// ── Utilitários ──────────────────────────────────────────────
+const hoje    = () => new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
+const hojeISO = () => new Date().toLocaleDateString('pt-BR');
+let arquivoAberto = false;
+let modeloAtual   = '';
+
+function mostrarNotif(msg, dur=3500){
+  const n = document.getElementById('notif');
+  n.textContent = msg; n.classList.add('show');
+  clearTimeout(n._t);
+  n._t = setTimeout(()=>n.classList.remove('show'), dur);
+}
+
+// ════════════════════════════════════════════════════════════
+//  EDIÇÃO DE CLÁUSULAS — duplo clique ativa, blur confirma
+// ════════════════════════════════════════════════════════════
+function initEdicaoClausulas(){
+  document.querySelectorAll('p.clausula-texto').forEach(p => {
+    p.removeEventListener('dblclick', _onClausulaDbClick);
+    p.removeEventListener('blur',     _onClausulaBlur);
+    p.removeEventListener('keydown',  _onClausulaKeydown);
+    p.addEventListener('dblclick', _onClausulaDbClick);
+    p.addEventListener('blur',     _onClausulaBlur);
+    p.addEventListener('keydown',  _onClausulaKeydown);
+  });
+}
+
+function _onClausulaDbClick(e){
+  const p = e.currentTarget;
+  if(p.classList.contains('editando')) return;
+  p.classList.add('editando');
+  p.contentEditable = 'true';
+  p.focus();
+  try{
+    const range = document.caretRangeFromPoint
+      ? document.caretRangeFromPoint(e.clientX, e.clientY)
+      : null;
+    if(range){
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+  }catch(_){}
+  mostrarNotif('✏️ Modo edição ativado — clique fora para confirmar', 2500);
+}
+
+function _onClausulaBlur(e){
+  const p = e.currentTarget;
+  setTimeout(()=>{
+    if(document.activeElement && p.contains(document.activeElement)) return;
+    _fecharEdicaoClausula(p);
+  }, 120);
+}
+
+function _onClausulaKeydown(e){
+  if(e.key === 'Escape'){
+    const p = e.currentTarget;
+    const original = p.getAttribute('data-original');
+    if(original !== null) p.innerHTML = original;
+    _fecharEdicaoClausula(p);
+    setTimeout(()=>{ initCamposExpansiveis(); initEdicaoClausulas(); }, 50);
+    mostrarNotif('↩️ Edição cancelada', 2000);
+    e.preventDefault();
+  }
+}
+
+function _fecharEdicaoClausula(p){
+  p.classList.remove('editando');
+  p.contentEditable = 'false';
+  p.setAttribute('data-original', p.innerHTML);
+}
+
+function salvarOriginaisClausulas(){
+  document.querySelectorAll('p.clausula-texto').forEach(p => {
+    p.setAttribute('data-original', p.innerHTML);
+    p.contentEditable = 'false';
+  });
+}
+
+// ════════════════════════════════════════════════════════════
+//  ARQUIVO — armazenamento em memória RAM + localStorage como cache
+//  (funciona mesmo quando localStorage está bloqueado/cheio)
+// ════════════════════════════════════════════════════════════
+
+// Memória principal — persiste enquanto a aba estiver aberta
+let _arquivoMemoria = [];
+
+// Tenta carregar do localStorage na inicialização
+(function _carregarStorage(){
+  try{
+    const raw = localStorage.getItem('fcosta_arquivo');
+    if(raw){
+      const parsed = JSON.parse(raw);
+      if(Array.isArray(parsed)) _arquivoMemoria = parsed;
+    }
+  }catch(e){ /* silencioso — inicia vazio */ }
+})();
+
+function toggleArquivo(){
+  arquivoAberto = !arquivoAberto;
+  document.getElementById('arquivoPanel').classList.toggle('aberto', arquivoAberto);
+  document.getElementById('toggleArqBtn').classList.toggle('fechado', !arquivoAberto);
+  document.getElementById('docContainer').classList.toggle('arquivo-aberto', arquivoAberto);
+}
+
+function getArquivo(){ return _arquivoMemoria; }
+
+function setArquivo(arr){
+  _arquivoMemoria = arr;            // SEMPRE salva em memória — nunca falha
+  // Tenta persistir no localStorage como bônus (silencioso se falhar)
+  try{ localStorage.setItem('fcosta_arquivo', JSON.stringify(arr)); }catch(e){}
+  return true;
+}
+
+function atualizarBotaoArquivo(){ document.getElementById('btnArquivo').textContent = `📁 ARQUIVO (${_arquivoMemoria.length})`; }
+
+// ── Exportar arquivo como JSON ────────────────────────────────
+function exportarArquivo(){
+  if(!_arquivoMemoria.length){ mostrarNotif('⚠️ Nenhum contrato no arquivo para exportar.'); return; }
+  const json = JSON.stringify(_arquivoMemoria, null, 2);
+  const blob = new Blob([json], {type:'application/json'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url;
+  a.download = `FCOSTA_arquivo_${hojeISO().replace(/\//g,'-')}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  mostrarNotif(`✅ Arquivo exportado com ${_arquivoMemoria.length} contrato(s).`);
+}
+
+// ── Importar arquivo JSON ─────────────────────────────────────
+function importarArquivo(){
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = '.json';
+  input.onchange = function(){
+    const file = this.files[0]; if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e){
+      try{
+        const dados = JSON.parse(e.target.result);
+        if(!Array.isArray(dados)) throw new Error('Formato inválido');
+        // Mescla: mantém existentes + adiciona novos (evita duplicatas por id)
+        const idsExistentes = new Set(_arquivoMemoria.map(c=>c.id));
+        const novos = dados.filter(c=>!idsExistentes.has(c.id));
+        setArquivo([..._arquivoMemoria, ...novos]);
+        renderArquivo();
+        atualizarBotaoArquivo();
+        mostrarNotif(`✅ ${novos.length} contrato(s) importado(s) com sucesso!`);
+      }catch(err){
+        mostrarNotif('❌ Arquivo inválido. Use um JSON exportado pelo FCOSTA.', 5000);
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+function escapeHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function renderArquivo(){
+  const busca = (document.getElementById('arquivoBusca').value||'').toLowerCase();
+  const arr   = getArquivo();
+  const filt  = arr.filter(c=>(c.nome||'').toLowerCase().includes(busca)||(c.tipo||'').toLowerCase().includes(busca)||(c.obs||'').toLowerCase().includes(busca));
+  const lista = document.getElementById('arquivoLista');
+  if(!filt.length){ lista.innerHTML='<div class="arquivo-vazio">Nenhum contrato encontrado.</div>'; return; }
+  lista.innerHTML = filt.slice().reverse().map(c=>{
+    const ri = arr.findIndex(x=>x.id===c.id);
+    return `<div class="arquivo-item">
+      <button class="del-btn" onclick="deletarContrato(${ri})" title="Excluir">✕</button>
+      <div class="nome"><span class="tipo-badge">${escapeHtml(c.tipo||'DOC')}</span>${escapeHtml(c.nome)}</div>
+      <div class="meta">${escapeHtml(c.data||'')}${c.obs?' — '+escapeHtml(c.obs):''}</div>
+      <div style="margin-top:6px;">
+        <button onclick="carregarContrato(${ri})"
+          style="width:100%;padding:5px;font-size:8pt;background:var(--ouro);color:var(--azul);
+                 border:none;border-radius:2px;cursor:pointer;font-family:'Oswald',sans-serif;font-weight:700;">
+          📂 ABRIR CONTRATO
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Modal ────────────────────────────────────────────────────
+function abrirModalSalvar(){
+  if(!modeloAtual){ mostrarNotif('⚠️ Selecione um documento antes de salvar.'); return; }
+  document.querySelectorAll('p.clausula-texto.editando').forEach(p => _fecharEdicaoClausula(p));
+  document.getElementById('modalNome').value='';
+  document.getElementById('modalObs').value='';
+  document.getElementById('modalSalvar').classList.add('ativo');
+  setTimeout(()=>document.getElementById('modalNome').focus(),120);
+}
+function fecharModal(){ document.getElementById('modalSalvar').classList.remove('ativo'); }
+document.getElementById('modalSalvar').addEventListener('click',function(e){ if(e.target===this) fecharModal(); });
+
+// ════════════════════════════════════════════════════════════
+//  CAPTURAR HTML — FIX: try/catch em cada etapa
+// ════════════════════════════════════════════════════════════
+function capturarHtmlEditor(){
+  try{
+    const editor = document.getElementById('editor');
+
+    // 1. Persiste spans contenteditable
+    editor.querySelectorAll('span.campo-edit').forEach(span => {
+      span.setAttribute('data-saved-content', span.textContent || '');
+    });
+
+    // 2. Persiste cláusulas editáveis
+    editor.querySelectorAll('p.clausula-texto').forEach(p => {
+      p.setAttribute('data-saved-clausula', p.innerHTML);
+    });
+
+    // 3. Clona
+    const clone = editor.cloneNode(true);
+
+    // 4. Aplica spans no clone
+    clone.querySelectorAll('span.campo-edit').forEach(span => {
+      const saved = span.getAttribute('data-saved-content');
+      if(saved !== null) span.textContent = saved;
+      span.removeAttribute('data-saved-content');
+    });
+
+    // 5. Aplica cláusulas no clone
+    clone.querySelectorAll('p.clausula-texto').forEach(p => {
+      const saved = p.getAttribute('data-saved-clausula');
+      if(saved !== null) p.innerHTML = saved;
+      p.removeAttribute('data-saved-clausula');
+      p.classList.remove('editando');
+      p.removeAttribute('contenteditable');
+    });
+
+    // 6. Sincroniza textareas
+    const originais = editor.querySelectorAll('textarea');
+    const clonadas  = clone.querySelectorAll('textarea');
+    originais.forEach((ta, i) => {
+      if(clonadas[i]){
+        clonadas[i].textContent = ta.value;
+        clonadas[i].setAttribute('data-saved-value', ta.value);
+      }
+    });
+
+    // Limpa atributos temporários do editor original
+    editor.querySelectorAll('span.campo-edit').forEach(s => s.removeAttribute('data-saved-content'));
+    editor.querySelectorAll('p.clausula-texto').forEach(p => p.removeAttribute('data-saved-clausula'));
+
+    return clone.innerHTML;
+  }catch(err){
+    console.error('capturarHtmlEditor erro:', err);
+    // Fallback: retorna innerHTML bruto
+    return document.getElementById('editor').innerHTML;
+  }
+}
+
+// ── SALVAR — FIX: try/catch completo, verifica retorno de setArquivo ────────
+function salvarContrato(){
+  try{
+    const nome = (document.getElementById('modalNome').value||'').trim();
+    if(!nome){ mostrarNotif('⚠️ Informe o nome do cliente.'); document.getElementById('modalNome').focus(); return; }
+
+    const htmlCapturado = capturarHtmlEditor();
+    if(!htmlCapturado){ mostrarNotif('❌ Erro ao capturar o conteúdo do contrato.'); return; }
+
+    _arquivoMemoria.push({
+      id:    Date.now(),
+      nome:  nome,
+      obs:   (document.getElementById('modalObs').value||'').trim(),
+      tipo:  nomeModelo(modeloAtual),
+      modelo:modeloAtual,
+      data:  hojeISO(),
+      html:  htmlCapturado
+    });
+
+    // Persiste (sempre retorna true com memória)
+    try{ localStorage.setItem('fcosta_arquivo', JSON.stringify(_arquivoMemoria)); }catch(e){}
+
+    fecharModal();
+    renderArquivo();
+    atualizarBotaoArquivo();
+    mostrarNotif(`✅ Contrato de "${nome}" salvo! (${_arquivoMemoria.length} no arquivo)`);
+  }catch(err){
+    console.error('salvarContrato erro:', err);
+    mostrarNotif('❌ Erro inesperado ao salvar. Tente novamente.');
+  }
+}
+
+// ── CARREGAR ─────────────────────────────────────────────────
+function carregarContrato(idx){
+  const c = getArquivo()[idx];
+  if(!c){ mostrarNotif('❌ Contrato não encontrado.'); return; }
+  modeloAtual = c.modelo;
+  document.getElementById('selectModel').value = c.modelo;
+  document.getElementById('editor').innerHTML  = c.html;
+  const editor = document.getElementById('editor');
+
+  editor.querySelectorAll('textarea[data-saved-value]').forEach(ta => {
+    ta.value = ta.getAttribute('data-saved-value');
+  });
+
+  editor.querySelectorAll('span.campo-edit').forEach(span => {
+    const currentText  = span.textContent || '';
+    const placeholder  = span.getAttribute('data-placeholder') || '';
+    if(currentText === placeholder) span.textContent = '';
+  });
+
+  editor.querySelectorAll('p.clausula-texto').forEach(p => {
+    p.contentEditable = 'false';
+    p.classList.remove('editando');
+    if(!p.hasAttribute('data-original')) p.setAttribute('data-original', p.innerHTML);
+  });
+
+  document.getElementById('headerData').innerHTML =
+    `<div style="font-size:9pt;">${escapeHtml(c.data)}</div>
+     <div style="font-size:9pt;">Cliente: <strong>${escapeHtml(c.nome)}</strong></div>`;
+
+  if(c.modelo==='recibo_aluguel') setTimeout(calcularMoraAluguel, 150);
+  setTimeout(()=>{ initCamposExpansiveis(); initEdicaoClausulas(); }, 100);
+  if(arquivoAberto) toggleArquivo();
+  mostrarNotif(`📂 Contrato de "${c.nome}" carregado.`);
+  window.scrollTo(0,0);
+}
+
+// ── DELETAR ──────────────────────────────────────────────────
+function deletarContrato(idx){
+  const c=_arquivoMemoria[idx]; if(!c) return;
+  if(!confirm(`Excluir o contrato de "${c.nome}"?\nEsta ação não pode ser desfeita.`)) return;
+  _arquivoMemoria.splice(idx,1);
+  try{ localStorage.setItem('fcosta_arquivo', JSON.stringify(_arquivoMemoria)); }catch(e){}
+  renderArquivo(); atualizarBotaoArquivo();
+  mostrarNotif('🗑️ Contrato excluído.');
+}
+
+function nomeModelo(m){
+  const mp={loc_residencial:'LOC. RESIDENCIAL',loc_comercial:'LOC. COMERCIAL',loc_built_suit:'BUILT-TO-SUIT',
+    loc_temporada:'LOC. TEMPORADA',comodato:'COMODATO',exclusividade_venda:'AUT. EXCLUSIVA',
+    venda_sem_exclusividade:'AUT. SEM EXCL.',autorizacao_locacao:'AUT. LOCAÇÃO',
+    compra_venda:'COMPRA E VENDA',recibo_aluguel:'RECIBO ALUGUEL',recibo_compras:'RECIBO COMPRAS'};
+  return mp[m]||m.toUpperCase();
+}
+
+// ── PDF — FIX: scrollY corrigido para não cortar topo/base ───────────────────
+async function gerarPDF(){
+  if(!modeloAtual){ mostrarNotif('⚠️ Abra um documento antes de gerar o PDF.'); return; }
+  document.querySelectorAll('p.clausula-texto.editando').forEach(p => _fecharEdicaoClausula(p));
+  mostrarNotif('⏳ Gerando PDF, aguarde...',12000);
+  try{
+    const el = document.getElementById('a4page');
+    const canvas = await html2canvas(el, {
+      scale: 2,
+      useCORS: true,
+      logging: false,
+      backgroundColor: '#ffffff',
+      scrollX: 0,
+      scrollY: -window.scrollY,      // FIX: compensa scroll para não cortar topo
+      windowWidth: document.documentElement.scrollWidth,
+      windowHeight: document.documentElement.scrollHeight,
+      x: 0,
+      y: 0
+    });
+    const imgData=canvas.toDataURL('image/jpeg',0.92);
+    const {jsPDF}=window.jspdf;
+    const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+    const pw=210, ph=Math.round((canvas.height*210)/canvas.width);
+    let y=0;
+    while(y<ph){ if(y>0) pdf.addPage(); pdf.addImage(imgData,'JPEG',0,-y,pw,ph,undefined,'FAST'); y+=297; }
+    pdf.save(`FCOSTA_${nomeModelo(modeloAtual).replace(/[\s./]/g,'_')}_${hojeISO().replace(/\//g,'-')}.pdf`);
+    mostrarNotif('✅ PDF gerado com sucesso!');
+  }catch(e){ console.error(e); mostrarNotif('❌ Erro ao gerar PDF. Use Imprimir → Salvar como PDF.'); }
+}
+
+// ── Calculadora mora ─────────────────────────────────────────
+function calcularMoraAluguel(){
+  const elB=document.getElementById('v_base'),elD=document.getElementById('v_data');
+  const elF=document.getElementById('v_final'),elDet=document.getElementById('detalhe_atraso');
+  if(!elB||!elD||!elF||!elDet) return;
+  const vb=parseFloat(elB.value)||0;
+  const dv=elD.value?new Date(elD.value+'T00:00:00'):null;
+  const dh=new Date(); dh.setHours(0,0,0,0);
+  let multa=0,juros=0,dias=0;
+  if(dv&&dh>dv&&vb>0){ dias=Math.floor((dh-dv)/864e5); multa=vb*.10; juros=(vb*.01/30)*dias; }
+  const tot=vb+multa+juros;
+  elF.innerText='R$ '+tot.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+  elDet.innerHTML=dias>0
+    ?`<span style="color:#c0392b">⚠️ Atraso: ${dias} dia(s) | Multa 10%: R$ ${multa.toFixed(2)} | Juros pro-rata: R$ ${juros.toFixed(2)}</span>`
+    :`<span style="color:#27ae60">✅ Pagamento em dia</span>`;
+}
+
+// ── Campos editáveis (dados) ─────────────────────────────────
+function autoResizeTextarea(el){ el.style.height='auto'; el.style.height=(el.scrollHeight+2)+'px'; }
+
+function initCamposExpansiveis(){
+  document.querySelectorAll('textarea.campo-expansivel').forEach(el=>{
+    el.addEventListener('input',e=>autoResizeTextarea(e.target));
+    autoResizeTextarea(el);
+  });
+  document.querySelectorAll('span.campo-edit').forEach(el=>{
+    el.addEventListener('keydown',_onSpanKeydown);
+    el.addEventListener('focus',_onSpanFocus);
+    el.addEventListener('paste',_onSpanPaste);
+  });
+}
+function _onSpanKeydown(e){
+  if(e.key!=='Tab') return; e.preventDefault();
+  const campos=Array.from(document.querySelectorAll('.campo-edit,textarea.campo-expansivel'));
+  const idx=campos.indexOf(e.target), prox=campos[idx+(e.shiftKey?-1:1)];
+  if(!prox) return; prox.focus();
+  if(prox.tagName!=='TEXTAREA'){ const r=document.createRange(),s=window.getSelection(); r.selectNodeContents(prox); s.removeAllRanges(); s.addRange(r); }
+  else prox.select();
+}
+function _onSpanFocus(e){
+  const el=e.target;
+  setTimeout(()=>{ if(document.activeElement!==el) return; const r=document.createRange(),s=window.getSelection(); r.selectNodeContents(el); s.removeAllRanges(); s.addRange(r); },0);
+}
+function _onSpanPaste(e){
+  e.preventDefault();
+  const text=(e.clipboardData||window.clipboardData).getData('text/plain');
+  const sel=window.getSelection(); if(!sel.rangeCount) return;
+  sel.deleteFromDocument();
+  const range=sel.getRangeAt(0),tn=document.createTextNode(text);
+  range.insertNode(tn); range.setStartAfter(tn); range.setEndAfter(tn);
+  sel.removeAllRanges(); sel.addRange(range);
+}
+document.addEventListener('input',e=>{ if(e.target.tagName==='TEXTAREA'&&e.target.classList.contains('campo-expansivel')) autoResizeTextarea(e.target); });
+
+// ── Atalhos do modal ─────────────────────────────────────────
+document.getElementById('modalNome').addEventListener('keydown',e=>{ if(e.key==='Enter') document.getElementById('modalObs').focus(); });
+document.getElementById('modalObs').addEventListener('keydown',e=>{ if(e.key==='Enter') salvarContrato(); });
+
+// ════════════════════════════════════════════════════════════
+//  BLOCOS REUTILIZÁVEIS
+// ════════════════════════════════════════════════════════════
+function leiBloco(header,itens){
+  return `<div class="lei-bloco"><div class="lei-header">${header}</div>${itens.map(i=>`<div class="lei-item">${i}</div>`).join('')}</div>`;
+}
+function clausula(titulo,corpo,leis){
+  return `<h3 class="clausula-titulo">${titulo}</h3><p class="clausula-texto">${corpo}</p>${leis&&leis.length?leiBloco('FUNDAMENTO LEGAL',leis):''}`;
+}
+function campo(w,val){
+  const safe=String(val).replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return `<span class="campo-edit" contenteditable="true" spellcheck="false" data-placeholder="${safe}">${safe}</span>`;
+}
+function campoArea(val){
+  return `<textarea class="campo-expansivel" spellcheck="false">${String(val).replace(/</g,'&lt;').replace(/>/g,'&gt;')}</textarea>`;
+}
+function assinaturas(p1,p2,test=true){
+  return `<div class="bloco-assinaturas">
+<div class="local-data">São Paulo, ${hoje()}</div>
+<div class="assinaturas" style="margin-top:40px;">
+  <div class="assinatura-box"><div class="linha-ass"></div><div class="ass-nome">${p1}</div></div>
+  <div class="assinatura-box"><div class="linha-ass"></div><div class="ass-nome">${p2}</div></div>
+</div>
+${test?`<p style="text-align:center;margin-top:30px;font-size:10pt;font-family:'Oswald',sans-serif;letter-spacing:.5px;">TESTEMUNHAS</p>
+<div class="assinaturas">
+  <div class="assinatura-box"><div class="linha-ass"></div><div class="ass-nome">${campo('75%','NOME COMPLETO')}</div><div class="ass-qualif">CPF: ${campo('42%','000.000.000-00')}</div></div>
+  <div class="assinatura-box"><div class="linha-ass"></div><div class="ass-nome">${campo('75%','NOME COMPLETO')}</div><div class="ass-qualif">CPF: ${campo('42%','000.000.000-00')}</div></div>
+</div>`:''}
+</div>`;
+}
+
+// ════════════════════════════════════════════════════════════
+//  MODELOS
+// ════════════════════════════════════════════════════════════
+const modelos = {
+
+loc_residencial:()=>`
+<h2 class="titulo-contrato">Contrato de Locação Residencial</h2>
+<p class="subtitulo-contrato">Instrumento Particular de Locação Residencial — Prazo Determinado de 30 (Trinta) Meses</p>
+${leiBloco('BASE LEGAL GERAL DO CONTRATO',['<strong>Lei nº 8.245/1991 (Lei do Inquilinato)</strong> — regula as locações dos imóveis urbanos e os procedimentos a elas pertinentes.','<strong>Art. 46 da Lei 8.245/91:</strong> Nas locações ajustadas por escrito e por prazo igual ou superior a trinta meses, a resolução do contrato ocorrerá findo o prazo estipulado, independentemente de notificação ou aviso.','<strong>Art. 565 do Código Civil:</strong> A locação de coisas é o contrato pelo qual uma das partes se obriga a ceder à outra, por tempo determinado ou não, o uso e gozo de coisa não fungível, mediante certa retribuição.'])}
+${clausula('CLÁUSULA I — DAS PARTES CONTRATANTES',
+`<strong>LOCADOR(A):</strong> ${campo('','NOME COMPLETO DO LOCADOR')}, nacionalidade ${campo('','brasileira')}, estado civil ${campo('','solteiro(a)')}, profissão ${campo('','profissão')}, portador(a) do CPF nº ${campo('','000.000.000-00')} e RG nº ${campo('','00.000.000-0')}, residente e domiciliado(a) na ${campo('','ENDEREÇO COMPLETO DO LOCADOR')}, doravante denominado(a) simplesmente <strong>LOCADOR(A)</strong>.<br><br>
+<strong>LOCATÁRIO(A):</strong> ${campo('','NOME COMPLETO DO LOCATÁRIO')}, nacionalidade ${campo('','brasileira')}, estado civil ${campo('','solteiro(a)')}, profissão ${campo('','profissão')}, portador(a) do CPF nº ${campo('','000.000.000-00')} e RG nº ${campo('','00.000.000-0')}, residente e domiciliado(a) na ${campo('','ENDEREÇO COMPLETO DO LOCATÁRIO')}, doravante denominado(a) simplesmente <strong>LOCATÁRIO(A)</strong>.`,
+['<strong>Art. 1º da Lei 8.245/91:</strong> A locação de imóvel urbano regula-se pelo disposto nesta lei.','<strong>Art. 104 do Código Civil:</strong> A validade do negócio jurídico requer agente capaz, objeto lícito, possível, determinado ou determinável, forma prescrita ou não defesa em lei.','<strong>Art. 422 do Código Civil:</strong> Os contratantes são obrigados a guardar, assim na conclusão do contrato, como em sua execução, os princípios de probidade e boa-fé.'])}
+${clausula('CLÁUSULA II — DO OBJETO E DA DESTINAÇÃO DO IMÓVEL',
+`O objeto do presente contrato é o imóvel <strong>${campo('','CASA / APARTAMENTO / OUTRO')}</strong>, situado na ${campo('','LOGRADOURO COMPLETO, Nº, COMPLEMENTO, BAIRRO, CIDADE, ESTADO, CEP')}, com área ${campo('','privativa/total')} de ${campo('','00,00')} m², registrado sob Matrícula nº ${campo('','XXXXX')} no Cartório de Registro de Imóveis de ${campo('','CIDADE/COMARCA')}.<br><br>
+O imóvel é composto de: ${campo('','descrever: sala, quartos, banheiros, cozinha, área de serviço, garagem, etc.')}.<br><br>
+O imóvel destina-se <strong>EXCLUSIVAMENTE à moradia residencial</strong> do LOCATÁRIO(A) e de seu grupo familiar, sendo expressamente vedados: sublocação, uso comercial e quaisquer atividades vedadas por lei ou pelo condomínio.`,
+['<strong>Art. 23, I e II, da Lei 8.245/91:</strong> O locatário é obrigado a usar o imóvel para o uso convencionado, tratá-lo com cuidado e restituí-lo no estado em que o recebeu.','<strong>Art. 13 da Lei 8.245/91:</strong> A cessão da locação, a sublocação e o empréstimo do imóvel dependem do consentimento prévio e escrito do locador.'])}
+${clausula('CLÁUSULA III — DO PRAZO E DA VIGÊNCIA',
+`O prazo da presente locação é de <strong>30 (trinta) meses</strong>, com início em ${campo('','01/01/2026')} e término em ${campo('','01/07/2028')}, data em que o LOCATÁRIO(A) se obriga a restituir o imóvel independentemente de qualquer notificação.<br><br>
+Findo o prazo sem manifestação, a locação prorrogar-se-á automaticamente por prazo indeterminado, cabendo ao LOCADOR(A) denunciá-la com 30 (trinta) dias de antecedência.`,
+['<strong>Art. 46, caput e §2º, da Lei 8.245/91:</strong> Locações por escrito com prazo igual ou superior a 30 meses: resolução automática findo o prazo. Na prorrogação, o locador pode denunciar a qualquer tempo, concedendo 30 dias.','<strong>Art. 4º, parágrafo único:</strong> O locatário isento de multa se a devolução decorrer de transferência de empregador.'])}
+${clausula('CLÁUSULA IV — DO VALOR DO ALUGUEL, FORMA E LOCAL DE PAGAMENTO',
+`O aluguel mensal é fixado em <strong>R$ ${campo('','0.000,00')} (${campo('','valor por extenso')})</strong>, a ser pago até o dia <strong>${campo('','05')}</strong> de cada mês subsequente ao vencido, mediante ${campo('','depósito/transferência/PIX — informar dados')}.<br><br>
+<strong>Da mora:</strong> Multa moratória de <strong>10%</strong>, juros de <strong>1% a.m.</strong> pro rata die e correção pelo <strong>IPCA</strong>.<br><br>
+<strong>Reajuste anual:</strong> pelo <strong>${campo('','IPCA/IBGE')}</strong> acumulado nos 12 meses anteriores ao aniversário do contrato.`,
+['<strong>Art. 17 e 18 da Lei 8.245/91:</strong> É livre a convenção do aluguel; as partes podem fixar índice de reajuste anual.','<strong>Art. 22, VI, da Lei 8.245/91:</strong> O locador é obrigado a fornecer recibo discriminado.','<strong>Art. 395 e 408 do Código Civil:</strong> Mora e cláusula penal.'])}
+${clausula('CLÁUSULA V — DOS ENCARGOS E TRIBUTOS',
+`Correm por conta exclusiva do <strong>LOCATÁRIO(A)</strong>: IPTU, condomínio ordinário, consumo de água, energia, gás, internet e demais utilidades, seguro contra incêndio e quaisquer taxas que incidam sobre o imóvel e seu uso.`,
+['<strong>Art. 23, VIII, da Lei 8.245/91:</strong> O locatário é obrigado a pagar as despesas de consumo e as despesas ordinárias de condomínio.','<strong>Art. 25 da Lei 8.245/91:</strong> O locador pode cobrar tributos e encargos juntamente com o aluguel.'])}
+${clausula('CLÁUSULA VI — DA VISTORIA E DO ESTADO DO IMÓVEL',
+`O LOCATÁRIO(A) declara ter recebido o imóvel conforme <strong>Laudo de Vistoria de Entrada (Anexo I)</strong>, obrigando-se a conservá-lo e a restituí-lo nas mesmas condições ao final da locação, ressalvado o desgaste natural comprovado.`,
+['<strong>Art. 23, III, IV e V, da Lei 8.245/91:</strong> O locatário deve restituir o imóvel no estado em que o recebeu e comunicar imediatamente qualquer dano ou defeito.'])}
+${clausula('CLÁUSULA VII — DAS BENFEITORIAS',
+`Benfeitorias <strong>necessárias</strong>: indenizáveis, ainda que não autorizadas. Benfeitorias <strong>úteis</strong>: indenizáveis somente se previamente autorizadas por escrito. Benfeitorias <strong>voluptuárias</strong>: não indenizáveis e incorporadas ao imóvel ao término da locação.`,
+['<strong>Art. 35 da Lei 8.245/91:</strong> Benfeitorias necessárias são indenizáveis; úteis, se autorizadas.','<strong>Art. 36 da Lei 8.245/91:</strong> Benfeitorias voluptuárias não indenizáveis, podem ser levantadas se não afetarem a estrutura.'])}
+${clausula('CLÁUSULA VIII — DA RESCISÃO E DAS PENALIDADES',
+`Rescisão antecipada pelo LOCATÁRIO(A): multa proporcional equivalente a <strong>3 (três) aluguéis vigentes</strong>. Infração contratual ou legal: rescisão imediata com multa de 3 aluguéis, perdas e danos e honorários.`,
+['<strong>Art. 4º da Lei 8.245/91:</strong> O locatário pode devolver o imóvel antes do prazo pagando a multa pactuada.','<strong>Art. 9º da Lei 8.245/91:</strong> Rescisão por infração legal, falta de pagamento ou reparações urgentes.'])}
+${clausula('CLÁUSULA IX — DA GARANTIA LOCATÍCIA',
+`Modalidade: <strong>${campo('','Caução / Fiança / Seguro Fiança / Título de Capitalização')}</strong>.<br><br>
+<strong>Caução em dinheiro:</strong> R$ ${campo('','0.000,00')} (equivalente a ${campo('','3')} aluguéis), depositada em poupança, conta nº ${campo('','conta/agência/banco')}.<br><br>
+<strong>Fiador(a):</strong> ${campo('','NOME COMPLETO DO FIADOR')}, CPF ${campo('','000.000.000-00')}, RG ${campo('','00.000.000-0')}, residente em ${campo('','ENDEREÇO DO FIADOR')} — renuncia ao benefício de ordem (art. 827 CC) e responde solidariamente, inclusive na prorrogação.`,
+['<strong>Art. 37 da Lei 8.245/91:</strong> Modalidades de garantia; vedada mais de uma no mesmo contrato.','<strong>Art. 38, §2º, da Lei 8.245/91:</strong> Caução em dinheiro não excederá 3 meses, depositada em poupança.','<strong>Art. 820 e 827 do Código Civil:</strong> Fiança e benefício de ordem.'])}
+${clausula('CLÁUSULA X — DAS DISPOSIÇÕES GERAIS',
+`Comunicações: e-mail ou aplicativo com comprovante. Visitação: aviso prévio de ${campo('','24')} horas. Animais: ${campo('','É permitida / É vedada a permanência de animais de estimação')}. Nº máximo de moradores: ${campo('','0')} pessoas.`,
+['<strong>Art. 569 do Código Civil:</strong> O locatário deve servir-se da coisa para os usos convencionados.'])}
+${clausula('CLÁUSULA XI — DO FORO',
+`Foro da Comarca de <strong>${campo('','CIDADE/ESTADO')}</strong>. Firmado em ${campo('','2')} (${campo('','duas')}) vias de igual teor.`,
+['<strong>Art. 58, II, da Lei 8.245/91:</strong> Competente para ações de locação o foro do lugar da situação do imóvel.'])}
+${assinaturas('LOCADOR(A)','LOCATÁRIO(A)')}`,
+
+loc_comercial:()=>`
+<h2 class="titulo-contrato">Contrato de Locação Não Residencial (Comercial)</h2>
+<p class="subtitulo-contrato">Instrumento Particular de Locação para Fins Não Residenciais — Lei nº 8.245/1991, Art. 51 e seguintes</p>
+${leiBloco('BASE LEGAL GERAL',['<strong>Lei nº 8.245/1991, Art. 51:</strong> Nas locações de imóveis destinados ao comércio, o locatário terá direito a renovação do contrato, por igual prazo, desde que: I — contrato escrito com prazo determinado; II — prazo mínimo de cinco anos; III — mesmo ramo de atividade por três anos ininterruptos.','<strong>Art. 565 do Código Civil:</strong> A locação é o contrato pelo qual uma das partes cede à outra o uso e gozo de coisa não fungível, mediante retribuição.'])}
+${clausula('CLÁUSULA I — DAS PARTES CONTRATANTES',
+`<strong>LOCADOR(A):</strong> ${campo('','NOME COMPLETO OU RAZÃO SOCIAL DO LOCADOR')}, CPF/CNPJ nº ${campo('','000.000.000-00')}, RG/IE ${campo('','00.000.000-0')}, residente/sediado(a) em ${campo('','ENDEREÇO COMPLETO DO LOCADOR')}.<br><br>
+<strong>LOCATÁRIO(A):</strong> ${campo('','NOME COMPLETO OU RAZÃO SOCIAL DO LOCATÁRIO')}, CPF/CNPJ nº ${campo('','000.000.000-00')}, RG/IE ${campo('','00.000.000-0')}, residente/sediado(a) em ${campo('','ENDEREÇO COMPLETO DO LOCATÁRIO')}.<br><br>
+<strong>Sócios/Responsáveis solidários (PJ):</strong> ${campo('','Nome completo, CPF, cargo')}.`,
+['<strong>Art. 104 do Código Civil:</strong> Validade do negócio jurídico: agente capaz, objeto lícito, forma prescrita.','<strong>Art. 265 do Código Civil:</strong> A solidariedade resulta da lei ou da vontade das partes.'])}
+${clausula('CLÁUSULA II — DO OBJETO, FINALIDADE E RAMO DE ATIVIDADE',
+`O objeto é o imóvel <strong>${campo('','SALA / LOJA / GALPÃO / OUTRO')}</strong>, situado na ${campo('','LOGRADOURO COMPLETO, Nº, BAIRRO, CIDADE, ESTADO, CEP')}, área de ${campo('','00,00')} m², Matrícula nº ${campo('','XXXXX')} no CRI de ${campo('','CIDADE')}.<br><br>
+Destinado <strong>exclusivamente</strong> ao exercício de: <strong>${campo('','DESCRIÇÃO DA ATIVIDADE COMERCIAL')}</strong>, CNPJ/CPF nº ${campo('','00.000.000/0001-00')}.`,
+['<strong>Art. 51, III, da Lei 8.245/91:</strong> Para renovatória, exige-se mesmo ramo de atividade por mínimo 3 anos.','<strong>Art. 23, I, da Lei 8.245/91:</strong> Uso convencionado ou presumido.'])}
+${clausula('CLÁUSULA III — DO PRAZO E DO DIREITO À RENOVAÇÃO',
+`Prazo: <strong>${campo('','60 (sessenta)')} meses</strong>, de ${campo('','01/01/2026')} a ${campo('','01/01/2031')}.<br><br>
+O LOCATÁRIO(A) terá direito à renovação compulsória conforme art. 51 da Lei 8.245/91, desde que cumpridos todos os requisitos legais.`,
+['<strong>Art. 51 da Lei 8.245/91:</strong> Direito à renovação compulsória para locações comerciais.','<strong>Art. 52 da Lei 8.245/91:</strong> Casos em que o locador pode se opor à renovação.'])}
+${clausula('CLÁUSULA IV — DO ALUGUEL, REAJUSTE E MORA',
+`Aluguel mensal: <strong>R$ ${campo('','0.000,00')} (${campo('','valor por extenso')})</strong>, pago até o dia <strong>${campo('','05')}</strong>, nos dados: ${campo('','dados bancários/PIX')}.<br><br>
+Reajuste anual pelo <strong>${campo('','IGP-M/FGV')}</strong>. Mora: multa de 10%, juros de 1% a.m. pro rata die e correção pelo IGP-M.`,
+['<strong>Art. 17, 18 e 19 da Lei 8.245/91:</strong> Liberdade na convenção do aluguel; revisão judicial após 3 anos.'])}
+${clausula('CLÁUSULA V — DOS ENCARGOS',
+`Por conta exclusiva do LOCATÁRIO(A): IPTU, condomínio ordinário e extraordinário de uso, energia, água, gás, internet, seguro contra incêndio (apólice mínima de R$ ${campo('','000.000,00')}), alvarás e licenças.`,
+['<strong>Art. 23, VIII, da Lei 8.245/91:</strong> Despesas de consumo e condomínio por conta do locatário.'])}
+${clausula('CLÁUSULA VI — DAS BENFEITORIAS E ADAPTAÇÕES',
+`Adaptações autorizadas incorporam-se ao imóvel sem indenização. Ao término, o LOCATÁRIO(A) restituirá o imóvel no estado da vistoria de entrada.`,
+['<strong>Art. 35 e 36 da Lei 8.245/91:</strong> Regime das benfeitorias.'])}
+${clausula('CLÁUSULA VII — DA RESCISÃO',
+`Rescisão antecipada: multa de <strong>3 (três) aluguéis</strong>, proporcional ao tempo restante. Infração grave: perda do direito à renovatória.`,
+['<strong>Art. 4º e 9º, II, da Lei 8.245/91:</strong> Rescisão antecipada e por infração.'])}
+${clausula('CLÁUSULA VIII — DA GARANTIA',
+`Modalidade: <strong>${campo('','Caução / Fiança / Seguro Fiança')}</strong>, conforme Anexo II.`,
+['<strong>Art. 37 da Lei 8.245/91:</strong> Vedada mais de uma modalidade de garantia.'])}
+${clausula('CLÁUSULA IX — DO FORO',`Foro da Comarca de <strong>${campo('','CIDADE/ESTADO')}</strong>. Firmado em ${campo('','2')} (${campo('','duas')}) vias.`,[])}
+${assinaturas('LOCADOR(A)','LOCATÁRIO(A)')}`,
+
+loc_built_suit:()=>`
+<h2 class="titulo-contrato">Contrato de Locação Built-to-Suit (BTS)</h2>
+<p class="subtitulo-contrato">Instrumento Particular de Locação Não Residencial Built-to-Suit — Art. 54-A da Lei nº 8.245/1991</p>
+${leiBloco('BASE LEGAL ESPECÍFICA',['<strong>Art. 54-A da Lei 8.245/91 (Lei 12.744/2012):</strong> Na locação em que o locador procede à prévia aquisição, construção ou substancial reforma do imóvel especificado pelo pretendente à locação, poderá prevalecer o disposto entre as partes, vedada a revisão judicial do aluguel e a propositura de ação renovatória.','<strong>§1º:</strong> Rescisão antecipada pelo locatário implica na responsabilidade pela quitação das obrigações do financiamento contratado pelo locador.','<strong>§2º:</strong> Multa não excederá a soma dos aluguéis a receber até o término do contrato.'])}
+${clausula('CLÁUSULA I — DAS PARTES',
+`<strong>LOCADOR(A):</strong> ${campo('','RAZÃO SOCIAL / NOME COMPLETO')}, CNPJ/CPF nº ${campo('','00.000.000/0001-00')}, sede/domicílio em ${campo('','ENDEREÇO COMPLETO')}.<br><br>
+<strong>LOCATÁRIO(A):</strong> ${campo('','RAZÃO SOCIAL / NOME COMPLETO')}, CNPJ/CPF nº ${campo('','00.000.000/0001-00')}, sede/domicílio em ${campo('','ENDEREÇO COMPLETO')}.`,[])}
+${clausula('CLÁUSULA II — DO OBJETO E PROJETO',
+`O LOCADOR(A) procederá à ${campo('','construção / substancial reforma')} do imóvel situado na ${campo('','LOGRADOURO, Nº, BAIRRO, CIDADE, ESTADO, CEP')}, conforme projeto (Anexo I), para uso como ${campo('','FINALIDADE COMERCIAL/INDUSTRIAL/LOGÍSTICA')}.<br><br>
+Investimento estimado: R$ ${campo('','0.000.000,00')}. Entrega prevista: ${campo('','DD/MM/AAAA')}.`,
+['<strong>Art. 54-A, caput:</strong> Locador procede à prévia construção/reforma do imóvel especificado pelo pretendente.'])}
+${clausula('CLÁUSULA III — DO PRAZO',
+`Prazo: <strong>${campo('','120 (cento e vinte)')} meses (${campo('','10')} anos)</strong>, de ${campo('','DATA DE INÍCIO')} a ${campo('','DATA DE TÉRMINO')}.`,
+['<strong>Art. 54-A, caput:</strong> Vedada revisão judicial do aluguel durante a vigência.'])}
+${clausula('CLÁUSULA IV — DO ALUGUEL E IRREVISIBILIDADE',
+`Aluguel mensal inicial: <strong>R$ ${campo('','0.000,00')} (${campo('','valor por extenso')})</strong>, pago até o dia ${campo('','05')} de cada mês. Reajuste anual pelo ${campo('','IGP-M/FGV')}.<br><br>
+<strong>Vedada a revisão judicial</strong> do valor do aluguel durante toda a vigência.`,
+['<strong>Art. 54-A, caput:</strong> Vedada a revisão judicial e a ação renovatória.'])}
+${clausula('CLÁUSULA V — DA MULTA POR RESCISÃO ANTECIPADA',
+`Rescisão pelo LOCATÁRIO(A): pagamento da <strong>totalidade dos aluguéis vincendos</strong> até o término, mais obrigações do financiamento (pro rata).<br><br>
+Rescisão sem justa causa pelo LOCADOR(A): indenização de ${campo('','3 (três)')} aluguéis mensais.`,
+['<strong>Art. 54-A, §§1º e 2º:</strong> Multa por rescisão antecipada.'])}
+${clausula('CLÁUSULA VI — DOS ENCARGOS',`Todos os encargos por conta do LOCATÁRIO(A), incluindo seguro (apólice mínima R$ ${campo('','0.000.000,00')}). Benfeitorias incorporadas ao imóvel sem indenização.`,[])}
+${clausula('CLÁUSULA VII — DO FORO',`Foro da Comarca de ${campo('','CIDADE/ESTADO')}. Firmado em ${campo('','2')} (${campo('','duas')}) vias.`,[])}
+${assinaturas('LOCADOR(A)','LOCATÁRIO(A)')}`,
+
+loc_temporada:()=>`
+<h2 class="titulo-contrato">Contrato de Locação por Temporada</h2>
+<p class="subtitulo-contrato">Instrumento Particular de Locação Temporária — Art. 48 e seguintes da Lei nº 8.245/1991</p>
+${leiBloco('BASE LEGAL',['<strong>Art. 48 da Lei 8.245/91:</strong> Considera-se locação para temporada aquela destinada à residência temporária do locatário, para prática de lazer, realização de cursos, tratamento de saúde ou feitura de obras, contratada por prazo não superior a noventa dias.','<strong>Art. 49 da Lei 8.245/91:</strong> O locador poderá receber de uma só vez e antecipadamente os aluguéis e encargos.'])}
+${clausula('CLÁUSULA I — DAS PARTES',
+`<strong>LOCADOR(A):</strong> ${campo('','NOME COMPLETO')}, CPF nº ${campo('','000.000.000-00')}, RG ${campo('','00.000.000-0')}, residente em ${campo('','ENDEREÇO DO LOCADOR')}.<br><br>
+<strong>LOCATÁRIO(A):</strong> ${campo('','NOME COMPLETO')}, CPF nº ${campo('','000.000.000-00')}, RG ${campo('','00.000.000-0')}, residente em ${campo('','ENDEREÇO DO LOCATÁRIO')}.`,[])}
+${clausula('CLÁUSULA II — DO OBJETO',
+`Imóvel ${campo('','CASA / APARTAMENTO / CHÁCARA')} situado em ${campo('','ENDEREÇO COMPLETO, CIDADE, ESTADO, CEP')}, entregue <strong>${campo('','MOBILIADO / NÃO MOBILIADO')}</strong>, destinado à ${campo('','lazer / curso / tratamento de saúde / reforma do imóvel próprio')}.<br><br>
+Estado do imóvel conforme <strong>Laudo de Vistoria e Inventário de Bens (Anexo I)</strong>.`,
+['<strong>Art. 48 da Lei 8.245/91:</strong> Locação para temporada: prazo máximo de 90 dias.'])}
+${clausula('CLÁUSULA III — DO PRAZO — MÁXIMO 90 DIAS',
+`Prazo: <strong>${campo('','XX (por extenso)')} dias</strong>, de ${campo('','DD/MM/AAAA')} a ${campo('','DD/MM/AAAA')}. <strong>NÃO EXCEDERÁ 90 dias.</strong>`,
+['<strong>Art. 48 da Lei 8.245/91:</strong> Prazo não superior a noventa dias.'])}
+${clausula('CLÁUSULA IV — DO VALOR E PAGAMENTO ANTECIPADO',
+`Valor total: <strong>R$ ${campo('','0.000,00')} (${campo('','valor por extenso')})</strong>, pago <strong>integralmente na assinatura</strong>, via ${campo('','PIX/transferência/espécie')}.`,
+['<strong>Art. 49 da Lei 8.245/91:</strong> Pagamento antecipado e integral é permitido na locação por temporada.'])}
+${clausula('CLÁUSULA V — DOS ENCARGOS E REGRAS DE USO',
+`Consumo (água, energia, gás, internet) por conta do LOCATÁRIO(A). IPTU e condomínio por conta do LOCADOR(A).<br><br>
+Vedado: festas com mais de ${campo('','00')} pessoas, animais (salvo autorização), fumar no interior, sublocar.`,
+['<strong>Art. 23, I, da Lei 8.245/91:</strong> Uso conforme convencionado.'])}
+${clausula('CLÁUSULA VI — DA GARANTIA / CAUÇÃO',
+`Caução: <strong>R$ ${campo('','0.000,00')} (${campo('','valor por extenso')})</strong>, restituída em ${campo('','5 (cinco)')} dias úteis após a vistoria de saída sem danos ou débitos.`,
+['<strong>Art. 49, parágrafo único:</strong> Caução não utilizada devolvida ao locatário ao término.'])}
+${clausula('CLÁUSULA VII — DO FORO',`Foro da Comarca de ${campo('','CIDADE/ESTADO')}. Firmado em ${campo('','2')} (${campo('','duas')}) vias.`,[])}
+${assinaturas('LOCADOR(A)','LOCATÁRIO(A)')}`,
+
+comodato:()=>`
+<h2 class="titulo-contrato">Contrato de Comodato de Imóvel</h2>
+<p class="subtitulo-contrato">Instrumento Particular de Comodato — Arts. 579 a 585 do Código Civil Brasileiro</p>
+${leiBloco('BASE LEGAL GERAL',['<strong>Art. 579 do Código Civil:</strong> O comodato é o empréstimo gratuito de coisas não fungíveis. Perfaz-se com a tradição do objeto.','<strong>Art. 582 do Código Civil:</strong> O comodatário é obrigado a conservar, como se sua própria fora, a coisa emprestada, não podendo usá-la senão de acordo com o contrato.','<strong>Art. 585 do Código Civil:</strong> Duas ou mais pessoas comodatárias respondem solidariamente perante o comodante.'])}
+${clausula('CLÁUSULA I — DAS PARTES',
+`<strong>COMODANTE:</strong> ${campo('','NOME COMPLETO DO COMODANTE')}, CPF nº ${campo('','000.000.000-00')}, RG ${campo('','00.000.000-0')}, residente em ${campo('','ENDEREÇO COMPLETO DO COMODANTE')}, doravante <strong>COMODANTE</strong>.<br><br>
+<strong>COMODATÁRIO(A):</strong> ${campo('','NOME COMPLETO DO COMODATÁRIO')}, CPF nº ${campo('','000.000.000-00')}, RG ${campo('','00.000.000-0')}, residente em ${campo('','ENDEREÇO COMPLETO DO COMODATÁRIO')}, doravante <strong>COMODATÁRIO(A)</strong>.`,[])}
+${clausula('CLÁUSULA II — DO OBJETO E DA GRATUIDADE',
+`O COMODANTE cede gratuitamente ao COMODATÁRIO(A) o imóvel ${campo('','CASA / APTO / OUTRO')} situado na ${campo('','ENDEREÇO COMPLETO, CIDADE, ESTADO, CEP')}, Matrícula nº ${campo('','XXXXX')} no CRI de ${campo('','CIDADE')}, para fins de ${campo('','residência / uso comercial / guarda de bens')}.<br><br>
+O comodato é <strong>gratuito e personalíssimo</strong>; vedada sub-comodação ou cessão sem anuência escrita do COMODANTE.`,
+['<strong>Art. 579 do Código Civil:</strong> Comodato: empréstimo gratuito de coisa não fungível.'])}
+${clausula('CLÁUSULA III — DO PRAZO E DA RESTITUIÇÃO',
+`Prazo: <strong>${campo('','determinado de X meses / indeterminado')}</strong>. Início: ${campo('','DD/MM/AAAA')} Término: ${campo('','DD/MM/AAAA ou Indeterminado')}.<br><br>
+Em prazo indeterminado, o COMODANTE poderá exigir o imóvel com notificação prévia de <strong>${campo('','30')} dias</strong>.`,
+['<strong>Art. 581 do Código Civil:</strong> Comodato sem prazo: presumido o necessário para o uso concedido; salvo necessidade urgente do comodante.'])}
+${clausula('CLÁUSULA IV — DAS OBRIGAÇÕES DO COMODATÁRIO(A)',
+`O COMODATÁRIO(A) obriga-se a: (a) conservar o imóvel como se fosse seu; (b) pagar consumo de água, energia, gás e internet; (c) arcar com IPTU e taxas municipais; (d) comunicar quaisquer danos ao COMODANTE; (e) não ceder o uso a terceiros; (f) não realizar obras sem autorização escrita.`,
+['<strong>Art. 582 do Código Civil:</strong> Conservação e uso conforme o contrato e a natureza da coisa.'])}
+${clausula('CLÁUSULA V — DO ALUGUEL-PENA POR MORA NA RESTITUIÇÃO',
+`Mora na restituição: aluguel-pena de <strong>R$ ${campo('','0.000,00')} (${campo('','valor por extenso')}) por mês</strong> de atraso, mais ação de reintegração de posse.`,
+['<strong>Art. 582 do Código Civil:</strong> O comodatário que assumiu o risco responde por ele.'])}
+${clausula('CLÁUSULA VI — DO FORO',`Foro da Comarca de ${campo('','CIDADE/ESTADO')}. Firmado em ${campo('','2')} (${campo('','duas')}) vias.`,[])}
+${assinaturas('COMODANTE','COMODATÁRIO(A)')}`,
+
+exclusividade_venda:()=>`
+<h2 class="titulo-contrato">Autorização de Venda com Exclusividade</h2>
+<p class="subtitulo-contrato">Contrato de Corretagem com Cláusula de Exclusividade — Arts. 722 a 729 do Código Civil / Lei nº 6.530/78</p>
+${leiBloco('BASE LEGAL',['<strong>Art. 722 do Código Civil:</strong> Pelo contrato de corretagem, uma pessoa obriga-se a obter para a segunda um ou mais negócios, conforme as instruções recebidas, sem relação de dependência.','<strong>Art. 726 do Código Civil:</strong> Concluído o negócio pelas partes sem interferência do corretor, em havendo exclusividade, a remuneração é devida.','<strong>Art. 3º da Lei 6.530/78:</strong> Compete ao Corretor de Imóveis exercer a intermediação na compra, venda e locação de imóveis.'])}
+${clausula('CLÁUSULA I — DAS PARTES',
+`<strong>PROPRIETÁRIO(A)/OUTORGANTE:</strong> ${campo('','NOME COMPLETO DO PROPRIETÁRIO')}, CPF nº ${campo('','000.000.000-00')}, RG ${campo('','00.000.000-0')}, residente em ${campo('','ENDEREÇO COMPLETO DO PROPRIETÁRIO')}, doravante <strong>CONTRATANTE</strong>.<br><br>
+<strong>OUTORGADA — FCOSTA GESTÃO IMOBILIÁRIA:</strong> CRECI ${campo('','294791-F')}, CNPJ ${campo('','00.000.000/0001-00')}, sede em ${campo('','ENDEREÇO DA FCOSTA')}, doravante <strong>CORRETORA</strong>.`,[])}
+${clausula('CLÁUSULA II — DO OBJETO E DA EXCLUSIVIDADE',
+`Autorização <strong>EXCLUSIVA</strong> para intermediar a venda do imóvel ${campo('','TIPO')} situado na ${campo('','LOGRADOURO COMPLETO, Nº, BAIRRO, CIDADE, ESTADO, CEP')}, Matrícula nº ${campo('','XXXXX')} no CRI de ${campo('','CIDADE')}, área total de ${campo('','00,00')} m².<br><br>
+Durante a vigência, o CONTRATANTE abstém-se de negociar diretamente ou por outros profissionais. A venda por qualquer meio garante à CORRETORA o direito à comissão integral.`,
+['<strong>Art. 726 do Código Civil:</strong> Com cláusula de exclusividade, a remuneração é devida mesmo sem intermediação direta.'])}
+${clausula('CLÁUSULA III — DO PREÇO E CONDIÇÕES',
+`Valor mínimo: <strong>R$ ${campo('','0.000.000,00')} (${campo('','valor por extenso')})</strong>.<br><br>
+Condições aceitas: ${campo('','À vista / Financiamento bancário / Permuta parcial')}.`,
+['<strong>Art. 481 do Código Civil:</strong> Contrato de compra e venda: transferência do domínio mediante certo preço.'])}
+${clausula('CLÁUSULA IV — DA COMISSÃO DE CORRETAGEM',
+`Comissão de <strong>${campo('','6')}% (${campo('','seis por cento')})</strong> sobre o valor efetivo da venda, paga pelo <strong>VENDEDOR</strong> na assinatura do instrumento de compra e venda ou recebimento do sinal.`,
+['<strong>Art. 725 do Código Civil:</strong> Remuneração devida ao corretor pelo resultado previsto no contrato.','<strong>Tabela CRECI-SP:</strong> Comissão mínima de 6% para venda de imóveis.'])}
+${clausula('CLÁUSULA V — DAS OBRIGAÇÕES DAS PARTES',
+`CORRETORA: divulgar em plataformas, realizar visitas, qualificar compradores, apresentar relatórios, intermediar negociações e guardar sigilo.<br><br>
+CONTRATANTE: fornecer documentação completa, facilitar visitas, informar ônus/pendências e não negociar diretamente durante a exclusividade.`,
+['<strong>Art. 723 do Código Civil:</strong> O corretor executa a mediação com diligência e prudência.'])}
+${clausula('CLÁUSULA VI — DO PRAZO',`Validade: <strong>${campo('','90 (noventa)')} dias</strong>, a partir de ${campo('','01/01/2026')}, renovável por mútuo acordo.`,[])}
+${clausula('CLÁUSULA VII — DO FORO',`Foro da Comarca de ${campo('','CIDADE/ESTADO')}. Firmado em ${campo('','2')} (${campo('','duas')}) vias.`,[])}
+${assinaturas('CONTRATANTE / PROPRIETÁRIO(A)','PELA FCOSTA GESTÃO IMOBILIÁRIA')}`,
+
+venda_sem_exclusividade:()=>`
+<h2 class="titulo-contrato">Autorização de Venda sem Exclusividade</h2>
+<p class="subtitulo-contrato">Contrato de Corretagem sem Cláusula de Exclusividade — Arts. 722 a 729 do Código Civil / Lei nº 6.530/78</p>
+${leiBloco('BASE LEGAL',['<strong>Art. 722 do Código Civil:</strong> Pelo contrato de corretagem, uma pessoa obriga-se a obter para a segunda um ou mais negócios, sem relação de dependência.','<strong>Art. 725 do Código Civil:</strong> A remuneração é devida ao corretor uma vez que tenha conseguido o resultado previsto.'])}
+${clausula('CLÁUSULA I — DAS PARTES',
+`<strong>CONTRATANTE:</strong> ${campo('','NOME COMPLETO')}, CPF nº ${campo('','000.000.000-00')}, RG ${campo('','00.000.000-0')}, residente em ${campo('','ENDEREÇO COMPLETO')}.<br><br>
+<strong>CORRETORA — FCOSTA GESTÃO IMOBILIÁRIA:</strong> CRECI ${campo('','294791-F')}, CNPJ ${campo('','00.000.000/0001-00')}, sede em ${campo('','ENDEREÇO DA FCOSTA')}.`,[])}
+${clausula('CLÁUSULA II — DO OBJETO (SEM EXCLUSIVIDADE)',
+`Autorização para intermediar a venda do imóvel ${campo('','TIPO')} situado na ${campo('','LOGRADOURO COMPLETO, Nº, BAIRRO, CIDADE, ESTADO, CEP')}, Matrícula nº ${campo('','XXXXX')} no CRI de ${campo('','CIDADE')}.<br><br>
+<strong>Sem exclusividade:</strong> o CONTRATANTE pode negociar diretamente ou por outros profissionais simultaneamente. A comissão é devida <strong>somente pela intermediação comprovada da FCOSTA</strong>.`,
+['<strong>Art. 726 do Código Civil:</strong> Sem exclusividade, comissão devida apenas se o corretor foi o intermediador efetivo.'])}
+${clausula('CLÁUSULA III — DO PREÇO E CONDIÇÕES',
+`Valor mínimo: <strong>R$ ${campo('','0.000.000,00')} (${campo('','valor por extenso')})</strong>. Condições: ${campo('','À vista / Financiamento / Permuta parcial')}.`,[])}
+${clausula('CLÁUSULA IV — DA COMISSÃO',
+`Comissão de <strong>${campo('','6')}% (${campo('','seis por cento')})</strong>, devida somente se a venda for concretizada pela intermediação comprovada da FCOSTA, paga na assinatura do instrumento de compra e venda.`,
+['<strong>Art. 725 do Código Civil:</strong> Remuneração devida pelo resultado obtido.'])}
+${clausula('CLÁUSULA V — PRAZO E FORO',`Validade: ${campo('','60 (sessenta)')} dias, a partir de ${campo('','01/01/2026')}. Foro: Comarca de ${campo('','CIDADE/ESTADO')}.`,[])}
+${assinaturas('CONTRATANTE / PROPRIETÁRIO(A)','PELA FCOSTA GESTÃO IMOBILIÁRIA')}`,
+
+autorizacao_locacao:()=>`
+<h2 class="titulo-contrato">Autorização de Locação e Gestão Imobiliária</h2>
+<p class="subtitulo-contrato">Mandato Especial para Locação e Administração — Lei nº 8.245/91 / Arts. 653 a 692 do Código Civil / Lei 6.530/78</p>
+${leiBloco('BASE LEGAL',['<strong>Art. 653 do Código Civil:</strong> Opera-se o mandato quando alguém recebe de outrem poderes para, em seu nome, praticar atos ou administrar interesses.','<strong>Art. 661 do Código Civil:</strong> O mandato em termos gerais só confere poderes de administração ordinária.','<strong>Art. 3º da Lei 6.530/78:</strong> Compete ao Corretor de Imóveis exercer a intermediação na locação de imóveis.'])}
+${clausula('CLÁUSULA I — DAS PARTES',
+`<strong>PROPRIETÁRIO(A)/MANDANTE:</strong> ${campo('','NOME COMPLETO')}, CPF nº ${campo('','000.000.000-00')}, RG ${campo('','00.000.000-0')}, residente em ${campo('','ENDEREÇO COMPLETO')}, doravante <strong>CONTRATANTE</strong>.<br><br>
+<strong>FCOSTA GESTÃO IMOBILIÁRIA (MANDATÁRIA):</strong> CRECI ${campo('','294791-F')}, CNPJ ${campo('','00.000.000/0001-00')}, sede em ${campo('','ENDEREÇO DA FCOSTA')}, doravante <strong>ADMINISTRADORA</strong>.`,[])}
+${clausula('CLÁUSULA II — DO OBJETO',
+`Mandato especial para intermediar a locação e gerir o imóvel ${campo('','TIPO')} situado na ${campo('','LOGRADOURO COMPLETO, Nº, BAIRRO, CIDADE, ESTADO, CEP')}, Matrícula nº ${campo('','XXXXX')}, para fins ${campo('','RESIDENCIAL / NÃO RESIDENCIAL')}.`,
+['<strong>Art. 653 do Código Civil:</strong> Mandato para praticar atos ou administrar interesses em nome do mandante.'])}
+${clausula('CLÁUSULA III — DOS PODERES CONFERIDOS',
+`Poderes para: (a) divulgar e anunciar; (b) selecionar e qualificar candidatos; (c) elaborar e assinar contratos; (d) receber aluguéis e emitir recibos; (e) efetuar reajustes; (f) realizar vistorias; (g) contratar manutenção ordinária até R$ ${campo('','500,00')} por ocorrência.`,
+['<strong>Art. 667 do Código Civil:</strong> O mandatário aplica sua diligência na execução do mandato.'])}
+${clausula('CLÁUSULA IV — DAS CONDIÇÕES MÍNIMAS DE LOCAÇÃO',
+`Aluguel mínimo: <strong>R$ ${campo('','0.000,00')} (${campo('','valor por extenso')})</strong>. Prazo mínimo: ${campo('','30')} meses (residencial) ou ${campo('','60')} meses (comercial). Garantia mínima: ${campo('','caução / fiança / seguro fiança')}.`,
+['<strong>Art. 46 da Lei 8.245/91:</strong> Contratos residenciais de 30 meses ou mais: retomada automática ao final.'])}
+${clausula('CLÁUSULA V — DA REMUNERAÇÃO',
+`Intermediação (locação inicial): equivalente a <strong>1 (um) aluguel</strong>.<br>
+Administração mensal: <strong>${campo('','8')}% (${campo('','oito por cento')})</strong> sobre os valores efetivamente recebidos.<br>
+Renovação com mesmo locatário: <strong>${campo('','50')}%</strong> de um aluguel.`,
+['<strong>Art. 725 do Código Civil:</strong> Remuneração devida pelo resultado.'])}
+${clausula('CLÁUSULA VI — DO REPASSE DE VALORES',
+`Repasse até o <strong>dia ${campo('','10')} (${campo('','dez')})</strong> útil do mês subsequente, deduzidos honorários e despesas autorizadas. Dados bancários: ${campo('','Banco / Agência / Conta / PIX — Titular')}.`,
+['<strong>Art. 668 do Código Civil:</strong> O mandatário presta contas ao mandante.'])}
+${clausula('CLÁUSULA VII — DO PRAZO E RESCISÃO',
+`Vigência: <strong>${campo('','12 (doze)')} meses</strong>, a partir de ${campo('','01/01/2026')}, com renovação automática, salvo denúncia com <strong>30 dias</strong> de antecedência. Rescisão imotivada com locatário em vigência: indenização de <strong>${campo('','3')} mensalidades</strong> de administração.`,
+['<strong>Art. 682, I, do Código Civil:</strong> Cessa o mandato por revogação ou renúncia.'])}
+${clausula('CLÁUSULA VIII — DO FORO',`Foro da Comarca de ${campo('','CIDADE/ESTADO')}. Firmado em ${campo('','2')} (${campo('','duas')}) vias.`,[])}
+${assinaturas('PROPRIETÁRIO(A) / CONTRATANTE','PELA FCOSTA GESTÃO IMOBILIÁRIA')}`,
+
+compra_venda:()=>`
+<h2 class="titulo-contrato">Compromisso de Compra e Venda de Imóvel</h2>
+<p class="subtitulo-contrato">Instrumento Particular de Promessa de Compra e Venda — Irrevogável e Irretratável</p>
+${leiBloco('BASE LEGAL GERAL',['<strong>Art. 481 do Código Civil:</strong> Pelo contrato de compra e venda, um dos contratantes se obriga a transferir o domínio de certa coisa, e o outro, a pagar-lhe certo preço em dinheiro.','<strong>Art. 1.417 do Código Civil:</strong> Mediante promessa de compra e venda em que não se pactuou arrependimento, o promitente comprador adquire direito real à aquisição do imóvel.','<strong>Art. 1.418 do Código Civil:</strong> O promitente comprador pode exigir a outorga da escritura definitiva ou requerer ao juiz a adjudicação do imóvel.'])}
+${clausula('CLÁUSULA I — DAS PARTES',
+`<strong>PROMITENTE VENDEDOR(A):</strong> ${campo('','NOME COMPLETO DO VENDEDOR')}, CPF nº ${campo('','000.000.000-00')}, RG ${campo('','00.000.000-0')}, estado civil ${campo('','solteiro(a)/casado(a)')}, ${campo('','se casado: regime e cônjuge')}, residente em ${campo('','ENDEREÇO COMPLETO DO VENDEDOR')}, doravante <strong>VENDEDOR(A)</strong>.<br><br>
+<strong>PROMITENTE COMPRADOR(A):</strong> ${campo('','NOME COMPLETO DO COMPRADOR')}, CPF nº ${campo('','000.000.000-00')}, RG ${campo('','00.000.000-0')}, estado civil ${campo('','solteiro(a)/casado(a)')}, ${campo('','se casado: regime e cônjuge')}, residente em ${campo('','ENDEREÇO COMPLETO DO COMPRADOR')}, doravante <strong>COMPRADOR(A)</strong>.<br><br>
+<strong>INTERVENIENTE CORRETORA:</strong> FCOSTA GESTÃO IMOBILIÁRIA, CRECI ${campo('','294791-F')}, na qualidade de intermediadora.`,
+['<strong>Art. 104 do Código Civil:</strong> Validade: agente capaz, objeto lícito.','<strong>Art. 1.647 do Código Civil:</strong> Cônjuge necessita de autorização para alienar imóveis.'])}
+${clausula('CLÁUSULA II — DO OBJETO E SITUAÇÃO DOCUMENTAL',
+`Imóvel ${campo('','TIPO')} situado na ${campo('','LOGRADOURO COMPLETO, Nº, COMPLEMENTO, BAIRRO, CIDADE, ESTADO, CEP')}, área ${campo('','privativa/total')} de ${campo('','00,00')} m², Matrícula nº ${campo('','XXXXX')} no CRI de ${campo('','CIDADE')}, IPTU nº ${campo('','XXXXXXXXX')}.<br><br>
+Vendido <strong>${campo('','LIVRE E DESEMBARAÇADO de quaisquer ônus, dívidas e gravames')}</strong>.<br><br>
+O VENDEDOR(A) declara ser único e legítimo proprietário, sem vícios, litígios ou ações reipersecutórias, e inexistirem débitos de IPTU, condomínio, água ou energia.`,
+['<strong>Art. 502 e 503 do Código Civil:</strong> O vendedor responde por vícios redibitórios e evicção.','<strong>Art. 1.227 do Código Civil:</strong> Direitos reais sobre imóveis adquirem-se com o registro.'])}
+${clausula('CLÁUSULA III — DO PREÇO E CONDIÇÕES DE PAGAMENTO',
+`Preço total: <strong>R$ ${campo('','0.000.000,00')} (${campo('','valor por extenso')})</strong>, pago:<br><br>
+(a) <strong>Sinal/Arras:</strong> R$ ${campo('','0.000,00')} na assinatura, como sinal confirmatório;<br>
+(b) <strong>Parcelas intermediárias:</strong> R$ ${campo('','0.000,00')} em ${campo('','X')} parcelas mensais de R$ ${campo('','0.000,00')}, primeira em ${campo('','DD/MM/AAAA')};<br>
+(c) <strong>Saldo final:</strong> R$ ${campo('','0.000.000,00')} na lavratura da escritura, via ${campo('','à vista / financiamento bancário / FGTS')}.<br><br>
+<strong>Arras confirmatórias:</strong> desistência pelo COMPRADOR(A) → perda do sinal; desistência pelo VENDEDOR(A) → devolução em dobro.`,
+['<strong>Art. 417 e 418 do Código Civil:</strong> Arras confirmatórias: retenção ou devolução em dobro conforme responsabilidade pela desistência.'])}
+${clausula('CLÁUSULA IV — DA POSSE E ENTREGA DAS CHAVES',
+`Posse e entrega das chaves em <strong>${campo('','DD/MM/AAAA / data da escritura definitiva')}</strong>. A partir desta data, IPTU, condomínio e demais despesas passam a ser de responsabilidade exclusiva do COMPRADOR(A).`,
+['<strong>Art. 1.204 do Código Civil:</strong> Posse adquirida quando possível o exercício dos poderes inerentes à propriedade.'])}
+${clausula('CLÁUSULA V — DA ESCRITURA DEFINITIVA E REGISTRO',
+`Escritura pública lavrada em Tabelionato escolhido pelo COMPRADOR(A), em até <strong>${campo('','30')} dias</strong> da quitação integral ou aprovação do financiamento.<br><br>
+Por conta do COMPRADOR(A): ITBI, emolumentos e registro. Por conta do VENDEDOR(A): certidões negativas e averbações anteriores.`,
+['<strong>Art. 1.245 do Código Civil:</strong> Propriedade transferida com o registro do título translativo.','<strong>Art. 490 do Código Civil:</strong> Despesas de escritura e registro: por conta do comprador, salvo cláusula em contrário.'])}
+${clausula('CLÁUSULA VI — IRREVOGABILIDADE E ADJUDICAÇÃO COMPULSÓRIA',
+`Contrato <strong>IRREVOGÁVEL E IRRETRATÁVEL</strong>, obrigando as partes, herdeiros, sucessores e cessionários.<br><br>
+O COMPRADOR(A) poderá registrar este instrumento no CRI para oponibilidade a terceiros e, em caso de recusa de outorga, requerer a adjudicação compulsória.`,
+['<strong>Art. 1.417 e 1.418 do Código Civil:</strong> Direito real à aquisição e adjudicação compulsória.'])}
+${clausula('CLÁUSULA VII — DA CLÁUSULA PENAL',
+`Inadimplemento: multa de <strong>${campo('','10')}% (${campo('','dez por cento')})</strong> sobre o valor total, correção monetária, juros de 1% a.m. e honorários de 20%. Alternativamente: astreinte de R$ ${campo('','500,00')} por dia de descumprimento.`,
+['<strong>Art. 408 do Código Civil:</strong> Cláusula penal por inexecução culposa.'])}
+${clausula('CLÁUSULA VIII — DA COMISSÃO DE CORRETAGEM',
+`Comissão de ${campo('','6')}% (R$ ${campo('','0.000,00')}), de responsabilidade do <strong>${campo('','VENDEDOR(A) / COMPRADOR(A)')}</strong>, paga na assinatura deste instrumento.`,
+['<strong>Art. 725 do Código Civil:</strong> Remuneração devida pelo resultado obtido.'])}
+${clausula('CLÁUSULA IX — DO FORO',
+`Foro da Comarca de ${campo('','CIDADE/ESTADO')}. Firmado em ${campo('','3')} (${campo('','três')}) vias — uma para cada parte e uma para o arquivo da corretora.`,[])}
+${assinaturas('PROMITENTE VENDEDOR(A)','PROMITENTE COMPRADOR(A)')}`,
+
+recibo_aluguel:()=>`
+<div class="recibo-frame">
+  <div class="valor-box" id="v_final">R$ 0,00</div>
+  <h2 class="titulo-contrato" style="border:none;text-align:left;font-size:13pt;">RECIBO DE ALUGUEL</h2>
+  <p style="font-size:9.5pt;color:#777;margin-bottom:10px;font-family:'Oswald',sans-serif;">Nº ${campo('','001/2026')} — FCOSTA GESTÃO IMOBILIÁRIA</p>
+  <p>Recebi(emos) de <strong>${campo('','NOME COMPLETO DO LOCATÁRIO')}</strong>, CPF nº ${campo('','000.000.000-00')}, a quantia líquida discriminada acima, referente ao aluguel do imóvel situado na <strong>${campo('','ENDEREÇO COMPLETO DO IMÓVEL')}</strong>, relativo ao período de <strong>${campo('','mês e ano de referência')}</strong>.</p>
+  <p style="margin-top:6px;">Aluguel: R$ ${campo('','0.000,00')} | Condomínio: R$ ${campo('','0,00')} | IPTU: R$ ${campo('','0,00')} | Outros: R$ ${campo('','0,00')}</p>
+  ${leiBloco('BASE LEGAL',['<strong>Art. 319 do Código Civil:</strong> O devedor que paga tem direito a quitação regular.','<strong>Art. 320 do Código Civil:</strong> A quitação designará o valor e a espécie da dívida, o nome do devedor, o tempo e lugar do pagamento, com a assinatura do credor.','<strong>Art. 22, VI, da Lei 8.245/91:</strong> O locador é obrigado a fornecer recibo discriminado das importâncias pagas pelo locatário.'])}
+  <div class="no-print" style="background:#fff8e1;padding:15px;border-radius:4px;margin:12px 0 0;border:1.5px solid #f0c040;">
+    <strong style="font-family:'Oswald',sans-serif;letter-spacing:.5px;">⚙️ CALCULADORA DE MORA — FCOSTA</strong><br><br>
+    Valor base: R$ <input type="number" id="v_base" style="width:120px;padding:4px 6px;border:1px solid var(--ouro);border-radius:3px;font-size:11pt;" value="0" oninput="calcularMoraAluguel()">
+    &nbsp;&nbsp;Vencimento: <input type="date" id="v_data" style="padding:4px 6px;border:1px solid var(--ouro);border-radius:3px;font-size:11pt;" onchange="calcularMoraAluguel()">
+    <div id="detalhe_atraso" style="margin-top:8px;font-weight:700;font-size:10.5pt;"></div>
+    <p style="font-size:8pt;color:#888;margin-top:6px;font-style:italic;">Multa: 10% | Juros: 1% a.m. pro rata die | Art. 52-A Lei 8.245/91</p>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:25px;">
+    <div><strong>FCOSTA GESTÃO IMOBILIÁRIA</strong><br>CRECI 294791-F | CNAI 52708<br><span style="font-size:9pt;color:#888;">Responsável: F. Costa</span></div>
+    <div style="text-align:right;font-size:10.5pt;">São Paulo, ${hoje()}</div>
+  </div>
+  <div style="border-top:1.5px solid #000;margin-top:25px;padding-top:8px;width:320px;">
+    <p style="font-size:9pt;">Assinatura do Recebedor</p>
+  </div>
+</div>`,
+
+recibo_compras:()=>`
+<div class="recibo-frame" style="border-style:dashed;">
+  <div class="valor-box">R$ ${campo('','0,00')}</div>
+  <h2 class="titulo-contrato" style="border:none;text-align:left;font-size:13pt;">RECIBO DE COMPRAS DIVERSAS</h2>
+  <p style="font-family:'Oswald',sans-serif;font-size:9.5pt;color:#777;margin-bottom:10px;">FCOSTA GESTÃO IMOBILIÁRIA | ${hoje()}</p>
+  <p>Recebi de <strong>FCOSTA GESTÃO IMOBILIÁRIA</strong>, CNPJ ${campo('','00.000.000/0001-00')}, a importância de <strong>R$ ${campo('','0.000,00')} (${campo('','valor por extenso')})</strong>, referente a:</p>
+  ${campoArea('Descreva detalhadamente os itens ou serviços: quantidades, especificações e valores unitários...')}
+  ${leiBloco('BASE LEGAL',['<strong>Art. 319 do Código Civil:</strong> O devedor que paga tem direito a quitação regular.','<strong>Art. 320 do Código Civil:</strong> A quitação designará o valor e espécie da dívida, nome do devedor, tempo e lugar do pagamento, com assinatura do credor.'])}
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:25px;">
+    <div><strong>FCOSTA GESTÃO IMOBILIÁRIA</strong><br>CRECI 294791-F</div>
+    <div style="text-align:right;">São Paulo, ${hoje()}</div>
+  </div>
+  <div style="border-top:1.5px solid #000;margin-top:25px;padding-top:8px;width:350px;">
+    ASSINATURA DO FORNECEDOR / PRESTADOR<br>CPF/CNPJ: ${campo('','00.000.000/0001-00')}
+  </div>
+</div>`
+};
+
+// ════════════════════════════════════════════════════════════
+//  GERAR CONTEÚDO
+// ════════════════════════════════════════════════════════════
+function gerarConteudo(){
+  const sel    = document.getElementById('selectModel').value;
+  const editor = document.getElementById('editor');
+  modeloAtual  = sel;
+
+  if(modelos[sel]){
+    editor.innerHTML = modelos[sel]();
+    document.getElementById('headerData').innerHTML =
+      `<div style="font-size:9pt;">${hoje()}</div>`;
+    setTimeout(()=>{
+      initCamposExpansiveis();
+      salvarOriginaisClausulas();
+      initEdicaoClausulas();
+      if(sel==='recibo_aluguel') calcularMoraAluguel();
+    }, 80);
+  } else {
+    editor.innerHTML = `<div class="placeholder-msg">
+      <div class="icon">⚖️</div>
+      <div>Selecione um modelo de documento<br>no menu superior para iniciar</div>
+    </div>`;
+    document.getElementById('headerData').innerHTML = '';
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+//  INICIALIZAÇÃO
+// ════════════════════════════════════════════════════════════
+renderArquivo();
+atualizarBotaoArquivo();
+</script>
+</body>
+</html>
