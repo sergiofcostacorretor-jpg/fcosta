@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escala Pro | OBPC JD SÃO FERNANDO</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700;900&family=DM+Serif+Display&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        :root {
+            --bg: #050A12;
+            --card: #111B2D;
+            --gold: #D4A843;
+            --blue: #3B82F6;
+            --white: #FFFFFF;
+            --sunday: #FFF1F2;
+            --wednesday: #F0F9FF;
+            --saturday: #F0FDF4;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); font-family: 'DM Sans', sans-serif; padding: 5px; color: #fff; overflow-x: hidden; }
+
+        .top-nav { 
+            width: 1150px; margin: 0 auto 5px; display: flex; justify-content: space-between; align-items: center; 
+            background: var(--card); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(212, 168, 67, 0.3);
+        }
+        .btn { padding: 6px 12px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 0.75rem; transition: 0.2s; }
+        .btn-add { background: #10B981; color: #fff; }
+        .btn-config { background: #6366F1; color: #fff; }
+        .btn-photo { background: var(--gold); color: #000; }
+        .btn-clear { background: #EF4444; color: #fff; }
+
+        #filter-panel {
+            width: 1150px; margin: 0 auto 5px;
+            background: var(--card); padding: 10px 14px; border-radius: 8px;
+            border: 1px solid rgba(59,130,246,0.5);
+        }
+        .filter-tabs {
+            display: flex; gap: 4px; margin-bottom: 10px; border-bottom: 1px solid #1E3A5F; padding-bottom: 8px;
+        }
+        .filter-tab {
+            padding: 5px 14px; border-radius: 6px 6px 0 0; border: none; font-size: 0.75rem; font-weight: 900;
+            cursor: pointer; transition: 0.2s; background: #1E293B; color: #94A3B8; letter-spacing: 0.5px;
+        }
+        .filter-tab.active { background: var(--blue); color: #fff; }
+        
+        .filter-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .filter-row label { font-size: 0.72rem; color: var(--gold); font-weight: bold; white-space: nowrap; }
+        .filter-select {
+            flex: 1; min-width: 180px; max-width: 300px; padding: 5px 8px; border-radius: 6px;
+            background: #0F172A; color: #fff; border: 1px solid #334155;
+            font-family: inherit; font-size: 0.8rem;
+        }
+        /* input date igual ao select */
+        input.filter-select[type="date"] {
+            max-width: 200px; height: 34px; cursor: pointer;
+            color-scheme: dark;
+        }
+        .filter-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+        .btn-share { background: #0EA5E9; color: #fff; }
+        .btn-upload { background: #8B5CF6; color: #fff; }
+        .btn-clear-f { background: #64748B; color: #fff; }
+        .btn-screenshot-f { background: var(--gold); color: #000; }
+
+        #active-filter-badge {
+            width: 1150px; margin: 0 auto 3px;
+            background: #1E3A5F; border: 1px solid var(--blue); border-radius: 6px;
+            padding: 5px 12px; font-size: 0.78rem; color: #7DD3FC;
+            display: none; align-items: center; gap: 8px;
+        }
+        #active-filter-badge.visible { display: flex; }
+        #active-filter-badge strong { color: #fff; }
+
+        #toolbar-selection {
+            width: 1150px; margin: 0 auto 0; background: var(--blue); border-radius: 10px 10px 0 0;
+            display: none; padding: 10px; flex-wrap: wrap; gap: 8px; justify-content: center;
+            border: 2px solid #fff; border-bottom: none;
+        }
+        .chip {
+            background: #fff; color: #000; padding: 5px 12px; border-radius: 20px; font-size: 0.85rem;
+            font-weight: 900; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .chip:hover { background: var(--gold); }
+
+        #scale-sheet {
+            width: 1150px; background: var(--white); margin: 0 auto;
+            padding: 10px 25px 20px; color: #000; border-radius: 0 0 4px 4px;
+        }
+
+        .compact-header { border: 1.5px solid #000; padding: 5px; margin-bottom: 8px; text-align: center; }
+        .church-title { font-family: 'DM Serif Display', serif; font-size: 1.6rem; text-transform: uppercase; margin-bottom: 2px; line-height: 1; }
+        .period-info { font-size: 0.95rem; font-weight: bold; border-bottom: 1px solid #000; display: inline-block; padding: 0 15px; outline: none; }
+        .theme-line { font-weight: bold; font-style: italic; font-size: 0.85rem; text-transform: uppercase; outline: none; display: block; margin-top: 2px; }
+
+        #filter-name-line {
+            display: none;
+            font-size: 0.85rem; font-weight: bold; color: #1E40AF;
+            margin-top: 4px; letter-spacing: 0.5px;
+        }
+
+        table { width: 100%; border-collapse: collapse; table-layout: fixed; border: 2px solid #000; }
+        th { 
+            background: #E2E8F0; color: #000; border: 1.5px solid #000; padding: 8px 2px; 
+            font-size: 0.75rem; text-transform: uppercase; font-weight: 900; letter-spacing: 0.5px;
+        }
+        td { border: 1.5px solid #000; padding: 0; vertical-align: middle; position: relative; }
+
+        .cell-data {
+            width: 100%; min-height: 45px; border: none; background: transparent; 
+            text-align: center; font-size: 1rem; color: #000; outline: none;
+            display: flex; align-items: center; justify-content: center;
+            padding: 4px; white-space: pre-wrap; cursor: pointer;
+        }
+        .active-cell { background: rgba(59, 130, 246, 0.15) !important; outline: 2px solid var(--blue); z-index: 5; }
+
+        .cell-data .nome-highlight { 
+            background: #FBBF24; padding: 1px 5px; border-radius: 4px; font-weight: 900;
+        }
+        .cell-data .nome-oculto { 
+            color: #ccc; font-size: 0.75rem; font-style: italic;
+        }
+
+        input[type="date"] { width: 100%; height: 45px; border: none; text-align: center; font-family: inherit; font-weight: bold; font-size: 0.85rem; cursor: pointer; }
+
+        .row-dom { background-color: var(--sunday); }
+        .row-qua { background-color: var(--wednesday); }
+        .row-sab { background-color: var(--saturday); }
+
+        tr.row-filtered-out { display: none; }
+        tr.row-no-match { display: none; }
+
+        .btn-del { position: absolute; right: -30px; top: 10px; color: #EF4444; cursor: pointer; display: none; }
+        tr:hover .btn-del { display: block; }
+
+        #upload-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 6000; }
+        .upload-box { background: #1E293B; padding: 25px; border-radius: 12px; width: 480px; border: 1px solid #8B5CF6; }
+        .upload-box h2 { color: #A78BFA; text-align: center; margin-bottom: 15px; }
+        .upload-drop { border: 2px dashed #8B5CF6; border-radius: 8px; padding: 30px; text-align: center; cursor: pointer; color: #94A3B8; font-size: 0.9rem; transition: 0.2s; }
+        .upload-drop:hover { background: rgba(139,92,246,0.1); }
+        .upload-drop input { display: none; }
+        #upload-preview { max-width: 100%; max-height: 300px; display: none; margin: 10px auto; border-radius: 8px; }
+        .upload-info { color: #7DD3FC; font-size: 0.8rem; text-align: center; margin-top: 8px; }
+
+        #config-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 5000; }
+        .config-box { background: #1E293B; padding: 25px; border-radius: 12px; width: 600px; border: 1px solid var(--gold); }
+        .config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
+        .config-grid textarea { width: 100%; height: 200px; padding: 10px; border-radius: 5px; background: #0F172A; color: #fff; border: 1px solid #444; font-family: inherit; }
+        .config-grid label { font-size: 0.8rem; color: var(--gold); display: block; margin-bottom: 5px; }
+
+        @media print { .top-nav, #filter-panel, #active-filter-badge, #toolbar-selection, .btn-del { display: none !important; } }
+
+        #share-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.92); display: none; align-items: center; justify-content: center; z-index: 7000; }
+        .share-box { background: #1E293B; padding: 20px; border-radius: 14px; width: 340px; border: 2px solid #25D366; text-align: center; }
+        .share-box h2 { color: #25D366; margin-bottom: 12px; font-size: 1rem; }
+        #share-preview-img { max-width: 100%; max-height: 220px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #334155; }
+        #share-status { font-size: 0.85rem; color: #94A3B8; margin-bottom: 14px; }
+        .share-btns { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+        .btn-baixar-share { background: var(--gold); color: #000; }
+        .btn-zap-share { background: #25D366; color: #fff; }
+        .btn-fechar-share { background: #64748B; color: #fff; }
+    </style>
+</head>
+<body>
+
+<div class="top-nav">
+    <div style="display: flex; gap: 8px;">
+        <button class="btn btn-add" onclick="addRow()">➕ Novo Culto</button>
+        <button class="btn btn-config" onclick="openConfig(true)">⚙️ Listas</button>
+    </div>
+    <div style="text-align: center">
+        <strong style="color: var(--gold); font-size: 0.8rem;">SISTEMA DE ESCALA OBPC</strong>
+    </div>
+    <div style="display: flex; gap: 8px;">
+        <button class="btn btn-photo" onclick="takeScreenshot()">📸 Foto Completa</button>
+        <button class="btn btn-clear" onclick="resetData()">🗑️</button>
+    </div>
+</div>
+
+<div id="filter-panel">
+    <div class="filter-tabs">
+        <button class="filter-tab active" onclick="switchTab('obreiro')">👤 POR OBREIRO</button>
+        <button class="filter-tab" onclick="switchTab('data')">📅 POR DATA</button>
+        <button class="filter-tab" onclick="switchTab('culto')">⛪ POR CULTO</button>
+        <button class="filter-tab" onclick="switchTab('atividade')">🎯 POR ATIVIDADE</button>
+    </div>
+
+    <!-- FILTRO OBREIRO -->
+    <div id="tab-obreiro" class="filter-row">
+        <label>🔍 OBREIRO:</label>
+        <select id="sel-obreiro" class="filter-select" onchange="applyFilter()">
+            <option value="">— Selecione —</option>
+        </select>
+        <div class="filter-actions">
+            <button class="btn btn-screenshot-f" onclick="gerarFotoFiltro()">📲 Gerar Foto</button>
+            <button class="btn btn-share" onclick="compartilharFiltro()">📤 Compartilhar</button>
+            <button class="btn btn-upload" onclick="openUpload()">📁 Upload Escala</button>
+            <button class="btn btn-clear-f" onclick="clearFilter()">✕ Limpar</button>
+        </div>
+    </div>
+
+    <!-- FILTRO DATA -->
+    <div id="tab-data" class="filter-row" style="display:none">
+        <label>📅 DATA:</label>
+        <select id="sel-data" class="filter-select" onchange="applyFilter()">
+            <option value="">— Selecione —</option>
+        </select>
+        <div class="filter-actions">
+            <button class="btn btn-screenshot-f" onclick="gerarFotoFiltro()">📲 Gerar Foto</button>
+            <button class="btn btn-share" onclick="compartilharFiltro()">📤 Compartilhar</button>
+            <button class="btn btn-upload" onclick="openUpload()">📁 Upload Escala</button>
+            <button class="btn btn-clear-f" onclick="clearFilter()">✕ Limpar</button>
+        </div>
+    </div>
+
+    <!-- FILTRO CULTO -->
+    <div id="tab-culto" class="filter-row" style="display:none">
+        <label>⛪ CULTO:</label>
+        <select id="sel-culto" class="filter-select" onchange="applyFilter()">
+            <option value="">— Selecione —</option>
+        </select>
+        <div class="filter-actions">
+            <button class="btn btn-screenshot-f" onclick="gerarFotoFiltro()">📲 Gerar Foto</button>
+            <button class="btn btn-share" onclick="compartilharFiltro()">📤 Compartilhar</button>
+            <button class="btn btn-upload" onclick="openUpload()">📁 Upload Escala</button>
+            <button class="btn btn-clear-f" onclick="clearFilter()">✕ Limpar</button>
+        </div>
+    </div>
+
+    <!-- FILTRO ATIVIDADE -->
+    <div id="tab-atividade" class="filter-row" style="display:none">
+        <label>🎯 ATIVIDADE:</label>
+        <select id="sel-atividade" class="filter-select" onchange="applyFilter()">
+            <option value="">— Selecione —</option>
+            <option value="PORTA">Porta / Recepção</option>
+            <option value="DIRIGENTE">Dirigente</option>
+            <option value="OPORTUNIDADE">Oportunidade</option>
+            <option value="MINISTRANTE">Ministrante</option>
+        </select>
+        <select id="sel-atividade-obr" class="filter-select" onchange="applyFilter()" style="display:none">
+            <option value="">— Todos os obreiros —</option>
+        </select>
+        <div class="filter-actions">
+            <button class="btn btn-screenshot-f" onclick="gerarFotoFiltro()">📲 Gerar Foto</button>
+            <button class="btn btn-share" onclick="compartilharFiltro()">📤 Compartilhar</button>
+            <button class="btn btn-upload" onclick="openUpload()">📁 Upload Escala</button>
+            <button class="btn btn-clear-f" onclick="clearFilter()">✕ Limpar</button>
+        </div>
+    </div>
+</div>
+
+<div id="active-filter-badge">
+    <span>🔎 FILTRO ATIVO:</span>
+    <strong id="badge-text">—</strong>
+    <span style="margin-left: auto; font-size: 0.7rem; color: #64748B;">Apenas os registros correspondentes são exibidos</span>
+</div>
+
+<div id="toolbar-selection"></div>
+
+<div id="scale-sheet">
+    <div class="compact-header">
+        <div class="church-title" contenteditable="true" id="save-church">O BRASIL PARA CRISTO - JD SÃO FERNANDO</div>
+        <div><span class="period-info" contenteditable="true" id="save-period">ESCALA DE OBREIROS - JANEIRO / 2026</span></div>
+        <div class="theme-line" contenteditable="true" id="save-theme">TEMA: "2026 ANO DA UNÇÃO"</div>
+        <div id="filter-name-line">📋 <span id="filter-name-display"></span></div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 110px;">DATA</th>
+                <th style="width: 90px;">DIA</th>
+                <th style="width: 170px;">CULTO / EVENTO</th>
+                <th>PORTA (RECEPÇÃO)</th>
+                <th>DIRIGENTE</th>
+                <th>OPORTUNIDADE</th>
+                <th>MINISTRANTE</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+</div>
+
+<!-- MODAL UPLOAD -->
+<div id="upload-modal">
+    <div class="upload-box">
+        <h2>📁 Upload de Escala</h2>
+        <div class="upload-drop" onclick="document.getElementById('file-input').click()">
+            <input type="file" id="file-input" accept="image/*,.html" onchange="handleUpload(event)">
+            <div style="font-size:2rem; margin-bottom:8px">📤</div>
+            <div>Toque para selecionar imagem ou arquivo HTML</div>
+            <div style="font-size:0.75rem; color:#64748B; margin-top:4px">PNG, JPG, WebP, HTML</div>
+        </div>
+        <img id="upload-preview" alt="Preview">
+        <div id="upload-status" class="upload-info"></div>
+        <div style="display:flex; gap:8px; margin-top:12px">
+            <button class="btn btn-share" style="flex:1; justify-content:center" onclick="compartilharUpload()">📤 Compartilhar via Zap</button>
+            <button class="btn btn-clear-f" style="flex:1; justify-content:center" onclick="closeUpload()">✕ Fechar</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL CONFIG -->
+<div id="config-modal">
+    <div class="config-box">
+        <h2 style="color: var(--gold); text-align: center;">⚙️ Editar Listas</h2>
+        <div class="config-grid">
+            <div>
+                <label>Cultos (um por linha)</label>
+                <textarea id="list-cultos" oninput="saveSettings(); populateCultoSelect()"></textarea>
+            </div>
+            <div>
+                <label>Obreiros (um por linha)</label>
+                <textarea id="list-obreiros" oninput="saveSettings(); populateObreiroSelects()"></textarea>
+            </div>
+        </div>
+        <button class="btn btn-add" style="width: 100%; margin-top: 20px; justify-content: center; height: 40px;" onclick="openConfig(false)">✅ Salvar e Fechar</button>
+    </div>
+</div>
+
+<script>
+    let globalActiveCell = null;
+    let currentTab = 'obreiro';
+    let uploadedImageBlob = null;
+
+    // ─── NOME DO ARQUIVO = DESTINATÁRIO ─────────────────────────────────────
+    function getNomeArquivo() {
+        if (currentTab === 'obreiro') {
+            const v = document.getElementById('sel-obreiro').value;
+            return v ? v : 'Escala_OBPC';
+        }
+        if (currentTab === 'data') {
+            const v = document.getElementById('sel-data').value;
+            if (v) { const [y,m,d] = v.split('-'); return `Escala_${d}-${m}-${y}`; }
+            return 'Escala_OBPC';
+        }
+        if (currentTab === 'culto') {
+            const v = document.getElementById('sel-culto').value;
+            return v ? v.replace(/[^a-zA-Z0-9À-ú\s]/g,'').trim() : 'Escala_OBPC';
+        }
+        if (currentTab === 'atividade') {
+            const atv = document.getElementById('sel-atividade').value;
+            const obr = document.getElementById('sel-atividade-obr').value;
+            if (obr) return obr;
+            return atv ? `Escala_${atv}` : 'Escala_OBPC';
+        }
+        return 'Escala_OBPC';
+    }
+
+    // ─── ABAS DE FILTRO ─────────────────────────────────────────────────────
+    function switchTab(tab) {
+        currentTab = tab;
+        ['obreiro','data','culto','atividade'].forEach((t, i) => {
+            document.getElementById('tab-'+t).style.display = t === tab ? 'flex' : 'none';
+            document.querySelectorAll('.filter-tab')[i].classList.toggle('active', t === tab);
+        });
+        if (tab === 'data') populateDatasSelect();
+        clearFilter();
+    }
+
+    // ─── POPULA SELECTS ──────────────────────────────────────────────────────
+    function getLista(chaveLS, idTextarea) {
+        // Sempre prioriza localStorage; textarea é secundária
+        const ls = localStorage.getItem(chaveLS) || '';
+        const ta = document.getElementById(idTextarea) ? document.getElementById(idTextarea).value : '';
+        const raw = ls || ta;
+        return raw.split('\n').map(n => n.trim()).filter(Boolean);
+    }
+
+    function populateObreiroSelects() {
+        const nomes = getLista('obpc_set_obreiros_v3', 'list-obreiros');
+        ['sel-obreiro', 'sel-atividade-obr'].forEach(id => {
+            const sel = document.getElementById(id);
+            const cur = sel.value;
+            const firstOpt = id === 'sel-atividade-obr'
+                ? '<option value="">— Todos os obreiros —</option>'
+                : '<option value="">— Selecione —</option>';
+            sel.innerHTML = firstOpt + nomes.map(n => `<option value="${n}">${n}</option>`).join('');
+            if (cur) sel.value = cur;
+        });
+    }
+
+    function populateCultoSelect() {
+        const cultos = getLista('obpc_set_cultos_v3', 'list-cultos');
+        const sel = document.getElementById('sel-culto');
+        const cur = sel.value;
+        sel.innerHTML = '<option value="">— Selecione —</option>'
+            + cultos.map(c => `<option value="${c}">${c}</option>`).join('');
+        if (cur) sel.value = cur;
+    }
+
+    function populateDatasSelect() {
+        const sel = document.getElementById('sel-data');
+        const cur = sel.value;
+        // Coleta todas as datas preenchidas na tabela, sem duplicatas
+        const datas = [];
+        document.querySelectorAll('#tableBody tr').forEach(tr => {
+            const dt = tr.querySelector('.dt-input');
+            if (dt && dt.value) {
+                const label = formatDate(dt.value) + ' — ' + (tr.querySelector('.cell-day').innerText || '');
+                if (!datas.find(d => d.val === dt.value)) {
+                    datas.push({ val: dt.value, label: label.trim() });
+                }
+            }
+        });
+        datas.sort((a,b) => a.val.localeCompare(b.val));
+        sel.innerHTML = '<option value="">— Selecione —</option>'
+            + datas.map(d => `<option value="${d.val}">${d.label}</option>`).join('');
+        if (cur) sel.value = cur;
+    }
+
+    // ─── APLICAR FILTRO ──────────────────────────────────────────────────────
+    function applyFilter() {
+        const atv = document.getElementById('sel-atividade').value;
+        document.getElementById('sel-atividade-obr').style.display = atv ? 'block' : 'none';
+
+        const rows = document.querySelectorAll('#tableBody tr');
+        const badge = document.getElementById('active-filter-badge');
+        const nameLine = document.getElementById('filter-name-line');
+        const nameDisplay = document.getElementById('filter-name-display');
+
+        rows.forEach(tr => {
+            tr.classList.remove('row-filtered-out', 'row-no-match');
+            restoreCells(tr);
+        });
+
+        nameLine.style.display = 'none';
+        let filterActive = false;
+        let badgeLabel = '';
+
+        if (currentTab === 'obreiro') {
+            const nome = document.getElementById('sel-obreiro').value;
+            if (!nome) { clearBadge(); return; }
+            filterActive = true;
+            badgeLabel = `OBREIRO: ${nome.toUpperCase()}`;
+
+            rows.forEach(tr => {
+                const obrs = tr.querySelectorAll('.cell-obr');
+                let aparece = false;
+                obrs.forEach(cell => {
+                    const lista = (cell.getAttribute('data-raw') || cell.innerText)
+                        .split('\n').map(n => n.trim()).filter(Boolean);
+                    if (lista.some(n => n.toLowerCase() === nome.toLowerCase())) aparece = true;
+                });
+                if (!aparece) {
+                    tr.classList.add('row-no-match');
+                } else {
+                    obrs.forEach(cell => {
+                        const lista = (cell.getAttribute('data-raw') || cell.innerText)
+                            .split('\n').map(n => n.trim()).filter(Boolean);
+                        const tem = lista.some(n => n.toLowerCase() === nome.toLowerCase());
+                        cell.innerHTML = tem
+                            ? `<span class="nome-highlight">${nome}</span>`
+                            : `<span class="nome-oculto">—</span>`;
+                    });
+                    nameLine.style.display = 'block';
+                    nameDisplay.textContent = `MINHA ESCALA — ${nome.toUpperCase()}`;
+                }
+            });
+
+        } else if (currentTab === 'data') {
+            const data = document.getElementById('sel-data').value;
+            if (!data) { clearBadge(); return; }
+            filterActive = true;
+            const fmt = formatDate(data);
+            badgeLabel = `DATA: ${fmt}`;
+            rows.forEach(tr => {
+                const dt = tr.querySelector('.dt-input');
+                if (!dt || dt.value !== data) tr.classList.add('row-filtered-out');
+            });
+            nameLine.style.display = 'block';
+            nameDisplay.textContent = `CULTO DO DIA: ${fmt}`;
+
+        } else if (currentTab === 'culto') {
+            const culto = document.getElementById('sel-culto').value;
+            if (!culto) { clearBadge(); return; }
+            filterActive = true;
+            badgeLabel = `CULTO: ${culto.toUpperCase()}`;
+            rows.forEach(tr => {
+                const clt = tr.querySelector('.cell-clt');
+                if (!clt || !clt.innerText.trim().toLowerCase().includes(culto.toLowerCase()))
+                    tr.classList.add('row-filtered-out');
+            });
+            nameLine.style.display = 'block';
+            nameDisplay.textContent = `CULTO: ${culto.toUpperCase()}`;
+
+        } else if (currentTab === 'atividade') {
+            const atividade = document.getElementById('sel-atividade').value;
+            const obreiro = document.getElementById('sel-atividade-obr').value;
+            if (!atividade) { clearBadge(); return; }
+            filterActive = true;
+            const atividadeIdx = { 'PORTA': 0, 'DIRIGENTE': 1, 'OPORTUNIDADE': 2, 'MINISTRANTE': 3 };
+            const idx = atividadeIdx[atividade];
+            badgeLabel = `ATIVIDADE: ${atividade}${obreiro ? ' — '+obreiro : ''}`;
+            
+            rows.forEach(tr => {
+                const obrs = tr.querySelectorAll('.cell-obr');
+                if (!obrs[idx]) { tr.classList.add('row-filtered-out'); return; }
+                const nomes = (obrs[idx].getAttribute('data-raw') || obrs[idx].innerText)
+                    .split('\n').map(n => n.trim()).filter(Boolean);
+                if (obreiro) {
+                    const tem = nomes.some(n => n.toLowerCase() === obreiro.toLowerCase());
+                    if (!tem) { tr.classList.add('row-filtered-out'); return; }
+                    obrs[idx].innerHTML = `<span class="nome-highlight">${obreiro}</span>`;
+                } else if (nomes.length === 0) {
+                    tr.classList.add('row-filtered-out');
+                }
+            });
+            nameLine.style.display = 'block';
+            nameDisplay.textContent = `ATIVIDADE: ${atividade}${obreiro ? ' — '+obreiro.toUpperCase() : ''}`;
+        }
+
+        if (filterActive) {
+            badge.classList.add('visible');
+            document.getElementById('badge-text').textContent = badgeLabel;
+        }
+    }
+
+    function clearBadge() {
+        document.getElementById('active-filter-badge').classList.remove('visible');
+        document.getElementById('filter-name-line').style.display = 'none';
+    }
+
+    function clearFilter() {
+        document.getElementById('sel-obreiro').value = '';
+        document.getElementById('sel-data').value = '';
+        document.getElementById('sel-culto').value = '';
+        document.getElementById('sel-atividade').value = '';
+        document.getElementById('sel-atividade-obr').value = '';
+        document.getElementById('sel-atividade-obr').style.display = 'none';
+        document.querySelectorAll('#tableBody tr').forEach(tr => {
+            tr.classList.remove('row-filtered-out', 'row-no-match');
+            restoreCells(tr);
+        });
+        clearBadge();
+    }
+
+    function restoreCells(tr) {
+        tr.querySelectorAll('.cell-obr').forEach(cell => {
+            const raw = cell.getAttribute('data-raw');
+            if (raw !== null) cell.innerText = raw;
+        });
+    }
+
+    // ─── GERAR FOTO / COMPARTILHAR ───────────────────────────────────────────
+    function gerarFotoFiltro() {
+        if (globalActiveCell) globalActiveCell.classList.remove('active-cell');
+        document.getElementById('toolbar-selection').style.display = 'none';
+        const nome = getNomeArquivo();
+        html2canvas(document.querySelector("#scale-sheet"), { scale: 3, backgroundColor: "#ffffff" }).then(canvas => {
+            canvas.toBlob(blob => { uploadedImageBlob = blob; });
+            const link = document.createElement('a');
+            link.download = `${nome}.png`;
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+        });
+    }
+
+    function compartilharFiltro() {
+        if (globalActiveCell) globalActiveCell.classList.remove('active-cell');
+        document.getElementById('toolbar-selection').style.display = 'none';
+        const nome = getNomeArquivo();
+
+        document.getElementById('share-modal').style.display = 'flex';
+        document.getElementById('share-preview-img').style.display = 'none';
+        document.getElementById('share-status').textContent = '⏳ Gerando imagem...';
+        document.getElementById('share-btn-baixar').style.display = 'none';
+        document.getElementById('share-btn-zap').style.display = 'none';
+
+        html2canvas(document.querySelector("#scale-sheet"), { scale: 3, backgroundColor: "#ffffff" }).then(function(canvas) {
+            var dataUrl = canvas.toDataURL("image/png");
+            var img = document.getElementById('share-preview-img');
+            img.src = dataUrl;
+            img.style.display = 'block';
+            document.getElementById('share-status').textContent = '✅ Pronto! Escolha como enviar:';
+
+            var btnBaixar = document.getElementById('share-btn-baixar');
+            btnBaixar.style.display = 'inline-flex';
+            btnBaixar.onclick = function() {
+                var a = document.createElement('a');
+                a.href = dataUrl;
+                a.download = nome + '.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            };
+
+            var btnZap = document.getElementById('share-btn-zap');
+            btnZap.style.display = 'inline-flex';
+            btnZap.onclick = function() {
+                var a = document.createElement('a');
+                a.href = dataUrl;
+                a.download = nome + '.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(function() {
+                    var wa = document.createElement('a');
+                    wa.href = 'whatsapp://send?text=' + encodeURIComponent('Segue a escala: ' + nome);
+                    document.body.appendChild(wa);
+                    wa.click();
+                    document.body.removeChild(wa);
+                }, 600);
+            };
+        });
+    }
+
+    function takeScreenshot() {
+        if (globalActiveCell) globalActiveCell.classList.remove('active-cell');
+        document.getElementById('toolbar-selection').style.display = 'none';
+        html2canvas(document.querySelector("#scale-sheet"), { scale: 3, backgroundColor: "#ffffff" }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = 'Escala_OBPC_Completa.png';
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+        });
+    }
+
+    // ─── UPLOAD ──────────────────────────────────────────────────────────────
+    function openUpload() { document.getElementById('upload-modal').style.display = 'flex'; }
+    function closeUpload() { document.getElementById('upload-modal').style.display = 'none'; uploadedImageBlob = null; }
+
+    function handleUpload(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const preview = document.getElementById('upload-preview');
+        const status = document.getElementById('upload-status');
+        if (file.type.startsWith('image/')) {
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = 'block';
+            status.textContent = `✅ Imagem carregada: ${file.name}`;
+            uploadedImageBlob = file;
+        } else if (file.name.endsWith('.html')) {
+            status.textContent = `⚠️ Arquivo HTML selecionado.`;
+            uploadedImageBlob = file;
+            preview.style.display = 'none';
+        }
+    }
+
+    function compartilharUpload() {
+        if (!uploadedImageBlob) { alert('Selecione um arquivo primeiro.'); return; }
+        const nome = getNomeArquivo();
+        const file = new File([uploadedImageBlob], `${nome}.png`, { type: uploadedImageBlob.type });
+        if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+            navigator.share({ title: nome, files: [file] }).catch(() => {});
+        } else {
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(uploadedImageBlob);
+            a.download = `${nome}.png`; a.click();
+            setTimeout(() => window.open('https://wa.me/?text=Segue+a+escala+OBPC', '_blank'), 800);
+        }
+    }
+
+    // ─── TABELA ──────────────────────────────────────────────────────────────
+    function addRow(data = null) {
+        const tbody = document.getElementById('tableBody');
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td><input type="date" class="dt-input" onchange="updateDate(this)"></td>
+            <td><div class="cell-data cell-day"></div></td>
+            <td><div class="cell-data cell-clt" onclick="activateCell(this, 'cultos')" contenteditable="true"></div></td>
+            <td><div class="cell-data cell-obr" onclick="activateCell(this, 'obreiros')" contenteditable="true"></div></td>
+            <td><div class="cell-data cell-obr" onclick="activateCell(this, 'obreiros')" contenteditable="true"></div></td>
+            <td><div class="cell-data cell-obr" onclick="activateCell(this, 'obreiros')" contenteditable="true"></div></td>
+            <td><div class="cell-data cell-obr" onclick="activateCell(this, 'obreiros')" contenteditable="true"></div></td>
+            <span class="btn-del" onclick="this.parentElement.remove(); save();">✕</span>
+        `;
+        tbody.appendChild(tr);
+        if (data) {
+            tr.querySelector('.dt-input').value = data.dt;
+            tr.querySelector('.cell-day').innerText = data.day;
+            tr.querySelector('.cell-clt').innerText = data.clt;
+            const obrs = tr.querySelectorAll('.cell-obr');
+            obrs[0].innerText = data.p1;  obrs[0].setAttribute('data-raw', data.p1);
+            obrs[1].innerText = data.dir; obrs[1].setAttribute('data-raw', data.dir);
+            obrs[2].innerText = data.opt; obrs[2].setAttribute('data-raw', data.opt);
+            obrs[3].innerText = data.min; obrs[3].setAttribute('data-raw', data.min);
+            applyRowColor(tr, data.day);
+        }
+    }
+
+    function activateCell(cell, type) {
+        if (globalActiveCell) globalActiveCell.classList.remove('active-cell');
+        globalActiveCell = cell;
+        cell.classList.add('active-cell');
+        const toolbar = document.getElementById('toolbar-selection');
+        const listId = type === 'cultos' ? 'list-cultos' : 'list-obreiros';
+        const options = document.getElementById(listId).value.split('\n').filter(n => n.trim() !== '');
+        if (options.length === 0) { toolbar.style.display = 'none'; return; }
+        toolbar.innerHTML = options.map(opt => `<div class="chip" onclick="pushName('${opt.trim()}')">${opt.trim()}</div>`).join('');
+        toolbar.style.display = 'flex';
+    }
+
+    function pushName(name) {
+        if (!globalActiveCell) return;
+        const current = globalActiveCell.innerText.trim();
+        const newVal = current === "" ? name : current + '\n' + name;
+        globalActiveCell.innerText = newVal;
+        globalActiveCell.setAttribute('data-raw', newVal);
+        save();
+    }
+
+    function openConfig(show) { document.getElementById('config-modal').style.display = show ? 'flex' : 'none'; }
+
+    function updateDate(input) {
+        const row = input.parentElement.parentElement;
+        const date = new Date(input.value + 'T00:00:00');
+        const days = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+        const dayName = days[date.getDay()] || "";
+        row.querySelector('.cell-day').innerText = dayName;
+        applyRowColor(row, dayName);
+        save();
+    }
+
+    function applyRowColor(row, day) {
+        row.classList.remove('row-dom', 'row-qua', 'row-sab');
+        if (day === 'Domingo') row.classList.add('row-dom');
+        if (day === 'Quarta-feira') row.classList.add('row-qua');
+        if (day === 'Sábado') row.classList.add('row-sab');
+    }
+
+    function formatDate(val) {
+        if (!val) return '';
+        const [y,m,d] = val.split('-');
+        return `${d}/${m}/${y}`;
+    }
+
+    function save() {
+        const rows = [];
+        document.querySelectorAll('#tableBody tr').forEach(tr => {
+            const obrs = tr.querySelectorAll('.cell-obr');
+            rows.push({
+                dt:  tr.querySelector('.dt-input').value,
+                day: tr.querySelector('.cell-day').innerText,
+                clt: tr.querySelector('.cell-clt').innerText,
+                p1:  obrs[0].getAttribute('data-raw') || obrs[0].innerText,
+                dir: obrs[1].getAttribute('data-raw') || obrs[1].innerText,
+                opt: obrs[2].getAttribute('data-raw') || obrs[2].innerText,
+                min: obrs[3].getAttribute('data-raw') || obrs[3].innerText
+            });
+        });
+        localStorage.setItem('obpc_1click_scale_v3', JSON.stringify({
+            church: document.getElementById('save-church').innerText,
+            period: document.getElementById('save-period').innerText,
+            theme:  document.getElementById('save-theme').innerText,
+            rows
+        }));
+        // Atualiza select de datas se a aba estiver ativa
+        if (currentTab === 'data') populateDatasSelect();
+    }
+
+    function saveSettings() {
+        localStorage.setItem('obpc_set_cultos_v3',   document.getElementById('list-cultos').value);
+        localStorage.setItem('obpc_set_obreiros_v3', document.getElementById('list-obreiros').value);
+    }
+
+    function load() {
+        // Carrega listas do localStorage PRIMEIRO
+        const savedCultos   = localStorage.getItem('obpc_set_cultos_v3')   || "Santa Ceia\nCulto de Louvor\nCulto de Ensino\nCulto de Jovens";
+        const savedObreiros = localStorage.getItem('obpc_set_obreiros_v3') || "Pr Sergio\nPr André";
+
+        document.getElementById('list-cultos').value   = savedCultos;
+        document.getElementById('list-obreiros').value = savedObreiros;
+
+        // Popula selects com os dados já carregados
+        populateObreiroSelects();
+        populateCultoSelect();
+
+        // Carrega linhas da escala
+        const saved = localStorage.getItem('obpc_1click_scale_v3') || localStorage.getItem('obpc_1click_scale_v2');
+        if (saved) {
+            const data = JSON.parse(saved);
+            document.getElementById('save-church').innerText = data.church;
+            document.getElementById('save-period').innerText = data.period;
+            document.getElementById('save-theme').innerText  = data.theme;
+            data.rows.forEach(r => addRow(r));
+        } else {
+            for (let i = 0; i < 4; i++) addRow();
+        }
+    }
+
+    function resetData() {
+        if (confirm("Deseja apagar os dados?")) {
+            localStorage.removeItem('obpc_1click_scale_v3');
+            location.reload();
+        }
+    }
+
+    document.addEventListener('input', (e) => {
+        if (e.target.classList.contains('cell-obr')) {
+            e.target.setAttribute('data-raw', e.target.innerText);
+        }
+        save();
+    });
+
+    document.addEventListener('mousedown', (e) => {
+        if (!e.target.closest('td') && !e.target.closest('#toolbar-selection')) {
+            if (globalActiveCell) globalActiveCell.classList.remove('active-cell');
+            document.getElementById('toolbar-selection').style.display = 'none';
+        }
+    });
+
+    window.onload = load;
+</script>
+
+
+<!-- MODAL COMPARTILHAR -->
+<div id="share-modal">
+    <div class="share-box">
+        <h2>📤 Compartilhar Escala</h2>
+        <img id="share-preview-img" alt="Preview da escala">
+        <div id="share-status">⏳ Gerando imagem...</div>
+        <div class="share-btns">
+            <button class="btn btn-baixar-share" id="share-btn-baixar" style="display:none">⬇️ Baixar PNG</button>
+            <button class="btn btn-zap-share" id="share-btn-zap" style="display:none">💬 Baixar + WhatsApp</button>
+            <button class="btn btn-fechar-share" onclick="document.getElementById('share-modal').style.display='none'">✕ Fechar</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
