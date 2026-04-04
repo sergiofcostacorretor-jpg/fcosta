@@ -1,0 +1,1836 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PTAM — FCosta Corretor | Arquivo de Laudos</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@700;800&display=swap');
+:root {
+  --sky:#87CEEB; --sky2:#9DD8F0; --sky3:#B8E4F7; --sky4:#D6F0FF;
+  --navy:#1A5276; --navy2:#1F618D; --navy3:#2980B9;
+  --card:#FFFFFF; --card2:#F0F8FF;
+  --border:rgba(26,82,118,0.22); --border2:rgba(26,82,118,0.12);
+  --text:#1A2B3C; --muted:#3D6B8A; --muted2:#6A9AB0;
+  --green:#1B6B3A; --red:#B22222; --orange:#C0681B;
+  --shadow:0 2px 12px rgba(26,82,118,0.14);
+  --shadow2:0 4px 24px rgba(26,82,118,0.18);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--sky);color:var(--text);font-family:'Inter',Arial,sans-serif;font-size:12px;line-height:1.65;overflow-x:hidden}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--sky2)}
+::-webkit-scrollbar-thumb{background:var(--navy3);border-radius:3px}
+
+/* PRINT */
+@media print {
+  body{background:#fff!important;color:#111!important;font-size:11pt!important}
+  .no-print,.page-nav,.site-header,.fab-bar,.arquivo-panel{display:none!important}
+  .print-section{page-break-before:always}
+  .card{background:#fff!important;border:1px solid #ccc!important}
+  input,textarea,select{border:1px solid #aaa!important;background:#fff!important}
+  @page{margin:15mm 12mm;size:A4}
+}
+
+/* LAYOUT */
+.page-wrap{max-width:1280px;margin:0 auto;padding:0 20px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+
+/* HEADER */
+.site-header{background:linear-gradient(180deg,#5B9EC9 0%,#7AB8D4 100%);border-bottom:2px solid var(--border);padding:13px 0;position:sticky;top:0;z-index:300;box-shadow:var(--shadow2)}
+.hx{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:36px;height:36px;background:linear-gradient(135deg,#1A5276,#2980B9);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 2px 8px rgba(26,82,118,0.3)}
+.brand-name{font-family:'Sora',Arial,sans-serif;font-size:1rem;font-weight:800;color:#1A2B3C;line-height:1}
+.brand-sub{font-size:.6rem;color:#3D6B8A;letter-spacing:2px;text-transform:uppercase}
+.creci-badge{font-size:.67rem;color:#1A2B3C;border:1px solid var(--border);padding:4px 10px;border-radius:20px;background:rgba(255,255,255,0.65);font-weight:600}
+.header-actions{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+
+/* BOTÕES */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:8px;font-size:.75rem;font-weight:700;cursor:pointer;border:none;font-family:'Inter',Arial,sans-serif;transition:all .2s;white-space:nowrap}
+.btn-gold{background:linear-gradient(135deg,#1A5276,#2980B9);color:#fff;box-shadow:0 2px 8px rgba(26,82,118,0.25)}
+.btn-gold:hover{opacity:.88;transform:translateY(-1px)}
+.btn-outline{background:rgba(255,255,255,.65);border:1.5px solid rgba(26,82,118,0.28);color:#1A5276;font-weight:600}
+.btn-outline:hover{background:rgba(255,255,255,.95);border-color:#1A5276}
+.btn-green{background:linear-gradient(135deg,#1B6B3A,#27AE60);color:#fff}
+.btn-green:hover{opacity:.88}
+.btn-red{background:rgba(178,34,34,.1);border:1px solid rgba(178,34,34,.3);color:#B22222}
+.btn-red:hover{background:rgba(178,34,34,.2)}
+.btn-sm{padding:5px 10px;font-size:.7rem}
+
+/* NAV */
+.page-nav{background:#7AB8D4;border-bottom:1px solid var(--border2);overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+.page-nav::-webkit-scrollbar{display:none}
+.nav-inner{display:flex;gap:0}
+.nav-tab{padding:11px 16px;font-size:.76rem;color:#1A2B3C;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;font-weight:600;background:none;border-top:none;border-left:none;border-right:none;font-family:'Inter',Arial,sans-serif}
+.nav-tab:hover{color:#1A5276;background:rgba(255,255,255,0.2)}
+.nav-tab.active{color:#1A5276;border-bottom-color:#1A5276;background:rgba(255,255,255,0.35)}
+
+/* SECTIONS */
+.section{padding:30px 0}
+.section-hidden{display:none}
+.section-title{font-family:'Sora',Arial,sans-serif;font-size:1.4rem;font-weight:800;color:#1A2B3C;margin-bottom:4px}
+.section-sub{font-size:.82rem;color:var(--muted);margin-bottom:22px}
+.sec-tag{display:inline-flex;align-items:center;gap:6px;font-size:.67rem;color:#1A5276;text-transform:uppercase;letter-spacing:2px;margin-bottom:7px;font-weight:700}
+
+/* CARDS */
+.card{background:#FFFFFF;border:1px solid var(--border2);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
+.card-title{font-size:11px;font-weight:700;color:#1A5276;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:13px;padding-bottom:8px;border-bottom:2px solid rgba(26,82,118,0.12)}
+.card-subtitle{font-size:10px;color:var(--muted);margin-bottom:12px;font-style:italic}
+
+/* CAMPOS */
+.field-group{margin-bottom:11px}
+.field-label{font-size:11px;font-weight:700;color:#1F618D;letter-spacing:.4px;margin-bottom:4px;display:flex;align-items:center;gap:5px}
+.field-label .req{color:var(--red);font-size:10px}
+.input-field{width:100%;background:rgba(135,206,235,0.18);border:1.5px solid rgba(26,82,118,0.22);border-radius:8px;padding:8px 11px;color:#1A2B3C;font-family:'Inter',Arial,sans-serif;font-size:12px;outline:none;transition:border-color .25s,box-shadow .25s}
+.input-field:focus{border-color:#1A5276;box-shadow:0 0 0 3px rgba(26,82,118,0.12)}
+.input-field::placeholder{color:#6A9AB0}
+.input-field.calc-result{background:rgba(41,128,185,0.09);border-color:rgba(41,128,185,0.35);color:#1A5276;font-weight:700;cursor:default}
+textarea.input-field{resize:vertical;min-height:78px;line-height:1.6}
+select.input-field{cursor:pointer}
+.input-field:read-only{opacity:.75;cursor:default}
+
+/* ARQUIVO PANEL */
+.arquivo-panel{background:linear-gradient(135deg,#4A90C4,#5BA8D4);border-bottom:2px solid rgba(26,82,118,0.25);padding:10px 0;box-shadow:0 2px 8px rgba(26,82,118,0.15)}
+.arquivo-inner{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.arquivo-title{font-family:'Sora',Arial,sans-serif;font-size:.8rem;font-weight:800;color:#fff;white-space:nowrap}
+.arquivo-list{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.arquivo-chip{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.35);border-radius:20px;font-size:.7rem;font-weight:700;color:#fff;cursor:pointer;transition:all .2s}
+.arquivo-chip:hover,.arquivo-chip.ativo{background:rgba(255,255,255,0.45);border-color:rgba(255,255,255,0.7)}
+.arquivo-chip.ativo{background:rgba(255,255,255,0.55);color:#1A5276}
+.arquivo-sep{color:rgba(255,255,255,0.5);font-size:.7rem}
+
+/* PTAM HEADER */
+.ptam-header{background:linear-gradient(135deg,#5B9EC9,#7AB8D4);border:1.5px solid rgba(26,82,118,0.25);border-radius:16px;padding:24px;margin-bottom:22px;box-shadow:var(--shadow2)}
+.ptam-num{font-family:'Sora',Arial,sans-serif;font-size:1.9rem;font-weight:800;color:#1A2B3C;line-height:1}
+.ptam-label{font-size:.65rem;color:#1A5276;font-weight:700;text-transform:uppercase;letter-spacing:2px}
+
+/* CLÁUSULAS */
+.clausula-block{background:#FFFFFF;border:1px solid var(--border2);border-radius:12px;margin-bottom:14px;overflow:hidden;box-shadow:0 2px 8px rgba(26,82,118,0.07)}
+.clausula-header{padding:13px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;border-bottom:1px solid rgba(26,82,118,0.07);transition:background .2s;background:rgba(135,206,235,0.18)}
+.clausula-header:hover{background:rgba(135,206,235,0.38)}
+.clausula-num{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#1A5276,#2980B9);display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;color:#fff;flex-shrink:0}
+.clausula-title{font-size:11px;font-weight:700;color:#1A2B3C;flex:1;line-height:1.3}
+.clausula-badge{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:700;background:rgba(26,82,118,0.1);color:#1A5276;border:1px solid rgba(26,82,118,0.22)}
+.clausula-arrow{color:#3D6B8A;font-size:.75rem;transition:transform .3s}
+.clausula-body{display:none;padding:16px}
+.clausula-body.open{display:block}
+.clausula-text{font-size:12px;line-height:1.85;color:#1A2B3C;margin-bottom:11px;text-align:justify}
+.clausula-text b,.clausula-text strong{color:#1F618D;font-weight:700}
+.clausula-editavel{background:rgba(41,128,185,0.07);border:1px dashed rgba(41,128,185,0.38);border-radius:8px;padding:11px;margin-top:9px}
+.clausula-editavel-label{font-size:11px;color:#1565C0;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:7px}
+.legal-base{background:rgba(26,82,118,0.06);border-left:3px solid #2980B9;border-radius:0 8px 8px 0;padding:9px 13px;margin-top:11px}
+.legal-base-title{font-size:10px;font-weight:700;color:#1A5276;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:3px}
+.legal-base-text{font-size:10px;color:#3D6B8A;line-height:1.7;font-style:italic}
+
+/* REFERENCIAIS */
+.ref-card{background:#FFFFFF;border:1.5px solid var(--border2);border-radius:13px;padding:16px;position:relative;transition:border-color .2s;box-shadow:var(--shadow)}
+.ref-card.active-ref{border-color:rgba(26,82,118,0.35)}
+.ref-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}
+.ref-num{width:28px;height:28px;background:linear-gradient(135deg,#1A5276,#2980B9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;color:#fff;flex-shrink:0}
+.ref-status{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:700}
+.ref-status.obrig{background:rgba(178,34,34,.13);color:#B22222;border:1px solid rgba(178,34,34,.27)}
+.ref-status.opt{background:rgba(27,107,58,.1);color:#1B6B3A;border:1px solid rgba(27,107,58,.27)}
+.ref-remove{background:rgba(178,34,34,.1);border:1px solid rgba(178,34,34,.27);color:#B22222;border-radius:6px;padding:3px 7px;cursor:pointer;font-size:11px;font-family:'Inter',Arial,sans-serif;transition:all .2s}
+.ref-remove:hover{background:rgba(178,34,34,.22)}
+.add-ref-btn{display:flex;align-items:center;justify-content:center;gap:7px;border:2px dashed rgba(26,82,118,0.32);border-radius:13px;padding:18px;cursor:pointer;color:#1A5276;font-size:.82rem;font-weight:700;transition:all .25s;background:rgba(255,255,255,0.5);font-family:'Inter',Arial,sans-serif}
+.add-ref-btn:hover{border-color:#1A5276;background:rgba(255,255,255,0.85)}
+
+/* RESULTADOS */
+.result-box{background:linear-gradient(135deg,rgba(26,82,118,0.1),rgba(41,128,185,0.06));border:1.5px solid rgba(26,82,118,0.25);border-radius:13px;padding:20px;box-shadow:var(--shadow)}
+.result-main{font-family:'Sora',Arial,sans-serif;font-size:2.2rem;font-weight:800;color:#1A5276;line-height:1;margin:7px 0}
+.result-label{font-size:.68rem;color:#3D6B8A;font-weight:700;text-transform:uppercase;letter-spacing:2px}
+.result-range{font-size:.8rem;color:#3D6B8A;margin-top:7px}
+.result-m2{font-size:1.05rem;color:#1F618D;font-weight:700}
+
+/* TABELAS */
+.chart-container{background:#FFFFFF;border:1px solid var(--border2);border-radius:13px;padding:16px;box-shadow:var(--shadow)}
+.chart-title{font-size:11px;font-weight:700;color:#3D6B8A;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:13px}
+canvas{width:100%!important}
+.data-table{width:100%;border-collapse:collapse;font-size:11px}
+.data-table th{background:rgba(26,82,118,0.1);color:#1F618D;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:8px 11px;text-align:left;border-bottom:2px solid rgba(26,82,118,0.18);font-size:10px}
+.data-table td{padding:7px 11px;border-bottom:1px solid rgba(26,82,118,0.07);color:#1A2B3C}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:rgba(135,206,235,0.18)}
+.data-table .td-gold{color:#1A5276;font-weight:700}
+
+/* MAPA */
+.map-container{border-radius:11px;overflow:hidden;border:1px solid var(--border2);position:relative}
+.map-frame{width:100%;height:300px;border:none}
+.map-overlay-label{position:absolute;bottom:8px;left:8px;background:rgba(135,206,235,.93);border:1px solid var(--border);border-radius:7px;padding:5px 11px;font-size:11px;color:#1A5276;font-weight:700}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700}
+.badge-green{background:rgba(27,107,58,.13);color:#1B6B3A;border:1px solid rgba(27,107,58,.28)}
+.badge-gold{background:rgba(26,82,118,.1);color:#1A5276;border:1px solid rgba(26,82,118,.27)}
+.badge-red{background:rgba(178,34,34,.1);color:#B22222;border:1px solid rgba(178,34,34,.27)}
+.badge-blue{background:rgba(21,101,192,.1);color:#1565C0;border:1px solid rgba(21,101,192,.27)}
+
+/* SOMAS */
+.sum-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(26,82,118,.07);font-size:11px}
+.sum-row:last-child{border-bottom:none}
+.sum-label{color:#3D6B8A}
+.sum-val{color:#1A2B3C;font-weight:600}
+.sum-total .sum-label{color:#1F618D;font-weight:700;font-size:12px}
+.sum-total .sum-val{color:#1A5276;font-weight:700;font-size:1.05rem}
+
+/* CHECKLIST */
+.check-box{width:17px;height:17px;accent-color:#1A5276;flex-shrink:0;margin-top:1px}
+.sig-box{border:1.5px dashed rgba(26,82,118,.38);border-radius:9px;padding:18px;text-align:center;min-height:75px}
+.sig-line{border-top:1px solid #6A9AB0;margin-top:38px;padding-top:7px;font-size:10px;color:#3D6B8A;text-align:center}
+.divider{border:none;border-top:1px solid var(--border2);margin:18px 0}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:11px;margin-top:11px}
+.photo-slot{border:2px dashed rgba(26,82,118,0.32);border-radius:9px;aspect-ratio:4/3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;cursor:pointer;transition:all .25s;overflow:hidden;position:relative;background:rgba(255,255,255,0.5)}
+.photo-slot:hover{border-color:#1A5276;background:rgba(255,255,255,0.8)}
+.photo-slot img{width:100%;height:100%;object-fit:cover;border-radius:7px;position:absolute;inset:0}
+.photo-slot .photo-label{font-size:11px;color:#3D6B8A;text-align:center;z-index:1}
+.photo-slot input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+
+/* FAB */
+.fab-bar{position:fixed;bottom:22px;right:22px;display:flex;flex-direction:column;gap:7px;z-index:200}
+.fab{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;cursor:pointer;border:none;transition:all .2s;box-shadow:0 4px 18px rgba(26,82,118,.28)}
+.fab-print{background:linear-gradient(135deg,#1A5276,#2980B9)}
+.fab-print:hover{transform:scale(1.1)}
+.fab-top{background:rgba(255,255,255,.72);border:1px solid rgba(26,82,118,.22);color:#1A5276}
+.fab-top:hover{background:rgba(255,255,255,.95)}
+
+/* MODAL ARQUIVO */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(26,82,118,0.45);z-index:500;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal-box{background:#fff;border-radius:18px;padding:28px;max-width:680px;width:92%;max-height:85vh;overflow-y:auto;box-shadow:0 8px 40px rgba(26,82,118,0.28)}
+.modal-title{font-family:'Sora',Arial,sans-serif;font-size:1.15rem;font-weight:800;color:#1A5276;margin-bottom:18px}
+.laudo-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1.5px solid var(--border2);border-radius:11px;margin-bottom:8px;background:rgba(135,206,235,0.07);cursor:pointer;transition:all .2s}
+.laudo-item:hover{border-color:#2980B9;background:rgba(135,206,235,0.2)}
+.laudo-item.sel{border-color:#1A5276;background:rgba(26,82,118,0.08)}
+.laudo-num-badge{min-width:44px;height:44px;background:linear-gradient(135deg,#1A5276,#2980B9);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Sora',Arial,sans-serif;font-size:.75rem;font-weight:800;color:#fff;text-align:center;line-height:1.2}
+.laudo-info{flex:1}
+.laudo-info-num{font-size:.7rem;font-weight:700;color:#1A5276;text-transform:uppercase;letter-spacing:1px}
+.laudo-info-end{font-size:.82rem;font-weight:600;color:#1A2B3C}
+.laudo-info-meta{font-size:.7rem;color:#6A9AB0;margin-top:2px}
+.laudo-actions{display:flex;gap:5px}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.section:not(.section-hidden){animation:fadeUp .32s ease}
+
+@media(max-width:768px){
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+  .photo-grid{grid-template-columns:repeat(2,1fr)}
+  .arquivo-inner{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header no-print">
+  <div class="page-wrap">
+    <div class="hx">
+      <div class="brand">
+        <div class="brand-mark">🏠</div>
+        <div>
+          <div class="brand-name">FCosta Corretor</div>
+          <div class="brand-sub">Zona Leste · Itaim Paulista</div>
+        </div>
+      </div>
+      <div class="creci-badge">CRECI-SP <b id="hdr-creci">294791-F</b> | CNAI <b id="hdr-cnai">52708</b></div>
+      <div class="header-actions">
+        <button class="btn btn-outline" onclick="abrirArquivo()">📁 Arquivo (<span id="hdr-count">0</span>)</button>
+        <button class="btn btn-outline" onclick="novoLaudo()">➕ Novo</button>
+        <button class="btn btn-outline" onclick="window.print()">🖨️ PDF</button>
+        <button class="btn btn-gold" onclick="calcularTudo()">⚡ Calcular</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- BARRA DE ARQUIVO -->
+<div class="arquivo-panel no-print" id="arquivo-panel">
+  <div class="page-wrap">
+    <div class="arquivo-inner">
+      <div class="arquivo-title">📂 Laudos:</div>
+      <div class="arquivo-list" id="arquivo-chips">
+        <span style="font-size:.72rem;color:rgba(255,255,255,0.7);font-style:italic">Nenhum laudo salvo ainda</span>
+      </div>
+      <button class="btn btn-outline btn-sm" onclick="salvarLaudo()" style="background:rgba(255,255,255,0.25);color:#fff;border-color:rgba(255,255,255,0.45)">💾 Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="page-nav no-print">
+  <div class="page-wrap">
+    <div class="nav-inner">
+      <button class="nav-tab active" onclick="showSec('identificacao',this)">📋 Identificação</button>
+      <button class="nav-tab" onclick="showSec('imovel',this)">🏠 Imóvel</button>
+      <button class="nav-tab" onclick="showSec('documentacao',this)">📁 Documentação</button>
+      <button class="nav-tab" onclick="showSec('referenciais',this)">📊 Referenciais</button>
+      <button class="nav-tab" onclick="showSec('calculo',this)">🧮 Cálculo</button>
+      <button class="nav-tab" onclick="showSec('locacao',this)">🔑 Locação</button>
+      <button class="nav-tab" onclick="showSec('laudo',this)">📝 Laudo</button>
+      <button class="nav-tab" onclick="showSec('checklist',this)">✅ Checklist</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ========== SEC 1: IDENTIFICAÇÃO ========== -->
+<div id="sec-identificacao" class="section">
+<div class="page-wrap">
+  <div class="ptam-header">
+    <div class="grid-2" style="align-items:center;gap:24px">
+      <div>
+        <div class="ptam-label">Parecer Técnico de Avaliação Mercadológica</div>
+        <div style="display:flex;align-items:baseline;gap:12px;margin:8px 0">
+          <div class="ptam-num" id="disp-ptam-num">PTAM Nº —</div>
+          <div class="badge badge-gold">📅 <span id="disp-data">—</span></div>
+        </div>
+        <div style="font-size:11px;color:#1A5276;line-height:1.7;font-weight:600">
+          Conforme Res. COFECI-SP Nº 1.066/2007 e NBR 14.653-2 (ABNT)<br>
+          <span id="disp-corretor" style="color:#1F618D;font-weight:700"></span>
+        </div>
+      </div>
+      <div style="text-align:right">
+        <div class="ptam-label">Finalidade do PTAM</div>
+        <div id="disp-finalidade" style="font-size:1rem;color:#1A2B3C;font-weight:700;margin-top:6px">—</div>
+        <div style="margin-top:8px"><span class="badge badge-green">✓ Documento Profissional</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="gap:16px">
+    <div class="card">
+      <div class="card-title">👤 Dados do Corretor Avaliador</div>
+      <div class="field-group">
+        <div class="field-label">Nome Completo <span class="req">*</span></div>
+        <input class="input-field" id="corretor-nome" placeholder="Felipe Costa" oninput="atualizarHeader()">
+      </div>
+      <div class="grid-2">
+        <div class="field-group"><div class="field-label">CRECI <span class="req">*</span></div><input class="input-field" id="corretor-creci" placeholder="294791-F" oninput="atualizarHeader()"></div>
+        <div class="field-group"><div class="field-label">CNAI</div><input class="input-field" id="corretor-cnai" placeholder="52708" oninput="atualizarHeader()"></div>
+      </div>
+      <div class="grid-2">
+        <div class="field-group"><div class="field-label">WhatsApp</div><input class="input-field" id="corretor-wpp" placeholder="(11) 99350-9109"></div>
+        <div class="field-group"><div class="field-label">E-mail</div><input class="input-field" id="corretor-email" placeholder="contato@fcostacorretor.com"></div>
+      </div>
+      <div class="field-group"><div class="field-label">Imobiliária / Marca</div><input class="input-field" id="corretor-marca" placeholder="FCosta Corretor — Zona Leste SP"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📋 Identificação do Parecer</div>
+      <div class="grid-2">
+        <div class="field-group"><div class="field-label">Número do PTAM <span class="req">*</span></div><input class="input-field" id="ptam-numero" placeholder="001/2025" oninput="atualizarHeader()"></div>
+        <div class="field-group"><div class="field-label">Data de Emissão <span class="req">*</span></div><input class="input-field" type="date" id="ptam-data" oninput="atualizarHeader()"></div>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Finalidade da Avaliação <span class="req">*</span></div>
+        <select class="input-field" id="ptam-finalidade" onchange="atualizarHeader()">
+          <option value="">Selecione…</option>
+          <option>Compra e Venda</option><option>Locação Residencial</option><option>Locação Comercial</option>
+          <option>Garantia Bancária / Financiamento</option><option>Partilha de Bens (Divórcio/Inventário)</option>
+          <option>Doação / Herança</option><option>Seguro Imobiliário</option><option>Ação Judicial / Perícia</option>
+          <option>Declaração de IR — Patrimônio</option>
+        </select>
+      </div>
+      <div class="field-group"><div class="field-label">Solicitante (Nome Completo) <span class="req">*</span></div><input class="input-field" id="solic-nome" placeholder="Nome do cliente"></div>
+      <div class="grid-2">
+        <div class="field-group"><div class="field-label">CPF / CNPJ</div><input class="input-field" id="solic-cpf" placeholder="000.000.000-00"></div>
+        <div class="field-group"><div class="field-label">Contato</div><input class="input-field" id="solic-tel" placeholder="(11) 9XXXX-XXXX"></div>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Forma de Vistoria</div>
+        <select class="input-field" id="ptam-vistoria">
+          <option>Vistoria Presencial Completa</option><option>Vistoria Externa (Fachada)</option>
+          <option>Análise Documental + Fotos Fornecidas</option><option>Análise Remota (Mercado Digital)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ========== SEC 2: IMÓVEL ========== -->
+<div id="sec-imovel" class="section section-hidden">
+<div class="page-wrap">
+  <div class="sec-tag">🏠 Imóvel Avaliando</div>
+  <div class="section-title">Características do Imóvel Avaliando</div>
+  <div class="section-sub">Preencha todos os dados do imóvel objeto da avaliação</div>
+
+  <div class="grid-2" style="gap:16px;margin-bottom:16px">
+    <div class="card">
+      <div class="card-title">📍 Localização</div>
+      <div class="field-group"><div class="field-label">Endereço Completo <span class="req">*</span></div><input class="input-field" id="av-endereco" placeholder="Rua, número, complemento" oninput="atualizarMapa()"></div>
+      <div class="grid-3">
+        <div class="field-group"><div class="field-label">Bairro <span class="req">*</span></div><input class="input-field" id="av-bairro" placeholder="Itaim Paulista"></div>
+        <div class="field-group"><div class="field-label">CEP</div><input class="input-field" id="av-cep" placeholder="08000-000"></div>
+        <div class="field-group"><div class="field-label">Município / UF</div><input class="input-field" id="av-cidade" placeholder="São Paulo / SP"></div>
+      </div>
+      <div class="map-container" style="margin-top:11px">
+        <iframe id="mapFrame" class="map-frame" src="https://maps.google.com/maps?q=Itaim+Paulista,+S%C3%A3o+Paulo&output=embed&z=15" allowfullscreen loading="lazy"></iframe>
+        <div class="map-overlay-label">📌 Localização</div>
+      </div>
+      <button class="btn btn-outline" style="margin-top:8px;width:100%" onclick="atualizarMapa()">🗺️ Atualizar Mapa</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📐 Características Físicas</div>
+      <div class="field-group">
+        <div class="field-label">Tipo do Imóvel <span class="req">*</span></div>
+        <select class="input-field" id="av-tipo" onchange="calcularTudo()">
+          <option value="">Selecione…</option>
+          <option>Apartamento</option><option>Casa Padrão</option><option>Casa em Condomínio</option>
+          <option>Sobrado</option><option>Kitnet / Studio</option><option>Sala Comercial</option>
+          <option>Loja / Ponto Comercial</option><option>Galpão / Pavilhão</option>
+          <option>Terreno Urbano</option><option>Terreno Rural</option>
+        </select>
+      </div>
+      <div class="grid-2">
+        <div class="field-group"><div class="field-label">Área Útil (m²) <span class="req">*</span></div><input class="input-field" id="av-area-util" type="number" placeholder="65" oninput="calcularTudo()"></div>
+        <div class="field-group"><div class="field-label">Área Total (m²)</div><input class="input-field" id="av-area-total" type="number" placeholder="80"></div>
+      </div>
+      <div class="grid-4">
+        <div class="field-group"><div class="field-label">Dorms</div><input class="input-field" id="av-dorms" type="number" placeholder="2" min="0"></div>
+        <div class="field-group"><div class="field-label">Suítes</div><input class="input-field" id="av-suites" type="number" placeholder="0" min="0"></div>
+        <div class="field-group"><div class="field-label">Banheiros</div><input class="input-field" id="av-banhs" type="number" placeholder="1" min="0"></div>
+        <div class="field-group"><div class="field-label">Vagas</div><input class="input-field" id="av-vagas" type="number" placeholder="1" min="0"></div>
+      </div>
+      <div class="grid-2">
+        <div class="field-group"><div class="field-label">Andar / Pavimento</div><input class="input-field" id="av-andar" placeholder="3º andar / Térreo"></div>
+        <div class="field-group"><div class="field-label">Ano de Construção</div><input class="input-field" id="av-ano" type="number" placeholder="2005"></div>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Estado de Conservação <span class="req">*</span></div>
+        <select class="input-field" id="av-conservacao" onchange="calcularTudo()">
+          <option value="">Selecione…</option>
+          <option value="1.08">Novo (até 3 anos)</option><option value="1.04">Ótimo — Reformado</option>
+          <option value="1.00">Bom — Bem Conservado</option><option value="0.95">Regular — Pequenos Reparos</option>
+          <option value="0.88">Ruim — Reformas Necessárias</option><option value="0.75">Péssimo — Grande Reforma</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Padrão de Acabamento <span class="req">*</span></div>
+        <select class="input-field" id="av-padrao" onchange="calcularTudo()">
+          <option value="">Selecione…</option>
+          <option value="1.25">Luxo — Alto Padrão</option><option value="1.10">Superior</option>
+          <option value="1.00">Médio Padrão</option><option value="0.90">Simples</option><option value="0.78">Popular</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title">🏗️ Infraestrutura & Acabamentos</div>
+    <div class="card-subtitle">Marque os itens presentes — influenciam no coeficiente de valor</div>
+    <div class="grid-3" id="infraGrid"></div>
+    <div style="margin-top:13px">
+      <div class="field-label">Descrição Livre</div>
+      <textarea class="input-field" id="av-infra-obs" placeholder="Ex: Sacada com churrasqueira, piso porcelanato…" style="min-height:65px"></textarea>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title">📸 Registro Fotográfico</div>
+    <div class="card-subtitle">Mín. 5 fotos recomendadas pelo CRECI-SP</div>
+    <div class="photo-grid" id="photoGridPrincipal"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📝 Observações Gerais</div>
+    <div class="field-group"><div class="field-label">Descrição Completa / Particularidades</div>
+      <textarea class="input-field" id="av-descricao" placeholder="Descreva detalhadamente o imóvel…" style="min-height:110px"></textarea>
+    </div>
+    <div class="grid-2">
+      <div class="field-group"><div class="field-label">Matrícula do Imóvel</div><input class="input-field" id="av-matricula" placeholder="Nº da matrícula no CRI"></div>
+      <div class="field-group"><div class="field-label">Inscrição Municipal (SQL)</div><input class="input-field" id="av-sql" placeholder="Inscrição IPTU"></div>
+    </div>
+    <div class="grid-2">
+      <div class="field-group"><div class="field-label">Zoneamento</div><input class="input-field" id="av-zoneamento" placeholder="ZR-2, ZM, ZEU…"></div>
+      <div class="field-group"><div class="field-label">Zona de Valor</div><input class="input-field" id="av-zona-valor" placeholder="Ex: Zona 28"></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ========== SEC 3: DOCUMENTAÇÃO ========== -->
+<div id="sec-documentacao" class="section section-hidden">
+<div class="page-wrap">
+  <div class="sec-tag">📁 Documentação</div>
+  <div class="section-title">Documentação — Por Tipo de Transação</div>
+  <div class="section-sub">Selecione a transação para ver os documentos detalhados com base legal</div>
+  <div style="margin-bottom:16px">
+    <div class="field-label">Tipo de Transação</div>
+    <select class="input-field" id="doc-tipo-transacao" onchange="mostrarDocTransacao()" style="max-width:400px">
+      <option value="">Selecione…</option>
+      <option value="compravenda">Compra e Venda à Vista</option>
+      <option value="financiamento">Compra com Financiamento Bancário</option>
+      <option value="locacao">Locação Residencial</option>
+      <option value="doacao">Doação de Imóvel</option>
+      <option value="inventario">Inventário e Partilha</option>
+      <option value="permuta">Permuta Imobiliária</option>
+      <option value="usucapiao">Usucapião</option>
+    </select>
+  </div>
+  <div id="doc-container">
+    <div class="card" style="text-align:center;padding:40px">
+      <div style="font-size:3rem;margin-bottom:12px">📁</div>
+      <div style="color:var(--muted)">Selecione uma transação acima</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ========== SEC 4: REFERENCIAIS ========== -->
+<div id="sec-referenciais" class="section section-hidden">
+<div class="page-wrap">
+  <div class="sec-tag">📊 Pesquisa de Mercado</div>
+  <div class="section-title">Imóveis Referenciais — Comparandos</div>
+  <div class="section-sub">Mín. 3 obrigatórios · Máx. 10</div>
+  <div id="refs-container" style="display:flex;flex-direction:column;gap:14px;margin-bottom:14px"></div>
+  <div id="add-ref-btn" class="add-ref-btn" onclick="adicionarReferencial()" style="margin-bottom:22px">
+    <span style="font-size:1.3rem">+</span> Adicionar Referencial (máx. 10)
+  </div>
+  <div class="card">
+    <div class="card-title">📋 Tabela Resumo dos Referenciais</div>
+    <div style="overflow-x:auto">
+      <table class="data-table">
+        <thead><tr><th>#</th><th>Endereço</th><th>Tipo</th><th>Área (m²)</th><th>Valor Total</th><th>V/m²</th><th>Fator</th><th>V/m² Ajustado</th></tr></thead>
+        <tbody id="tabela-refs-body"><tr><td colspan="8" style="text-align:center;color:var(--muted);padding:20px">Preencha os referenciais acima</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ========== SEC 5: CÁLCULO ========== -->
+<div id="sec-calculo" class="section section-hidden">
+<div class="page-wrap">
+  <div class="sec-tag">🧮 Avaliação</div>
+  <div class="section-title">Cálculo & Resultado da Avaliação</div>
+  <div class="section-sub">Valores calculados automaticamente</div>
+
+  <div class="grid-2" style="gap:16px;margin-bottom:16px">
+    <div class="card">
+      <div class="card-title">⚙️ Parâmetros do Cálculo</div>
+      <div class="field-group">
+        <div class="field-label">Método de Avaliação</div>
+        <select class="input-field" id="calc-metodo" onchange="calcularTudo()">
+          <option value="comparativo">Comparativo Direto (ABNT NBR 14.653-2)</option>
+          <option value="renda">Método da Renda</option>
+          <option value="custo">Método do Custo</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Fator de Oferta</div>
+        <select class="input-field" id="calc-fator-oferta" onchange="calcularTudo()">
+          <option value="0.92">8% — Alta oferta (típico SP)</option>
+          <option value="0.95">5% — Mercado equilibrado</option>
+          <option value="0.98">2% — Muito procurado</option>
+          <option value="1.00">0% — Não aplicar</option>
+        </select>
+      </div>
+      <div class="field-group"><div class="field-label">Depreciação por Idade</div><input class="input-field calc-result" id="calc-depreciacao" readonly></div>
+      <div class="field-group"><div class="field-label">Coef. Conservação</div><input class="input-field calc-result" id="calc-coef-conservacao" readonly></div>
+      <div class="field-group"><div class="field-label">Coef. Padrão</div><input class="input-field calc-result" id="calc-coef-padrao" readonly></div>
+      <div class="field-group"><div class="field-label">Coef. Infraestrutura</div><input class="input-field calc-result" id="calc-coef-infra" readonly></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="result-box">
+        <div class="result-label">VALOR MÉDIO DOS REFERENCIAIS (R$/m²)</div>
+        <div class="result-main" id="res-medio-m2">R$ —</div>
+        <div class="result-range" id="res-n-refs">Baseado em <b>0</b> referenciais</div>
+      </div>
+      <div class="result-box">
+        <div class="result-label">VALOR DE AVALIAÇÃO DO IMÓVEL</div>
+        <div class="result-main" id="res-valor-final">R$ —</div>
+        <div class="result-range">Faixa: <span id="res-min">—</span> a <span id="res-max">—</span></div>
+        <div style="margin-top:9px"><span class="result-label">VALOR/m²</span><div class="result-m2" id="res-vm2">R$ —/m²</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title">📐 Fórmulas Aplicadas</div>
+    <div class="grid-2">
+      <div>
+        <div style="font-size:11px;color:#3D6B8A;margin-bottom:5px;font-weight:700">V/m² AJUSTADO</div>
+        <div style="background:rgba(26,82,118,.07);border:1px solid rgba(26,82,118,.18);border-radius:8px;padding:11px;font-family:monospace;font-size:12px;color:#1F618D">
+          V_aj = (V_total ÷ Área_m²) × F_homog<br>F_homog = F_conserv × F_padrão × F_localiz
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;color:#3D6B8A;margin-bottom:5px;font-weight:700">VALOR FINAL</div>
+        <div style="background:rgba(26,82,118,.07);border:1px solid rgba(26,82,118,.18);border-radius:8px;padding:11px;font-family:monospace;font-size:12px;color:#1F618D">
+          V_final = Média(V_aj) × Área_útil<br>× F_oferta × (1 - Depreciação)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="gap:16px;margin-bottom:16px">
+    <div class="chart-container"><div class="chart-title">📊 V/m² por Referencial</div><canvas id="chartBarras" height="220"></canvas></div>
+    <div class="chart-container"><div class="chart-title">📈 Dispersão Área × Valor</div><canvas id="chartScatter" height="220"></canvas></div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title">🔢 Memória de Cálculo</div>
+    <div style="overflow-x:auto">
+      <table class="data-table">
+        <thead><tr><th>#</th><th>Referencial</th><th>Área</th><th>Valor Total</th><th>V/m² Bruto</th><th>F.Conserv</th><th>F.Padrão</th><th>F.Localiz</th><th>V/m² Ajustado</th></tr></thead>
+        <tbody id="tabela-calculo-body"><tr><td colspan="9" style="text-align:center;color:var(--muted);padding:18px">Preencha os referenciais</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💰 Estimativa de Custos de Transação</div>
+    <div class="grid-2">
+      <div>
+        <div class="sum-row"><span class="sum-label">Valor de Avaliação</span><span class="sum-val" id="custo-base">R$ —</span></div>
+        <div class="sum-row"><span class="sum-label">ITBI (3% — SP)</span><span class="sum-val" id="custo-itbi">R$ —</span></div>
+        <div class="sum-row"><span class="sum-label">Escritura Pública (~1,2%)</span><span class="sum-val" id="custo-escritura">R$ —</span></div>
+        <div class="sum-row"><span class="sum-label">Registro RI (~0,7%)</span><span class="sum-val" id="custo-registro">R$ —</span></div>
+        <div class="sum-row sum-total"><span class="sum-label">Total Custos Cartoriais</span><span class="sum-val" id="custo-total">R$ —</span></div>
+      </div>
+      <div>
+        <div class="sum-row"><span class="sum-label">Comissão Corretor (6% COFECI)</span><span class="sum-val" id="custo-comissao">R$ —</span></div>
+        <div class="sum-row"><span class="sum-label">Aluguel Sugerido (0,5%/mês)</span><span class="sum-val" id="custo-aluguel">R$ —</span></div>
+        <div class="sum-row"><span class="sum-label">Cap Rate Anual</span><span class="sum-val" id="custo-caprate">—%</span></div>
+        <div class="sum-row"><span class="sum-label">Retorno (locação)</span><span class="sum-val" id="custo-retorno">— anos</span></div>
+        <div class="field-group" style="margin-top:11px">
+          <div class="field-label">Comissão Personalizada (%)</div>
+          <input class="input-field" id="custom-comissao" type="number" placeholder="6" step="0.5" min="0" max="20" oninput="calcularTudo()">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ========== SEC 6: LOCAÇÃO ========== -->
+<div id="sec-locacao" class="section section-hidden">
+<div class="page-wrap">
+  <div class="sec-tag">🔑 Avaliação de Locação</div>
+  <div class="section-title">Parecer de Valor Locatício</div>
+  <div class="section-sub">Cálculo do valor mensal de locação baseado no mercado</div>
+
+  <div class="grid-2" style="gap:16px;margin-bottom:16px">
+    <div class="card">
+      <div class="card-title">🔑 Dados para Cálculo Locatício</div>
+      <div class="field-group"><div class="field-label">Valor de Avaliação</div><input class="input-field calc-result" id="loc-valor-avaliacao" readonly placeholder="Calcule primeiro em Cálculo"></div>
+      <div class="field-group">
+        <div class="field-label">Taxa Locatícia Mensal (%)</div>
+        <select class="input-field" id="loc-taxa" onchange="calcularLocacao()">
+          <option value="0.004">0,4% — Mercado desaquecido</option>
+          <option value="0.005" selected>0,5% — Referência CRECI-SP</option>
+          <option value="0.006">0,6% — Localização valorizada</option>
+          <option value="0.007">0,7% — Alto giro</option>
+          <option value="0.008">0,8% — Comercial</option>
+          <option value="custom">Personalizada…</option>
+        </select>
+      </div>
+      <div class="field-group" id="loc-taxa-custom-wrap" style="display:none">
+        <div class="field-label">Taxa Personalizada (%)</div>
+        <input class="input-field" id="loc-taxa-custom" type="number" step="0.05" min="0.1" max="3" placeholder="0,5" oninput="calcularLocacao()">
+      </div>
+      <div class="field-group">
+        <div class="field-label">Índice de Reajuste Anual</div>
+        <select class="input-field" id="loc-indice">
+          <option>IGP-M (FGV)</option><option>IPCA (IBGE)</option><option>INPC (IBGE)</option><option>IVAR (FGV)</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Prazo do Contrato</div>
+        <select class="input-field" id="loc-prazo">
+          <option>30 meses (Padrão — art. 46 Lei 8.245/91)</option>
+          <option>12 meses</option><option>24 meses</option><option>36 meses</option>
+          <option>90 dias (Temporada — art. 48)</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Modalidade de Garantia</div>
+        <select class="input-field" id="loc-garantia">
+          <option>Caução (3 meses — art. 38)</option><option>Fiador</option>
+          <option>Seguro Fiança</option><option>Título de Capitalização</option><option>Sem Garantia</option>
+        </select>
+      </div>
+      <button class="btn btn-gold" style="width:100%;margin-top:7px" onclick="calcularLocacao()">🔑 Calcular Locação</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="result-box">
+        <div class="result-label">VALOR MENSAL DE LOCAÇÃO SUGERIDO</div>
+        <div class="result-main" id="loc-valor-mensal">R$ —</div>
+        <div class="result-range">Faixa: <span id="loc-min">—</span> a <span id="loc-max">—</span></div>
+      </div>
+      <div class="result-box">
+        <div class="result-label">RECEITA LOCATÍCIA ANUAL</div>
+        <div class="result-main" id="loc-anual">R$ —</div>
+        <div class="result-range">Cap Rate: <b id="loc-caprate">—%</b> | Retorno: <b id="loc-retorno">— anos</b></div>
+      </div>
+      <div class="card" style="padding:15px">
+        <div class="card-title" style="margin-bottom:9px">📋 Encargos Típicos</div>
+        <div class="sum-row"><span class="sum-label">Aluguel Mensal</span><span class="sum-val" id="enc-aluguel">R$ —</span></div>
+        <div class="sum-row"><span class="sum-label">Condomínio (estimativa)</span><span class="sum-val" id="enc-cond">R$ —</span></div>
+        <div class="sum-row"><span class="sum-label">IPTU Mensal</span><span class="sum-val" id="enc-iptu">R$ —</span></div>
+        <div class="sum-row sum-total"><span class="sum-label">Total Estimado/mês</span><span class="sum-val" id="enc-total">R$ —</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title">📊 Referenciais de Locação</div>
+    <div id="loc-refs-container" style="display:flex;flex-direction:column;gap:13px;margin-bottom:13px"></div>
+    <div class="add-ref-btn" onclick="adicionarRefLocacao()"><span style="font-size:1.3rem">+</span> Adicionar Referencial de Locação</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📝 Observações sobre o Valor Locatício</div>
+    <textarea class="input-field" id="loc-obs" style="min-height:90px" placeholder="Ex: Valor estimado com base em 4 referenciais…"></textarea>
+    <div class="legal-base" style="margin-top:11px">
+      <div class="legal-base-title">⚖️ Base Legal</div>
+      <div class="legal-base-text">Lei do Inquilinato — Lei 8.245/1991. Resolução COFECI Nº 1.066/2007.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ========== SEC 7: LAUDO ========== -->
+<div id="sec-laudo" class="section section-hidden">
+<div class="page-wrap">
+  <div class="sec-tag">📝 Laudo Técnico</div>
+  <div class="section-title">Laudo & Cláusulas do Parecer</div>
+  <div class="section-sub">Conforme Resolução COFECI-SP Nº 1.066/2007 e NBR 14.653-2</div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title">📄 Laudo Técnico Gerado Automaticamente</div>
+    <div id="laudo-texto" style="font-size:12px;line-height:1.9;color:#1A2B3C;text-align:justify;background:rgba(255,255,255,0.6);border:1px solid rgba(26,82,118,0.13);border-radius:9px;padding:18px;min-height:190px">
+      <em style="color:var(--muted)">Preencha os dados e clique em "Gerar Laudo".</em>
+    </div>
+    <div style="margin-top:11px;display:flex;gap:8px">
+      <button class="btn btn-gold" onclick="gerarLaudo()">📝 Gerar Laudo</button>
+      <button class="btn btn-outline" onclick="copiarLaudo()">📋 Copiar Texto</button>
+    </div>
+  </div>
+
+  <div id="clausulas-container">
+    <div class="clausula-block">
+      <div class="clausula-header" onclick="toggleClausula(this)">
+        <div class="clausula-num">1</div><div class="clausula-title">Objeto e Finalidade do Parecer</div>
+        <div class="clausula-badge">Obrigatório</div><div class="clausula-arrow">▼</div>
+      </div>
+      <div class="clausula-body">
+        <div class="clausula-text">O presente <strong>PTAM</strong> tem por objeto a avaliação mercadológica do imóvel localizado no endereço indicado na Seção de Identificação, tendo como finalidade a determinação do <strong>valor de mercado</strong> para fins de <span id="cl1-finalidade">compra e venda</span>, conforme solicitação de <span id="cl1-solicitante">———</span>.</div>
+        <div class="clausula-text">Elaborado conforme <strong>Resolução COFECI-SP Nº 1.066/2007</strong> e <strong>ABNT NBR 14.653-2</strong>.</div>
+        <div class="legal-base"><div class="legal-base-title">⚖️ Base Legal</div><div class="legal-base-text">Res. COFECI-SP Nº 1.066/2007 | ABNT NBR 14.653-2:2011 | Lei 6.530/1978 | Decreto 81.871/1978</div></div>
+      </div>
+    </div>
+    <div class="clausula-block">
+      <div class="clausula-header" onclick="toggleClausula(this)">
+        <div class="clausula-num">2</div><div class="clausula-title">Identificação e Caracterização do Imóvel</div>
+        <div class="clausula-badge">Obrigatório</div><div class="clausula-arrow">▼</div>
+      </div>
+      <div class="clausula-body">
+        <div class="clausula-text">Imóvel identificado como <strong id="cl2-tipo">———</strong>, localizado na <strong id="cl2-endereco">———</strong>, bairro <strong id="cl2-bairro">———</strong>, município de <strong id="cl2-cidade">São Paulo/SP</strong>, área útil de <strong id="cl2-area">———</strong> m², composto por <span id="cl2-comodos">———</span>.</div>
+        <div class="clausula-text">Estado de conservação: <strong id="cl2-conservacao">———</strong>. Padrão de acabamento: <strong id="cl2-padrao">———</strong>. Vistoria: <strong id="cl2-vistoria">Presencial Completa</strong>.</div>
+        <div class="clausula-editavel"><div class="clausula-editavel-label">✏️ Complemento Descritivo</div>
+          <textarea class="input-field" id="cl2-complemento" placeholder="Descreva particularidades observadas na vistoria…" style="min-height:75px"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="clausula-block">
+      <div class="clausula-header" onclick="toggleClausula(this)">
+        <div class="clausula-num">3</div><div class="clausula-title">Metodologia de Avaliação Adotada</div>
+        <div class="clausula-badge">Obrigatório</div><div class="clausula-arrow">▼</div>
+      </div>
+      <div class="clausula-body">
+        <div class="clausula-text">Adotou-se o <strong>Método Comparativo Direto de Dados de Mercado</strong> (ABNT NBR 14.653-2, item 8.1), com análise de <strong id="cl3-n-refs">—</strong> imóveis referenciais. Aplicaram-se fatores de homogeneização (conservação, padrão e localização) e fator de oferta.</div>
+        <div class="legal-base"><div class="legal-base-title">⚖️ Base Técnico-Normativa</div><div class="legal-base-text">ABNT NBR 14.653-2:2011 | ABNT NBR 14.653-1:2019</div></div>
+      </div>
+    </div>
+    <div class="clausula-block">
+      <div class="clausula-header" onclick="toggleClausula(this)">
+        <div class="clausula-num">4</div><div class="clausula-title">Pesquisa de Mercado e Referenciais</div>
+        <div class="clausula-badge">Obrigatório</div><div class="clausula-arrow">▼</div>
+      </div>
+      <div class="clausula-body">
+        <div class="clausula-text">Pesquisa realizada em plataformas digitais (ZAP Imóveis, OLX, Viva Real), consulta a corretores da região e levantamento de transações nos últimos <strong>6 meses</strong>.</div>
+        <div class="clausula-editavel"><div class="clausula-editavel-label">✏️ Fontes de Pesquisa</div>
+          <textarea class="input-field" id="cl4-fontes" placeholder="Ex: ZAP Imóveis (3 anúncios), OLX (2 anúncios)…" style="min-height:65px"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="clausula-block">
+      <div class="clausula-header" onclick="toggleClausula(this)">
+        <div class="clausula-num">5</div><div class="clausula-title">Resultado da Avaliação — Valor de Mercado</div>
+        <div class="clausula-badge">Obrigatório</div><div class="clausula-arrow">▼</div>
+      </div>
+      <div class="clausula-body">
+        <div class="clausula-text">Com base na pesquisa e metodologia adotada, o <strong>VALOR DE MERCADO</strong> é estimado em:</div>
+        <div style="background:linear-gradient(135deg,rgba(26,82,118,0.1),rgba(41,128,185,0.06));border:1.5px solid rgba(26,82,118,0.25);border-radius:11px;padding:18px;text-align:center;margin:13px 0">
+          <div style="font-size:.67rem;color:#3D6B8A;font-weight:700;text-transform:uppercase;letter-spacing:2px">VALOR DE MERCADO — <span id="cl5-finalidade">VENDA</span></div>
+          <div style="font-family:'Sora',Arial,sans-serif;font-size:1.9rem;font-weight:800;color:#1A5276;margin:7px 0" id="cl5-valor">R$ —</div>
+          <div id="cl5-valor-extenso" style="font-size:.8rem;color:#3D6B8A;font-style:italic">——————</div>
+          <div style="font-size:.72rem;color:#6A9AB0;margin-top:5px">Faixa: <span id="cl5-faixa">—</span></div>
+        </div>
+        <div class="clausula-text">Variações de até <strong>±10%</strong> são aceitáveis: min. <strong id="cl5-min">R$ —</strong> e máx. <strong id="cl5-max">R$ —</strong>.</div>
+      </div>
+    </div>
+    <div class="clausula-block">
+      <div class="clausula-header" onclick="toggleClausula(this)">
+        <div class="clausula-num">6</div><div class="clausula-title">Limitações, Ressalvas e Condicionantes</div>
+        <div class="clausula-badge">Obrigatório</div><div class="clausula-arrow">▼</div>
+      </div>
+      <div class="clausula-body">
+        <div class="clausula-text"><strong>a)</strong> Válido para a data de emissão.<br><strong>b)</strong> Não inclui análise jurídica de titularidade ou ônus reais.<br><strong>c)</strong> Não substitui laudo de engenharia estrutural.<br><strong>d)</strong> Dados fornecidos pelo solicitante e/ou extraídos de fontes públicas.</div>
+        <div class="clausula-editavel"><div class="clausula-editavel-label">✏️ Ressalvas Adicionais</div>
+          <textarea class="input-field" id="cl6-ressalvas" placeholder="Inclua ressalvas específicas ao caso…" style="min-height:65px"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="clausula-block">
+      <div class="clausula-header" onclick="toggleClausula(this)">
+        <div class="clausula-num">7</div><div class="clausula-title">Responsabilidade Técnica e Assinatura</div>
+        <div class="clausula-badge">Obrigatório</div><div class="clausula-arrow">▼</div>
+      </div>
+      <div class="clausula-body">
+        <div class="clausula-text">Este PTAM foi elaborado pelo profissional abaixo identificado, inscrito no CRECI-SP, assumindo plena responsabilidade técnica nos termos do <strong>art. 7º da Resolução COFECI Nº 1.066/2007</strong>.</div>
+        <div class="grid-2" style="margin-top:18px;gap:22px">
+          <div>
+            <div class="sig-box"><div style="font-size:10px;color:#3D6B8A">Local e data: São Paulo (SP), <span id="cl7-data">___/___/_____</span></div></div>
+            <div class="sig-line"><b id="cl7-nome">——————</b><br>CRECI-SP Nº <span id="cl7-creci">——</span> | CNAI Nº <span id="cl7-cnai">——</span><br>Corretor Avaliador</div>
+          </div>
+          <div>
+            <div class="sig-box"><div style="font-size:10px;color:#3D6B8A">Ciente — Solicitante:</div></div>
+            <div class="sig-line"><b id="cl7-solicitante">——————</b><br>CPF/CNPJ: <span id="cl7-cpf">——————</span><br>Solicitante</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="clausula-block">
+      <div class="clausula-header" onclick="toggleClausula(this)">
+        <div class="clausula-num">8</div><div class="clausula-title">Confidencialidade e Uso do Documento</div>
+        <div class="clausula-badge">Recomendado</div><div class="clausula-arrow">▼</div>
+      </div>
+      <div class="clausula-body">
+        <div class="clausula-text">Este documento é de uso <strong>exclusivo do solicitante</strong> para a finalidade indicada. Vedada reprodução sem autorização expressa do avaliador. O presente PTAM <strong>não constitui garantia de valor</strong> para fins de financiamento junto a instituições financeiras.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:22px">
+    <div class="card-title">✍️ Bloco de Assinatura para Impressão</div>
+    <div class="grid-2" style="gap:30px;margin-top:7px">
+      <div>
+        <div class="field-group"><div class="field-label">Local e Data</div><input class="input-field" id="ass-local-data" placeholder="São Paulo (SP), __/__/____"></div>
+        <div class="sig-box" style="margin-top:14px"></div>
+        <div class="sig-line"><span id="ass-nome-corretor">_____________________</span><br>CRECI-SP Nº <span id="ass-creci-corretor">_______</span><br>Corretor Avaliador</div>
+      </div>
+      <div>
+        <div style="height:50px"></div>
+        <div class="sig-box" style="margin-top:14px"></div>
+        <div class="sig-line"><span id="ass-nome-solic">_____________________</span><br>CPF/CNPJ: <span id="ass-cpf-solic">___________</span><br>Solicitante — Ciente</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ========== SEC 8: CHECKLIST ========== -->
+<div id="sec-checklist" class="section section-hidden">
+<div class="page-wrap">
+  <div class="sec-tag">✅ Controle de Qualidade</div>
+  <div class="section-title">Checklist Profissional do PTAM</div>
+  <div class="section-sub">Verifique todos os itens antes de emitir o parecer final</div>
+
+  <div class="grid-2" style="gap:16px;margin-bottom:16px">
+    <div class="card"><div class="card-title">📋 Dados Obrigatórios</div><div id="check-obrigatorios"></div></div>
+    <div class="card"><div class="card-title">📁 Documentação</div><div id="check-documentacao"></div></div>
+  </div>
+  <div class="grid-2" style="gap:16px;margin-bottom:16px">
+    <div class="card"><div class="card-title">📊 Pesquisa & Metodologia</div><div id="check-metodologia"></div></div>
+    <div class="card"><div class="card-title">📸 Vistoria & Fotos</div><div id="check-vistoria"></div></div>
+  </div>
+  <div class="card" style="margin-bottom:16px"><div class="card-title">⚖️ Conformidade Legal</div><div id="check-legal"></div></div>
+
+  <div class="result-box" style="margin-bottom:16px">
+    <div class="result-label">PROGRESSO DO CHECKLIST</div>
+    <div style="margin:11px 0 5px">
+      <div style="background:rgba(26,82,118,0.13);border-radius:20px;height:11px;overflow:hidden">
+        <div id="check-progress-bar" style="height:100%;background:linear-gradient(90deg,#1A5276,#2980B9);border-radius:20px;transition:width .4s;width:0%"></div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div style="font-size:.8rem;color:#3D6B8A"><span id="check-count">0</span> de <span id="check-total">0</span> itens concluídos</div>
+      <div id="check-status-badge" class="badge badge-red">⚠️ Incompleto</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📌 Notas Finais / Pendências</div>
+    <textarea class="input-field" id="check-notas" placeholder="Registre pendências ou itens a resolver…" style="min-height:110px"></textarea>
+    <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-gold" onclick="salvarLaudo()">💾 Salvar no Arquivo</button>
+      <button class="btn btn-green" onclick="exportarJSON()">📤 Exportar JSON</button>
+      <button class="btn btn-outline" onclick="document.getElementById('importInput').click()">📂 Importar JSON</button>
+      <button class="btn btn-outline" onclick="window.print()">🖨️ Imprimir PTAM</button>
+      <input type="file" id="importInput" style="display:none" accept=".json" onchange="importarJSON(event)">
+    </div>
+    <div style="margin-top:12px;padding:12px;background:rgba(41,128,185,0.07);border:1px solid rgba(41,128,185,0.2);border-radius:9px;font-size:11px;color:#3D6B8A">
+      <strong style="color:#1A5276">💡 Sobre o arquivo:</strong> Os laudos são salvos no navegador (localStorage). Use <strong>Exportar JSON</strong> para fazer backup e guardar no GitHub. Use <strong>Importar JSON</strong> para carregar um laudo salvo.
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- MODAL ARQUIVO -->
+<div class="modal-overlay" id="modalArquivo">
+  <div class="modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+      <div class="modal-title">📁 Arquivo de Laudos PTAM</div>
+      <button class="btn btn-outline btn-sm" onclick="fecharArquivo()">✕ Fechar</button>
+    </div>
+    <div id="modal-laudos-lista">
+      <div style="text-align:center;padding:30px;color:var(--muted)">Nenhum laudo salvo ainda. Preencha os dados e clique em "Salvar no Arquivo".</div>
+    </div>
+    <div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border2);display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-outline btn-sm" onclick="exportarTodosJSON()">📤 Exportar Todos (JSON)</button>
+      <button class="btn btn-outline btn-sm" onclick="document.getElementById('importTodosInput').click()">📂 Importar Arquivo Completo</button>
+      <input type="file" id="importTodosInput" style="display:none" accept=".json" onchange="importarTodosJSON(event)">
+    </div>
+    <div style="margin-top:10px;font-size:11px;color:#6A9AB0">
+      💡 O arquivo JSON exportado pode ser salvo no GitHub para backup e sincronização entre dispositivos.
+    </div>
+  </div>
+</div>
+
+<!-- FAB -->
+<div class="fab-bar no-print">
+  <button class="fab fab-print" onclick="window.print()" title="PDF">🖨️</button>
+  <button class="fab fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Topo">▲</button>
+</div>
+
+<script>
+/* ==============================
+   ESTADO GLOBAL
+============================== */
+let refs = [];
+let refsLocacao = [];
+let charts = {};
+let arquivoLaudos = []; // Array de laudos salvos
+let laudoAtivo = null;  // ID do laudo sendo editado
+
+/* ==============================
+   NAVEGAÇÃO
+============================== */
+function showSec(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.add('section-hidden'));
+  document.getElementById('sec-' + id).classList.remove('section-hidden');
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (id === 'calculo') setTimeout(renderCharts, 200);
+  if (id === 'laudo') preencherClausulas();
+  if (id === 'checklist') atualizarChecklist();
+}
+
+/* ==============================
+   HEADER DINÂMICO
+============================== */
+function atualizarHeader() {
+  const nome = v('corretor-nome');
+  const creci = v('corretor-creci') || '294791-F';
+  const cnai = v('corretor-cnai') || '52708';
+  const num = v('ptam-numero');
+  const data = v('ptam-data');
+  const finalidade = v('ptam-finalidade');
+  document.getElementById('hdr-creci').textContent = creci;
+  document.getElementById('hdr-cnai').textContent = cnai;
+  document.getElementById('disp-ptam-num').textContent = num ? 'PTAM Nº ' + num : 'PTAM Nº —';
+  document.getElementById('disp-data').textContent = data ? formatData(data) : '—';
+  document.getElementById('disp-finalidade').textContent = finalidade || '—';
+  document.getElementById('disp-corretor').textContent = nome ? nome + ' — CRECI-SP ' + creci : '';
+  const solNome = v('solic-nome') || '_____________________';
+  const solCpf = v('solic-cpf') || '___________';
+  si('ass-nome-corretor', nome || '_____________________');
+  si('ass-creci-corretor', creci);
+  si('ass-nome-solic', solNome);
+  si('ass-cpf-solic', solCpf);
+}
+
+function formatData(d) {
+  if (!d) return '—';
+  const p = d.split('-');
+  return p[2] + '/' + p[1] + '/' + p[0];
+}
+
+/* ==============================
+   UTILITÁRIOS
+============================== */
+function v(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+function vn(id) { return parseFloat(document.getElementById(id)?.value) || 0; }
+function si(id, val) { const el = document.getElementById(id); if (el) el.textContent = val; }
+function sv(id, val) { const el = document.getElementById(id); if (el) el.value = val; }
+
+function formatMoeda(n) {
+  if (!n || isNaN(n)) return 'R$ —';
+  return 'R$ ' + n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function valorExtenso(n) {
+  if (!n || isNaN(n)) return '';
+  const mi = Math.floor(n / 1000000);
+  const mil = Math.floor((n % 1000000) / 1000);
+  const cen = Math.floor(n % 1000);
+  let s = '';
+  if (mi > 0) s += mi + (mi === 1 ? ' milhão' : ' milhões');
+  if (mil > 0) s += (s ? ', ' : '') + mil + ' mil';
+  if (cen > 0) s += (s ? ' e ' : '') + cen;
+  return s ? s + ' reais' : 'zero reais';
+}
+
+/* ==============================
+   INFRAESTRUTURA
+============================== */
+const infraItens = [
+  { id: 'elevador', label: '🛗 Elevador', coef: 0.04 },
+  { id: 'piscina', label: '🏊 Piscina', coef: 0.05 },
+  { id: 'academia', label: '💪 Academia', coef: 0.02 },
+  { id: 'salao_festas', label: '🎉 Salão de Festas', coef: 0.02 },
+  { id: 'portaria_24h', label: '🔒 Portaria 24h', coef: 0.03 },
+  { id: 'churrasqueira', label: '🔥 Churrasqueira', coef: 0.015 },
+  { id: 'playground', label: '🛝 Playground', coef: 0.01 },
+  { id: 'quadra', label: '⚽ Quadra', coef: 0.02 },
+  { id: 'sacada', label: '🌿 Sacada/Varanda', coef: 0.025 },
+  { id: 'armarios', label: '🗄️ Armários Embutidos', coef: 0.02 },
+  { id: 'ar_condicionado', label: '❄️ Ar-Condicionado', coef: 0.015 },
+  { id: 'porcelanato', label: '🪨 Porcelanato', coef: 0.01 },
+  { id: 'suite_master', label: '🛏️ Suíte Master', coef: 0.02 },
+  { id: 'dep_empregada', label: '🧹 Dep. Empregada', coef: 0.01 },
+  { id: 'energia_solar', label: '☀️ Energia Solar', coef: 0.025 },
+  { id: 'gas_encanado', label: '🔥 Gás Encanado', coef: 0.01 },
+  { id: 'interfone', label: '📞 Interfone/Vídeo', coef: 0.005 },
+  { id: 'pet_friendly', label: '🐾 Pet Friendly', coef: 0.01 },
+];
+
+function renderInfraGrid() {
+  const grid = document.getElementById('infraGrid');
+  if (!grid) return;
+  grid.innerHTML = infraItens.map(item => `
+    <label style="display:flex;align-items:flex-start;gap:7px;cursor:pointer;padding:5px 0;font-size:12px;color:#1A2B3C">
+      <input type="checkbox" id="infra-${item.id}" class="check-box" onchange="calcularTudo()" style="margin-top:1px">
+      <span>${item.label} <span style="font-size:10px;color:#6A9AB0">(+${(item.coef*100).toFixed(1)}%)</span></span>
+    </label>
+  `).join('');
+}
+
+function calcCoefInfra() {
+  let total = 1.0;
+  infraItens.forEach(item => {
+    const el = document.getElementById('infra-' + item.id);
+    if (el && el.checked) total += item.coef;
+  });
+  return Math.min(total, 1.35);
+}
+
+/* ==============================
+   FOTOS
+============================== */
+const fotoLabels = ['Fachada', 'Sala', 'Cozinha', 'Dormitório 1', 'Dormitório 2', 'Banheiro', 'Área Serviço', 'Vista/Sacada'];
+
+function renderPhotoGrid() {
+  const grid = document.getElementById('photoGridPrincipal');
+  if (!grid) return;
+  grid.innerHTML = fotoLabels.map((label, i) => `
+    <div class="photo-slot" id="photo-slot-${i}">
+      <div class="photo-label">📷 ${label}</div>
+      <input type="file" accept="image/*" onchange="loadPhoto(event,${i})">
+    </div>
+  `).join('');
+}
+
+function loadPhoto(e, idx) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const slot = document.getElementById('photo-slot-' + idx);
+    slot.innerHTML = `<img src="${ev.target.result}" alt="Foto ${idx+1}"><div style="position:absolute;bottom:4px;right:4px;background:rgba(26,82,118,.7);color:#fff;font-size:10px;padding:2px 5px;border-radius:5px;z-index:2">📷 ${fotoLabels[idx]}</div>`;
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ==============================
+   REFERENCIAIS DE VENDA
+============================== */
+function adicionarReferencial() {
+  if (refs.length >= 10) { alert('Máximo de 10 referenciais.'); return; }
+  refs.push({ id: refs.length });
+  renderRefs();
+}
+
+function renderRefs() {
+  const cont = document.getElementById('refs-container');
+  if (!cont) return;
+  cont.innerHTML = refs.map((r, i) => `
+    <div class="ref-card ${i < 3 ? 'active-ref' : ''}" id="ref-card-${i}">
+      <div class="ref-card-header">
+        <div class="ref-num">${i + 1}</div>
+        <span class="ref-status ${i < 3 ? 'obrig' : 'opt'}">${i < 3 ? 'Obrigatório' : 'Opcional'}</span>
+        <div style="flex:1"></div>
+        <button class="ref-remove" onclick="removerRef(${i})">✕</button>
+      </div>
+      <div class="grid-2">
+        <div class="field-group"><div class="field-label">Endereço / Identificação</div><input class="input-field" id="ref-end-${i}" placeholder="Rua X, nº Y" oninput="calcularTudo()"></div>
+        <div class="field-group"><div class="field-label">Tipo</div>
+          <select class="input-field" id="ref-tipo-${i}" onchange="calcularTudo()">
+            <option>Apartamento</option><option>Casa Padrão</option><option>Sobrado</option>
+            <option>Kitnet/Studio</option><option>Sala Comercial</option><option>Terreno</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-4">
+        <div class="field-group"><div class="field-label">Área (m²) *</div><input class="input-field" id="ref-area-${i}" type="number" placeholder="65" oninput="calcularTudo()"></div>
+        <div class="field-group"><div class="field-label">Valor Total (R$) *</div><input class="input-field" id="ref-valor-${i}" type="number" placeholder="320000" oninput="calcularTudo()"></div>
+        <div class="field-group"><div class="field-label">V/m² Calculado</div><input class="input-field calc-result" id="ref-vm2-${i}" readonly></div>
+        <div class="field-group"><div class="field-label">Fonte</div>
+          <select class="input-field" id="ref-fonte-${i}">
+            <option>ZAP Imóveis</option><option>OLX</option><option>Viva Real</option>
+            <option>Indicação Corretor</option><option>Transação Cartório</option><option>Outra</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="field-group"><div class="field-label">F. Conservação</div>
+          <select class="input-field" id="ref-fcons-${i}" onchange="calcularTudo()">
+            <option value="1.08">Novo</option><option value="1.04">Ótimo</option>
+            <option value="1.00" selected>Bom</option><option value="0.95">Regular</option>
+            <option value="0.88">Ruim</option><option value="0.75">Péssimo</option>
+          </select>
+        </div>
+        <div class="field-group"><div class="field-label">F. Padrão</div>
+          <select class="input-field" id="ref-fpad-${i}" onchange="calcularTudo()">
+            <option value="1.25">Luxo</option><option value="1.10">Superior</option>
+            <option value="1.00" selected>Médio</option><option value="0.90">Simples</option><option value="0.78">Popular</option>
+          </select>
+        </div>
+        <div class="field-group"><div class="field-label">F. Localização</div>
+          <select class="input-field" id="ref-floc-${i}" onchange="calcularTudo()">
+            <option value="1.10">Melhor que avaliando</option>
+            <option value="1.00" selected>Similar ao avaliando</option>
+            <option value="0.92">Inferior ao avaliando</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-group"><div class="field-label">V/m² Ajustado</div><input class="input-field calc-result" id="ref-vajustado-${i}" readonly></div>
+      <div class="field-group"><div class="field-label">Observação</div><input class="input-field" id="ref-obs-${i}" placeholder="Ex: 2 dorms, reformado"></div>
+    </div>
+  `).join('');
+  calcularTudo();
+}
+
+function removerRef(i) {
+  refs.splice(i, 1);
+  renderRefs();
+}
+
+/* ==============================
+   REFERENCIAIS LOCAÇÃO
+============================== */
+function adicionarRefLocacao() {
+  if (refsLocacao.length >= 8) return;
+  refsLocacao.push({ id: refsLocacao.length });
+  renderRefsLocacao();
+}
+
+function renderRefsLocacao() {
+  const cont = document.getElementById('loc-refs-container');
+  if (!cont) return;
+  cont.innerHTML = refsLocacao.map((r, i) => `
+    <div class="ref-card">
+      <div class="ref-card-header">
+        <div class="ref-num">${i + 1}</div>
+        <span class="ref-status opt">Locação</span>
+        <div style="flex:1"></div>
+        <button class="ref-remove" onclick="removerRefLocacao(${i})">✕</button>
+      </div>
+      <div class="grid-3">
+        <div class="field-group"><div class="field-label">Endereço</div><input class="input-field" id="locref-end-${i}" placeholder="Rua X, nº Y"></div>
+        <div class="field-group"><div class="field-label">Área (m²)</div><input class="input-field" id="locref-area-${i}" type="number" placeholder="65"></div>
+        <div class="field-group"><div class="field-label">Aluguel Mensal (R$)</div><input class="input-field" id="locref-valor-${i}" type="number" placeholder="1800"></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function removerRefLocacao(i) {
+  refsLocacao.splice(i, 1);
+  renderRefsLocacao();
+}
+
+/* ==============================
+   MAPA
+============================== */
+function atualizarMapa() {
+  const end = v('av-endereco');
+  const bairro = v('av-bairro') || 'Itaim Paulista';
+  const cidade = v('av-cidade') || 'São Paulo';
+  const q = encodeURIComponent((end || bairro) + ', ' + cidade);
+  const frame = document.getElementById('mapFrame');
+  if (frame) frame.src = `https://maps.google.com/maps?q=${q}&output=embed&z=15`;
+}
+
+/* ==============================
+   CÁLCULO PRINCIPAL
+============================== */
+function calcularTudo() {
+  const areaUtil = vn('av-area-util');
+  const anoConstr = vn('av-ano');
+  const coefCons = parseFloat(document.getElementById('av-conservacao')?.value) || 1.0;
+  const coefPad = parseFloat(document.getElementById('av-padrao')?.value) || 1.0;
+  const coefInfra = calcCoefInfra();
+  const fatorOferta = parseFloat(document.getElementById('calc-fator-oferta')?.value) || 0.92;
+
+  const anoAtual = new Date().getFullYear();
+  const idade = anoConstr > 0 ? Math.max(0, anoAtual - anoConstr) : 0;
+  const vidaUtil = 60;
+  const deprc = anoConstr > 0 ? Math.min(0.60, (idade / vidaUtil) * 0.6) : 0;
+
+  sv('calc-depreciacao', anoConstr > 0 ? (deprc * 100).toFixed(1) + '%' : '0%');
+  sv('calc-coef-conservacao', coefCons.toFixed(2) + ' (' + (coefCons >= 1 ? '+' : '') + ((coefCons - 1) * 100).toFixed(0) + '%)');
+  sv('calc-coef-padrao', coefPad.toFixed(2) + ' (' + (coefPad >= 1 ? '+' : '') + ((coefPad - 1) * 100).toFixed(0) + '%)');
+  sv('calc-coef-infra', coefInfra.toFixed(3) + ' (+' + ((coefInfra - 1) * 100).toFixed(1) + '%)');
+
+  let somaAjustada = 0;
+  let countValidos = 0;
+  const valoresAjustados = [];
+  const tbody = document.getElementById('tabela-calculo-body');
+  const tbodyRefs = document.getElementById('tabela-refs-body');
+  let rowsCalc = '';
+  let rowsRefs = '';
+
+  for (let i = 0; i < refs.length; i++) {
+    const area = parseFloat(document.getElementById('ref-area-' + i)?.value) || 0;
+    const valor = parseFloat(document.getElementById('ref-valor-' + i)?.value) || 0;
+    const fcons = parseFloat(document.getElementById('ref-fcons-' + i)?.value) || 1.0;
+    const fpad = parseFloat(document.getElementById('ref-fpad-' + i)?.value) || 1.0;
+    const floc = parseFloat(document.getElementById('ref-floc-' + i)?.value) || 1.0;
+    const end = v('ref-end-' + i) || ('Ref. ' + (i + 1));
+    const tipo = v('ref-tipo-' + i) || '—';
+
+    if (area > 0 && valor > 0) {
+      const vm2Bruto = valor / area;
+      const vm2Aj = vm2Bruto * (coefCons / fcons) * (coefPad / fpad) * (1 / floc);
+      sv('ref-vm2-' + i, 'R$ ' + vm2Bruto.toLocaleString('pt-BR', { maximumFractionDigits: 0 }));
+      sv('ref-vajustado-' + i, 'R$ ' + vm2Aj.toLocaleString('pt-BR', { maximumFractionDigits: 0 }));
+      somaAjustada += vm2Aj;
+      countValidos++;
+      valoresAjustados.push({ end, vm2Aj, area, valor });
+      rowsCalc += `<tr><td>${i+1}</td><td>${end}</td><td>${area.toLocaleString('pt-BR')}</td><td>${formatMoeda(valor)}</td><td>R$ ${vm2Bruto.toLocaleString('pt-BR',{maximumFractionDigits:0})}</td><td>${fcons.toFixed(2)}</td><td>${fpad.toFixed(2)}</td><td>${floc.toFixed(2)}</td><td class="td-gold">R$ ${vm2Aj.toLocaleString('pt-BR',{maximumFractionDigits:0})}</td></tr>`;
+      rowsRefs += `<tr><td>${i+1}</td><td>${end}</td><td>${tipo}</td><td>${area.toLocaleString('pt-BR')}</td><td>${formatMoeda(valor)}</td><td>R$ ${vm2Bruto.toLocaleString('pt-BR',{maximumFractionDigits:0})}</td><td>${(fcons*fpad*floc).toFixed(3)}</td><td class="td-gold">R$ ${vm2Aj.toLocaleString('pt-BR',{maximumFractionDigits:0})}</td></tr>`;
+    }
+  }
+
+  if (tbody) tbody.innerHTML = rowsCalc || '<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:18px">Preencha os referenciais</td></tr>';
+  if (tbodyRefs) tbodyRefs.innerHTML = rowsRefs || '<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:18px">Preencha os referenciais acima</td></tr>';
+
+  if (countValidos > 0 && areaUtil > 0) {
+    const medioM2 = somaAjustada / countValidos;
+    const valorFinal = medioM2 * areaUtil * fatorOferta * (1 - deprc);
+    const min = valorFinal * 0.90;
+    const max = valorFinal * 1.10;
+    const vm2Final = valorFinal / areaUtil;
+
+    si('res-medio-m2', 'R$ ' + medioM2.toLocaleString('pt-BR', { maximumFractionDigits: 0 }));
+    si('res-n-refs', 'Baseado em ' + countValidos + ' referencial(is)');
+    si('res-valor-final', formatMoeda(Math.round(valorFinal)));
+    si('res-min', formatMoeda(Math.round(min)));
+    si('res-max', formatMoeda(Math.round(max)));
+    si('res-vm2', 'R$ ' + vm2Final.toLocaleString('pt-BR', { maximumFractionDigits: 0 }) + '/m²');
+
+    const vf = Math.round(valorFinal);
+    si('custo-base', formatMoeda(vf));
+    si('custo-itbi', formatMoeda(Math.round(vf * 0.03)));
+    si('custo-escritura', formatMoeda(Math.round(vf * 0.012)));
+    si('custo-registro', formatMoeda(Math.round(vf * 0.007)));
+    si('custo-total', formatMoeda(Math.round(vf * 0.049)));
+    const comPct = (parseFloat(document.getElementById('custom-comissao')?.value) || 6) / 100;
+    si('custo-comissao', formatMoeda(Math.round(vf * comPct)));
+    const alugSug = Math.round(vf * 0.005);
+    si('custo-aluguel', formatMoeda(alugSug));
+    const capRate = ((alugSug * 12) / vf * 100).toFixed(2);
+    si('custo-caprate', capRate + '%');
+    si('custo-retorno', (100 / parseFloat(capRate)).toFixed(1));
+    sv('loc-valor-avaliacao', formatMoeda(vf));
+    calcularLocacao();
+    renderCharts(valoresAjustados, vm2Final);
+    preencherClausulas();
+  } else {
+    ['res-medio-m2','res-valor-final','res-vm2'].forEach(id => si(id, 'R$ —'));
+  }
+  si('cl3-n-refs', countValidos);
+}
+
+/* ==============================
+   CÁLCULO LOCAÇÃO
+============================== */
+function calcularLocacao() {
+  const taxaSel = document.getElementById('loc-taxa')?.value;
+  const wrap = document.getElementById('loc-taxa-custom-wrap');
+  if (wrap) wrap.style.display = taxaSel === 'custom' ? 'block' : 'none';
+  let taxa = taxaSel === 'custom' ? (parseFloat(document.getElementById('loc-taxa-custom')?.value) / 100 || 0.005) : parseFloat(taxaSel) || 0.005;
+  let valorBase = 0;
+  const locField = document.getElementById('loc-valor-avaliacao');
+  if (locField && locField.value) valorBase = parseFloat(locField.value.replace(/[^\d,]/g, '').replace(',', '.')) || 0;
+  if (valorBase === 0) return;
+  const mensal = Math.round(valorBase * taxa);
+  const anual = mensal * 12;
+  const capRate = ((anual / valorBase) * 100).toFixed(2);
+  const retorno = (100 / parseFloat(capRate)).toFixed(1);
+  si('loc-valor-mensal', formatMoeda(mensal));
+  si('loc-min', formatMoeda(Math.round(mensal * 0.90)));
+  si('loc-max', formatMoeda(Math.round(mensal * 1.10)));
+  si('loc-anual', formatMoeda(anual));
+  si('loc-caprate', capRate + '% a.a.');
+  si('loc-retorno', retorno + ' anos');
+  si('enc-aluguel', formatMoeda(mensal));
+  si('enc-cond', 'A verificar');
+  si('enc-iptu', formatMoeda(Math.round(valorBase * 0.001 / 12)));
+  si('enc-total', formatMoeda(mensal + Math.round(valorBase * 0.001 / 12)) + ' + cond.');
+  si('custo-aluguel', formatMoeda(mensal));
+}
+
+/* ==============================
+   GRÁFICOS
+============================== */
+function renderCharts(valoresAjustados, vm2Final) {
+  if (!window.Chart) return;
+  const labels = valoresAjustados ? valoresAjustados.map((v, i) => 'Ref. ' + (i + 1)) : [];
+  const dataBar = valoresAjustados ? valoresAjustados.map(v => Math.round(v.vm2Aj)) : [];
+  if (vm2Final) { labels.push('Avaliando'); dataBar.push(Math.round(vm2Final)); }
+
+  if (charts.barras) charts.barras.destroy();
+  const ctxB = document.getElementById('chartBarras');
+  if (ctxB && labels.length > 0) {
+    charts.barras = new Chart(ctxB, {
+      type: 'bar',
+      data: { labels, datasets: [{ label: 'R$/m² Ajustado', data: dataBar,
+        backgroundColor: dataBar.map((_, i) => i === dataBar.length-1 ? 'rgba(26,82,118,0.82)' : 'rgba(41,128,185,0.52)'),
+        borderColor: dataBar.map((_, i) => i === dataBar.length-1 ? '#1A5276' : '#2980B9'),
+        borderWidth: 1.5, borderRadius: 6 }] },
+      options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: false } } }
+    });
+  }
+
+  if (charts.scatter) charts.scatter.destroy();
+  const ctxS = document.getElementById('chartScatter');
+  if (ctxS && valoresAjustados && valoresAjustados.length > 0) {
+    charts.scatter = new Chart(ctxS, {
+      type: 'scatter',
+      data: { datasets: [{ label: 'Referenciais', data: valoresAjustados.map(v => ({ x: v.area, y: v.valor })), backgroundColor: 'rgba(41,128,185,0.6)', pointRadius: 7 }] },
+      options: { responsive: true, plugins: { legend: { display: false } },
+        scales: { x: { title: { display: true, text: 'Área (m²)' } }, y: { title: { display: true, text: 'Valor Total (R$)' } } } }
+    });
+  }
+}
+
+/* ==============================
+   DOCUMENTAÇÃO
+============================== */
+const docTransacoes = {
+  compravenda: { titulo: '🏠 Compra e Venda à Vista', grupos: [
+    { nome: 'Documentos do Vendedor', itens: [{ doc: 'RG e CPF / CNH', base: 'CC art. 107' },{ doc: 'Certidão de Nascimento ou Casamento', base: 'Lei 6.015/73' },{ doc: 'Comprovante de Residência', base: 'Prática notarial' },{ doc: 'Certidão Negativa de Débitos Federais', base: 'Lei 10.522/02' },{ doc: 'Certidão de Distribuição Criminal e Cível', base: 'CPC art. 792' }] },
+    { nome: 'Documentos do Imóvel', itens: [{ doc: 'Matrícula atualizada (≤ 30 dias)', base: 'Lei 6.015/73, art. 17' },{ doc: 'Certidão de Ônus Reais', base: 'Lei 6.015/73, art. 167' },{ doc: 'IPTU — Carnê e Certidão de Débitos', base: 'CTN art. 130' },{ doc: 'Certidão de Situação Cadastral — PMSP', base: 'Lei Municipal 14.107/06' },{ doc: 'Habite-se / Auto de Conclusão', base: 'Lei 6.766/79' },{ doc: 'Planta e Memorial Descritivo', base: 'NBR 14.653-2' }] },
+    { nome: 'Documentos do Comprador', itens: [{ doc: 'RG e CPF / CNH', base: 'CC art. 107' },{ doc: 'Certidão de Casamento / Regime de Bens', base: 'CC art. 1.639' },{ doc: 'Comprovante de Renda (3 últimos meses)', base: 'Exigência bancária' }] }
+  ]},
+  financiamento: { titulo: '🏦 Compra com Financiamento', grupos: [
+    { nome: 'Documentos Pessoais', itens: [{ doc: 'RG, CPF e CNH', base: 'Res. CMN 4.676/18' },{ doc: 'Certidão de Casamento/Nascimento', base: 'Lei 6.015/73' },{ doc: 'Comprovante de Renda (3 meses) + CTPS', base: 'Lei SFH 4.380/64' },{ doc: 'Extrato FGTS', base: 'Lei 8.036/90' },{ doc: 'Declaração de IR', base: 'Exigência bancária' }] },
+    { nome: 'Documentos do Imóvel', itens: [{ doc: 'Matrícula atualizada (≤ 30 dias)', base: 'Lei 9.514/97' },{ doc: 'Certidão de Ônus e Ações Reais', base: 'Lei 6.015/73' },{ doc: 'IPTU — Certidão Negativa', base: 'CTN art. 130' },{ doc: 'Laudo Engenheiro (banco)', base: 'Res. CMN 4.676/18' },{ doc: 'Habite-se e Memorial Descritivo', base: 'Lei 6.766/79' }] }
+  ]},
+  locacao: { titulo: '🔑 Locação Residencial', grupos: [
+    { nome: 'Documentos do Locador', itens: [{ doc: 'RG e CPF / CNH', base: 'Lei 8.245/91' },{ doc: 'Matrícula do Imóvel', base: 'Lei 8.245/91, art. 22, I' },{ doc: 'IPTU atualizado', base: 'Lei 8.245/91, art. 22, VIII' }] },
+    { nome: 'Documentos do Locatário', itens: [{ doc: 'RG e CPF', base: 'Lei 8.245/91' },{ doc: 'Comprovante de Renda (3× aluguel)', base: 'Prática' },{ doc: 'Comprovante de Residência Anterior', base: 'Prática' }] },
+    { nome: 'Garantia', itens: [{ doc: 'Caução (3 meses) — recibo', base: 'Lei 8.245/91, art. 38' },{ doc: 'Fiador — documentos e imóvel próprio', base: 'Lei 8.245/91, art. 37, III' },{ doc: 'Seguro Fiança — apólice', base: 'Lei 8.245/91, art. 37, II' }] }
+  ]},
+  doacao: { titulo: '🎁 Doação de Imóvel', grupos: [
+    { nome: 'Documentos Essenciais', itens: [{ doc: 'RG, CPF do Doador e Donatário', base: 'CC art. 538' },{ doc: 'Matrícula atualizada do Imóvel', base: 'Lei 6.015/73' },{ doc: 'Guia ITCMD paga (SEFAZ-SP — 4%)', base: 'Lei Estadual 10.705/00' },{ doc: 'Escritura Pública de Doação', base: 'CC art. 541' }] }
+  ]},
+  inventario: { titulo: '⚖️ Inventário e Partilha', grupos: [
+    { nome: 'Documentos do Inventário', itens: [{ doc: 'Certidão de Óbito', base: 'CC art. 1.784' },{ doc: 'RG e CPF de todos os Herdeiros', base: 'CPC art. 610' },{ doc: 'Matrícula de todos os imóveis', base: 'Lei 6.015/73' },{ doc: 'Guia ITCMD paga', base: 'Lei Estadual 10.705/00' },{ doc: 'PTAM para fins de partilha', base: 'Res. COFECI 1.066/07' }] }
+  ]},
+  permuta: { titulo: '🔄 Permuta Imobiliária', grupos: [
+    { nome: 'Documentos da Permuta', itens: [{ doc: 'Matrícula dos dois imóveis', base: 'CC art. 533' },{ doc: 'Certidão de Ônus de ambos', base: 'Lei 6.015/73' },{ doc: 'PTAM de cada imóvel', base: 'Res. COFECI 1.066/07' },{ doc: 'Guia ITBI — sobre torna', base: 'CTN art. 156, II' },{ doc: 'Escritura Pública de Permuta', base: 'CC art. 533' }] }
+  ]},
+  usucapiao: { titulo: '⏳ Usucapião', grupos: [
+    { nome: 'Documentos', itens: [{ doc: 'Planta e Memorial Descritivo (Eng/Arq)', base: 'Lei 13.465/17' },{ doc: 'ART ou RRT do Responsável Técnico', base: 'Lei 5.194/66' },{ doc: 'Certidão de ausência de ações possessórias', base: 'CPC art. 1.071' },{ doc: 'Declarações dos Confrontantes', base: 'Lei 13.465/17 §2º' },{ doc: 'Comprovantes de posse mansa e pacífica', base: 'CC art. 1.238' }] }
+  ]}
+};
+
+function mostrarDocTransacao() {
+  const tipo = v('doc-tipo-transacao');
+  const cont = document.getElementById('doc-container');
+  if (!cont) return;
+  if (!tipo || !docTransacoes[tipo]) {
+    cont.innerHTML = '<div class="card" style="text-align:center;padding:38px"><div style="font-size:3rem;margin-bottom:12px">📁</div><div style="color:var(--muted)">Selecione uma transação</div></div>';
+    return;
+  }
+  const d = docTransacoes[tipo];
+  cont.innerHTML = `<div class="card"><div class="card-title">${d.titulo}</div>${d.grupos.map(g => `
+    <div style="margin-bottom:16px">
+      <div style="font-size:11px;font-weight:700;color:#1F618D;text-transform:uppercase;letter-spacing:1px;margin-bottom:9px;padding-bottom:5px;border-bottom:1px solid rgba(26,82,118,0.13)">${g.nome}</div>
+      <table class="data-table"><thead><tr><th>✓</th><th>Documento</th><th>Base Legal</th></tr></thead><tbody>
+      ${g.itens.map((item, i) => `<tr><td><input type="checkbox" class="check-box" id="doc-check-${tipo}-${i}"></td><td>${item.doc}</td><td style="font-size:10px;color:#6A9AB0;font-style:italic">${item.base}</td></tr>`).join('')}
+      </tbody></table>
+    </div>
+  `).join('')}</div>`;
+}
+
+/* ==============================
+   LAUDO AUTO-GERADO
+============================== */
+function preencherClausulas() {
+  const fin = v('ptam-finalidade') || 'compra e venda';
+  const sol = v('solic-nome') || '———';
+  const end = v('av-endereco') || '———';
+  const bairro = v('av-bairro') || '———';
+  const cidade = v('av-cidade') || 'São Paulo/SP';
+  const tipo = v('av-tipo') || '———';
+  const area = vn('av-area-util');
+  const dorms = vn('av-dorms');
+  const banhs = vn('av-banhs');
+  const vagas = vn('av-vagas');
+  const consEl = document.getElementById('av-conservacao');
+  const padEl = document.getElementById('av-padrao');
+  const visEl = document.getElementById('ptam-vistoria');
+  const cons = consEl?.options[consEl.selectedIndex]?.text || '———';
+  const pad = padEl?.options[padEl.selectedIndex]?.text || '———';
+  const vis = visEl?.options[visEl.selectedIndex]?.text || 'Presencial Completa';
+  const comodos = `${dorms} dormitório(s), ${banhs} banheiro(s), ${vagas} vaga(s)`;
+  const dataFmt = formatData(v('ptam-data')) || '__/__/____';
+  const nomeCorr = v('corretor-nome') || '——————';
+  const creci = v('corretor-creci') || '——————';
+  const cnai = v('corretor-cnai') || '——————';
+  si('cl1-finalidade', fin); si('cl1-solicitante', sol);
+  si('cl2-tipo', tipo); si('cl2-endereco', end); si('cl2-bairro', bairro);
+  si('cl2-cidade', cidade); si('cl2-area', area || '——');
+  si('cl2-comodos', comodos); si('cl2-conservacao', cons); si('cl2-padrao', pad); si('cl2-vistoria', vis);
+  si('cl5-finalidade', fin.toUpperCase());
+  si('cl7-data', dataFmt); si('cl7-nome', nomeCorr); si('cl7-creci', creci); si('cl7-cnai', cnai);
+  si('cl7-solicitante', sol); si('cl7-cpf', v('solic-cpf') || '——————');
+  const valFinal = document.getElementById('res-valor-final')?.textContent;
+  if (valFinal && valFinal !== 'R$ —') {
+    si('cl5-valor', valFinal);
+    const num = parseFloat(valFinal.replace(/[^\d]/g, ''));
+    si('cl5-valor-extenso', valorExtenso(num));
+    si('cl5-faixa', (document.getElementById('res-min')?.textContent || '—') + ' a ' + (document.getElementById('res-max')?.textContent || '—'));
+    si('cl5-min', document.getElementById('res-min')?.textContent || 'R$ —');
+    si('cl5-max', document.getElementById('res-max')?.textContent || 'R$ —');
+  }
+}
+
+function gerarLaudo() {
+  preencherClausulas();
+  const nome = v('corretor-nome') || '——————';
+  const creci = v('corretor-creci') || '——————';
+  const cnai = v('corretor-cnai') || '——————';
+  const ptamNum = v('ptam-numero') || '___/____';
+  const dataFmt = formatData(v('ptam-data')) || '__/__/____';
+  const sol = v('solic-nome') || '——————';
+  const fin = v('ptam-finalidade') || 'compra e venda';
+  const tipo = v('av-tipo') || '——————';
+  const end = v('av-endereco') || '——————';
+  const bairro = v('av-bairro') || '——————';
+  const area = vn('av-area-util');
+  const valFinal = document.getElementById('res-valor-final')?.textContent || 'R$ ——————';
+  const nRefs = refs.length;
+  const consSel = document.getElementById('av-conservacao');
+  const padSel = document.getElementById('av-padrao');
+  const cons = consSel?.options[consSel.selectedIndex]?.text || '——';
+  const pad = padSel?.options[padSel.selectedIndex]?.text || '——';
+  document.getElementById('laudo-texto').innerHTML = `
+    <p style="text-align:center;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px;color:#1A5276">PARECER TÉCNICO DE AVALIAÇÃO MERCADOLÓGICA — PTAM Nº ${ptamNum}</p>
+    <p><strong>I. IDENTIFICAÇÃO DO AVALIADOR</strong><br>${nome}, Corretor de Imóveis, inscrito no CRECI-SP sob o nº ${creci}${cnai ? ' e no CNAI sob o nº ' + cnai : ''}, elaborou o presente PTAM conforme Resolução COFECI-SP Nº 1.066/2007 e ABNT NBR 14.653-2:2011.</p>
+    <hr style="border:none;border-top:1px solid rgba(26,82,118,0.13);margin:12px 0">
+    <p><strong>II. OBJETO E FINALIDADE</strong><br>Avaliação mercadológica para fins de: <strong>${fin}</strong>. Solicitante: <strong>${sol}</strong>. Data: <strong>${dataFmt}</strong>.</p>
+    <hr style="border:none;border-top:1px solid rgba(26,82,118,0.13);margin:12px 0">
+    <p><strong>III. IDENTIFICAÇÃO DO IMÓVEL</strong><br>${tipo.toUpperCase()}, localizado em ${end}, ${bairro}, ${v('av-cidade')||'São Paulo/SP'}. Área útil: <strong>${area||'——'} m²</strong>. Conservação: <strong>${cons}</strong>. Padrão: <strong>${pad}</strong>.</p>
+    <hr style="border:none;border-top:1px solid rgba(26,82,118,0.13);margin:12px 0">
+    <p><strong>IV. METODOLOGIA</strong><br>Método Comparativo Direto (ABNT NBR 14.653-2, item 8.1) com <strong>${nRefs} imóveis referenciais</strong>. Aplicados fatores de homogeneização (conservação, padrão, localização) e fator de oferta.</p>
+    <hr style="border:none;border-top:1px solid rgba(26,82,118,0.13);margin:12px 0">
+    <p><strong>V. RESULTADO</strong><br>Valor de mercado estimado em:</p>
+    <p style="text-align:center;font-family:'Sora',Arial,sans-serif;font-size:1.55rem;font-weight:800;color:#1A5276;margin:11px 0;padding:13px;background:rgba(26,82,118,0.07);border-radius:9px">${valFinal}</p>
+    <hr style="border:none;border-top:1px solid rgba(26,82,118,0.13);margin:12px 0">
+    <p><strong>VI. RESSALVAS</strong><br>Valor válido para a data de emissão. Não inclui análise jurídica ou laudo de engenharia. Ver Cláusula 6 para ressalvas completas.</p>
+    <hr style="border:none;border-top:1px solid rgba(26,82,118,0.13);margin:12px 0">
+    <p style="text-align:right"><em>São Paulo (SP), ${dataFmt}<br><strong>${nome}</strong> — CRECI-SP ${creci}</em></p>
+  `;
+}
+
+function copiarLaudo() {
+  const txt = document.getElementById('laudo-texto')?.innerText || '';
+  navigator.clipboard.writeText(txt).then(() => alert('Texto copiado!')).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = txt;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    alert('Texto copiado!');
+  });
+}
+
+/* ==============================
+   CLÁUSULAS TOGGLE
+============================== */
+function toggleClausula(header) {
+  const body = header.nextElementSibling;
+  const arrow = header.querySelector('.clausula-arrow');
+  const isOpen = body.classList.toggle('open');
+  if (arrow) arrow.style.transform = isOpen ? 'rotate(180deg)' : '';
+}
+
+/* ==============================
+   CHECKLIST
+============================== */
+const checklistData = {
+  obrigatorios: ['Número do PTAM preenchido','Data de emissão preenchida','Nome completo do corretor','CRECI-SP informado','Nome do solicitante preenchido','Finalidade da avaliação selecionada','Forma de vistoria indicada'],
+  documentacao: ['Endereço completo do imóvel','Tipo do imóvel selecionado','Área útil (m²) informada','Estado de conservação selecionado','Padrão de acabamento selecionado','Matrícula ou inscrição municipal informada'],
+  metodologia: ['Mínimo 3 referenciais cadastrados','Todos referenciais com área e valor','Método de avaliação selecionado','Fator de oferta aplicado','Valor de avaliação calculado','Memória de cálculo gerada'],
+  vistoria: ['Mínimo 5 fotos adicionadas','Foto da fachada incluída','Mapa de localização verificado','Infraestrutura e acabamentos verificados','Observações da vistoria registradas'],
+  legal: ['PTAM assinado pelo corretor','Cláusulas de limitações revisadas','Texto do laudo gerado e revisado','Data de validade indicada','Documento pronto para impressão/PDF'],
+};
+
+function renderChecklistGrupo(containerId, items, prefixo) {
+  const cont = document.getElementById(containerId);
+  if (!cont) return;
+  cont.innerHTML = items.map((item, i) => `
+    <label style="display:flex;align-items:flex-start;gap:9px;cursor:pointer;padding:7px 0;border-bottom:1px solid rgba(26,82,118,0.06);font-size:12px;color:#1A2B3C">
+      <input type="checkbox" class="check-box checklist-item" id="chk-${prefixo}-${i}" onchange="atualizarChecklist()">
+      <span>${item}</span>
+    </label>
+  `).join('');
+}
+
+function atualizarChecklist() {
+  const total = document.querySelectorAll('.checklist-item').length;
+  const marcados = document.querySelectorAll('.checklist-item:checked').length;
+  const pct = total > 0 ? Math.round((marcados / total) * 100) : 0;
+  const bar = document.getElementById('check-progress-bar');
+  if (bar) bar.style.width = pct + '%';
+  si('check-count', marcados);
+  si('check-total', total);
+  const badge = document.getElementById('check-status-badge');
+  if (badge) {
+    if (pct === 100) { badge.className = 'badge badge-green'; badge.textContent = '✅ Completo'; }
+    else if (pct >= 70) { badge.className = 'badge badge-blue'; badge.textContent = '🔄 Quase pronto (' + pct + '%)'; }
+    else { badge.className = 'badge badge-red'; badge.textContent = '⚠️ Incompleto (' + pct + '%)'; }
+  }
+}
+
+/* ==============================
+   SISTEMA DE ARQUIVO DE LAUDOS
+============================== */
+function coletarDados() {
+  const campos = document.querySelectorAll('.input-field, select.input-field');
+  const dados = {};
+  campos.forEach(el => { if (el.id) dados[el.id] = el.value; });
+  dados['_refs_count'] = refs.length;
+  dados['_refsLoc_count'] = refsLocacao.length;
+  // Infra checkboxes
+  infraItens.forEach(item => {
+    const el = document.getElementById('infra-' + item.id);
+    if (el) dados['infra-' + item.id] = el.checked;
+  });
+  return dados;
+}
+
+function aplicarDados(dados) {
+  Object.keys(dados).forEach(id => {
+    if (id.startsWith('_')) return;
+    if (id.startsWith('infra-')) {
+      const el = document.getElementById(id);
+      if (el) el.checked = dados[id];
+      return;
+    }
+    const el = document.getElementById(id);
+    if (el) el.value = dados[id];
+  });
+  const nRefs = parseInt(dados['_refs_count']) || 0;
+  refs = Array.from({ length: nRefs }, (_, i) => ({ id: i }));
+  renderRefs();
+  const nLoc = parseInt(dados['_refsLoc_count']) || 0;
+  refsLocacao = Array.from({ length: nLoc }, (_, i) => ({ id: i }));
+  renderRefsLocacao();
+  atualizarHeader();
+  calcularTudo();
+}
+
+function carregarArquivo() {
+  try {
+    const saved = localStorage.getItem('ptam_arquivo');
+    if (saved) arquivoLaudos = JSON.parse(saved);
+  } catch(e) { arquivoLaudos = []; }
+  atualizarChips();
+}
+
+function salvarArquivo() {
+  try { localStorage.setItem('ptam_arquivo', JSON.stringify(arquivoLaudos)); } catch(e) {}
+}
+
+function salvarLaudo() {
+  const num = v('ptam-numero');
+  const sol = v('solic-nome');
+  const end = v('av-endereco');
+  const bairro = v('av-bairro');
+  const data = v('ptam-data');
+  const fin = v('ptam-finalidade');
+  const valFinal = document.getElementById('res-valor-final')?.textContent || 'R$ —';
+
+  if (!num) { alert('Preencha o Número do PTAM antes de salvar.'); return; }
+
+  const dados = coletarDados();
+  const timestamp = new Date().toISOString();
+
+  if (laudoAtivo !== null) {
+    // Atualizar laudo existente
+    arquivoLaudos[laudoAtivo] = { id: laudoAtivo, num, sol, end, bairro, data, fin, valFinal, dados, timestamp, seq: arquivoLaudos[laudoAtivo].seq };
+    salvarArquivo();
+    atualizarChips();
+    alert('✅ PTAM Nº ' + num + ' atualizado no arquivo!');
+  } else {
+    // Novo laudo
+    const seq = arquivoLaudos.length + 1;
+    const novoLaudo = { id: arquivoLaudos.length, num, sol, end, bairro, data, fin, valFinal, dados, timestamp, seq };
+    arquivoLaudos.push(novoLaudo);
+    laudoAtivo = novoLaudo.id;
+    salvarArquivo();
+    atualizarChips();
+    alert('✅ PTAM Nº ' + num + ' salvo no arquivo! (Laudo #' + seq + ')');
+  }
+}
+
+function carregarLaudo(idx) {
+  const laudo = arquivoLaudos[idx];
+  if (!laudo) return;
+  if (!confirm('Carregar PTAM Nº ' + laudo.num + '? Os dados atuais serão substituídos.')) return;
+  laudoAtivo = idx;
+  aplicarDados(laudo.dados);
+  atualizarChips();
+  fecharArquivo();
+  showSec('identificacao', document.querySelector('.nav-tab'));
+  alert('✅ PTAM Nº ' + laudo.num + ' carregado!');
+}
+
+function excluirLaudo(idx) {
+  const laudo = arquivoLaudos[idx];
+  if (!confirm('Excluir PTAM Nº ' + laudo.num + ' do arquivo? Esta ação não pode ser desfeita.')) return;
+  arquivoLaudos.splice(idx, 1);
+  arquivoLaudos.forEach((l, i) => { l.id = i; l.seq = i + 1; });
+  if (laudoAtivo === idx) laudoAtivo = null;
+  else if (laudoAtivo > idx) laudoAtivo--;
+  salvarArquivo();
+  atualizarChips();
+  renderModalLista();
+}
+
+function novoLaudo() {
+  if (!confirm('Iniciar novo laudo? Os dados atuais não salvos serão perdidos.')) return;
+  laudoAtivo = null;
+  // Limpar todos os campos
+  document.querySelectorAll('.input-field').forEach(el => { if (!el.classList.contains('calc-result')) el.value = ''; });
+  document.querySelectorAll('select.input-field').forEach(el => el.selectedIndex = 0);
+  infraItens.forEach(item => { const el = document.getElementById('infra-' + item.id); if (el) el.checked = false; });
+  refs = [{ id: 0 }, { id: 1 }, { id: 2 }];
+  renderRefs();
+  refsLocacao = [];
+  renderRefsLocacao();
+  // Redefaults
+  const hoje = new Date().toISOString().split('T')[0];
+  sv('ptam-data', hoje);
+  sv('corretor-nome', 'Felipe Costa');
+  sv('corretor-creci', '294791-F');
+  sv('corretor-cnai', '52708');
+  sv('corretor-marca', 'FCosta Corretor — Zona Leste SP');
+  sv('corretor-wpp', '(11) 99350-9109');
+  sv('corretor-email', 'contato@fcostacorretor.com');
+  sv('av-cidade', 'São Paulo / SP');
+  sv('av-bairro', 'Itaim Paulista');
+  atualizarHeader();
+  calcularTudo();
+  atualizarChips();
+  showSec('identificacao', document.querySelector('.nav-tab'));
+}
+
+function atualizarChips() {
+  const container = document.getElementById('arquivo-chips');
+  const count = document.getElementById('hdr-count');
+  if (count) count.textContent = arquivoLaudos.length;
+  if (!container) return;
+  if (arquivoLaudos.length === 0) {
+    container.innerHTML = '<span style="font-size:.72rem;color:rgba(255,255,255,0.7);font-style:italic">Nenhum laudo salvo</span>';
+    return;
+  }
+  container.innerHTML = arquivoLaudos.map((l, i) => `
+    <div class="arquivo-chip ${laudoAtivo === i ? 'ativo' : ''}" onclick="carregarLaudo(${i})" title="${l.sol || ''} — ${l.end || ''}">
+      #${l.seq} · ${l.num}
+    </div>
+  `).join('');
+}
+
+function abrirArquivo() {
+  renderModalLista();
+  document.getElementById('modalArquivo').classList.add('open');
+}
+
+function fecharArquivo() {
+  document.getElementById('modalArquivo').classList.remove('open');
+}
+
+function renderModalLista() {
+  const cont = document.getElementById('modal-laudos-lista');
+  if (!cont) return;
+  if (arquivoLaudos.length === 0) {
+    cont.innerHTML = '<div style="text-align:center;padding:28px;color:var(--muted)">Nenhum laudo salvo ainda.</div>';
+    return;
+  }
+  cont.innerHTML = arquivoLaudos.map((l, i) => `
+    <div class="laudo-item ${laudoAtivo === i ? 'sel' : ''}" onclick="carregarLaudo(${i})">
+      <div class="laudo-num-badge">#${l.seq}<br><span style="font-size:.6rem;font-weight:600">${l.num||'—'}</span></div>
+      <div class="laudo-info">
+        <div class="laudo-info-num">PTAM Nº ${l.num || '—'}</div>
+        <div class="laudo-info-end">${l.sol || 'Solicitante não informado'}</div>
+        <div class="laudo-info-meta">${l.end ? l.end + (l.bairro ? ', ' + l.bairro : '') : '—'} · ${l.fin || '—'} · ${l.valFinal || '—'}</div>
+        <div class="laudo-info-meta" style="color:#aaa">${l.data ? formatData(l.data) : '—'} · Salvo em: ${new Date(l.timestamp).toLocaleDateString('pt-BR')}</div>
+      </div>
+      <div class="laudo-actions" onclick="event.stopPropagation()">
+        <button class="btn btn-outline btn-sm" onclick="exportarUmJSON(${i})">📤 JSON</button>
+        <button class="btn btn-red btn-sm" onclick="excluirLaudo(${i})">🗑️</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ==============================
+   EXPORTAR / IMPORTAR JSON
+============================== */
+function exportarJSON() {
+  const dados = coletarDados();
+  const num = v('ptam-numero') || 'rascunho';
+  const blob = new Blob([JSON.stringify(dados, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'PTAM-' + num.replace(/\//g, '-') + '.json';
+  a.click();
+}
+
+function importarJSON(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const dados = JSON.parse(ev.target.result);
+      aplicarDados(dados);
+      laudoAtivo = null;
+      alert('✅ Rascunho carregado!');
+    } catch (err) { alert('Erro ao carregar: ' + err.message); }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+function exportarUmJSON(idx) {
+  const laudo = arquivoLaudos[idx];
+  if (!laudo) return;
+  const blob = new Blob([JSON.stringify(laudo.dados, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'PTAM-' + (laudo.num || idx).toString().replace(/\//g,'-') + '.json';
+  a.click();
+}
+
+function exportarTodosJSON() {
+  if (arquivoLaudos.length === 0) { alert('Nenhum laudo no arquivo.'); return; }
+  const exportData = { _tipo: 'FCosta-PTAM-Arquivo', _data: new Date().toISOString(), laudos: arquivoLaudos };
+  const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'FCosta-PTAM-Arquivo-' + new Date().toISOString().split('T')[0] + '.json';
+  a.click();
+}
+
+function importarTodosJSON(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (data._tipo === 'FCosta-PTAM-Arquivo' && Array.isArray(data.laudos)) {
+        if (!confirm('Importar ' + data.laudos.length + ' laudo(s)? Isso substituirá todo o arquivo atual.')) return;
+        arquivoLaudos = data.laudos;
+        laudoAtivo = null;
+        salvarArquivo();
+        atualizarChips();
+        renderModalLista();
+        alert('✅ Arquivo importado: ' + arquivoLaudos.length + ' laudo(s)!');
+      } else {
+        // Tentar importar como laudo único
+        aplicarDados(data);
+        alert('✅ Laudo importado!');
+        fecharArquivo();
+      }
+    } catch (err) { alert('Erro ao importar: ' + err.message); }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+/* ==============================
+   FECHAR MODAL CLICANDO FORA
+============================== */
+document.getElementById('modalArquivo').addEventListener('click', function(e) {
+  if (e.target === this) fecharArquivo();
+});
+
+/* ==============================
+   INICIALIZAÇÃO
+============================== */
+document.addEventListener('DOMContentLoaded', function () {
+  const hoje = new Date().toISOString().split('T')[0];
+  sv('ptam-data', hoje);
+  sv('corretor-nome', 'Felipe Costa');
+  sv('corretor-creci', '294791-F');
+  sv('corretor-cnai', '52708');
+  sv('corretor-marca', 'FCosta Corretor — Zona Leste SP');
+  sv('corretor-wpp', '(11) 99350-9109');
+  sv('corretor-email', 'contato@fcostacorretor.com');
+  sv('av-cidade', 'São Paulo / SP');
+  sv('av-bairro', 'Itaim Paulista');
+
+  renderInfraGrid();
+  renderPhotoGrid();
+  refs = [{ id: 0 }, { id: 1 }, { id: 2 }];
+  renderRefs();
+
+  renderChecklistGrupo('check-obrigatorios', checklistData.obrigatorios, 'obr');
+  renderChecklistGrupo('check-documentacao', checklistData.documentacao, 'doc');
+  renderChecklistGrupo('check-metodologia', checklistData.metodologia, 'met');
+  renderChecklistGrupo('check-vistoria', checklistData.vistoria, 'vis');
+  renderChecklistGrupo('check-legal', checklistData.legal, 'leg');
+  atualizarChecklist();
+  atualizarHeader();
+  calcularTudo();
+
+  document.getElementById('loc-taxa')?.addEventListener('change', function() {
+    const wrap = document.getElementById('loc-taxa-custom-wrap');
+    if (wrap) wrap.style.display = this.value === 'custom' ? 'block' : 'none';
+    calcularLocacao();
+  });
+
+  // Carregar arquivo salvo
+  carregarArquivo();
+});
+</script>
+</body>
+</html>

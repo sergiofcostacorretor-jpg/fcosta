@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia Jurídico Imobiliário — FCOSTA</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#1a1a1a;background:#f0f4f8;line-height:1.6}
+
+/* ===== TELA INICIAL ===== */
+#home{display:block}
+.home-wrap{max-width:680px;margin:0 auto;padding:40px 16px 60px}
+.home-brand{text-align:center;margin-bottom:32px}
+.home-brand .logo{font-size:28px;font-weight:700;color:#003da5;letter-spacing:2px}
+.home-brand .logo span{color:#dc1c2d}
+.home-brand .sub{font-size:11px;color:#888;letter-spacing:1px;margin-top:4px}
+.home-brand .creci{font-size:10px;color:#aaa;font-family:'Courier New',monospace;margin-top:2px}
+
+.home-title{text-align:center;font-size:22px;font-weight:700;color:#1a1a1a;margin-bottom:8px}
+.home-desc{text-align:center;font-size:13px;color:#666;margin-bottom:36px;line-height:1.7}
+
+.module-cards{display:flex;flex-direction:column;gap:14px}
+.mcard{
+  background:#fff;border-radius:10px;
+  border:1px solid #ddd;
+  overflow:hidden;cursor:pointer;
+  transition:box-shadow .2s,transform .15s;
+  text-decoration:none;display:block;
+}
+.mcard:hover{box-shadow:0 6px 24px rgba(0,0,0,0.12);transform:translateY(-2px)}
+.mcard-header{padding:20px 20px 14px;display:flex;align-items:center;gap:16px}
+.mcard-icon{font-size:36px;flex-shrink:0}
+.mcard-info{flex:1}
+.mcard-title{font-size:17px;font-weight:700;color:#1a1a1a;margin-bottom:3px}
+.mcard-sub{font-size:12px;color:#666;line-height:1.5}
+.mcard-footer{padding:10px 20px;font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+.mcard.usu .mcard-header{border-left:5px solid #B47A10}
+.mcard.usu .mcard-footer{background:#fffbf2;color:#8a5c00;border-top:1px solid #f0e0b0}
+.mcard.adj .mcard-header{border-left:5px solid #b87333}
+.mcard.adj .mcard-footer{background:#fff8f0;color:#7a3a10;border-top:1px solid #f0d0b0}
+.mcard.proc .mcard-header{border-left:5px solid #003da5}
+.mcard.proc .mcard-footer{background:#f0f4ff;color:#003da5;border-top:1px solid #c0d0f0}
+
+.home-footer{text-align:center;margin-top:40px;font-size:10px;color:#bbb;line-height:1.8}
+
+/* ===== MÓDULOS ===== */
+.modulo{display:none}
+
+/* HEADER DO MÓDULO */
+.mod-nav{
+  background:#fff;border-bottom:1px solid #ddd;
+  padding:10px 16px;
+  display:flex;align-items:center;gap:12px;
+  position:sticky;top:0;z-index:100;
+}
+.btn-voltar{
+  background:none;border:1px solid #ddd;border-radius:6px;
+  padding:6px 12px;font-size:12px;font-weight:700;
+  cursor:pointer;color:#555;display:flex;align-items:center;gap:5px;
+  transition:all .15s;white-space:nowrap;
+}
+.btn-voltar:hover{background:#f5f5f5;border-color:#bbb}
+.mod-nav-title{font-size:13px;font-weight:700;color:#1a1a1a;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ===== MÓDULO 1: USUCAPIÃO ===== */
+#mod-usu .inner{max-width:920px;margin:0 auto;padding:20px 16px 60px}
+#mod-usu .hero{background:#fff;border:1px solid #ddd;border-top:4px solid #B47A10;border-radius:8px;padding:24px;margin-bottom:14px}
+#mod-usu .hero-brand{font-size:10px;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+#mod-usu .hero-title{font-size:30px;font-weight:700;color:#1a1a1a;margin-bottom:3px}
+#mod-usu .hero-title span{color:#B47A10}
+#mod-usu .hero-sub{font-size:12px;color:#666;margin-bottom:10px}
+#mod-usu .tags{display:flex;flex-wrap:wrap;gap:5px}
+#mod-usu .tag{font-size:10px;padding:3px 9px;border:1px solid #ccc;border-radius:4px;color:#555;background:#fafafa}
+#mod-usu .tabs{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+#mod-usu .tab{padding:7px 12px;font-size:11px;font-weight:700;border:1px solid #ccc;border-radius:6px;cursor:pointer;background:#fff;color:#555;transition:all .15s}
+#mod-usu .tab:hover{background:#f5e6c8;border-color:#B47A10;color:#8a5c00}
+#mod-usu .tab.on{background:#B47A10;border-color:#B47A10;color:#fff}
+#mod-usu .panel{display:none;background:#fff;border:1px solid #ddd;border-radius:8px;padding:22px}
+#mod-usu .panel.on{display:block}
+#mod-usu .sec-title{font-size:17px;font-weight:700;color:#1a1a1a;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #e0e0e0}
+#mod-usu .txt{font-size:13px;color:#333;line-height:1.8;margin-bottom:12px}
+#mod-usu .hl{color:#8a5c00;font-weight:700}
+#mod-usu .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:14px 0}
+#mod-usu .card{background:#fafafa;border:1px solid #e0e0e0;border-top:3px solid #B47A10;border-radius:6px;padding:14px;transition:box-shadow .2s}
+#mod-usu .card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.1)}
+#mod-usu .card-label{font-size:9px;font-weight:700;letter-spacing:1px;color:#8a5c00;text-transform:uppercase;margin-bottom:3px}
+#mod-usu .card-num{font-size:24px;font-weight:700;line-height:1;margin-bottom:3px;color:#1a1a1a}
+#mod-usu .card-num span{font-size:12px;font-weight:400;color:#888}
+#mod-usu .card-law{font-size:9px;color:#999;margin-bottom:7px;font-family:'Courier New',monospace}
+#mod-usu .card-reqs{font-size:11px;color:#444;line-height:1.65;padding-top:7px;border-top:1px solid #e8e8e8}
+#mod-usu .card-reqs li{list-style:none;padding-left:14px;position:relative;margin-bottom:3px}
+#mod-usu .card-reqs li::before{content:"▸";position:absolute;left:0;color:#B47A10}
+#mod-usu .law-box{background:#fffbf2;border-left:4px solid #B47A10;border-radius:0 6px 6px 0;padding:12px 16px;margin:10px 0}
+#mod-usu .law-ref{font-size:9px;font-weight:700;letter-spacing:1px;color:#8a5c00;text-transform:uppercase;margin-bottom:5px;font-family:'Courier New',monospace}
+#mod-usu .law-txt{font-size:12px;color:#444;font-style:italic;line-height:1.75}
+#mod-usu .alert{border-radius:6px;padding:11px 14px;margin:10px 0;display:flex;gap:9px;align-items:flex-start;font-size:12px;line-height:1.65}
+#mod-usu .alert.warn{background:#fff5f5;border:1px solid #f5c6c6;color:#7a2222}
+#mod-usu .alert.ok{background:#f0fff4;border:1px solid #b2dfc0;color:#1a5c32}
+#mod-usu .alert.info{background:#fffbf0;border:1px solid #f0d98a;color:#6b4d00}
+#mod-usu .alert strong{font-weight:700}
+#mod-usu .alert-icon{font-size:15px;flex-shrink:0;line-height:1.3}
+#mod-usu .step-list{margin:14px 0}
+#mod-usu .step{display:flex;gap:0}
+#mod-usu .step-col{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:38px}
+#mod-usu .step-dot{width:32px;height:32px;border-radius:50%;border:2px solid #B47A10;background:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#8a5c00;flex-shrink:0;z-index:1}
+#mod-usu .step-line{width:2px;flex:1;background:#e0d0b0;min-height:18px}
+#mod-usu .step:last-child .step-line{display:none}
+#mod-usu .step-body{padding:3px 0 18px 12px;flex:1}
+#mod-usu .step-title{font-size:12px;font-weight:700;color:#1a1a1a;margin-bottom:2px}
+#mod-usu .step-desc{font-size:11px;color:#555;line-height:1.65}
+#mod-usu .docs-cat{font-size:9px;font-weight:700;letter-spacing:1.5px;color:#8a5c00;text-transform:uppercase;margin:16px 0 7px;font-family:'Courier New',monospace;display:flex;align-items:center;gap:10px}
+#mod-usu .docs-cat::after{content:'';flex:1;height:1px;background:#e0d0b0}
+#mod-usu .docs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:7px;margin-bottom:4px}
+#mod-usu .doc{background:#fafafa;border:1px solid #e0e0e0;border-radius:6px;padding:7px 11px;font-size:11px;color:#444;display:flex;gap:7px;align-items:flex-start;line-height:1.4}
+#mod-usu .doc-icon{font-size:12px;flex-shrink:0;line-height:1.2}
+#mod-usu .table-wrap{overflow-x:auto;margin:12px 0;border:1px solid #ddd;border-radius:6px}
+#mod-usu table{width:100%;border-collapse:collapse;font-size:11px;min-width:500px}
+#mod-usu thead tr{background:#B47A10}
+#mod-usu thead th{padding:9px 11px;text-align:left;font-size:9px;font-weight:700;letter-spacing:.8px;color:#fff;text-transform:uppercase}
+#mod-usu tbody tr{border-bottom:1px solid #eee}
+#mod-usu tbody tr:hover{background:#fdf6e8}
+#mod-usu tbody tr:last-child{border-bottom:none}
+#mod-usu tbody td{padding:8px 11px;color:#444;vertical-align:top;line-height:1.4}
+#mod-usu tbody td:first-child{font-weight:700;color:#1a1a1a}
+#mod-usu .faq-item{border-bottom:1px solid #eee}
+#mod-usu .faq-q{padding:12px 0;font-size:12px;font-weight:700;color:#1a1a1a;cursor:pointer;display:flex;justify-content:space-between;gap:12px;align-items:center;user-select:none}
+#mod-usu .faq-q:hover{color:#8a5c00}
+#mod-usu .faq-arr{font-size:20px;color:#B47A10;flex-shrink:0;transition:transform .22s;line-height:1}
+#mod-usu .faq-item.open .faq-arr{transform:rotate(45deg)}
+#mod-usu .faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease}
+#mod-usu .faq-item.open .faq-a{max-height:600px}
+#mod-usu .faq-a-inner{padding:0 0 14px;font-size:12px;color:#444;line-height:1.8}
+#mod-usu .mpcic{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:9px;margin:14px 0}
+#mod-usu .mcard2{background:#fafafa;border:1px solid #e0e0e0;border-radius:6px;padding:12px}
+#mod-usu .mcard-letter{font-size:24px;font-weight:700;color:#B47A10;line-height:1}
+#mod-usu .mcard-name{font-size:11px;font-weight:700;margin:4px 0;color:#1a1a1a}
+#mod-usu .mcard-desc{font-size:11px;color:#555;line-height:1.5}
+
+/* ===== MÓDULO 2: ADJUDICAÇÃO ===== */
+#mod-adj{background:#f0f4f8}
+#mod-adj .inner{max-width:960px;margin:0 auto}
+:root{
+  --cobre:#b87333;--cobre-claro:#d4956a;
+  --azul-adj:#0a1628;--verde-adj:#1a6b3c;--verm-adj:#8b1a1a;
+}
+#mod-adj .hero{
+  background:linear-gradient(135deg,#5ba3c9 0%,#6db8d8 50%,#87CEEB 100%);
+  border-bottom:3px solid var(--cobre);
+  padding:36px 24px 28px;position:relative;overflow:hidden;
+}
+#mod-adj .hero::before{content:'⚖';position:absolute;right:-20px;top:-10px;font-size:200px;color:rgba(184,115,51,0.07);pointer-events:none;line-height:1}
+#mod-adj .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.3);border:1px solid var(--cobre);border-radius:2px;padding:4px 12px;margin-bottom:16px}
+#mod-adj .hero-badge .marca{font-weight:700;font-size:10pt;color:#5a3010;letter-spacing:1px}
+#mod-adj .hero-badge .creci{font-family:'Courier New',monospace;font-size:8pt;color:#2a4a6a}
+#mod-adj h1.titulo{font-size:clamp(22pt,5vw,40pt);font-weight:700;color:#1a2a4a;letter-spacing:2px;text-transform:uppercase;line-height:1;margin-bottom:8px}
+#mod-adj h1.titulo em{color:var(--cobre);font-style:normal}
+#mod-adj .subtitulo{font-family:Georgia,serif;font-style:italic;font-size:12pt;color:#2a4a6a;margin-bottom:18px}
+#mod-adj .tags{display:flex;flex-wrap:wrap;gap:6px}
+#mod-adj .tag{border:1px solid rgba(184,115,51,.5);color:#5a3010;background:rgba(255,255,255,.3);font-size:7.5pt;padding:3px 9px;border-radius:2px}
+
+#mod-adj .adj-tabs{display:flex;flex-wrap:wrap;gap:5px;padding:14px 0 0;background:#f0f4f8;position:sticky;top:49px;z-index:90;padding:10px 0}
+#mod-adj .adj-tab{padding:7px 12px;font-size:11px;font-weight:700;border:1px solid rgba(184,115,51,.4);border-radius:6px;cursor:pointer;background:#fff;color:#7a3a10;transition:all .15s}
+#mod-adj .adj-tab:hover{background:#fff0e0;border-color:var(--cobre)}
+#mod-adj .adj-tab.on{background:var(--cobre);border-color:var(--cobre);color:#fff}
+#mod-adj .adj-tabs-wrap{background:#f0f4f8;padding:0 0 4px;position:sticky;top:49px;z-index:90}
+#mod-adj .adj-tabs-inner{max-width:960px;margin:0 auto;padding:10px 16px 6px;display:flex;flex-wrap:wrap;gap:5px}
+
+#mod-adj .adj-panel{display:none;padding:20px 16px 40px}
+#mod-adj .adj-panel.on{display:block}
+#mod-adj .sec-head{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid rgba(184,115,51,.3)}
+#mod-adj .sec-num{background:var(--cobre);color:#fff;font-weight:700;font-size:9pt;width:32px;height:32px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border-radius:2px}
+#mod-adj .sec-titulo{font-size:14pt;font-weight:700;color:#1a2a4a;letter-spacing:1px;text-transform:uppercase}
+#mod-adj p.tx{font-size:12px;line-height:1.75;color:#1a2a4a;margin-bottom:12px;text-align:justify}
+#mod-adj .hl{color:#8b4513;font-weight:700}
+#mod-adj .lei{background:rgba(255,255,255,.7);border-left:4px solid var(--cobre);border-radius:0 3px 3px 0;padding:14px 18px;margin:14px 0;position:relative;overflow:hidden}
+#mod-adj .lei::after{content:'§';position:absolute;right:12px;top:6px;font-size:28pt;color:rgba(184,115,51,.1);pointer-events:none}
+#mod-adj .lei-ref{font-family:'Courier New',monospace;font-size:8pt;color:var(--cobre);letter-spacing:1px;text-transform:uppercase;margin-bottom:7px;display:flex;align-items:center;gap:8px}
+#mod-adj .lei-ref::before{content:'';display:block;width:16px;height:1px;background:var(--cobre)}
+#mod-adj .lei-txt{font-family:Georgia,serif;font-style:italic;font-size:11pt;color:#1a2a4a;line-height:1.7}
+#mod-adj .alerta{border-radius:3px;padding:12px 16px;margin:12px 0;display:flex;gap:10px;align-items:flex-start}
+#mod-adj .alerta.verm{background:rgba(139,26,26,.08);border:1px solid rgba(139,26,26,.35)}
+#mod-adj .alerta.verde{background:rgba(26,107,60,.08);border:1px solid rgba(26,107,60,.35)}
+#mod-adj .alerta.ouro{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.3)}
+#mod-adj .alerta.cobre{background:rgba(184,115,51,.1);border:1px solid rgba(184,115,51,.35)}
+#mod-adj .al-ic{font-size:14pt;flex-shrink:0;line-height:1.25}
+#mod-adj .al-tx{font-size:11pt;color:#1a2a4a;line-height:1.65}
+#mod-adj .al-tx strong{color:#4a1a0a}
+#mod-adj .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:16px 0}
+#mod-adj .card{background:rgba(255,255,255,.7);border:1px solid rgba(184,115,51,.25);border-top:3px solid var(--cobre);border-radius:3px;padding:18px}
+#mod-adj .card-head{font-size:10pt;color:#7a3a10;letter-spacing:.7px;text-transform:uppercase;margin-bottom:7px;font-weight:700}
+#mod-adj .card-body{font-size:11pt;color:#2a3a4a;line-height:1.65}
+#mod-adj .card-body li{list-style:none;padding-left:13px;position:relative;margin-bottom:3px}
+#mod-adj .card-body li::before{content:'▸';position:absolute;left:0;color:var(--cobre);font-size:8pt;top:3px}
+#mod-adj .etapas{display:flex;flex-direction:column;gap:0;margin:18px 0}
+#mod-adj .etapa{display:flex;gap:0}
+#mod-adj .et-linha{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+#mod-adj .et-num{width:34px;height:34px;background:rgba(255,255,255,.7);border:2px solid var(--cobre);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:9pt;color:#7a3a10;flex-shrink:0;z-index:1}
+#mod-adj .et-fio{width:2px;flex:1;background:rgba(184,115,51,.3);min-height:20px}
+#mod-adj .etapa:last-child .et-fio{display:none}
+#mod-adj .et-corpo{padding:2px 0 22px 16px;flex:1}
+#mod-adj .et-titulo{font-size:11pt;color:#1a2a4a;font-weight:700;margin-bottom:4px}
+#mod-adj .et-desc{font-size:11pt;color:#2a3a4a;line-height:1.65}
+#mod-adj .tbl-wrap{overflow-x:auto;margin:16px 0;border-radius:3px}
+#mod-adj table.tbl{width:100%;border-collapse:collapse;font-size:10pt;min-width:500px}
+#mod-adj .tbl thead tr{background:var(--cobre)}
+#mod-adj .tbl thead th{font-weight:700;padding:10px 12px;text-align:left;letter-spacing:.5px;font-size:8pt;text-transform:uppercase;color:#fff}
+#mod-adj .tbl tbody tr{border-bottom:1px solid rgba(184,115,51,.12)}
+#mod-adj .tbl tbody tr:hover{background:rgba(255,255,255,.5)}
+#mod-adj .tbl tbody td{padding:9px 12px;vertical-align:top;line-height:1.5;color:#1a2a4a}
+#mod-adj .tbl tbody td:first-child{color:#7a3a10;font-size:9pt;font-weight:700}
+#mod-adj .tbl tbody tr:nth-child(even){background:rgba(255,255,255,.3)}
+#mod-adj .docs{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px;margin:12px 0}
+#mod-adj .doc{background:rgba(255,255,255,.6);border:1px solid rgba(184,115,51,.2);border-radius:3px;padding:9px 12px;display:flex;align-items:flex-start;gap:8px;font-size:10pt;color:#1a2a4a;line-height:1.4}
+#mod-adj .doc::before{content:'📄';font-size:12pt;flex-shrink:0;line-height:1.1}
+#mod-adj .versus{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+@media(max-width:540px){#mod-adj .versus{grid-template-columns:1fr}}
+#mod-adj .vs-card{background:rgba(255,255,255,.6);border-radius:3px;padding:16px;border:1px solid rgba(184,115,51,.2)}
+#mod-adj .vs-card.j{border-top:3px solid #2a6aaa}
+#mod-adj .vs-card.e{border-top:3px solid var(--verde-adj)}
+#mod-adj .vs-head{font-size:11pt;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px;font-weight:700}
+#mod-adj .vs-card.j .vs-head{color:#1a4a8a}
+#mod-adj .vs-card.e .vs-head{color:#1a5a2a}
+#mod-adj .vs-item{font-size:10.5pt;color:#1a2a4a;padding:5px 0;border-bottom:1px solid rgba(0,0,0,.06);line-height:1.5}
+#mod-adj .vs-item:last-child{border:none}
+#mod-adj .timeline{margin:16px 0}
+#mod-adj .tl-item{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(184,115,51,.12)}
+#mod-adj .tl-item:last-child{border:none}
+#mod-adj .tl-ano{font-family:'Courier New',monospace;font-size:10pt;color:var(--cobre);font-weight:700;min-width:55px;flex-shrink:0;padding-top:2px}
+#mod-adj .tl-conteudo{font-size:11pt;color:#1a2a4a;line-height:1.65}
+#mod-adj .tl-conteudo strong{color:#4a1a0a;font-size:9pt;letter-spacing:.4px;display:block;margin-bottom:2px;font-weight:700}
+#mod-adj .faq{margin:14px 0}
+#mod-adj .faq details{border-bottom:1px solid rgba(184,115,51,.12);overflow:hidden}
+#mod-adj .faq details summary{padding:12px 0;font-size:10.5pt;color:#7a3a10;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;list-style:none;font-weight:700}
+#mod-adj .faq details summary::-webkit-details-marker{display:none}
+#mod-adj .faq details summary::after{content:'+';font-size:17pt;color:rgba(184,115,51,.6);flex-shrink:0;line-height:1}
+#mod-adj .faq details[open] summary::after{content:'×';color:var(--cobre)}
+#mod-adj .faq-r{font-size:11pt;color:#1a2a4a;line-height:1.7;padding:0 0 12px}
+
+/* ===== MÓDULO 3: PROCURAÇÕES ===== */
+#mod-proc{background:#f0f4f8}
+#mod-proc .inner{max-width:900px;margin:0 auto}
+:root{
+  --marrom:#1a3a5c;--ouro2:#4A90D9;
+  --creme:#EEF4FB;--creme-esc:#D8E8F5;
+  --cinza-q:#4A6070;--verm-j:#8B1A1A;--verde-v:#2D5A27;
+}
+#mod-proc .hero2{background:#1a3a5c;color:var(--creme);padding:40px 24px 32px;text-align:center;position:relative;overflow:hidden}
+#mod-proc .hero2::before{content:'§';position:absolute;right:-20px;bottom:-30px;font-size:200px;color:rgba(74,144,217,.07);pointer-events:none;font-family:Georgia,serif;line-height:1}
+#mod-proc .hero2-brand{display:inline-block;background:rgba(74,144,217,.15);border:1px solid rgba(74,144,217,.35);color:var(--ouro2);padding:4px 14px;font-family:'Courier New',monospace;font-size:8pt;letter-spacing:1px;margin-bottom:18px;border-radius:2px}
+#mod-proc .hero2-title{font-size:clamp(22pt,5vw,40pt);font-weight:700;letter-spacing:3px;line-height:1;margin-bottom:8px}
+#mod-proc .hero2-title em{color:var(--ouro2);font-style:normal}
+#mod-proc .hero2-sub{font-family:Georgia,serif;font-style:italic;font-size:12pt;color:rgba(238,244,251,.8);margin-bottom:16px}
+#mod-proc .hero2-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+#mod-proc .hero2-tag{border:1px solid rgba(74,144,217,.4);color:rgba(238,244,251,.85);font-size:7.5pt;padding:3px 9px;border-radius:2px}
+
+#mod-proc .proc-tabs-wrap{background:#f0f4f8;position:sticky;top:49px;z-index:90}
+#mod-proc .proc-tabs-inner{max-width:900px;margin:0 auto;padding:10px 16px 6px;display:flex;flex-wrap:wrap;gap:5px}
+#mod-proc .proc-tab{padding:7px 12px;font-size:11px;font-weight:700;border:1px solid #aac0dc;border-radius:6px;cursor:pointer;background:#fff;color:#1a3a5c;transition:all .15s}
+#mod-proc .proc-tab:hover{background:#e0eaf8;border-color:#4A90D9}
+#mod-proc .proc-tab.on{background:#1a3a5c;border-color:#1a3a5c;color:#fff}
+
+#mod-proc .proc-panel{display:none;padding:20px 16px 40px}
+#mod-proc .proc-panel.on{display:block}
+#mod-proc .container{background:#fff;border-radius:8px;padding:22px;border:1px solid #dde8f5;max-width:860px;margin:0 auto}
+#mod-proc h2{font-size:16pt;font-weight:700;color:#1a3a5c;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid #d0e0f0}
+#mod-proc h3{font-size:13pt;font-weight:700;color:#1a3a5c;margin:18px 0 10px}
+#mod-proc p{font-size:12px;color:#2a3a4a;line-height:1.75;margin-bottom:10px}
+#mod-proc .section-label{font-family:'Courier New',monospace;font-size:8pt;color:#4A90D9;letter-spacing:1px;margin-bottom:8px;font-weight:700}
+#mod-proc .tipo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:14px 0}
+#mod-proc .tipo-card{background:#f0f6ff;border:1px solid #c0d8f0;border-top:3px solid #4A90D9;border-radius:4px;padding:14px}
+#mod-proc .tipo-icon{font-size:22px;margin-bottom:6px}
+#mod-proc .tipo-name{font-size:11pt;font-weight:700;color:#1a3a5c;margin-bottom:4px}
+#mod-proc .tipo-desc{font-size:10.5pt;color:#4A6070;line-height:1.5}
+#mod-proc .tipo-detalhe{background:#eef4fb;border-radius:4px;padding:10px 14px;margin-top:8px;font-size:11pt;color:#1a3a5c;line-height:1.55}
+#mod-proc .tipo-detalhe strong{color:#0a2a4c}
+#mod-proc .lei2{background:#f5f9ff;border-left:4px solid #4A90D9;border-radius:0 4px 4px 0;padding:12px 16px;margin:12px 0}
+#mod-proc .lei2-ref{font-family:'Courier New',monospace;font-size:8pt;color:#4A90D9;letter-spacing:1px;margin-bottom:6px;font-weight:700}
+#mod-proc .lei2-txt{font-family:Georgia,serif;font-style:italic;font-size:11pt;color:#1a2a4a;line-height:1.7}
+#mod-proc .alert2{border-radius:4px;padding:12px 15px;margin:12px 0;display:flex;gap:9px;align-items:flex-start;font-size:11.5pt}
+#mod-proc .alert2.warn2{background:#fff5f5;border:1px solid #f5b0b0;color:#6a1818}
+#mod-proc .alert2.ok2,#mod-proc .alert2.success{background:#f0fff4;border:1px solid #90d0a0;color:#1a4a28}
+#mod-proc .alert2.info{background:#f5f9ff;border:1px solid #90bce0;color:#1a2a4a}
+#mod-proc .alert2 .alert-icon{font-size:15pt;flex-shrink:0;line-height:1.25}
+#mod-proc .steps2{display:flex;flex-direction:column;gap:0;margin:14px 0}
+#mod-proc .step2{display:flex;gap:0;margin-bottom:0}
+#mod-proc .step-num2{width:32px;height:32px;background:#1a3a5c;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:10pt;flex-shrink:0}
+#mod-proc .step2 .step-body{padding:4px 0 16px 14px;flex:1;border-left:2px solid #c0d8f0;margin-left:16px}
+#mod-proc .step2 .step-body h4{font-size:11pt;font-weight:700;color:#1a3a5c;margin-bottom:3px}
+#mod-proc .step2 .step-body p{margin-bottom:0;font-size:11pt}
+#mod-proc .tbl2{width:100%;border-collapse:collapse;font-size:10.5pt;min-width:480px}
+#mod-proc .tbl2 thead tr{background:#1a3a5c}
+#mod-proc .tbl2 thead th{padding:10px 12px;text-align:left;font-size:8.5pt;font-weight:700;letter-spacing:.5px;color:#fff;text-transform:uppercase}
+#mod-proc .tbl2 tbody tr{border-bottom:1px solid #dde8f5}
+#mod-proc .tbl2 tbody tr:hover{background:#f0f6ff}
+#mod-proc .tbl2 tbody td{padding:9px 12px;vertical-align:top;line-height:1.5;color:#1a2a4a}
+#mod-proc .tbl2 tbody td:first-child{font-weight:700;color:#0a2a4c}
+#mod-proc .modelo{background:#fafcff;border:1px solid #c0d8f0;border-radius:4px;padding:20px;margin:14px 0;font-size:11pt;color:#1a2a4a;line-height:1.9}
+#mod-proc .modelo-center{text-align:center;font-size:13pt;font-weight:700;margin-bottom:14px;color:#0a2a4c;letter-spacing:1px}
+#mod-proc .blank{background:#ffe;border-bottom:1px dashed #90b0d0;color:#4a6090;font-style:italic;padding:0 3px}
+#mod-proc .faq2{margin:14px 0}
+#mod-proc .faq2 details{border-bottom:1px solid #dde8f5;overflow:hidden}
+#mod-proc .faq2 details summary{padding:12px 0;font-size:11pt;font-weight:700;color:#1a3a5c;cursor:pointer;display:flex;justify-content:space-between;gap:12px;list-style:none}
+#mod-proc .faq2 details summary::-webkit-details-marker{display:none}
+#mod-proc .faq2 details summary::after{content:'+';font-size:16pt;color:#4A90D9;flex-shrink:0;line-height:1}
+#mod-proc .faq2 details[open] summary::after{content:'×'}
+#mod-proc .faq-a{padding:0 0 12px;font-size:11pt;color:#2a3a4a;line-height:1.75}
+#mod-proc .tbl2-wrap{overflow-x:auto;margin:12px 0;border:1px solid #dde8f5;border-radius:4px}
+#mod-proc .poderes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:14px 0}
+#mod-proc .poder-card{background:#f0f6ff;border:1px solid #c0d8f0;border-left:3px solid #4A90D9;border-radius:3px;padding:12px}
+#mod-proc .poder-nome{font-size:10.5pt;font-weight:700;color:#0a2a4c;margin-bottom:4px}
+#mod-proc .poder-desc{font-size:10.5pt;color:#4A6070;line-height:1.5}
+#mod-proc .revog-box{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+@media(max-width:500px){#mod-proc .revog-box{grid-template-columns:1fr}}
+#mod-proc .revog-card{border-radius:4px;padding:16px;border:1px solid #c0d8f0}
+#mod-proc .revog-card.can{background:#fff5f5;border-color:#f5b0b0}
+#mod-proc .revog-card.nao{background:#f0fff4;border-color:#90d0a0}
+#mod-proc .revog-head{font-size:10.5pt;font-weight:700;margin-bottom:8px}
+#mod-proc .revog-card.can .revog-head{color:#6a1818}
+#mod-proc .revog-card.nao .revog-head{color:#1a4a28}
+#mod-proc .revog-item{font-size:10.5pt;color:#2a3a4a;line-height:1.5;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.05)}
+#mod-proc .revog-item:last-child{border:none}
+
+/* ===== FOOTER MÓDULO ===== */
+.mod-footer{text-align:center;padding:20px 16px 40px;font-size:10px;color:#aaa;line-height:1.8}
+.mod-footer strong{color:#888}
+
+/* ===== RESPONSIVO ===== */
+@media(max-width:600px){
+  .home-title{font-size:19px}
+  .mcard-title{font-size:15px}
+  #mod-usu .hero-title{font-size:24px}
+  #mod-adj h1.titulo{font-size:20pt}
+  #mod-proc .hero2-title{font-size:20pt}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!--  TELA HOME                                                    -->
+<!-- ============================================================ -->
+<div id="home">
+  <div class="home-wrap">
+    <div class="home-brand">
+      <div class="logo">FC<span>OSTA</span></div>
+      <div class="sub">CONSULTORIA JURÍDICA IMOBILIÁRIA</div>
+      <div class="creci">CRECI-SP 294791-F · CNAI 52708</div>
+    </div>
+
+    <div class="home-title">Guia Jurídico Completo</div>
+    <div class="home-desc">Selecione um dos temas abaixo para acessar o guia detalhado com conceitos, requisitos, leis, procedimentos e dúvidas frequentes.</div>
+
+    <div class="module-cards">
+
+      <a class="mcard usu" onclick="abrirModulo('mod-usu');return false" href="#">
+        <div class="mcard-header">
+          <div class="mcard-icon">🏡</div>
+          <div class="mcard-info">
+            <div class="mcard-title">Usucapião</div>
+            <div class="mcard-sub">Aquisição de propriedade por posse prolongada. Modalidades, requisitos, processo judicial e extrajudicial, documentos e base legal completa.</div>
+          </div>
+        </div>
+        <div class="mcard-footer">📂 9 modalidades · Extrajudicial · FAQ ›</div>
+      </a>
+
+      <a class="mcard adj" onclick="abrirModulo('mod-adj');return false" href="#">
+        <div class="mcard-header">
+          <div class="mcard-icon">⚖️</div>
+          <div class="mcard-info">
+            <div class="mcard-title">Adjudicação Compulsória</div>
+            <div class="mcard-sub">Instrumento para obter escritura definitiva quando o vendedor não assina. Requisitos, procedimento judicial e extrajudicial, jurisprudência e leis.</div>
+          </div>
+        </div>
+        <div class="mcard-footer">📂 Judicial & Extrajudicial · Súmula 239 STJ · FAQ ›</div>
+      </a>
+
+      <a class="mcard proc" onclick="abrirModulo('mod-proc');return false" href="#">
+        <div class="mcard-header">
+          <div class="mcard-icon">📜</div>
+          <div class="mcard-info">
+            <div class="mcard-title">Procurações</div>
+            <div class="mcard-sub">Tipos, poderes, como outorgar, revogação, substabelecimento, modelo de procuração particular e comparativo completo dos tipos.</div>
+          </div>
+        </div>
+        <div class="mcard-footer">📂 Tipos · Poderes · Revogação · Modelo · FAQ ›</div>
+      </a>
+
+    </div>
+
+    <div class="home-footer">
+      <strong>FCOSTA GESTÃO IMOBILIÁRIA & CONSULTORIA JURÍDICA</strong><br>
+      CRECI 294791-F · CNAI 52708<br>
+      Guia informativo. Para análise do seu caso, consulte um advogado especializado.<br>
+      Atualizado 2026 — CC/2002, CPC/2015, CF/1988, Provimento CNJ 150/2023.
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================ -->
+<!--  MÓDULO 1: USUCAPIÃO                                         -->
+<!-- ============================================================ -->
+<div id="mod-usu" class="modulo">
+
+  <div class="mod-nav">
+    <button class="btn-voltar" onclick="voltarHome()">← Voltar</button>
+    <div class="mod-nav-title">Usucapião — Guia Completo</div>
+  </div>
+
+  <div class="inner">
+    <div class="hero">
+      <div class="hero-brand">FCOSTA · CRECI 294791-F · CNAI 52708 · Consultoria Jurídica Imobiliária</div>
+      <div class="hero-title">USU<span>CAPIÃO</span></div>
+      <div class="hero-sub">Guia jurídico completo — modalidades, requisitos, leis e procedimentos</div>
+      <div class="tags">
+        <span class="tag">Código Civil 2002</span>
+        <span class="tag">CPC/2015</span>
+        <span class="tag">Lei 6.015/73</span>
+        <span class="tag">Estatuto da Cidade</span>
+        <span class="tag">CF/1988</span>
+        <span class="tag">Lei 13.465/2017</span>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab on" onclick="showUsu('usu-conceito',this)">O que é</button>
+      <button class="tab" onclick="showUsu('usu-modalidades',this)">Modalidades</button>
+      <button class="tab" onclick="showUsu('usu-tabela',this)">Comparativo</button>
+      <button class="tab" onclick="showUsu('usu-requisitos',this)">Requisitos</button>
+      <button class="tab" onclick="showUsu('usu-processo',this)">Processo</button>
+      <button class="tab" onclick="showUsu('usu-documentos',this)">Documentos</button>
+      <button class="tab" onclick="showUsu('usu-extrajudicial',this)">Extrajudicial</button>
+      <button class="tab" onclick="showUsu('usu-leis',this)">Leis</button>
+      <button class="tab" onclick="showUsu('usu-faq',this)">Dúvidas</button>
+    </div>
+
+    <!-- O QUE É -->
+    <div id="usu-conceito" class="panel on">
+      <div class="sec-title">O que é Usucapião</div>
+      <p class="txt">Usucapião é um modo <span class="hl">originário de aquisição da propriedade</span> por meio da posse prolongada, mansa, pacífica e contínua de um bem imóvel por determinado período fixado em lei. O termo vem do latim <em>usus</em> (uso) + <em>capio</em> (adquirir).</p>
+      <p class="txt">Ao contrário da compra e venda, na usucapião o adquirente <span class="hl">cria um título novo de propriedade</span>, independente de transmissão anterior. Ônus, dívidas e gravames anteriores não se transferem ao usucapiente.</p>
+      <div class="law-box">
+        <div class="law-ref">Art. 1.238 do Código Civil (Lei 10.406/2002)</div>
+        <div class="law-txt">Aquele que, por quinze anos, sem interrupção, nem oposição, possuir como seu um imóvel, adquire-lhe a propriedade, independentemente de título e boa-fé; podendo requerer ao juiz que assim o declare por sentença, a qual servirá de título para o registro no Cartório de Registro de Imóveis.</div>
+      </div>
+      <div class="alert info">
+        <span class="alert-icon">⚖️</span>
+        <div><strong>Fundamento constitucional:</strong> A função social da propriedade está nos arts. 5º, XXIII, e 170, III da CF/1988. A usucapião é o principal instrumento de concretização desse princípio.</div>
+      </div>
+      <div class="alert ok">
+        <span class="alert-icon">✅</span>
+        <div><strong>Elemento central — Animus Domini:</strong> O possuidor deve agir como se fosse dono (animus domini) — ocupar, conservar, pagar tributos, construir. Posse exercida por tolerância do proprietário (locatário, comodatário) não gera usucapião.</div>
+      </div>
+      <div class="alert warn">
+        <span class="alert-icon">⚠️</span>
+        <div><strong>Bens que NÃO podem ser usucapidos:</strong> Bens públicos (arts. 183 §3º e 191 CF); bens fora do comércio; terras da União, Estados, Municípios e autarquias — Súmula 340 STF.</div>
+      </div>
+    </div>
+
+    <!-- MODALIDADES -->
+    <div id="usu-modalidades" class="panel">
+      <div class="sec-title">Modalidades de Usucapião</div>
+      <p class="txt">O ordenamento jurídico brasileiro prevê <span class="hl">nove modalidades</span> principais de usucapião imobiliária:</p>
+      <div class="cards">
+        <div class="card">
+          <div class="card-label">Extraordinária Simples</div>
+          <div class="card-num">15 <span>anos</span></div>
+          <div class="card-law">Art. 1.238, caput, CC</div>
+          <ul class="card-reqs"><li>Posse por 15 anos contínuos</li><li>Sem oposição do proprietário</li><li>Independe de título e boa-fé</li></ul>
+        </div>
+        <div class="card">
+          <div class="card-label">Extraordinária Reduzida</div>
+          <div class="card-num">10 <span>anos</span></div>
+          <div class="card-law">Art. 1.238, §único, CC</div>
+          <ul class="card-reqs"><li>Moradia habitual estabelecida</li><li>OU obras/serviços produtivos</li><li>Independe de título e boa-fé</li></ul>
+        </div>
+        <div class="card">
+          <div class="card-label">Ordinária Simples</div>
+          <div class="card-num">10 <span>anos</span></div>
+          <div class="card-law">Art. 1.242, caput, CC</div>
+          <ul class="card-reqs"><li>Posse por 10 anos contínuos</li><li>Justo título exigido</li><li>Boa-fé do possuidor</li></ul>
+        </div>
+        <div class="card">
+          <div class="card-label">Ordinária Reduzida</div>
+          <div class="card-num">5 <span>anos</span></div>
+          <div class="card-law">Art. 1.242, §único, CC</div>
+          <ul class="card-reqs"><li>Justo título + boa-fé</li><li>Imóvel adquirido onerosamente</li><li>Registro cancelado posteriormente</li><li>Moradia ou investimentos sociais</li></ul>
+        </div>
+        <div class="card">
+          <div class="card-label">Especial Urbana (Pro Misero)</div>
+          <div class="card-num">5 <span>anos</span></div>
+          <div class="card-law">Art. 1.240 CC | Art. 183 CF</div>
+          <ul class="card-reqs"><li>Área urbana até 250 m²</li><li>Uso como moradia própria</li><li>Não ser proprietário de outro imóvel</li><li>Direito exercível uma única vez</li></ul>
+        </div>
+        <div class="card">
+          <div class="card-label">Especial Rural (Pro Labore)</div>
+          <div class="card-num">5 <span>anos</span></div>
+          <div class="card-law">Art. 1.239 CC | Art. 191 CF</div>
+          <ul class="card-reqs"><li>Área rural até 50 hectares</li><li>Tornar produtiva por trabalho</li><li>Moradia no local</li><li>Não proprietário de outro imóvel</li></ul>
+        </div>
+        <div class="card">
+          <div class="card-label">Especial Urbana Coletiva</div>
+          <div class="card-num">5 <span>anos</span></div>
+          <div class="card-law">Art. 10 — Lei 10.257/2001</div>
+          <ul class="card-reqs"><li>Área urbana acima de 250 m²</li><li>Ocupada por população de baixa renda</li><li>Terrenos individuais não identificáveis</li></ul>
+        </div>
+        <div class="card">
+          <div class="card-label">Familiar (Abandono do Lar)</div>
+          <div class="card-num">2 <span>anos</span></div>
+          <div class="card-law">Art. 1.240-A CC (Lei 12.424/2011)</div>
+          <ul class="card-reqs"><li>Imóvel urbano até 250 m²</li><li>Cônjuge/companheiro abandonou o lar</li><li>Posse exclusiva para moradia</li><li>Direito exercível uma única vez</li></ul>
+        </div>
+        <div class="card">
+          <div class="card-label">Indígena</div>
+          <div class="card-num">10 <span>anos</span></div>
+          <div class="card-law">Art. 33 — Lei 6.001/1973</div>
+          <ul class="card-reqs"><li>Índio integrado à comunhão nacional</li><li>Área até 50 ha por 10 anos</li><li>Não se aplica a terras da União</li></ul>
+        </div>
+      </div>
+      <div class="alert ok">
+        <span class="alert-icon">✅</span>
+        <div><strong>Accessio possessionis (art. 1.243 CC):</strong> O possuidor pode somar sua posse à do antecessor (herança, cessão) para completar o prazo, desde que ambas sejam contínuas e sem oposição.</div>
+      </div>
+    </div>
+
+    <!-- COMPARATIVO -->
+    <div id="usu-tabela" class="panel">
+      <div class="sec-title">Comparativo das Modalidades</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Modalidade</th><th>Prazo</th><th>Área máx.</th><th>Justo Título</th><th>Boa-fé</th><th>Restrição</th></tr></thead>
+          <tbody>
+            <tr><td>Extraordinária Simples</td><td>15 anos</td><td>Sem limite</td><td>Não</td><td>Não</td><td>—</td></tr>
+            <tr><td>Extraordinária Reduzida</td><td>10 anos</td><td>Sem limite</td><td>Não</td><td>Não</td><td>Moradia ou obras produtivas</td></tr>
+            <tr><td>Ordinária Simples</td><td>10 anos</td><td>Sem limite</td><td>Sim</td><td>Sim</td><td>—</td></tr>
+            <tr><td>Ordinária Reduzida</td><td>5 anos</td><td>Sem limite</td><td>Sim</td><td>Sim</td><td>Registro cancelado + moradia/social</td></tr>
+            <tr><td>Especial Urbana</td><td>5 anos</td><td>250 m² (urbana)</td><td>Não</td><td>Não</td><td>Moradia + não ter outro imóvel</td></tr>
+            <tr><td>Especial Rural</td><td>5 anos</td><td>50 ha (rural)</td><td>Não</td><td>Não</td><td>Trabalho + moradia + sem outro imóvel</td></tr>
+            <tr><td>Especial Coletiva</td><td>5 anos</td><td>Acima 250 m²</td><td>Não</td><td>Não</td><td>Baixa renda + não identificáveis</td></tr>
+            <tr><td>Familiar</td><td>2 anos</td><td>250 m² (urbana)</td><td>Não</td><td>Não</td><td>Abandono do lar + moradia exclusiva</td></tr>
+            <tr><td>Indígena</td><td>10 anos</td><td>50 ha</td><td>Não</td><td>Não</td><td>Índio integrado à comunhão nacional</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- REQUISITOS -->
+    <div id="usu-requisitos" class="panel">
+      <div class="sec-title">Requisitos Gerais da Posse</div>
+      <p class="txt">Para qualquer modalidade de usucapião, a posse deve reunir as características abaixo. A ausência de qualquer delas pode inviabilizar o pedido.</p>
+      <div class="mpcic">
+        <div class="mcard2"><div class="mcard-letter">M</div><div class="mcard-name">Mansa</div><div class="mcard-desc">Exercida sem resistência ou perturbação por parte do proprietário ou terceiros.</div></div>
+        <div class="mcard2"><div class="mcard-letter">P</div><div class="mcard-name">Pacífica</div><div class="mcard-desc">Sem violência, clandestinidade ou precariedade na aquisição ou manutenção.</div></div>
+        <div class="mcard2"><div class="mcard-letter">I</div><div class="mcard-name">Ininterrupta</div><div class="mcard-desc">Contínua pelo prazo legal, sem abandono do imóvel ou reconhecimento do direito alheio.</div></div>
+        <div class="mcard2"><div class="mcard-letter">C</div><div class="mcard-name">Com Animus Domini</div><div class="mcard-desc">O possuidor age como se dono fosse — paga tributos, conserva, constrói.</div></div>
+      </div>
+      <div class="law-box">
+        <div class="law-ref">Art. 1.243 do Código Civil</div>
+        <div class="law-txt">O possuidor pode, para o fim de contar o tempo exigido pelos artigos antecedentes, acrescentar à sua posse a dos seus antecessores (art. 1.207), contanto que todas sejam contínuas, pacíficas e, nos casos do art. 1.242, com justo título e de boa-fé.</div>
+      </div>
+      <div class="alert warn">
+        <span class="alert-icon">⚠️</span>
+        <div><strong>Causas que interrompem o prazo:</strong> Citação em ação possessória (art. 202, I, CC); reconhecimento do domínio pelo possuidor; protesto; atos que importem reconhecimento do direito do proprietário.</div>
+      </div>
+      <div class="alert info">
+        <span class="alert-icon">ℹ️</span>
+        <div><strong>Posse justa x injusta:</strong> Posse injusta (violenta, clandestina ou precária) não gera usucapião enquanto mantiver esse vício. Após cessado o vício e decorrido novo prazo, a posse pode ser considerada mansa e pacífica.</div>
+      </div>
+    </div>
+
+    <!-- PROCESSO -->
+    <div id="usu-processo" class="panel">
+      <div class="sec-title">Processo Judicial</div>
+      <p class="txt">A usucapião judicial tramita como <span class="hl">ação de procedimento especial</span> (arts. 246, §3º e 259 do CPC/2015), com citação dos interessados por edital.</p>
+      <div class="step-list">
+        <div class="step"><div class="step-col"><div class="step-dot">1</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Consulta jurídica e análise de viabilidade</div><div class="step-desc">Verificação do prazo, tipo de posse, natureza do bem e ausência de oposição.</div></div></div>
+        <div class="step"><div class="step-col"><div class="step-dot">2</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Reunião de documentos e prova da posse</div><div class="step-desc">Contas de luz/água, IPTU, fotos, declarações de vizinhos, contratos.</div></div></div>
+        <div class="step"><div class="step-col"><div class="step-dot">3</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Propositura da ação no Juízo competente</div><div class="step-desc">Vara Cível da Comarca onde se localiza o imóvel.</div></div></div>
+        <div class="step"><div class="step-col"><div class="step-dot">4</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Citações — proprietário, confinantes e edital</div><div class="step-desc">Citação do proprietário registral, confrontantes, Fazenda Pública e publicação de edital.</div></div></div>
+        <div class="step"><div class="step-col"><div class="step-dot">5</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Intervenção do Ministério Público</div><div class="step-desc">O MP é intimado obrigatoriamente nas modalidades especiais por envolver interesse social.</div></div></div>
+        <div class="step"><div class="step-col"><div class="step-dot">6</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Instrução — audiência e testemunhas</div><div class="step-desc">Provas documentais, periciais e testemunhais. Vizinhos são as principais testemunhas.</div></div></div>
+        <div class="step"><div class="step-col"><div class="step-dot">7</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Sentença declaratória</div><div class="step-desc">O juiz declara o direito de propriedade — título hábil para registro imobiliário.</div></div></div>
+        <div class="step"><div class="step-col"><div class="step-dot">8</div><div class="step-line"></div></div><div class="step-body"><div class="step-title">Registro no Cartório de Registro de Imóveis</div><div class="step-desc">Com o trânsito em julgado, a sentença é registrada no CRI.</div></div></div>
+      </div>
+    </div>
+
+    <!-- DOCUMENTOS -->
+    <div id="usu-documentos" class="panel">
+      <div class="sec-title">Documentos Necessários</div>
+      <div class="docs-cat">Do Requerente</div>
+      <div class="docs-grid">
+        <div class="doc"><span class="doc-icon">📄</span>RG e CPF (ou CNH)</div>
+        <div class="doc"><span class="doc-icon">📄</span>Certidão de nascimento ou casamento</div>
+        <div class="doc"><span class="doc-icon">📄</span>Comprovante de residência atual</div>
+        <div class="doc"><span class="doc-icon">📄</span>Declaração de que não possui outro imóvel (modalidades especiais)</div>
+      </div>
+      <div class="docs-cat">Do Imóvel — Prova da Posse</div>
+      <div class="docs-grid">
+        <div class="doc"><span class="doc-icon">📄</span>Contas de luz, água, gás em nome do possuidor</div>
+        <div class="doc"><span class="doc-icon">📄</span>Carnês de IPTU pagos pelo possuidor</div>
+        <div class="doc"><span class="doc-icon">📄</span>Contratos de compra e venda, promessa ou recibos</div>
+        <div class="doc"><span class="doc-icon">📄</span>Fotos do imóvel com data</div>
+        <div class="doc"><span class="doc-icon">📄</span>Notas fiscais de obras ou reformas</div>
+        <div class="doc"><span class="doc-icon">📄</span>Declarações de vizinhos (reconhecidas em cartório)</div>
+        <div class="doc"><span class="doc-icon">📄</span>Correspondências recebidas no imóvel</div>
+      </div>
+      <div class="docs-cat">Registro e Situação Jurídica</div>
+      <div class="docs-grid">
+        <div class="doc"><span class="doc-icon">📄</span>Certidão de matrícula ou transcrição do imóvel</div>
+        <div class="doc"><span class="doc-icon">📄</span>Planta e memorial descritivo</div>
+        <div class="doc"><span class="doc-icon">📄</span>Certidão negativa de débitos municipais (IPTU)</div>
+        <div class="doc"><span class="doc-icon">📄</span>Certidão de ônus reais</div>
+      </div>
+    </div>
+
+    <!-- EXTRAJUDICIAL -->
+    <div id="usu-extrajudicial" class="panel">
+      <div class="sec-title">Usucapião Extrajudicial</div>
+      <p class="txt">Criada pelo <span class="hl">art. 216-A da Lei 6.015/73</span>, regulamentada pelo Provimento CNJ nº 150/2023, a usucapião extrajudicial é processada diretamente no Cartório de Registro de Imóveis — mais rápida e menos onerosa.</p>
+      <div class="law-box">
+        <div class="law-ref">Art. 216-A da Lei 6.015/1973</div>
+        <div class="law-txt">Sem prejuízo da via jurisdicional, é admitido o pedido de reconhecimento extrajudicial de usucapião, que será processado diretamente perante o cartório do registro de imóveis da comarca em que estiver situado o imóvel usucapiendo.</div>
+      </div>
+      <div class="docs-cat">Requisitos Específicos — Via Extrajudicial</div>
+      <div class="docs-grid">
+        <div class="doc"><span class="doc-icon">📄</span>Ata notarial lavrada pelo tabelião comprovando a posse</div>
+        <div class="doc"><span class="doc-icon">📄</span>Planta e memorial descritivo assinados por profissional habilitado</div>
+        <div class="doc"><span class="doc-icon">📄</span>Certidão de matrícula atualizada</div>
+        <div class="doc"><span class="doc-icon">📄</span>Certidões negativas dos distribuidores</div>
+        <div class="doc"><span class="doc-icon">📄</span>Justo título ou documentos de posse</div>
+        <div class="doc"><span class="doc-icon">📄</span>Concordância dos titulares e confinantes</div>
+      </div>
+      <div class="alert ok">
+        <span class="alert-icon">✅</span>
+        <div><strong>Quando usar:</strong> Ideal quando há concordância do proprietário e confrontantes. Se houver impugnação, o oficial remeterá ao juízo competente.</div>
+      </div>
+      <div class="alert info">
+        <span class="alert-icon">📋</span>
+        <div><strong>Provimento CNJ nº 150/2023:</strong> Unificou as regras, detalhando documentos exigidos, notificação dos interessados, prazos e hipóteses de conversão para via judicial.</div>
+      </div>
+    </div>
+
+    <!-- LEIS -->
+    <div id="usu-leis" class="panel">
+      <div class="sec-title">Base Legal Completa</div>
+      <div class="law-box"><div class="law-ref">Constituição Federal — Art. 183</div><div class="law-txt">Aquele que possuir como sua área urbana de até 250 m², por cinco anos, sem oposição, utilizando-a para sua moradia ou de sua família, adquirir-lhe-á o domínio, desde que não seja proprietário de outro imóvel urbano ou rural.</div></div>
+      <div class="law-box"><div class="law-ref">Constituição Federal — Art. 191</div><div class="law-txt">Aquele que, não sendo proprietário de imóvel rural ou urbano, possua como seu, por cinco anos ininterruptos, sem oposição, área de terra, em zona rural, não superior a 50 hectares, tornando-a produtiva por seu trabalho, tendo nela sua moradia, adquirir-lhe-á a propriedade.</div></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Diploma</th><th>Dispositivo</th><th>Conteúdo</th></tr></thead>
+          <tbody>
+            <tr><td>Código Civil/2002</td><td>Arts. 1.238 a 1.244</td><td>Regras gerais das modalidades</td></tr>
+            <tr><td>Constituição Federal/1988</td><td>Arts. 183 e 191</td><td>Usucapião especial urbana e rural</td></tr>
+            <tr><td>Estatuto da Cidade — Lei 10.257/2001</td><td>Arts. 9º a 14</td><td>Usucapião especial urbana coletiva</td></tr>
+            <tr><td>Lei de Registros Públicos — Lei 6.015/73</td><td>Art. 216-A</td><td>Usucapião extrajudicial no cartório</td></tr>
+            <tr><td>CPC/2015 — Lei 13.105/2015</td><td>Arts. 246, 259, 1.071</td><td>Procedimento judicial</td></tr>
+            <tr><td>Lei 12.424/2011</td><td>Art. 9º</td><td>Inseriu art. 1.240-A CC — usucapião familiar</td></tr>
+            <tr><td>Lei 13.465/2017</td><td>Arts. 23 e 25</td><td>Regularização fundiária (Reurb)</td></tr>
+            <tr><td>Provimento CNJ nº 150/2023</td><td>Inteiro</td><td>Regulamenta a usucapião extrajudicial</td></tr>
+            <tr><td>Súmula 340 — STF</td><td>—</td><td>Bens públicos não se sujeitam a usucapião</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div id="usu-faq" class="panel">
+      <div class="sec-title">Dúvidas Frequentes</div>
+      <div class="faq-item"><div class="faq-q">Posso entrar com usucapião se o proprietário está vivo? <span class="faq-arr">+</span></div><div class="faq-a"><div class="faq-a-inner">Sim. O fato de o proprietário saber da ocupação não impede a usucapião, desde que ele não tenha tomado medida judicial para reaver o imóvel. A omissão do proprietário é exatamente o que a lei considera como ausência de oposição.</div></div></div>
+      <div class="faq-item"><div class="faq-q">Posso usucapir um imóvel financiado cuja dívida não foi paga? <span class="faq-arr">+</span></div><div class="faq-a"><div class="faq-a-inner">Depende. Se há alienação fiduciária registrada, o banco é o proprietário até a quitação, o que dificulta a usucapião. Se o contrato é apenas uma promessa não registrada, a usucapião pode ser viável pela modalidade ordinária.</div></div></div>
+      <div class="faq-item"><div class="faq-q">O herdeiro pode usar o tempo de posse do falecido? <span class="faq-arr">+</span></div><div class="faq-a"><div class="faq-a-inner">Sim. A accessio possessionis (art. 1.243 CC) permite somar o tempo de posse do antecessor ao próprio, desde que as posses sejam contínuas, pacíficas e sem oposição.</div></div></div>
+      <div class="faq-item"><div class="faq-q">Locatário pode entrar com usucapião do imóvel que aluga? <span class="faq-arr">+</span></div><div class="faq-a"><div class="faq-a-inner">Não. O locatário tem posse direta por tolerância do locador, sem animus domini — ele reconhece o domínio alheio ao pagar aluguel. O mesmo vale para comodatários e depositários.</div></div></div>
+      <div class="faq-item"><div class="faq-q">A usucapião elimina dívidas de IPTU anteriores? <span class="faq-arr">+</span></div><div class="faq-a"><div class="faq-a-inner">Como modo originário, a usucapião não transfere débitos do proprietário anterior. Contudo, tribunais divergem quanto ao IPTU. É prudente verificar a situação fiscal antes de registrar a sentença.</div></div></div>
+      <div class="faq-item"><div class="faq-q">É obrigatório ter advogado para a usucapião extrajudicial? <span class="faq-arr">+</span></div><div class="faq-a"><div class="faq-a-inner">Sim. O art. 216-A, §15, da Lei 6.015/73 exige expressamente que o requerente seja assistido por advogado. Sem ela o oficial do registro não pode receber nem processar o pedido.</div></div></div>
+      <div class="faq-item"><div class="faq-q">Qual o custo médio de uma ação de usucapião? <span class="faq-arr">+</span></div><div class="faq-a"><div class="faq-a-inner">Na via judicial: custas processuais + honorários advocatícios (geralmente 10–20% do valor do imóvel). Na via extrajudicial: emolumentos cartorários + honorários do advogado + ata notarial e planta georreferenciada.</div></div></div>
+    </div>
+
+    <div class="mod-footer">
+      <strong>FCOSTA GESTÃO IMOBILIÁRIA & CONSULTORIA JURÍDICA</strong><br>
+      CRECI 294791-F · CNAI 52708<br><br>
+      Guia informativo. Para análise do seu caso, consulte um advogado especializado.<br>
+      Última atualização: 2026.
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================ -->
+<!--  MÓDULO 2: ADJUDICAÇÃO COMPULSÓRIA                           -->
+<!-- ============================================================ -->
+<div id="mod-adj" class="modulo">
+
+  <div class="mod-nav">
+    <button class="btn-voltar" onclick="voltarHome()">← Voltar</button>
+    <div class="mod-nav-title">Adjudicação Compulsória — Guia Completo</div>
+  </div>
+
+  <div class="inner">
+    <div class="hero">
+      <div class="hero-badge">
+        <span class="marca">FCOSTA</span>
+        <span style="color:rgba(184,115,51,.6)">|</span>
+        <span class="creci">CRECI 294791-F · CNAI 52708 · CONSULTORIA JURÍDICA IMOBILIÁRIA</span>
+      </div>
+      <h1 class="titulo">ADJUDICAÇÃO <em>COMPULSÓRIA</em></h1>
+      <p class="subtitulo">Guia jurídico completo — direito, requisitos, jurisprudência e procedimentos</p>
+      <div class="tags">
+        <span class="tag">Código Civil 2002</span><span class="tag">CPC/2015</span>
+        <span class="tag">Decreto-Lei 58/1937</span><span class="tag">Lei 6.766/1979</span>
+        <span class="tag">Lei 13.465/2017</span><span class="tag">Súmula 239 STJ</span>
+        <span class="tag">Súmula 84 STJ</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="adj-tabs-wrap">
+    <div class="adj-tabs-inner">
+      <button class="adj-tab on" onclick="showAdj('adj-conceito',this)">O que é</button>
+      <button class="adj-tab" onclick="showAdj('adj-requisitos',this)">Requisitos</button>
+      <button class="adj-tab" onclick="showAdj('adj-procedimento',this)">Procedimento</button>
+      <button class="adj-tab" onclick="showAdj('adj-extrajudicial',this)">Extrajudicial</button>
+      <button class="adj-tab" onclick="showAdj('adj-docs',this)">Documentos</button>
+      <button class="adj-tab" onclick="showAdj('adj-leis',this)">Leis</button>
+      <button class="adj-tab" onclick="showAdj('adj-faq',this)">Dúvidas</button>
+    </div>
+  </div>
+
+  <!-- O QUE É -->
+  <div id="adj-conceito" class="adj-panel on">
+    <div class="inner">
+      <div class="sec-head"><div class="sec-num">01</div><h2 class="sec-titulo">O que é Adjudicação Compulsória</h2></div>
+      <p class="tx">A adjudicação compulsória é o <span class="hl">instrumento jurídico que permite ao comprador obter judicialmente — ou extrajudicialmente — a escritura definitiva de imóvel</span>, quando o vendedor se recusa, está ausente ou faleceu sem outorgá-la, após a quitação integral do preço.</p>
+      <p class="tx">É fundada nos arts. <strong>1.417 e 1.418 do Código Civil</strong>, no <strong>Decreto-Lei 58/1937</strong> e na <strong>Súmula 239 do STJ</strong>. Representa a concretização do princípio da função social do contrato e da propriedade.</p>
+      <div class="lei"><div class="lei-ref">Art. 1.417 do Código Civil</div><div class="lei-txt">Mediante promessa de compra e venda, em que se não pactuou arrependimento, celebrada por instrumento público ou particular, e registrada no Cartório de Registro de Imóveis, adquire o promitente comprador direito real à aquisição do imóvel.</div></div>
+      <div class="lei"><div class="lei-ref">Art. 1.418 do Código Civil</div><div class="lei-txt">O promitente comprador, titular de direito real, pode exigir do promitente vendedor, ou de terceiros, a quem os direitos deste forem cedidos, a outorga da escritura definitiva de compra e venda, conforme o disposto no instrumento preliminar; e, se houver recusa, requerer ao juiz a adjudicação do imóvel.</div></div>
+      <div class="alerta verm"><div class="al-ic">⚠️</div><div class="al-tx"><strong>Atenção:</strong> A adjudicação compulsória pressupõe um contrato válido (promessa de compra e venda irretratável) e a quitação integral do preço. Sem esses elementos, a ação será julgada improcedente.</div></div>
+      <div class="alerta verde"><div class="al-ic">✅</div><div class="al-tx"><strong>Diferença-chave:</strong> Na adjudicação existe um contrato — o que falta é a escritura. Na usucapião não há contrato; adquire-se pelo uso prolongado. Na adjudicação o preço deve estar pago; na usucapião nada se paga.</div></div>
+    </div>
+  </div>
+
+  <!-- REQUISITOS -->
+  <div id="adj-requisitos" class="adj-panel">
+    <div class="inner">
+      <div class="sec-head"><div class="sec-num">02</div><h2 class="sec-titulo">Requisitos para a Adjudicação</h2></div>
+      <div class="grid">
+        <div class="card"><div class="card-head">📋 Contrato Válido</div><div class="card-body"><ul><li>Promessa de compra e venda irretratável</li><li>Instrumento público ou particular</li><li>Não há necessidade de registro prévio (Súmula 239 STJ)</li><li>Deve conter dados do imóvel, partes e preço</li></ul></div></div>
+        <div class="card"><div class="card-head">💰 Preço Pago ou Consignado</div><div class="card-body"><ul><li>Quitação integral do preço</li><li>OU consignação judicial do saldo devedor</li><li>Comprovação por recibos, transferências bancárias</li><li>Inadimplência do comprador = improcedência</li></ul></div></div>
+        <div class="card"><div class="card-head">🚫 Recusa ou Impossibilidade do Vendedor</div><div class="card-body"><ul><li>Recusa expressa em assinar a escritura</li><li>Ausência/paradeiro desconhecido</li><li>Falecimento — ação contra o espólio</li><li>Incapacidade superveniente</li></ul></div></div>
+        <div class="card"><div class="card-head">🏛️ Interpelação Prévia (Súmula 76 STJ)</div><div class="card-body"><ul><li>Notificação extrajudicial ao vendedor</li><li>Demonstra mora do vendedor</li><li>Não exigida se recusa já é manifesta</li><li>Recomendada para fortalecer a ação</li></ul></div></div>
+      </div>
+      <div class="alerta ouro"><div class="al-ic">⚖️</div><div class="al-tx"><strong>Súmula 239 do STJ:</strong> O direito à adjudicação compulsória não se condiciona ao registro da promessa de compra e venda no cartório de imóveis. O contrato pode ser particular e não registrado.</div></div>
+    </div>
+  </div>
+
+  <!-- PROCEDIMENTO -->
+  <div id="adj-procedimento" class="adj-panel">
+    <div class="inner">
+      <div class="sec-head"><div class="sec-num">03</div><h2 class="sec-titulo">Procedimento Judicial</h2></div>
+      <p class="tx">A adjudicação compulsória judicial tramita como <span class="hl">tutela específica de obrigação de fazer</span> (arts. 497–501 do CPC/2015). A sentença substitui a declaração de vontade do vendedor e serve de título para registro.</p>
+      <div class="etapas">
+        <div class="etapa"><div class="et-linha"><div class="et-num">1</div><div class="et-fio"></div></div><div class="et-corpo"><div class="et-titulo">Reunião de documentos</div><div class="et-desc">Contrato de promessa, comprovantes de pagamento, dados completos das partes, matrícula do imóvel e interpelação prévia.</div></div></div>
+        <div class="etapa"><div class="et-linha"><div class="et-num">2</div><div class="et-fio"></div></div><div class="et-corpo"><div class="et-titulo">Contratação de advogado</div><div class="et-desc">Representação por advogado é obrigatória. Ele elaborará a petição inicial e conduzirá o processo.</div></div></div>
+        <div class="etapa"><div class="et-linha"><div class="et-num">3</div><div class="et-fio"></div></div><div class="et-corpo"><div class="et-titulo">Distribuição da ação</div><div class="et-desc">Ajuizada na Vara Cível do foro da situação do imóvel (art. 47 CPC). Se houver saldo devedor, consignação simultânea.</div></div></div>
+        <div class="etapa"><div class="et-linha"><div class="et-num">4</div><div class="et-fio"></div></div><div class="et-corpo"><div class="et-titulo">Citação do réu</div><div class="et-desc">Citação do vendedor (ou espólio/herdeiros). Se incerto ou ausente, curador especial é nomeado.</div></div></div>
+        <div class="etapa"><div class="et-linha"><div class="et-num">5</div><div class="et-fio"></div></div><div class="et-corpo"><div class="et-titulo">Instrução e sentença</div><div class="et-desc">Produção de provas. A sentença de procedência é constitutiva — substitui a escritura definitiva.</div></div></div>
+        <div class="etapa"><div class="et-linha"><div class="et-num">6</div><div class="et-fio"></div></div><div class="et-corpo"><div class="et-titulo">Registro no CRI</div><div class="et-desc">Com o trânsito em julgado, a sentença é registrada no Cartório de Registro de Imóveis, conferindo plena propriedade.</div></div></div>
+      </div>
+      <div class="versus">
+        <div class="vs-card j">
+          <div class="vs-head">⚖️ Via Judicial</div>
+          <div class="vs-item"><strong>Prazo:</strong> 1 a 3 anos (média)</div>
+          <div class="vs-item"><strong>Custo:</strong> Custas processuais + honorários (10–20%)</div>
+          <div class="vs-item"><strong>Quando usar:</strong> Quando há litígio ou impugnação</div>
+          <div class="vs-item"><strong>Resultado:</strong> Sentença transitada em julgado</div>
+          <div class="vs-item"><strong>Advogado:</strong> Obrigatório</div>
+        </div>
+        <div class="vs-card e">
+          <div class="vs-head">🏛️ Via Extrajudicial</div>
+          <div class="vs-item"><strong>Prazo:</strong> 30 a 90 dias (sem litígio)</div>
+          <div class="vs-item"><strong>Custo:</strong> Emolumentos + honorários (menores)</div>
+          <div class="vs-item"><strong>Quando usar:</strong> Inércia, falecimento, vendedor incomunicável</div>
+          <div class="vs-item"><strong>Resultado:</strong> Registro direto no CRI</div>
+          <div class="vs-item"><strong>Advogado:</strong> Obrigatório</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXTRAJUDICIAL -->
+  <div id="adj-extrajudicial" class="adj-panel">
+    <div class="inner">
+      <div class="sec-head"><div class="sec-num">04</div><h2 class="sec-titulo">Adjudicação Extrajudicial</h2></div>
+      <p class="tx">Criada pelo <span class="hl">art. 216-B da Lei 6.015/73</span>, incluído pela Lei 14.382/2022 e regulamentado pelo Provimento CNJ nº 150/2023. Permite a adjudicação diretamente no Cartório de Registro de Imóveis, sem processo judicial, quando não há litígio.</p>
+      <div class="lei"><div class="lei-ref">Art. 216-B da Lei 6.015/1973 (incluído pela Lei 14.382/2022)</div><div class="lei-txt">Sem prejuízo da via jurisdicional, a adjudicação compulsória de imóvel objeto de promessa de compra e venda ou de cessão poderá ser efetivada extrajudicialmente no registro de imóveis da situação do imóvel, nos termos desta Lei, mediante requerimento do promitente comprador ou de seus sucessores.</div></div>
+      <div class="etapas">
+        <div class="etapa"><div class="et-linha"><div class="et-num">1</div><div class="et-fio"></div></div><div class="et-corpo"><div class="et-titulo">Requerimento ao CRI</div><div class="et-desc">O comprador, assistido por advogado, apresenta requerimento ao Cartório de Registro de Imóveis com toda a documentação.</div></div></div>
+        <div class="etapa"><div class="et-linha"><div class="et-num">2</div><div class="et-fio"></div></div><div class="et-corpo"><div class="et-titulo">Notificação do vendedor</div><div class="et-desc">O oficial do CRI notifica o vendedor (ou seus herdeiros/espólio) para manifestação em 15 dias.</div></div></div>
+        <div class="etapa"><div class="et-linha"><div class="et-num">3</div><div class="et-fio"></div></div><div class="et-corpo"><div class="et-titulo">Sem impugnação — registro direto</div><div class="et-desc">Se o vendedor não impugnar, o oficial pratica o registro da adjudicação, transferindo a propriedade.</div></div></div>
+        <div class="etapa"><div class="et-linha"><div class="et-num">4</div><div class="et-fio"></div></div><div class="et-corpo"><div class="et-titulo">Com impugnação — remessa ao juízo</div><div class="et-desc">Qualquer impugnação fundamentada converte automaticamente em processo judicial perante a Vara Cível competente.</div></div></div>
+      </div>
+      <div class="alerta verde"><div class="al-ic">✅</div><div class="al-tx"><strong>Vantagens:</strong> Prazo de 30 a 90 dias; custo menor que a via judicial; não exige processo; ideal para casos de inércia ou falecimento do vendedor sem herdeiros disputando.</div></div>
+      <div class="alerta verm"><div class="al-ic">⚠️</div><div class="al-tx"><strong>Limitação:</strong> Qualquer impugnação do vendedor ou herdeiros converte em processo judicial. A via extrajudicial só funciona sem litígio.</div></div>
+    </div>
+  </div>
+
+  <!-- DOCUMENTOS -->
+  <div id="adj-docs" class="adj-panel">
+    <div class="inner">
+      <div class="sec-head"><div class="sec-num">05</div><h2 class="sec-titulo">Documentos Necessários</h2></div>
+      <div class="docs">
+        <div class="doc">Promessa de compra e venda (original ou cópia autenticada)</div>
+        <div class="doc">Comprovantes de pagamento do preço total (recibos, transferências)</div>
+        <div class="doc">RG e CPF do comprador (e cônjuge, se casado)</div>
+        <div class="doc">Certidão de matrícula atualizada do imóvel (30 dias)</div>
+        <div class="doc">Interpelação extrajudicial ao vendedor (notificação cartorária)</div>
+        <div class="doc">Certidões de distribuição do comprador (cível e trabalhista)</div>
+        <div class="doc">Dados do vendedor (RG, CPF, endereço atual ou dos herdeiros)</div>
+        <div class="doc">Certidão de óbito + qualificação dos herdeiros (se vendedor falecido)</div>
+        <div class="doc">Planta e memorial descritivo do imóvel (para extrajudicial)</div>
+      </div>
+      <div class="alerta cobre"><div class="al-ic">💡</div><div class="al-tx"><strong>Dica prática:</strong> Guarde todos os comprovantes de pagamento (recibos, extratos bancários) desde o primeiro pagamento. Eles são a principal prova da quitação do preço — elemento central da adjudicação.</div></div>
+    </div>
+  </div>
+
+  <!-- LEIS -->
+  <div id="adj-leis" class="adj-panel">
+    <div class="inner">
+      <div class="sec-head"><div class="sec-num">06</div><h2 class="sec-titulo">Base Legal Completa</h2></div>
+      <div class="lei"><div class="lei-ref">Art. 1.417 do Código Civil</div><div class="lei-txt">Mediante promessa de compra e venda, em que se não pactuou arrependimento, e registrada no Cartório de Registro de Imóveis, adquire o promitente comprador direito real à aquisição do imóvel.</div></div>
+      <div class="lei"><div class="lei-ref">Art. 15 do Decreto-Lei nº 58/1937</div><div class="lei-txt">Os compromissários têm o direito de, antecipando ou ultimando o pagamento integral do preço, e não sendo atendidos pelo vendedor, para o outorgamento da escritura definitiva, requerer ao juiz a adjudicação do imóvel.</div></div>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Diploma</th><th>Dispositivo</th><th>Conteúdo</th></tr></thead>
+          <tbody>
+            <tr><td>Código Civil/2002</td><td>Arts. 1.417 e 1.418</td><td>Direito real à aquisição e adjudicação judicial</td></tr>
+            <tr><td>CPC/2015</td><td>Arts. 47, 497-501</td><td>Competência e tutela específica</td></tr>
+            <tr><td>Decreto-Lei 58/1937</td><td>Arts. 15 e 16</td><td>Adjudicação em loteamentos — diploma histórico</td></tr>
+            <tr><td>Lei 6.766/1979</td><td>Arts. 25 a 27</td><td>Irretratabilidade em parcelamentos urbanos</td></tr>
+            <tr><td>Lei 6.015/1973 (LRP)</td><td>Art. 216-B</td><td>Adjudicação compulsória extrajudicial</td></tr>
+            <tr><td>Lei 14.382/2022</td><td>Art. 20</td><td>Criou o art. 216-B da LRP</td></tr>
+            <tr><td>Provimento CNJ 150/2023</td><td>Inteiro teor</td><td>Regulamenta adjudicação extrajudicial no CRI</td></tr>
+            <tr><td>Súmula 239 — STJ</td><td>—</td><td>Dispensabilidade do registro da promessa</td></tr>
+            <tr><td>Súmula 84 — STJ</td><td>—</td><td>Embargos de terceiro fundados em posse do compromissário</td></tr>
+            <tr><td>Súmula 76 — STJ</td><td>—</td><td>Necessidade de interpelação prévia para mora do comprador</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div id="adj-faq" class="adj-panel">
+    <div class="inner">
+      <div class="sec-head"><div class="sec-num">07</div><h2 class="sec-titulo">Dúvidas Frequentes</h2></div>
+      <div class="faq">
+        <details><summary>Qual a diferença entre adjudicação compulsória e usucapião?</summary><div class="faq-r">Na adjudicação existe um contrato (promessa de compra e venda) e o comprador tem um título — o que falta é a escritura. Na usucapião não há contrato; o possuidor adquire pelo uso prolongado. A adjudicação exige quitação do preço; a usucapião exige apenas a posse qualificada pelo prazo legal.</div></details>
+        <details><summary>O vendedor faleceu. Posso ainda entrar com a adjudicação?</summary><div class="faq-r">Sim. A ação é proposta contra o espólio (representado pelo inventariante) ou diretamente contra os herdeiros. Não é necessário que o inventário esteja encerrado. Na via extrajudicial, a notificação é feita aos herdeiros conhecidos.</div></details>
+        <details><summary>O imóvel foi vendido pelo vendedor a outra pessoa. O que acontece?</summary><div class="faq-r">Depende do registro. Se a promessa estava registrada no CRI antes da segunda venda, o comprador tem direito real oponível a terceiros. Se não estava registrada e o terceiro comprou de boa-fé com registro válido, prevalece o registro do terceiro. O comprador lesado pode pleitear perdas e danos contra o vendedor fraudador.</div></details>
+        <details><summary>Posso entrar com a adjudicação se ainda devo algum valor?</summary><div class="faq-r">Sim, desde que consigne judicialmente o saldo devedor junto à ação (art. 539 CPC) ou comprove que está pronto para pagar. Se o comprador estiver inadimplente sem consignação, a ação será julgada improcedente.</div></details>
+        <details><summary>O contrato precisa estar registrado no cartório?</summary><div class="faq-r">Não. A Súmula 239 do STJ é expressa: o direito à adjudicação não se condiciona ao registro da promessa. O contrato pode ser particular e não registrado. Contudo, o registro é altamente recomendado para que o direito seja oponível a terceiros.</div></details>
+        <details><summary>A ação de adjudicação compulsória prescreve?</summary><div class="faq-r">Não, segundo o STJ. A ação é imprescritível. O direito real de aquisição (art. 1.417 CC) não se extingue pelo mero decurso do tempo enquanto o contrato for válido (REsp 1.216.568/MG).</div></details>
+        <details><summary>Qual o custo da adjudicação extrajudicial?</summary><div class="faq-r">Em São Paulo, o custo no CRI gira em torno de 0,3% a 0,8% do valor venal do imóvel. Somam-se os honorários do advogado (geralmente 5 a 10%). No total, a via extrajudicial costuma ser 50% a 70% mais barata que a judicial.</div></details>
+      </div>
+    </div>
+  </div>
+
+  <div class="mod-footer">
+    <strong>FCOSTA GESTÃO IMOBILIÁRIA & CONSULTORIA JURÍDICA</strong><br>
+    CRECI 294791-F · CNAI 52708<br><br>
+    Guia informativo. Para análise do seu caso, consulte um advogado especializado.<br>
+    Última atualização: 2026 — CC/2002, CPC/2015, Lei 14.382/2022, Provimento CNJ 150/2023.
+  </div>
+</div>
+
+
+<!-- ============================================================ -->
+<!--  MÓDULO 3: PROCURAÇÕES                                        -->
+<!-- ============================================================ -->
+<div id="mod-proc" class="modulo">
+
+  <div class="mod-nav">
+    <button class="btn-voltar" onclick="voltarHome()">← Voltar</button>
+    <div class="mod-nav-title">Procurações — Guia Completo</div>
+  </div>
+
+  <div class="inner">
+    <div class="hero2">
+      <div class="hero2-brand">FCOSTA · CRECI 294791-F · CNAI 52708 · CONSULTORIA JURÍDICA</div>
+      <div class="hero2-title">PROCU<em>RAÇÕES</em></div>
+      <div class="hero2-sub">Guia jurídico completo — tipos, poderes, outorga, revogação e modelos</div>
+      <div class="hero2-tags">
+        <span class="hero2-tag">Código Civil 2002</span>
+        <span class="hero2-tag">Arts. 653 a 692</span>
+        <span class="hero2-tag">Particular & Pública</span>
+        <span class="hero2-tag">Irrevogável</span>
+        <span class="hero2-tag">Gov.br</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="proc-tabs-wrap">
+    <div class="proc-tabs-inner">
+      <button class="proc-tab on" onclick="showProc('proc-conceito',this)">O que é</button>
+      <button class="proc-tab" onclick="showProc('proc-tipos',this)">Tipos</button>
+      <button class="proc-tab" onclick="showProc('proc-poderes',this)">Poderes</button>
+      <button class="proc-tab" onclick="showProc('proc-como',this)">Como Fazer</button>
+      <button class="proc-tab" onclick="showProc('proc-revog',this)">Revogação</button>
+      <button class="proc-tab" onclick="showProc('proc-modelo',this)">Modelo</button>
+      <button class="proc-tab" onclick="showProc('proc-tabela',this)">Comparativo</button>
+      <button class="proc-tab" onclick="showProc('proc-faq',this)">Dúvidas</button>
+    </div>
+  </div>
+
+  <!-- O QUE É -->
+  <div id="proc-conceito" class="proc-panel on">
+    <div class="container">
+      <div class="section-label">§ 01 — Conceito</div>
+      <h2>O que é uma Procuração</h2>
+      <p>Procuração é o <strong>instrumento pelo qual uma pessoa (outorgante ou mandante) confere poderes a outra (outorgado, procurador ou mandatário)</strong> para agir em seu nome e por sua conta perante terceiros, órgãos públicos, cartórios, instituições financeiras, tribunais etc.</p>
+      <p>É disciplinada pelos <strong>arts. 653 a 692 do Código Civil</strong>. O mandato (contrato subjacente) obriga o mandatário a agir dentro dos poderes conferidos, sob pena de responsabilidade pessoal pelos atos praticados além dos limites da procuração.</p>
+      <div class="lei2"><div class="lei2-ref">Art. 653 do Código Civil</div><div class="lei2-txt">Opera-se o mandato quando alguém recebe de outrem poderes para, em seu nome, praticar atos ou administrar interesses. A procuração é o instrumento do mandato.</div></div>
+      <div class="lei2"><div class="lei2-ref">Art. 660 do Código Civil</div><div class="lei2-txt">O mandato pode ser expresso ou tácito, verbal ou escrito. § único — O instrumento particular pode valer-se de qualquer língua.</div></div>
+      <div class="alert2 info"><span class="alert-icon">ℹ️</span><p><strong>Partes da procuração:</strong> <strong>Outorgante</strong> = quem dá os poderes (o "dono" da situação). <strong>Outorgado/Procurador</strong> = quem recebe os poderes para agir. Os atos do procurador, dentro dos poderes conferidos, obrigam o outorgante como se ele mesmo os tivesse praticado.</p></div>
+    </div>
+  </div>
+
+  <!-- TIPOS -->
+  <div id="proc-tipos" class="proc-panel">
+    <div class="container">
+      <div class="section-label">§ 02 — Tipos</div>
+      <h2>Tipos de Procuração</h2>
+      <div class="tipo-grid">
+        <div class="tipo-card">
+          <div class="tipo-icon">📝</div>
+          <div class="tipo-name">Particular Simples</div>
+          <div class="tipo-desc">Redigida pelo próprio outorgante ou advogado, assinada com ou sem testemunhas.</div>
+          <div class="tipo-detalhe"><strong>Quando usar:</strong> Atos bancários simples, administrativos, recebimento de correspondências, representação em assembleia.</div>
+        </div>
+        <div class="tipo-card">
+          <div class="tipo-icon">🏛️</div>
+          <div class="tipo-name">Pública (Escritura Pública)</div>
+          <div class="tipo-desc">Lavrada em Cartório de Notas pelo tabelião, com fé pública e validade erga omnes.</div>
+          <div class="tipo-detalhe"><strong>Quando usar:</strong> Venda ou compra de imóvel, herança, doação, hipoteca, atos de grande valor. <strong>Obrigatória para imóveis.</strong></div>
+        </div>
+        <div class="tipo-card">
+          <div class="tipo-icon">⚖️</div>
+          <div class="tipo-name">Ad Judicia</div>
+          <div class="tipo-desc">Confere poderes para representação em processos judiciais ou administrativos.</div>
+          <div class="tipo-detalhe"><strong>Quando usar:</strong> Contratação de advogado para representar em qualquer processo judicial, arbitral ou administrativo.</div>
+        </div>
+        <div class="tipo-card">
+          <div class="tipo-icon">🔒</div>
+          <div class="tipo-name">Irrevogável</div>
+          <div class="tipo-desc">Não pode ser revogada pelo outorgante pois existe no interesse do próprio procurador (art. 684 CC).</div>
+          <div class="tipo-detalhe"><strong>Quando usar:</strong> Negócios onde o procurador tem interesse direto — ex.: procuração em causa própria para transferência de imóvel.</div>
+        </div>
+        <div class="tipo-card">
+          <div class="tipo-icon">🌐</div>
+          <div class="tipo-name">Eletrônica (Gov.br)</div>
+          <div class="tipo-desc">Emitida digitalmente pelo portal Gov.br. Validade jurídica para serviços federais.</div>
+          <div class="tipo-detalhe"><strong>Quando usar:</strong> Serviços da Receita Federal, FGTS, INSS e outros serviços federais. Requer conta prata ou ouro no Gov.br.</div>
+        </div>
+        <div class="tipo-card">
+          <div class="tipo-icon">👥</div>
+          <div class="tipo-name">In Rem Suam</div>
+          <div class="tipo-desc">Procuração em causa própria — transfere ao procurador o próprio objeto do negócio.</div>
+          <div class="tipo-detalhe"><strong>Quando usar:</strong> Usado em compra e venda de imóveis como mecanismo de transferência sem nova escritura. Deve ser pública para imóveis.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PODERES -->
+  <div id="proc-poderes" class="proc-panel">
+    <div class="container">
+      <div class="section-label">§ 03 — Poderes</div>
+      <h2>Tipos de Poderes Conferidos</h2>
+      <p>Os poderes conferidos em uma procuração dividem-se em <strong>gerais</strong> (administração ordinária) e <strong>especiais</strong> (atos que precisam ser expressos). Para atos imobiliários, os poderes especiais são obrigatórios.</p>
+      <h3>Poderes Gerais de Administração</h3>
+      <div class="poderes-grid">
+        <div class="poder-card"><div class="poder-nome">Receber e dar quitação</div><div class="poder-desc">Receber valores e emitir recibos em nome do outorgante.</div></div>
+        <div class="poder-card"><div class="poder-nome">Administrar bens</div><div class="poder-desc">Zelar, conservar e administrar bens ordinariamente.</div></div>
+        <div class="poder-card"><div class="poder-nome">Representar em assembleia</div><div class="poder-desc">Votar e deliberar em reuniões e assembleias.</div></div>
+        <div class="poder-card"><div class="poder-nome">Contratar serviços</div><div class="poder-desc">Contratar prestadores de serviços comuns.</div></div>
+      </div>
+      <h3>Poderes Especiais — Devem Ser Expressos</h3>
+      <div class="poderes-grid">
+        <div class="poder-card"><div class="poder-nome">Alienar imóveis</div><div class="poder-desc">Vender, permutar ou transferir imóveis. Exige procuração pública.</div></div>
+        <div class="poder-card"><div class="poder-nome">Hipotecar/gravar</div><div class="poder-desc">Constituir hipoteca, penhor ou outro ônus real sobre bens.</div></div>
+        <div class="poder-card"><div class="poder-nome">Fazer doação</div><div class="poder-desc">Realizar doações em nome do outorgante.</div></div>
+        <div class="poder-card"><div class="poder-nome">Confessar em juízo</div><div class="poder-desc">Reconhecer fatos ou direitos em processos judiciais.</div></div>
+        <div class="poder-card"><div class="poder-nome">Receber citação</div><div class="poder-desc">Receber citação judicial em nome do outorgante.</div></div>
+        <div class="poder-card"><div class="poder-nome">Firmar acordos</div><div class="poder-desc">Celebrar transações, acordos, settlements.</div></div>
+        <div class="poder-card"><div class="poder-nome">Substabelecer</div><div class="poder-desc">Delegar os poderes a terceiro (deve ser autorizado expressamente).</div></div>
+        <div class="poder-card"><div class="poder-nome">Movimentar contas</div><div class="poder-desc">Movimentar contas bancárias, fazer saques, transferências.</div></div>
+      </div>
+      <div class="lei2"><div class="lei2-ref">Art. 661 do Código Civil</div><div class="lei2-txt">O mandato em termos gerais só confere poderes de administração. Para alienar, hipotecar, transigir, ou praticar outros quaisquer atos que exorbitem da administração ordinária, depende a procuração de poderes especiais e expressos.</div></div>
+      <div class="alert2 warn2"><span class="alert-icon">⚠️</span><p><strong>Atenção:</strong> Para vender ou comprar imóveis por procuração, a procuração <strong>deve ser pública</strong> (escritura pública em Cartório de Notas) e conter poderes expressos para alienar o imóvel com suas características completas (matrícula, área, localização).</p></div>
+    </div>
+  </div>
+
+  <!-- COMO FAZER -->
+  <div id="proc-como" class="proc-panel">
+    <div class="container">
+      <div class="section-label">§ 04 — Como Fazer</div>
+      <h2>Como Outorgar uma Procuração</h2>
+      <h3>Procuração Particular</h3>
+      <div class="steps2">
+        <div class="step2"><div class="step-num2">1</div><div class="step-body"><h4>Identifique o ato e as partes</h4><p>Defina o que o procurador poderá fazer e reúna os dados completos (nome, CPF, RG, endereço, estado civil, profissão).</p></div></div>
+        <div class="step2"><div class="step-num2">2</div><div class="step-body"><h4>Redija o instrumento</h4><p>Escreva a procuração com poderes claros e específicos. Evite termos vagos. Inclua prazo de validade se necessário.</p></div></div>
+        <div class="step2"><div class="step-num2">3</div><div class="step-body"><h4>Assine na presença de duas testemunhas</h4><p>Para maior força probatória, duas testemunhas devem assinar o documento.</p></div></div>
+        <div class="step2"><div class="step-num2">4</div><div class="step-body"><h4>Reconheça a firma (se exigido)</h4><p>Leve ao Cartório de Notas para reconhecimento de firma do outorgante — exigido por bancos, cartórios de imóveis e muitos órgãos.</p></div></div>
+      </div>
+      <h3>Procuração Pública (Escritura Pública)</h3>
+      <div class="steps2">
+        <div class="step2"><div class="step-num2">1</div><div class="step-body"><h4>Reúna os documentos</h4><p>RG, CPF, certidão de nascimento/casamento, comprovante de endereço do outorgante e dados completos do outorgado.</p></div></div>
+        <div class="step2"><div class="step-num2">2</div><div class="step-body"><h4>Compareça ao Cartório de Notas</h4><p>O outorgante deve comparecer pessoalmente. O outorgado não precisa estar presente.</p></div></div>
+        <div class="step2"><div class="step-num2">3</div><div class="step-body"><h4>Informe os poderes ao tabelião</h4><p>Diga exatamente o que o procurador poderá fazer. O tabelião redigirá a escritura com linguagem jurídica.</p></div></div>
+        <div class="step2"><div class="step-num2">4</div><div class="step-body"><h4>Assine e pague as custas</h4><p>O outorgante assina perante o tabelião. Custas variam por estado — em geral entre R$ 80 e R$ 350.</p></div></div>
+      </div>
+      <div class="alert2 info"><span class="alert-icon">💡</span><p><strong>Procuração pelo Gov.br:</strong> É possível emitir procuração eletrônica com validade jurídica pelo portal Gov.br. Válida para serviços do governo federal. Requer conta prata ou ouro no Gov.br.</p></div>
+      <h3>Documentos necessários</h3>
+      <ul style="margin-left:20px;color:#1a3a5c;line-height:2.1;font-size:12px;">
+        <li>RG e CPF do outorgante (obrigatório)</li>
+        <li>Certidão de casamento (se casado — para atos que exijam outorga conjugal)</li>
+        <li>Comprovante de endereço atualizado</li>
+        <li>Nome completo, CPF e endereço do outorgado</li>
+        <li>Descrição do bem ou do ato (matrícula do imóvel, número do processo etc.)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- REVOGAÇÃO -->
+  <div id="proc-revog" class="proc-panel">
+    <div class="container">
+      <div class="section-label">§ 05 — Revogação</div>
+      <h2>Revogação e Extinção da Procuração</h2>
+      <p>A procuração pode ser extinta de várias formas. A revogação é o ato unilateral do outorgante de cancelar os poderes conferidos.</p>
+      <div class="revog-box">
+        <div class="revog-card can">
+          <div class="revog-head">❌ Causas de Extinção</div>
+          <div class="revog-item">Revogação pelo outorgante (art. 682 CC)</div>
+          <div class="revog-item">Renúncia pelo procurador</div>
+          <div class="revog-item">Morte do outorgante ou do procurador</div>
+          <div class="revog-item">Interdição de qualquer das partes</div>
+          <div class="revog-item">Término do prazo estabelecido</div>
+          <div class="revog-item">Conclusão do negócio</div>
+          <div class="revog-item">Advento de condição resolutiva</div>
+        </div>
+        <div class="revog-card nao">
+          <div class="revog-head">✅ Procuração Irrevogável</div>
+          <div class="revog-item">Art. 684 CC — existe no interesse do procurador</div>
+          <div class="revog-item">Ex.: procuração em causa própria (in rem suam)</div>
+          <div class="revog-item">Deve ser expressamente declarada irrevogável</div>
+          <div class="revog-item">Em geral deve ser escritura pública</div>
+          <div class="revog-item">Resistente à morte do outorgante quando no interesse do mandatário</div>
+        </div>
+      </div>
+      <div class="lei2"><div class="lei2-ref">Art. 682 do Código Civil</div><div class="lei2-txt">Cessa o mandato: I - pela revogação ou pela renúncia; II - pela morte ou interdição de uma das partes; III - pelo término do prazo ou pela conclusão do negócio.</div></div>
+      <div class="lei2"><div class="lei2-ref">Art. 684 do Código Civil</div><div class="lei2-txt">Quando a cláusula de irrevogabilidade for condição de um negócio bilateral, ou tiver sido estipulada no exclusivo interesse do mandatário, a revogação do mandante não terá eficácia, nem se extinguirá pela morte de qualquer das partes.</div></div>
+      <div class="alert2 warn2"><span class="alert-icon">⚠️</span><p><strong>Atenção ao substabelecimento:</strong> O substabelecimento (art. 685 CC) é a delegação dos poderes recebidos a terceiro. Só é permitido se o outorgante autorizou expressamente. Se o mandatário substabelecer sem autorização, responde pelos atos do substituto.</p></div>
+    </div>
+  </div>
+
+  <!-- MODELO -->
+  <div id="proc-modelo" class="proc-panel">
+    <div class="container">
+      <div class="section-label">§ 06 — Modelo</div>
+      <h2>Modelo de Procuração Particular</h2>
+      <p>Substitua os campos em <em>itálico</em> pelos dados reais.</p>
+      <div class="modelo">
+        <div class="modelo-center">PROCURAÇÃO PARTICULAR</div>
+        <p><strong>OUTORGANTE:</strong> <span class="blank">Nome completo</span>, <span class="blank">nacionalidade</span>, <span class="blank">estado civil</span>, <span class="blank">profissão</span>, portador(a) do RG n.º <span class="blank">número</span> e CPF n.º <span class="blank">número</span>, residente e domiciliado(a) na <span class="blank">endereço completo</span>, CEP <span class="blank">CEP</span>.</p>
+        <p><strong>OUTORGADO(A):</strong> <span class="blank">Nome completo</span>, <span class="blank">nacionalidade</span>, <span class="blank">estado civil</span>, <span class="blank">profissão</span>, portador(a) do RG n.º <span class="blank">número</span> e CPF n.º <span class="blank">número</span>, residente e domiciliado(a) na <span class="blank">endereço completo</span>.</p>
+        <p>Pelo presente instrumento particular, o(a) OUTORGANTE confere ao(à) OUTORGADO(A) os seguintes poderes:</p>
+        <p><span class="blank">Descrever os poderes de forma específica, ex.: representá-lo(a) perante [órgão], assinar [documento], receber [valores], alienar o imóvel matriculado sob n.º [matrícula] no CRI de [cidade], etc.</span></p>
+        <p>A presente procuração tem validade de <span class="blank">prazo ou "indeterminado"</span>, podendo ser revogada a qualquer tempo por instrumento escrito.</p>
+        <p style="margin-top:20px;"><span class="blank">Cidade</span>, <span class="blank">dia</span> de <span class="blank">mês</span> de <span class="blank">ano</span>.</p>
+        <p style="margin-top:28px;text-align:center;">___________________________________<br><strong>Outorgante</strong><br><span class="blank">Nome completo</span></p>
+        <p style="margin-top:18px;">Testemunhas:<br>1. <span class="blank">Nome e CPF</span><br>2. <span class="blank">Nome e CPF</span></p>
+      </div>
+      <div class="alert2 success"><span class="alert-icon">✅</span><p>Para maior segurança, leve este documento ao Cartório de Notas para reconhecimento de firma do outorgante. Custo médio: R$ 15–30 por assinatura.</p></div>
+    </div>
+  </div>
+
+  <!-- COMPARATIVO -->
+  <div id="proc-tabela" class="proc-panel">
+    <div class="container">
+      <div class="section-label">§ 07 — Comparativo</div>
+      <h2>Tabela Comparativa dos Tipos</h2>
+      <div class="tbl2-wrap">
+        <table class="tbl2">
+          <thead><tr><th>Tipo</th><th>Forma</th><th>Prazo típico</th><th>Custo médio</th><th>Quando usar</th></tr></thead>
+          <tbody>
+            <tr><td>Particular simples</td><td>Escrita + assinatura</td><td>Conforme o ato</td><td>Gratuita (+ firma: R$15–30)</td><td>Atos simples, bancários, administrativos</td></tr>
+            <tr><td>Pública (Escritura)</td><td>Cartório de Notas</td><td>Conforme o ato</td><td>R$ 80–350</td><td>Imóveis, herança, atos de grande valor</td></tr>
+            <tr><td>Ad judicia</td><td>Particular ou pública</td><td>Duração do processo</td><td>Variável</td><td>Representação em processos judiciais</td></tr>
+            <tr><td>INSS presencial</td><td>Formulário + firma</td><td>1 ano</td><td>Gratuita</td><td>Receber benefício previdenciário</td></tr>
+            <tr><td>Gov.br (eletrônica)</td><td>Digital (plataforma)</td><td>Até 3 anos</td><td>Gratuita</td><td>Serviços federais, Receita, FGTS</td></tr>
+            <tr><td>Irrevogável</td><td>Pública (em geral)</td><td>Até conclusão do negócio</td><td>R$ 80–350</td><td>Interesse do procurador, garantias</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div id="proc-faq" class="proc-panel">
+    <div class="container">
+      <div class="section-label">§ 08 — Perguntas Frequentes</div>
+      <h2>Dúvidas Comuns</h2>
+      <div class="faq2">
+        <details><summary>Preciso de advogado para fazer uma procuração?</summary><p class="faq-a">Não é obrigatório. Procurações particulares podem ser redigidas pelo próprio outorgante. Para atos complexos ou de grande valor, é prudente consultar um advogado para garantir que os poderes estejam descritos corretamente.</p></details>
+        <details><summary>Procuração assinada em outro país tem validade no Brasil?</summary><p class="faq-a">Sim, mas deve ser autenticada no Consulado Brasileiro do país onde foi assinada, e em seguida traduzida por tradutor juramentado no Brasil. Documentos de países signatários da Convenção da Haia podem usar a Apostila em vez do consulado.</p></details>
+        <details><summary>Posso revogar uma procuração a qualquer momento?</summary><p class="faq-a">Em regra, sim. A revogação deve ser feita por escrito e comunicada ao outorgado e a terceiros com quem ele esteja negociando. A exceção é a procuração irrevogável (art. 684, CC), que existe no interesse do próprio procurador.</p></details>
+        <details><summary>Pessoa jurídica pode outorgar procuração?</summary><p class="faq-a">Sim. Empresas outorgam procurações por meio de seus representantes legais (sócios administradores, diretores). Em geral, deve-se apresentar o contrato social ou estatuto para comprovar os poderes do signatário.</p></details>
+        <details><summary>Posso vender meu imóvel por procuração?</summary><p class="faq-a">Sim, mas a procuração deve ser pública (escritura pública) com poderes expressos para alienar o imóvel. A escritura de compra e venda também deve ser pública. Procuração particular não tem validade para esse ato.</p></details>
+        <details><summary>O que são "poderes especiais" em uma procuração?</summary><p class="faq-a">São poderes que precisam ser conferidos de forma expressa e específica, pois não estão incluídos nos poderes gerais de administração. Exemplos: vender, hipotecar, fazer doação, confessar em juízo, receber citação, firmar acordos.</p></details>
+        <details><summary>A morte do outorgante cancela automaticamente a procuração?</summary><p class="faq-a">Sim, pela regra geral do art. 682, CC. Porém, se o procurador não tiver ciência da morte e praticar atos de boa-fé, eles são considerados válidos em relação a terceiros de boa-fé (art. 689, CC). Os herdeiros devem comunicar a morte e revogar formalmente.</p></details>
+        <details><summary>Qual a diferença entre substabelecimento e sub-rogação?</summary><p class="faq-a">O <strong>substabelecimento</strong> é quando o procurador delega (total ou parcialmente) os poderes recebidos a outra pessoa — só permitido se o outorgante autorizou expressamente. A <strong>sub-rogação</strong> é um instituto do direito das obrigações (diferente) e não se aplica aqui.</p></details>
+      </div>
+      <div class="alert2 info" style="margin-top:24px;"><span class="alert-icon">📌</span><p><strong>Importante:</strong> Este guia tem caráter informativo. Para situações específicas ou de alto valor, consulte sempre um advogado. O direito é aplicado caso a caso e pode haver variações estaduais nas exigências cartoriais.</p></div>
+    </div>
+  </div>
+
+  <div class="mod-footer">
+    <strong>FCOSTA GESTÃO IMOBILIÁRIA & CONSULTORIA JURÍDICA</strong><br>
+    CRECI 294791-F · CNAI 52708<br><br>
+    Guia informativo. Para situações específicas, consulte sempre um advogado.<br>
+    Baseado no Código Civil Brasileiro (Lei 10.406/2002) — Atualizado 2026.
+  </div>
+</div>
+
+
+<script>
+// Navegação principal
+function abrirModulo(id) {
+  document.getElementById('home').style.display = 'none';
+  var mods = document.querySelectorAll('.modulo');
+  for (var i = 0; i < mods.length; i++) mods[i].style.display = 'none';
+  document.getElementById(id).style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function voltarHome() {
+  var mods = document.querySelectorAll('.modulo');
+  for (var i = 0; i < mods.length; i++) mods[i].style.display = 'none';
+  document.getElementById('home').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// Tabs Usucapião
+function showUsu(id, btn) {
+  var ps = document.querySelectorAll('#mod-usu .panel');
+  for (var i = 0; i < ps.length; i++) ps[i].classList.remove('on');
+  var ts = document.querySelectorAll('#mod-usu .tab');
+  for (var i = 0; i < ts.length; i++) ts[i].classList.remove('on');
+  document.getElementById(id).classList.add('on');
+  btn.classList.add('on');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+// FAQ Usucapião
+var faqQs = document.querySelectorAll('#mod-usu .faq-q');
+for (var i = 0; i < faqQs.length; i++) {
+  faqQs[i].addEventListener('click', function() {
+    var item = this.parentElement;
+    var isOpen = item.classList.contains('open');
+    var all = document.querySelectorAll('#mod-usu .faq-item');
+    for (var j = 0; j < all.length; j++) all[j].classList.remove('open');
+    if (!isOpen) item.classList.add('open');
+  });
+}
+
+// Tabs Adjudicação
+function showAdj(id, btn) {
+  var ps = document.querySelectorAll('#mod-adj .adj-panel');
+  for (var i = 0; i < ps.length; i++) ps[i].classList.remove('on');
+  var ts = document.querySelectorAll('#mod-adj .adj-tab');
+  for (var i = 0; i < ts.length; i++) ts[i].classList.remove('on');
+  document.getElementById(id).classList.add('on');
+  btn.classList.add('on');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// Tabs Procurações
+function showProc(id, btn) {
+  var ps = document.querySelectorAll('#mod-proc .proc-panel');
+  for (var i = 0; i < ps.length; i++) ps[i].classList.remove('on');
+  var ts = document.querySelectorAll('#mod-proc .proc-tab');
+  for (var i = 0; i < ts.length; i++) ts[i].classList.remove('on');
+  document.getElementById(id).classList.add('on');
+  btn.classList.add('on');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+</script>
+</body>
+</html>
