@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rodapé — FCosta Corretor</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--azul:#003da5;--vermelho:#dc1c2d;--preto:#0d1829;--gold:#C9A84C;}
+html,body{width:100%;overflow-x:hidden;font-family:'DM Sans',sans-serif;}
+
+footer{background:var(--preto);color:white;padding:60px 24px 0;width:100%;}
+
+.footer-top{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:48px;padding-bottom:48px;
+  border-bottom:1px solid rgba(255,255,255,0.1);
+}
+@media(max-width:1024px){.footer-top{grid-template-columns:1fr 1fr;gap:32px;}}
+@media(max-width:480px){.footer-top{grid-template-columns:1fr 1fr;gap:20px;}.footer-bottom{flex-direction:column;text-align:center;gap:12px;}}
+
+.footer-brand img{width:56px;height:56px;border-radius:50%;margin-bottom:14px;border:2px solid var(--vermelho);display:block;}
+.footer-brand .nome{font-family:'Playfair Display',serif;font-size:22px;font-weight:800;color:white;margin-bottom:6px;}
+.footer-brand .creci{font-size:12px;color:#fbbf24;font-weight:700;letter-spacing:.5px;margin-bottom:2px;}
+.footer-brand .cnai{font-size:12px;color:#86efac;font-weight:700;letter-spacing:.5px;}
+.footer-brand .pf-aviso{margin-top:10px;font-size:11px;color:rgba(255,255,255,0.5);line-height:1.6;font-style:italic;}
+.footer-brand p{margin-top:10px;font-size:13px;color:rgba(255,255,255,0.55);line-height:1.7;}
+
+.footer-col h5{color:var(--vermelho);font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;}
+.footer-col h5.sub{margin-top:22px;margin-bottom:14px;}
+.footer-col a{
+  display:flex;align-items:center;gap:8px;
+  color:rgba(255,255,255,0.6);text-decoration:none;
+  font-size:13px;margin-bottom:11px;cursor:pointer;transition:color 0.2s;
+}
+.footer-col a:hover{color:white;}
+.footer-col a i{width:16px;opacity:0.6;flex-shrink:0;}
+.footer-col a.gold{color:var(--gold);}
+.footer-col a.gold:hover{color:#e8c96a;}
+.footer-col a.laranja{color:#e65100;}
+.footer-col a.laranja:hover{color:#ff7043;}
+
+.footer-bottom{
+  padding:20px 0;
+  display:flex;justify-content:space-between;align-items:center;
+  gap:16px;flex-wrap:wrap;font-size:12px;color:rgba(255,255,255,0.4);
+}
+.footer-bottom a{color:rgba(255,255,255,0.4);text-decoration:none;transition:color 0.2s;}
+.footer-bottom a:hover{color:white;}
+.footer-legais{display:flex;gap:20px;flex-wrap:wrap;}
+
+.footer-creci-legal{
+  background:#001233;
+  border-top:1px solid rgba(255,255,255,0.08);
+  padding:14px 24px;text-align:center;
+  font-size:11px;color:rgba(255,255,255,0.42);line-height:1.8;
+}
+.footer-creci-legal strong{color:rgba(255,255,255,0.72);}
+</style>
+</head>
+<body>
+
+<footer>
+  <div class="footer-top">
+
+    <!-- MARCA -->
+    <div class="footer-brand">
+      <img src="https://i.postimg.cc/xTQzc3RV/495379823-122128221800669140-5238985291153506093-n-photoaidcom-cropped.png"
+           alt="FCosta Corretor de Imóveis">
+      <div class="nome">FCosta</div>
+      <div style="color:var(--azul);font-size:13px;font-weight:700;margin-bottom:4px;">Corretor de Imóveis</div>
+      <div class="creci">CRECI-SP: 294791-F</div>
+      <div class="cnai">CNAI: 52708</div>
+      <div class="pf-aviso">Profissional autônomo — pessoa física.<br>Não se trata de imobiliária ou pessoa jurídica.</div>
+      <p>Especialista em compra, venda e locação de imóveis em São Paulo. Zona Leste e Itaim Paulista.</p>
+    </div>
+
+    <!-- PÁGINAS -->
+    <div class="footer-col">
+      <h5>Páginas</h5>
+      <a href="https://fcostacorretor.com/"><i class="fas fa-home"></i> Home</a>
+      <a href="https://fcostacorretor.com/comprar"><i class="fas fa-search"></i> Comprar</a>
+      <a href="https://fcostacorretor.com/alugar"><i class="fas fa-key"></i> Alugar</a>
+      <a href="https://fcostacorretor.com/lancamentos"><i class="fas fa-building"></i> Lançamentos</a>
+      <a href="https://fcostacorretor.com/panfletos"><i class="fas fa-book-open"></i> Catálogo</a>
+      <a href="https://fcostacorretor.com/galeria"><i class="fas fa-images"></i> Galeria</a>
+      <a href="https://fcostacorretor.com/blog"><i class="fas fa-newspaper"></i> Blog</a>
+      <a href="https://fcostacorretor.com/consultoria"><i class="fas fa-user-tie"></i> Quem Sou</a>
+      <a href="https://fcostacorretor.com/videos-imobiliarios"><i class="fas fa-tv"></i> Vídeos</a>
+      <a href="https://fcostacorretor.com/cadastro"><i class="fas fa-lock"></i> Painel ADM</a>
+    </div>
+
+    <!-- REDES -->
+    <div class="footer-col">
+      <h5>Redes Sociais</h5>
+      <a href="https://www.instagram.com/f.costa_corretor/" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i> Instagram</a>
+      <a href="https://www.youtube.com/@fcostacorretor" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i> YouTube</a>
+      <a href="https://www.facebook.com/SergioCostaRCM" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i> Facebook</a>
+      <a href="https://www.tiktok.com/@fcosta.corretor" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i> TikTok</a>
+      <a href="https://www.linkedin.com/in/sergio-costa-corretor-b6a984371/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i> LinkedIn</a>
+      <a href="https://play.google.com/store/apps/details?id=meu.fcosta.app2026&hl=pt_BR" target="_blank" rel="noopener noreferrer"><i class="fab fa-google-play"></i> App Android</a>
+      <a href="https://wa.me/5511993509109" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+      <a href="https://fcostacorretor.com/sergioig" target="_blank" rel="noopener noreferrer"><i class="fas fa-user-circle"></i> Perfil Pessoal</a>
+      <h5 class="sub">Parcerias</h5>
+      <a href="https://fcostacorretor.com/parceiros-fcosta"><i class="fas fa-handshake"></i> Parceiros FCosta</a>
+    </div>
+
+    <!-- FERRAMENTAS + LEGAL -->
+    <div class="footer-col">
+      <h5>Ferramentas</h5>
+      <a href="https://fcostacorretor.com/avaliacao-fcosta" class="gold"><i class="fas fa-calculator"></i> Avaliações — CNAI 52708</a>
+      <a href="https://fcostacorretor.com/portal-do-investidor" class="gold"><i class="fas fa-chart-line"></i> Portal do Investidor</a>
+      <a href="https://fcostacorretor.com/contratos-fcosta" class="laranja"><i class="fas fa-file-signature"></i> Contratos FCosta</a>
+      <a href="https://fcostacorretor.com/inquilinato" class="laranja"><i class="fas fa-gavel"></i> Lei do Inquilinato</a>
+      <a href="https://fcostacorretor.com/legislacaoimobiliaria"><i class="fas fa-balance-scale"></i> Legislação Imobiliária</a>
+      <a href="https://fcostacorretor.com/documentacao-imobiliaria"><i class="fas fa-folder-open"></i> Documentação Imob.</a>
+      <h5 class="sub">Legal</h5>
+      <a href="https://fcostacorretor.com/politica-de-privacidade"><i class="fas fa-shield-alt"></i> Política de Privacidade</a>
+      <a href="https://fcostacorretor.com/condicoes-de-uso"><i class="fas fa-file-alt"></i> Condições de Uso</a>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2026 FCosta — Corretor de Imóveis em São Paulo</span>
+    <div class="footer-legais">
+      <a href="https://fcostacorretor.com/politica-de-privacidade">Privacidade</a>
+      <a href="https://fcostacorretor.com/condicoes-de-uso">Termos</a>
+    </div>
+  </div>
+
+  <!-- RODAPÉ LEGAL CRECI/COFECI — OBRIGATÓRIO -->
+  <div class="footer-creci-legal">
+    <strong>FCosta — Corretor de Imóveis</strong> · Sergio Costa · CRECI-SP 294791-F · CNAI 52708 ·
+    Profissional autônomo — pessoa física — não se trata de imobiliária ou pessoa jurídica. ·
+    Lançamentos comercializados em parceria e autorização das construtoras. ·
+    Atividade de avaliação exercida sob registro CNAI 52708 (COFECI). ·
+    Mediação imobiliária conforme Lei 6.530/78 e Decreto 81.871/78. ·
+    Código de Ética Profissional do Corretor de Imóveis — Res. COFECI 326/92.
+  </div>
+</footer>
+
+</body>
+</html>
