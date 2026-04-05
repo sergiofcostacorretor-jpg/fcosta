@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medidas de Imóvel — Guia Completo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --verde: #1a5c3a;
+  --verde-claro: #2d8a56;
+  --verde-bg: #f0f7f3;
+  --azul: #1a3a5c;
+  --azul-claro: #2d6a8a;
+  --azul-bg: #f0f5f9;
+  --laranja: #b8510d;
+  --laranja-bg: #fdf3ec;
+  --amarelo: #9a7a00;
+  --amarelo-bg: #fdfaec;
+  --vermelho: #8b1c1c;
+  --vermelho-bg: #fdf0f0;
+  --cinza: #3d3d3a;
+  --cinza-claro: #6b6b66;
+  --borda: #ddd8cc;
+  --fundo: #faf9f6;
+  --branco: #ffffff;
+  --sombra: 0 2px 16px rgba(0,0,0,0.08);
+  --sombra-lg: 0 8px 40px rgba(0,0,0,0.12);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--fundo);
+  color: var(--cinza);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* ── HEADER ─────────────────────────────── */
+.site-header {
+  background: var(--verde);
+  color: #fff;
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+}
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+.logo {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-icon {
+  width: 32px; height: 32px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+nav { display: flex; gap: 6px; }
+nav a {
+  color: rgba(255,255,255,0.8);
+  text-decoration: none;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+nav a:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+/* ── HERO ─────────────────────────────── */
+.hero {
+  background: linear-gradient(135deg, var(--verde) 0%, #2d5a40 50%, #1a4a5c 100%);
+  color: #fff;
+  padding: 80px 24px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.05) 0%, transparent 60%),
+                    radial-gradient(circle at 80% 20%, rgba(255,255,255,0.05) 0%, transparent 50%);
+}
+.hero-inner { position: relative; max-width: 800px; margin: 0 auto; }
+.hero-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 400;
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+.hero h1 em { font-style: italic; color: #a8d5be; }
+.hero p {
+  font-size: 18px;
+  color: rgba(255,255,255,0.8);
+  max-width: 600px;
+  margin: 0 auto 36px;
+}
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.hero-stat {
+  text-align: center;
+}
+.hero-stat .num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 36px;
+  color: #a8d5be;
+  line-height: 1;
+}
+.hero-stat .lbl {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+}
+
+/* ── LAYOUT ─────────────────────────────── */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.section { padding: 60px 0; }
+.section-alt { background: var(--branco); }
+
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--verde-claro);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-label::before {
+  content: '';
+  width: 24px; height: 2px;
+  background: var(--verde-claro);
+  display: inline-block;
+}
+h2.section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(24px, 3vw, 38px);
+  font-weight: 400;
+  color: var(--cinza);
+  line-height: 1.25;
+  margin-bottom: 12px;
+}
+.section-sub {
+  font-size: 16px;
+  color: var(--cinza-claro);
+  max-width: 600px;
+  margin-bottom: 40px;
+}
+
+/* ── CARDS DE MEDIDA ─────────────────────────────── */
+.medidas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.medida-card {
+  background: var(--branco);
+  border: 1px solid var(--borda);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--sombra);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.medida-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sombra-lg);
+}
+.medida-card-header {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--borda);
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.medida-icon {
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.medida-card-body { padding: 20px 24px; }
+.medida-card-body p { font-size: 14px; color: var(--cinza-claro); margin-bottom: 14px; line-height: 1.65; }
+.como-obter {
+  background: var(--fundo);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 13px;
+  color: var(--cinza);
+  border-left: 3px solid var(--borda);
+}
+.como-obter strong { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; color: var(--cinza-claro); }
+
+.tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.tag {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid;
+  font-weight: 500;
+}
+.tag-green { background: var(--verde-bg); border-color: #aecfbc; color: var(--verde); }
+.tag-blue  { background: var(--azul-bg);  border-color: #aabfcf; color: var(--azul); }
+.tag-orange{ background: var(--laranja-bg); border-color: #d9ab8a; color: var(--laranja); }
+.tag-amber { background: var(--amarelo-bg); border-color: #cfc077; color: var(--amarelo); }
+.tag-red   { background: var(--vermelho-bg); border-color: #d4a0a0; color: var(--vermelho); }
+
+/* ── EXEMPLO VISUAL ─────────────────────────────── */
+.exemplo-wrap {
+  background: var(--verde-bg);
+  border: 1px solid #aecfbc;
+  border-radius: 20px;
+  padding: 40px;
+}
+.exemplo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+@media(max-width:768px){ .exemplo-grid { grid-template-columns: 1fr; } }
+
+.calculo-lista { display: flex; flex-direction: column; gap: 12px; }
+.calculo-item {
+  background: var(--branco);
+  border-radius: 12px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid var(--borda);
+}
+.calculo-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 26px;
+  color: var(--verde-claro);
+  min-width: 80px;
+  line-height: 1;
+}
+.calculo-num span { font-size: 13px; color: var(--cinza-claro); }
+.calculo-desc { font-size: 13px; color: var(--cinza-claro); }
+.calculo-desc strong { display: block; font-size: 15px; color: var(--cinza); font-weight: 600; }
+
+.destaque-card {
+  background: var(--verde);
+  color: #fff;
+  border-radius: 14px;
+  padding: 20px 22px;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.destaque-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 44px;
+  color: #a8d5be;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.destaque-desc { font-size: 14px; color: rgba(255,255,255,0.8); }
+.destaque-desc strong { display: block; font-size: 16px; color: #fff; margin-bottom: 4px; }
+
+/* ── PLANTA SVG ─────────────────────────────── */
+.planta-container {
+  background: var(--branco);
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid var(--borda);
+  box-shadow: var(--sombra);
+}
+.planta-container h4 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cinza-claro);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+/* ── TABELA ─────────────────────────────── */
+.tabela-wrap { overflow-x: auto; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+thead tr { background: var(--cinza); color: #fff; }
+thead th {
+  padding: 14px 16px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+}
+thead th:first-child { border-radius: 10px 0 0 0; }
+thead th:last-child  { border-radius: 0 10px 0 0; }
+tbody tr { border-bottom: 1px solid var(--borda); transition: background 0.15s; }
+tbody tr:hover { background: var(--fundo); }
+tbody td { padding: 14px 16px; color: var(--cinza-claro); vertical-align: top; line-height: 1.5; }
+tbody td:first-child { color: var(--cinza); font-weight: 600; white-space: nowrap; }
+.badge-table {
+  display: inline-block;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+/* ── INDICADORES ─────────────────────────────── */
+.indicadores-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 32px;
+}
+.indicador-card {
+  background: var(--branco);
+  border-radius: 14px;
+  padding: 20px;
+  border: 1px solid var(--borda);
+  text-align: center;
+  box-shadow: var(--sombra);
+}
+.indicador-card .big {
+  font-family: 'DM Serif Display', serif;
+  font-size: 38px;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.indicador-card .lbl { font-size: 13px; color: var(--cinza-claro); margin-bottom: 4px; }
+.indicador-card .eq  { font-size: 12px; color: var(--cinza-claro); font-style: italic; }
+
+/* ── DOCUMENTOS ─────────────────────────────── */
+.docs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+.doc-card {
+  background: var(--branco);
+  border: 1px solid var(--borda);
+  border-radius: 14px;
+  padding: 22px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  box-shadow: var(--sombra);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.doc-card:hover { transform: translateY(-2px); box-shadow: var(--sombra-lg); }
+.doc-icon {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.doc-info h4 { font-size: 15px; font-weight: 600; color: var(--cinza); margin-bottom: 6px; }
+.doc-info p  { font-size: 13px; color: var(--cinza-claro); line-height: 1.5; margin-bottom: 10px; }
+.doc-link {
+  font-size: 12px;
+  color: var(--verde-claro);
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.doc-link:hover { text-decoration: underline; }
+
+/* ── ZONEAMENTO ─────────────────────────────── */
+.zona-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+.zona-card {
+  background: var(--branco);
+  border-radius: 14px;
+  padding: 20px;
+  border: 1px solid var(--borda);
+  border-top: 4px solid;
+}
+.zona-card h4 { font-size: 14px; font-weight: 600; color: var(--cinza); margin-bottom: 8px; }
+.zona-card p  { font-size: 13px; color: var(--cinza-claro); margin-bottom: 10px; line-height: 1.5; }
+.zona-card ul { list-style: none; padding: 0; }
+.zona-card ul li {
+  font-size: 12px;
+  color: var(--cinza-claro);
+  padding: 3px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.zona-card ul li::before { content: '→'; font-size: 10px; opacity: 0.5; }
+
+/* ── GLOSSÁRIO ─────────────────────────────── */
+.glossario-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+}
+.glossario-item {
+  background: var(--branco);
+  border-radius: 12px;
+  padding: 16px 18px;
+  border: 1px solid var(--borda);
+  display: flex;
+  gap: 12px;
+}
+.glossario-letter {
+  width: 36px; height: 36px;
+  background: var(--verde-bg);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px;
+  color: var(--verde);
+  flex-shrink: 0;
+}
+.glossario-text h5 { font-size: 14px; font-weight: 600; color: var(--cinza); margin-bottom: 4px; }
+.glossario-text p  { font-size: 13px; color: var(--cinza-claro); line-height: 1.5; }
+
+/* ── FAQ ─────────────────────────────── */
+.faq-item {
+  background: var(--branco);
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.faq-question {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 18px 22px;
+  text-align: left;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--cinza);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  transition: background 0.2s;
+}
+.faq-question:hover { background: var(--fundo); }
+.faq-chevron {
+  font-size: 12px;
+  transition: transform 0.3s;
+  flex-shrink: 0;
+  color: var(--verde-claro);
+  font-size: 18px;
+}
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  padding: 0 22px;
+  font-size: 14px;
+  color: var(--cinza-claro);
+  line-height: 1.7;
+}
+.faq-answer.open { max-height: 400px; padding: 0 22px 18px; }
+.faq-item.open .faq-chevron { transform: rotate(180deg); }
+
+/* ── LINKS EXTERNOS ─────────────────────────────── */
+.links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+.link-card {
+  background: var(--branco);
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  padding: 16px 18px;
+  text-decoration: none;
+  color: var(--cinza);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  transition: all 0.2s;
+  box-shadow: var(--sombra);
+}
+.link-card:hover {
+  border-color: var(--verde-claro);
+  box-shadow: 0 4px 20px rgba(45,138,86,0.15);
+  transform: translateY(-2px);
+}
+.link-card-icon {
+  width: 40px; height: 40px;
+  background: var(--verde-bg);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.link-card-text h5 { font-size: 13px; font-weight: 600; color: var(--cinza); margin-bottom: 3px; }
+.link-card-text p  { font-size: 12px; color: var(--cinza-claro); line-height: 1.4; }
+
+/* ── ALERTA / DICA ─────────────────────────────── */
+.alerta {
+  border-radius: 12px;
+  padding: 18px 22px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin: 20px 0;
+  font-size: 14px;
+  line-height: 1.65;
+}
+.alerta-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+.alerta-verde  { background: var(--verde-bg);   border-left: 4px solid var(--verde-claro); color: var(--cinza); }
+.alerta-amber  { background: var(--amarelo-bg); border-left: 4px solid #c9a200; color: var(--cinza); }
+.alerta-vermelho { background: var(--vermelho-bg); border-left: 4px solid #c04040; color: var(--cinza); }
+.alerta strong { display: block; font-size: 14px; font-weight: 600; margin-bottom: 4px; color: var(--cinza); }
+
+/* ── FOOTER ─────────────────────────────── */
+.site-footer {
+  background: var(--cinza);
+  color: rgba(255,255,255,0.7);
+  padding: 40px 24px;
+  margin-top: 0;
+}
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.footer-logo {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px;
+  color: #fff;
+}
+.footer-text { font-size: 13px; }
+.footer-links { display: flex; gap: 16px; flex-wrap: wrap; }
+.footer-links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px; }
+.footer-links a:hover { color: #fff; }
+
+/* ── BACK TO TOP ─────────────────────────────── */
+.back-top {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  background: var(--verde);
+  color: #fff;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(26,92,58,0.4);
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.2s;
+  z-index: 50;
+}
+.back-top.visible { opacity: 1; }
+.back-top:hover { transform: translateY(-3px); }
+
+/* ── ANIMAÇÃO DE ENTRADA ─────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { opacity: 0; animation: fadeUp 0.6s ease forwards; }
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+
+/* ── RESPONSIVO ─────────────────────────────── */
+@media(max-width:600px){
+  nav { display: none; }
+  .hero { padding: 50px 20px 40px; }
+  .hero-stats { gap: 24px; }
+  .exemplo-wrap { padding: 20px; }
+  .indicadores-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <div class="logo-icon">🏠</div>
+      Medidas Imóvel
+    </a>
+    <nav>
+      <a href="#medidas">Conceitos</a>
+      <a href="#exemplo">Exemplo</a>
+      <a href="#documentos">Documentos</a>
+      <a href="#zoneamento">Zoneamento</a>
+      <a href="#faq">FAQ</a>
+      <a href="#links">Links Úteis</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge fade-up">Guia Completo · Imóveis no Brasil</div>
+    <h1 class="fade-up delay-1">Tudo que você precisa saber sobre as <em>medidas de um imóvel</em></h1>
+    <p class="fade-up delay-2">Área útil, área total, fração ideal, taxa de ocupação, coeficiente de aproveitamento — explicados com exemplos reais, desenhos e como obter cada documento.</p>
+    <div class="hero-stats fade-up delay-3">
+      <div class="hero-stat">
+        <div class="num">8+</div>
+        <div class="lbl">Conceitos explicados</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num">1</div>
+        <div class="lbl">Exemplo completo</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num">200m²</div>
+        <div class="lbl">Calculados no guia</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SEÇÃO: MEDIDAS ── -->
+<section class="section" id="medidas">
+  <div class="container">
+    <div class="section-label">Conceitos fundamentais</div>
+    <h2 class="section-title">O que significa cada medida</h2>
+    <p class="section-sub">Cada termo tem uma definição técnica precisa. Confundir área útil com área total, por exemplo, pode custar muito dinheiro em uma compra ou venda.</p>
+
+    <div class="medidas-grid">
+
+      <!-- ÁREA ÚTIL -->
+      <div class="medida-card">
+        <div class="medida-card-header">
+          <div class="medida-icon" style="background:#e8f5ee;">🏃</div>
+          <div>
+            <h3 style="font-size:17px;font-weight:600;color:var(--cinza);margin-bottom:4px;">Área Útil</h3>
+            <div class="tag-list">
+              <span class="tag tag-green">A mais importante para morar</span>
+            </div>
+          </div>
+        </div>
+        <div class="medida-card-body">
+          <p>É o espaço interno <strong>realmente utilizável</strong> — onde você caminha, coloca móveis e vive. <strong>Não inclui</strong> espessura de paredes, pilares, colunas ou áreas cobertas por estrutura.</p>
+          <p>Em casas, a área útil é tipicamente <strong>85–92%</strong> da área total. Em apartamentos mais antigos, pode ser 70–80% devido às paredes espessas.</p>
+          <div class="como-obter">
+            <strong>📄 Como obter</strong>
+            Consta no <strong>memorial descritivo</strong> do projeto arquitetônico aprovado na prefeitura. Em apartamentos, também está na <strong>convenção de condomínio</strong>. A NBR 12.721 define o método de medição.
+          </div>
+          <div class="tag-list">
+            <span class="tag tag-green">Memorial descritivo</span>
+            <span class="tag tag-green">NBR 12.721</span>
+            <span class="tag tag-green">Projeto aprovado</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ÁREA TOTAL / PRIVATIVA -->
+      <div class="medida-card">
+        <div class="medida-card-header">
+          <div class="medida-icon" style="background:#e8eef5;">📐</div>
+          <div>
+            <h3 style="font-size:17px;font-weight:600;color:var(--cinza);margin-bottom:4px;">Área Total Privativa</h3>
+            <div class="tag-list">
+              <span class="tag tag-blue">Aparece nos anúncios</span>
+            </div>
+          </div>
+        </div>
+        <div class="medida-card-body">
+          <p>Área útil + <strong>espessura das paredes internas e externas</strong> + varandas cobertas. É o número que aparece na maioria dos anúncios imobiliários e no registro oficial do imóvel.</p>
+          <p>Fórmula: <code style="background:var(--fundo);padding:2px 6px;border-radius:4px;font-size:13px;">Área Total = Área Útil + Paredes + Varandas cobertas</code></p>
+          <div class="como-obter">
+            <strong>📄 Como obter</strong>
+            Consta na <strong>matrícula do imóvel</strong> no Cartório de Registro de Imóveis (CRI). Para apartamentos, também está na <strong>escritura</strong> e na convenção de condomínio.
+          </div>
+          <div class="tag-list">
+            <span class="tag tag-blue">Matrícula no CRI</span>
+            <span class="tag tag-blue">Escritura</span>
+            <span class="tag tag-blue">Convenção condominial</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ÁREA CONSTRUÍDA -->
+      <div class="medida-card">
+        <div class="medida-card-header">
+          <div class="medida-icon" style="background:#fdf3ec;">🏗️</div>
+          <div>
+            <h3 style="font-size:17px;font-weight:600;color:var(--cinza);margin-bottom:4px;">Área Construída (Averbada)</h3>
+            <div class="tag-list">
+              <span class="tag tag-orange">Todos os pavimentos</span>
+            </div>
+          </div>
+        </div>
+        <div class="medida-card-body">
+          <p>Toda a área edificada no terreno, incluindo <strong>todos os andares</strong>. Um sobrado com 2 pavimentos de 100 m² cada = <strong>200 m² construídos</strong>.</p>
+          <p>⚠️ Construção não averbada é <strong>irregular</strong> e dificulta ou impede venda financiada, inventário e regularização futura.</p>
+          <div class="como-obter">
+            <strong>📄 Como obter</strong>
+            O projeto é aprovado na <strong>prefeitura</strong>. Após a conclusão da obra, emite-se o <strong>Habite-se (CVCO)</strong> e a área é <strong>averbada na matrícula</strong>. Consta também no <strong>carnê do IPTU</strong>.
+          </div>
+          <div class="tag-list">
+            <span class="tag tag-orange">Habite-se / CVCO</span>
+            <span class="tag tag-orange">Averbação na matrícula</span>
+            <span class="tag tag-orange">IPTU</span>
+            <span class="tag tag-orange">Projeto na prefeitura</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- FRAÇÃO IDEAL -->
+      <div class="medida-card">
+        <div class="medida-card-header">
+          <div class="medida-icon" style="background:#fdf0f0;">⚖️</div>
+          <div>
+            <h3 style="font-size:17px;font-weight:600;color:var(--cinza);margin-bottom:4px;">Fração Ideal</h3>
+            <div class="tag-list">
+              <span class="tag tag-red">Só em condomínios</span>
+            </div>
+          </div>
+        </div>
+        <div class="medida-card-body">
+          <p>Percentual que cada unidade possui sobre o <strong>terreno e áreas comuns</strong> em um condomínio. Determina o rateio das despesas condominiais e o peso dos votos em assembleias.</p>
+          <p>Fórmula: <code style="background:var(--fundo);padding:2px 6px;border-radius:4px;font-size:13px;">FI = Área privativa ÷ Soma de todas as áreas privativas</code></p>
+          <div class="como-obter">
+            <strong>📄 Como obter</strong>
+            Consta na <strong>convenção de condomínio</strong> e na <strong>matrícula individual</strong> de cada unidade. Calculada pelo incorporador no ato de criação do condomínio. Aparece no <strong>IPTU</strong> do apartamento.
+          </div>
+          <div class="tag-list">
+            <span class="tag tag-red">Convenção condominial</span>
+            <span class="tag tag-red">Matrícula individual</span>
+            <span class="tag tag-red">IPTU</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ÁREA DO TERRENO -->
+      <div class="medida-card">
+        <div class="medida-card-header">
+          <div class="medida-icon" style="background:#fdfaec;">🌿</div>
+          <div>
+            <h3 style="font-size:17px;font-weight:600;color:var(--cinza);margin-bottom:4px;">Área do Terreno (Lote)</h3>
+            <div class="tag-list">
+              <span class="tag tag-amber">Base de tudo</span>
+            </div>
+          </div>
+        </div>
+        <div class="medida-card-body">
+          <p>Extensão total do lote, incluindo a parte construída e a parte livre (jardim, corredor, quintal). É a base para calcular todos os índices urbanísticos.</p>
+          <p>No exemplo deste guia: <strong>5m × 25m = 125 m²</strong> de terreno, sendo 100 m² construídos e 25 m² de corredor livre.</p>
+          <div class="como-obter">
+            <strong>📄 Como obter</strong>
+            Consta na <strong>matrícula do imóvel</strong> no CRI. Em dúvida, é possível solicitar um <strong>levantamento topográfico</strong> registrado por engenheiro. A prefeitura também tem nos dados do IPTU.
+          </div>
+          <div class="tag-list">
+            <span class="tag tag-amber">Matrícula CRI</span>
+            <span class="tag tag-amber">Levantamento topográfico</span>
+            <span class="tag tag-amber">IPTU</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ÁREA COMUM -->
+      <div class="medida-card">
+        <div class="medida-card-header">
+          <div class="medida-icon" style="background:#f0f5f9;">🏊</div>
+          <div>
+            <h3 style="font-size:17px;font-weight:600;color:var(--cinza);margin-bottom:4px;">Área Comum (Condomínio)</h3>
+            <div class="tag-list">
+              <span class="tag tag-blue">Compartilhada por todos</span>
+            </div>
+          </div>
+        </div>
+        <div class="medida-card-body">
+          <p>Espaços que pertencem a todos os condôminos em conjunto: hall, corredores, piscina, salão de festas, garagem coletiva, jardins, academia.</p>
+          <p>A área total de um apartamento = <strong>área privativa + sua cota-parte das áreas comuns</strong>. Isso explica por que a "área total" do anúncio é maior que a "área útil".</p>
+          <div class="como-obter">
+            <strong>📄 Como obter</strong>
+            Detalhada no <strong>memorial de incorporação</strong>, na <strong>convenção de condomínio</strong> e na planta geral do edifício arquivada no CRI junto com a incorporação.
+          </div>
+          <div class="tag-list">
+            <span class="tag tag-blue">Memorial de incorporação</span>
+            <span class="tag tag-blue">Convenção condominial</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /medidas-grid -->
+
+    <div class="alerta alerta-amber" style="margin-top:32px;">
+      <div class="alerta-icon">⚠️</div>
+      <div>
+        <strong>Atenção: área útil ≠ área total nos anúncios</strong>
+        Muitos anúncios usam a maior medida disponível para parecer mais espaçoso. Sempre peça a planta e a matrícula do imóvel para verificar a área útil real. A diferença pode ser de 10% a 30%.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── SEÇÃO: EXEMPLO COMPLETO ── -->
+<section class="section section-alt" id="exemplo">
+  <div class="container">
+    <div class="section-label">Exemplo real calculado</div>
+    <h2 class="section-title">Terreno 5×25m com sobrado 4×25m</h2>
+    <p class="section-sub">Veja como calcular todas as medidas de um imóvel real: terreno de 125 m², corredor lateral de 1 m e sobrado construído em toda a profundidade.</p>
+
+    <div class="exemplo-wrap">
+      <div class="exemplo-grid">
+
+        <!-- PLANTA ESQUEMÁTICA -->
+        <div>
+          <div class="planta-container">
+            <h4>🗺️ Planta esquemática do terreno — vista superior</h4>
+            <svg viewBox="0 0 400 320" width="100%" style="display:block;max-height:320px;">
+              <!-- Terreno total -->
+              <rect x="40" y="20" width="320" height="240" rx="6" fill="#f7f3e8" stroke="#bbb" stroke-width="1.5" stroke-dasharray="8 4"/>
+              <!-- Rótulo terreno total -->
+              <text x="200" y="14" text-anchor="middle" fill="#888" font-size="11" font-family="DM Sans,sans-serif">Terreno 5m × 25m = 125 m²</text>
+
+              <!-- Corredor (1m = 64px de largura proporcional) -->
+              <rect x="40" y="20" width="64" height="240" rx="0" fill="#b5d4f4" fill-opacity="0.5"/>
+              <text x="72" y="135" text-anchor="middle" fill="#185fa5" font-size="11" font-family="DM Sans,sans-serif" font-weight="600">Corredor</text>
+              <text x="72" y="149" text-anchor="middle" fill="#185fa5" font-size="10" font-family="DM Sans,sans-serif">1 × 25</text>
+              <text x="72" y="162" text-anchor="middle" fill="#185fa5" font-size="10" font-family="DM Sans,sans-serif">= 25 m²</text>
+
+              <!-- Sobrado (4m = 256px) -->
+              <rect x="104" y="20" width="256" height="240" rx="4" fill="#c0dd97" fill-opacity="0.6"/>
+              <!-- Divisão térreo / 1° andar (apenas visual) -->
+              <line x1="104" y1="140" x2="360" y2="140" stroke="#3b6d11" stroke-width="1" stroke-dasharray="5 3"/>
+
+              <!-- Rótulo Térreo -->
+              <text x="232" y="90" text-anchor="middle" fill="#3b6d11" font-size="12" font-family="DM Sans,sans-serif" font-weight="600">Térreo</text>
+              <text x="232" y="107" text-anchor="middle" fill="#3b6d11" font-size="11" font-family="DM Sans,sans-serif">100 m²</text>
+
+              <!-- Rótulo 1° andar -->
+              <text x="232" y="186" text-anchor="middle" fill="#3b6d11" font-size="12" font-family="DM Sans,sans-serif" font-weight="600">1° Andar</text>
+              <text x="232" y="203" text-anchor="middle" fill="#3b6d11" font-size="11" font-family="DM Sans,sans-serif">100 m²</text>
+
+              <!-- Cota 25m (profundidade) -->
+              <line x1="40" y1="272" x2="360" y2="272" stroke="#666" stroke-width="0.8"/>
+              <line x1="40" y1="268" x2="40" y2="276" stroke="#666" stroke-width="0.8"/>
+              <line x1="360" y1="268" x2="360" y2="276" stroke="#666" stroke-width="0.8"/>
+              <text x="200" y="285" text-anchor="middle" fill="#666" font-size="11" font-family="DM Sans,sans-serif">25 m (profundidade)</text>
+
+              <!-- Cota 5m (largura) -->
+              <line x1="10" y1="20" x2="10" y2="260" stroke="#666" stroke-width="0.8"/>
+              <line x1="6" y1="20"  x2="14" y2="20"  stroke="#666" stroke-width="0.8"/>
+              <line x1="6" y1="260" x2="14" y2="260" stroke="#666" stroke-width="0.8"/>
+              <text x="6" y="145" text-anchor="middle" fill="#666" font-size="11" font-family="DM Sans,sans-serif" transform="rotate(-90,6,145)">5 m (testada)</text>
+
+              <!-- Cota 1m corredor -->
+              <line x1="40" y1="295" x2="104" y2="295" stroke="#185fa5" stroke-width="0.8"/>
+              <line x1="40"  y1="291" x2="40"  y2="299" stroke="#185fa5" stroke-width="0.8"/>
+              <line x1="104" y1="291" x2="104" y2="299" stroke="#185fa5" stroke-width="0.8"/>
+              <text x="72" y="310" text-anchor="middle" fill="#185fa5" font-size="10" font-family="DM Sans,sans-serif">1 m</text>
+
+              <!-- Cota 4m sobrado -->
+              <line x1="104" y1="295" x2="360" y2="295" stroke="#3b6d11" stroke-width="0.8"/>
+              <line x1="104" y1="291" x2="104" y2="299" stroke="#3b6d11" stroke-width="0.8"/>
+              <line x1="360" y1="291" x2="360" y2="299" stroke="#3b6d11" stroke-width="0.8"/>
+              <text x="232" y="310" text-anchor="middle" fill="#3b6d11" font-size="10" font-family="DM Sans,sans-serif">4 m (sobrado)</text>
+
+              <!-- Rua -->
+              <rect x="40" y="8" width="320" height="8" rx="2" fill="#ddd"/>
+              <text x="200" y="7" text-anchor="middle" fill="#aaa" font-size="9" font-family="DM Sans,sans-serif">RUA</text>
+            </svg>
+          </div>
+
+          <!-- PLANTA LATERAL / CORTE -->
+          <div class="planta-container" style="margin-top:16px;">
+            <h4>📐 Corte lateral — elevação do sobrado</h4>
+            <svg viewBox="0 0 400 200" width="100%" style="display:block;max-height:200px;">
+              <!-- Solo -->
+              <rect x="50" y="170" width="320" height="20" fill="#c8b89a" rx="2"/>
+              <text x="210" y="183" text-anchor="middle" fill="#7a6a50" font-size="10" font-family="DM Sans,sans-serif">Solo / Calçada</text>
+
+              <!-- Térreo -->
+              <rect x="100" y="110" width="230" height="60" fill="#c0dd97" fill-opacity="0.7" stroke="#3b6d11" stroke-width="1"/>
+              <text x="215" y="138" text-anchor="middle" fill="#3b6d11" font-size="12" font-family="DM Sans,sans-serif" font-weight="600">Térreo</text>
+              <text x="215" y="154" text-anchor="middle" fill="#3b6d11" font-size="10" font-family="DM Sans,sans-serif">100 m² · pé-direito ~2,8m</text>
+
+              <!-- 1° Andar -->
+              <rect x="100" y="50" width="230" height="60" fill="#a8d5be" fill-opacity="0.7" stroke="#1a5c3a" stroke-width="1"/>
+              <text x="215" y="78" text-anchor="middle" fill="#1a5c3a" font-size="12" font-family="DM Sans,sans-serif" font-weight="600">1° Andar</text>
+              <text x="215" y="94" text-anchor="middle" fill="#1a5c3a" font-size="10" font-family="DM Sans,sans-serif">100 m² · pé-direito ~2,7m</text>
+
+              <!-- Telhado -->
+              <polygon points="80,50 330,50 355,30 55,30" fill="#c9a978" fill-opacity="0.6" stroke="#a07a40" stroke-width="1"/>
+              <text x="215" y="44" text-anchor="middle" fill="#7a5a20" font-size="10" font-family="DM Sans,sans-serif">Telhado</text>
+
+              <!-- Cota altura total -->
+              <line x1="60" y1="30" x2="60" y2="170" stroke="#666" stroke-width="0.8"/>
+              <line x1="56" y1="30"  x2="64" y2="30"  stroke="#666" stroke-width="0.8"/>
+              <line x1="56" y1="170" x2="64" y2="170" stroke="#666" stroke-width="0.8"/>
+              <text x="38" y="105" text-anchor="middle" fill="#666" font-size="10" font-family="DM Sans,sans-serif" transform="rotate(-90,38,105)">~5,8 m total</text>
+
+              <!-- Cota largura -->
+              <line x1="100" y1="190" x2="330" y2="190" stroke="#3b6d11" stroke-width="0.8"/>
+              <line x1="100" y1="186" x2="100" y2="194" stroke="#3b6d11" stroke-width="0.8"/>
+              <line x1="330" y1="186" x2="330" y2="194" stroke="#3b6d11" stroke-width="0.8"/>
+              <text x="215" y="200" text-anchor="middle" fill="#3b6d11" font-size="10" font-family="DM Sans,sans-serif">4 m (largura do sobrado)</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- CÁLCULOS -->
+        <div>
+          <h3 style="font-family:'DM Serif Display',serif;font-size:22px;font-weight:400;color:var(--cinza);margin-bottom:20px;">Todos os cálculos</h3>
+
+          <div class="calculo-lista">
+            <div class="calculo-item">
+              <div class="calculo-num">125<span> m²</span></div>
+              <div class="calculo-desc">
+                <strong>Área do terreno total</strong>
+                5 m × 25 m = 125 m²
+              </div>
+            </div>
+            <div class="calculo-item">
+              <div class="calculo-num" style="color:#185fa5;">25<span> m²</span></div>
+              <div class="calculo-desc">
+                <strong>Corredor livre (recuo lateral)</strong>
+                1 m × 25 m = 25 m² sem construção
+              </div>
+            </div>
+            <div class="calculo-item">
+              <div class="calculo-num" style="color:#3b6d11;">100<span> m²</span></div>
+              <div class="calculo-desc">
+                <strong>Área construída por pavimento</strong>
+                4 m × 25 m = 100 m² (térreo) + 100 m² (1° andar)
+              </div>
+            </div>
+          </div>
+
+          <div class="destaque-card">
+            <div class="destaque-num">200</div>
+            <div class="destaque-desc">
+              <strong>m² de área construída total</strong>
+              Térreo (100 m²) + 1° andar (100 m²)<br>
+              Esta é a área que deve ser averbada na matrícula
+            </div>
+          </div>
+
+          <div style="margin-top:24px;">
+            <h4 style="font-size:15px;font-weight:600;color:var(--cinza);margin-bottom:14px;">📊 Índices urbanísticos calculados</h4>
+            <div class="indicadores-grid" style="margin-top:0;grid-template-columns:1fr 1fr;">
+              <div class="indicador-card">
+                <div class="big" style="color:var(--laranja);">80%</div>
+                <div class="lbl">Taxa de Ocupação</div>
+                <div class="eq">100 ÷ 125 m²</div>
+              </div>
+              <div class="indicador-card">
+                <div class="big" style="color:var(--verde-claro);">1,6</div>
+                <div class="lbl">Coef. Aproveitamento</div>
+                <div class="eq">200 ÷ 125 m²</div>
+              </div>
+              <div class="indicador-card">
+                <div class="big" style="color:var(--azul-claro);">1 m</div>
+                <div class="lbl">Recuo lateral</div>
+                <div class="eq">20% da testada</div>
+              </div>
+              <div class="indicador-card">
+                <div class="big" style="color:var(--cinza-claro);">25 m²</div>
+                <div class="lbl">Área não construída</div>
+                <div class="eq">o corredor livre</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="alerta alerta-verde" style="margin-top:20px;">
+            <div class="alerta-icon">✅</div>
+            <div>
+              <strong>Resumo simples</strong>
+              Seu imóvel tem <strong>125 m² de terreno</strong>, <strong>200 m² construídos</strong> (distribuídos em 2 pavimentos de 100 m² cada) e um corredor lateral de 25 m² que permanece livre.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── SEÇÃO: OUTRAS MEDIDAS / TABELA ── -->
+<section class="section" id="outras">
+  <div class="container">
+    <div class="section-label">Todos os termos técnicos</div>
+    <h2 class="section-title">Tabela completa de medidas e índices</h2>
+    <p class="section-sub">Cada município pode ter regras diferentes, mas os conceitos abaixo são padronizados em todo o Brasil.</p>
+
+    <div class="tabela-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Termo</th>
+            <th>Definição</th>
+            <th>Fórmula / Exemplo</th>
+            <th>Onde consta</th>
+            <th>Tipo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Testada</td>
+            <td>Frente do lote voltada para a rua. Determina a fachada e influencia o valor do imóvel.</td>
+            <td>No exemplo: 5 m de testada</td>
+            <td>Matrícula, IPTU</td>
+            <td><span class="badge-table" style="background:var(--verde-bg);color:var(--verde);">Terreno</span></td>
+          </tr>
+          <tr>
+            <td>Área do Terreno</td>
+            <td>Extensão total do lote, incluindo construção e áreas livres.</td>
+            <td>5 × 25 = 125 m²</td>
+            <td>Matrícula CRI</td>
+            <td><span class="badge-table" style="background:var(--verde-bg);color:var(--verde);">Terreno</span></td>
+          </tr>
+          <tr>
+            <td>Área Construída</td>
+            <td>Soma de todos os pavimentos edificados, incluindo garagem coberta e varanda.</td>
+            <td>2 × 100 m² = 200 m²</td>
+            <td>Habite-se, matrícula</td>
+            <td><span class="badge-table" style="background:var(--laranja-bg);color:var(--laranja);">Construção</span></td>
+          </tr>
+          <tr>
+            <td>Área Útil</td>
+            <td>Espaço interno utilizável, sem paredes e pilares.</td>
+            <td>≈ 85–92% da área total</td>
+            <td>Memorial descritivo</td>
+            <td><span class="badge-table" style="background:var(--laranja-bg);color:var(--laranja);">Construção</span></td>
+          </tr>
+          <tr>
+            <td>Área Privativa</td>
+            <td>Área de uso exclusivo de uma unidade (apartamento, sala). = área total em casas isoladas.</td>
+            <td>Área útil + paredes</td>
+            <td>Matrícula, escritura</td>
+            <td><span class="badge-table" style="background:var(--laranja-bg);color:var(--laranja);">Construção</span></td>
+          </tr>
+          <tr>
+            <td>Fração Ideal</td>
+            <td>Cota-parte de cada unidade sobre o terreno e áreas comuns em condomínio.</td>
+            <td>Área privativa ÷ Total geral × 100</td>
+            <td>Convenção, matrícula</td>
+            <td><span class="badge-table" style="background:var(--vermelho-bg);color:var(--vermelho);">Condomínio</span></td>
+          </tr>
+          <tr>
+            <td>Taxa de Ocupação (TO)</td>
+            <td>Percentual da projeção horizontal da construção sobre a área do terreno.</td>
+            <td>100 ÷ 125 = 80%</td>
+            <td>Plano diretor</td>
+            <td><span class="badge-table" style="background:var(--azul-bg);color:var(--azul);">Urbanístico</span></td>
+          </tr>
+          <tr>
+            <td>Coef. de Aproveitamento (CA)</td>
+            <td>Quantas vezes a área do terreno pode ser edificada. Define o máximo construído permitido.</td>
+            <td>200 ÷ 125 = 1,6</td>
+            <td>Plano diretor, zoneamento</td>
+            <td><span class="badge-table" style="background:var(--azul-bg);color:var(--azul);">Urbanístico</span></td>
+          </tr>
+          <tr>
+            <td>Recuos / Afastamentos</td>
+            <td>Distância mínima obrigatória da construção até os limites do lote (frente, fundo e laterais).</td>
+            <td>Ex: 3m frente, 1,5m lateral</td>
+            <td>Código de obras municipal</td>
+            <td><span class="badge-table" style="background:var(--azul-bg);color:var(--azul);">Urbanístico</span></td>
+          </tr>
+          <tr>
+            <td>Área Permeável</td>
+            <td>Percentual mínimo do lote que deve permitir infiltração de água no solo (evita enchentes).</td>
+            <td>Ex: mínimo 15% do terreno</td>
+            <td>Plano diretor</td>
+            <td><span class="badge-table" style="background:var(--azul-bg);color:var(--azul);">Urbanístico</span></td>
+          </tr>
+          <tr>
+            <td>Gabarito</td>
+            <td>Altura máxima permitida para edificações em determinada zona.</td>
+            <td>Ex: máx. 9m ou 3 pavimentos</td>
+            <td>Zoneamento municipal</td>
+            <td><span class="badge-table" style="background:var(--azul-bg);color:var(--azul);">Urbanístico</span></td>
+          </tr>
+          <tr>
+            <td>NBR 12.721</td>
+            <td>Norma ABNT que define metodologia de cálculo de áreas em condomínios e incorporações.</td>
+            <td>—</td>
+            <td>ABNT / incorporadora</td>
+            <td><span class="badge-table" style="background:var(--amarelo-bg);color:var(--amarelo);">Norma</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ── SEÇÃO: DOCUMENTOS ── -->
+<section class="section section-alt" id="documentos">
+  <div class="container">
+    <div class="section-label">Documentação oficial</div>
+    <h2 class="section-title">Onde encontrar cada medida oficialmente</h2>
+    <p class="section-sub">Cada informação tem uma fonte oficial. Saiba onde buscar cada dado para ter segurança jurídica na compra, venda ou regularização.</p>
+
+    <div class="docs-grid">
+
+      <div class="doc-card">
+        <div class="doc-icon" style="background:#f0f7f3;">🏛️</div>
+        <div class="doc-info">
+          <h4>Matrícula do Imóvel (CRI)</h4>
+          <p>Documento mais importante. Contém: área do terreno, área construída averbada, proprietário atual, histórico de transferências, ônus e hipotecas.</p>
+          <a href="https://www.registrodeimoveis.org.br" target="_blank" rel="noopener" class="doc-link">Cartório de Registro de Imóveis ↗</a>
+        </div>
+      </div>
+
+      <div class="doc-card">
+        <div class="doc-icon" style="background:#fdf3ec;">📋</div>
+        <div class="doc-info">
+          <h4>Habite-se / CVCO</h4>
+          <p>Certidão de conclusão de obra emitida pela prefeitura. Comprova que a construção foi concluída conforme o projeto aprovado. Necessário para averbar a construção.</p>
+          <a href="https://www.prefeitura.sp.gov.br" target="_blank" rel="noopener" class="doc-link">Prefeitura de São Paulo (exemplo) ↗</a>
+        </div>
+      </div>
+
+      <div class="doc-card">
+        <div class="doc-icon" style="background:#fdfaec;">🗺️</div>
+        <div class="doc-info">
+          <h4>IPTU — Imposto Predial</h4>
+          <p>O carnê do IPTU informa a área do terreno e a área construída que a prefeitura reconhece. Útil para verificar se há construções não averbadas (diferença entre IPTU e matrícula).</p>
+          <a href="https://www.prefeitura.sp.gov.br/cidade/secretarias/financas/servicos/iptu/" target="_blank" rel="noopener" class="doc-link">IPTU São Paulo ↗</a>
+        </div>
+      </div>
+
+      <div class="doc-card">
+        <div class="doc-icon" style="background:#f0f5f9;">📐</div>
+        <div class="doc-info">
+          <h4>Projeto Aprovado + Memorial Descritivo</h4>
+          <p>Conjunto de plantas e documentos aprovados na prefeitura. Contém área útil, área construída de cada pavimento, recuos, especificações técnicas e materiais.</p>
+          <a href="https://www.prefeitura.sp.gov.br/cidade/secretarias/obras/aprovacao_de_projetos/" target="_blank" rel="noopener" class="doc-link">Aprovação de Projetos SP ↗</a>
+        </div>
+      </div>
+
+      <div class="doc-card">
+        <div class="doc-icon" style="background:#fdf0f0;">⚖️</div>
+        <div class="doc-info">
+          <h4>Escritura Pública</h4>
+          <p>Documento lavrado em cartório de notas que formaliza a transferência de propriedade. Traz a descrição do imóvel, incluindo medidas e confrontações (limites com vizinhos).</p>
+          <a href="https://www.anoreg.org.br" target="_blank" rel="noopener" class="doc-link">ANOREG — Associação dos Cartórios ↗</a>
+        </div>
+      </div>
+
+      <div class="doc-card">
+        <div class="doc-icon" style="background:#f0f7f3;">📏</div>
+        <div class="doc-info">
+          <h4>Levantamento Topográfico</h4>
+          <p>Medição técnica realizada por engenheiro ou agrimensor, com ART (Anotação de Responsabilidade Técnica). Definitivo para resolver disputas de área ou averbação no CRI.</p>
+          <a href="https://www.crea-sp.org.br" target="_blank" rel="noopener" class="doc-link">CREA-SP — Buscar profissional ↗</a>
+        </div>
+      </div>
+
+      <div class="doc-card">
+        <div class="doc-icon" style="background:#fdfaec;">📚</div>
+        <div class="doc-info">
+          <h4>Convenção de Condomínio</h4>
+          <p>Aplica-se a apartamentos e condomínios. Contém fração ideal de cada unidade, área das partes comuns e regras internas do condomínio.</p>
+          <a href="https://www.registrodeimoveis.org.br" target="_blank" rel="noopener" class="doc-link">Registro de Imóveis ↗</a>
+        </div>
+      </div>
+
+      <div class="doc-card">
+        <div class="doc-icon" style="background:#f0f5f9;">🏙️</div>
+        <div class="doc-info">
+          <h4>Plano Diretor Municipal</h4>
+          <p>Lei municipal que define taxa de ocupação máxima, coeficiente de aproveitamento, gabarito e recuos obrigatórios para cada zona da cidade.</p>
+          <a href="https://gestaourbana.prefeitura.sp.gov.br/novo-plano-diretor/" target="_blank" rel="noopener" class="doc-link">Plano Diretor SP ↗</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="alerta alerta-vermelho" style="margin-top:32px;">
+      <div class="alerta-icon">🚨</div>
+      <div>
+        <strong>Construção sem averbar: risco jurídico grave</strong>
+        Se a área construída na matrícula for diferente da realidade (construção não averbada), o imóvel pode ter dificuldades para ser vendido, financiado ou inventariado. Regularize antes de vender ou contrair dívidas.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SEÇÃO: ZONEAMENTO ── -->
+<section class="section" id="zoneamento">
+  <div class="container">
+    <div class="section-label">Uso do solo e zoneamento</div>
+    <h2 class="section-title">Como o zoneamento afeta as medidas permitidas</h2>
+    <p class="section-sub">O município define, por zona, o quanto você pode construir no seu terreno. Verificar o zoneamento antes de comprar ou construir é fundamental.</p>
+
+    <div class="zona-grid">
+      <div class="zona-card" style="border-top-color:#2d8a56;">
+        <h4>🏘️ Zona Residencial (ZR)</h4>
+        <p>Destinada principalmente a habitações. Índices mais restritivos para preservar o caráter residencial do bairro.</p>
+        <ul>
+          <li>CA: 1,0 a 2,0</li>
+          <li>TO máx: 50–60%</li>
+          <li>Recuo frente: 4–5 m</li>
+          <li>Gabarito: 2–4 pavimentos</li>
+        </ul>
+      </div>
+
+      <div class="zona-card" style="border-top-color:#2d6a8a;">
+        <h4>🏢 Zona Mista (ZM)</h4>
+        <p>Permite uso residencial e comercial. Índices mais permissivos, comum em avenidas e centros de bairro.</p>
+        <ul>
+          <li>CA: 2,0 a 4,0</li>
+          <li>TO máx: 70–80%</li>
+          <li>Recuo frente: 3–5 m</li>
+          <li>Gabarito: 4–8 pavimentos</li>
+        </ul>
+      </div>
+
+      <div class="zona-card" style="border-top-color:#b8510d;">
+        <h4>🏭 Zona Industrial (ZI)</h4>
+        <p>Para atividades industriais e logísticas. Exige recuos maiores e áreas permeáveis mais amplas.</p>
+        <ul>
+          <li>CA: 1,0 a 2,5</li>
+          <li>TO máx: 60–70%</li>
+          <li>Recuo frente: 5–10 m</li>
+          <li>Área permeável: 20–30%</li>
+        </ul>
+      </div>
+
+      <div class="zona-card" style="border-top-color:#9a7a00;">
+        <h4>🌳 ZEIS / Proteção Ambiental</h4>
+        <p>Zonas Especiais de Interesse Social ou ambiental. Índices muito restritivos, algumas com construção proibida.</p>
+        <ul>
+          <li>CA: 0 a 1,0</li>
+          <li>TO máx: 30–50%</li>
+          <li>Área verde obrigatória</li>
+          <li>Licença ambiental exigida</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="alerta alerta-verde" style="margin-top:28px;">
+      <div class="alerta-icon">💡</div>
+      <div>
+        <strong>Como verificar o zoneamento do seu imóvel</strong>
+        Em São Paulo, acesse o <a href="https://geosampa.prefeitura.sp.gov.br" target="_blank" rel="noopener" style="color:var(--verde-claro)">GeoSampa</a> (mapa digital da prefeitura). Em outros municípios, consulte o site da prefeitura local ou vá pessoalmente à Secretaria de Obras/Planejamento Urbano com o endereço do imóvel.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── SEÇÃO: GLOSSÁRIO ── -->
+<section class="section section-alt" id="glossario">
+  <div class="container">
+    <div class="section-label">Glossário técnico</div>
+    <h2 class="section-title">Termos que você vai encontrar em documentos</h2>
+    <p class="section-sub">Quando o engenheiro ou o cartório usar esses termos, você vai saber o que significam.</p>
+
+    <div class="glossario-grid">
+      <div class="glossario-item">
+        <div class="glossario-letter">A</div>
+        <div class="glossario-text">
+          <h5>ART — Anotação de Responsabilidade Técnica</h5>
+          <p>Documento emitido pelo CREA que vincula um engenheiro/arquiteto a uma obra ou projeto, dando responsabilidade técnica legal.</p>
+        </div>
+      </div>
+      <div class="glossario-item">
+        <div class="glossario-letter">A</div>
+        <div class="glossario-text">
+          <h5>Averbação</h5>
+          <p>Registro de alteração no imóvel na matrícula: construção concluída, demolição, mudança de nome, etc. Obrigatória para que a mudança tenha validade jurídica.</p>
+        </div>
+      </div>
+      <div class="glossario-item">
+        <div class="glossario-letter">C</div>
+        <div class="glossario-text">
+          <h5>CVCO — Certificado de Vistoria de Conclusão de Obra</h5>
+          <p>Outro nome para o Habite-se. Documento emitido pela prefeitura atestando que a obra foi concluída conforme aprovado.</p>
+        </div>
+      </div>
+      <div class="glossario-item">
+        <div class="glossario-letter">C</div>
+        <div class="glossario-text">
+          <h5>Confrontações</h5>
+          <p>Descrição dos limites do lote: "ao norte confronta com a Rua X, ao sul com o lote do Sr. Y, etc." Fundamental para evitar disputas de divisa.</p>
+        </div>
+      </div>
+      <div class="glossario-item">
+        <div class="glossario-letter">E</div>
+        <div class="glossario-text">
+          <h5>Estudo de Viabilidade</h5>
+          <p>Análise prévia que verifica índices do zoneamento para saber o máximo que se pode construir em determinado terreno antes de comprar.</p>
+        </div>
+      </div>
+      <div class="glossario-item">
+        <div class="glossario-letter">G</div>
+        <div class="glossario-text">
+          <h5>Georreferenciamento</h5>
+          <p>Medição do terreno com coordenadas GPS, obrigatório para imóveis rurais pelo INCRA e progressivamente exigido em imóveis urbanos.</p>
+        </div>
+      </div>
+      <div class="glossario-item">
+        <div class="glossario-letter">M</div>
+        <div class="glossario-text">
+          <h5>Matrícula</h5>
+          <p>Número único que identifica o imóvel no Cartório de Registro de Imóveis. Toda a história do imóvel está registrada nela: proprietários, dívidas, construções.</p>
+        </div>
+      </div>
+      <div class="glossario-item">
+        <div class="glossario-letter">P</div>
+        <div class="glossario-text">
+          <h5>Pé-direito</h5>
+          <p>Altura interna de um pavimento, do piso ao teto. O mínimo é 2,5 m para áreas residenciais conforme a maioria dos códigos municipais.</p>
+        </div>
+      </div>
+      <div class="glossario-item">
+        <div class="glossario-letter">R</div>
+        <div class="glossario-text">
+          <h5>Recuo / Afastamento</h5>
+          <p>Faixa livre obrigatória entre a construção e os limites do lote. Serve para ventilação, iluminação, acesso a bombeiros e estética urbana.</p>
+        </div>
+      </div>
+      <div class="glossario-item">
+        <div class="glossario-letter">T</div>
+        <div class="glossario-text">
+          <h5>Topografia</h5>
+          <p>Estudo do relevo do terreno: declividade, curvas de nível, drenagem. Afeta o projeto e o custo da obra — terrenos inclinados exigem mais fundação.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SEÇÃO: FAQ ── -->
+<section class="section" id="faq">
+  <div class="container">
+    <div class="section-label">Perguntas frequentes</div>
+    <h2 class="section-title">Dúvidas mais comuns sobre medidas</h2>
+    <p class="section-sub">Respostas diretas para as perguntas que mais surgem na hora de comprar, vender ou construir.</p>
+
+    <div style="max-width:760px;">
+
+      <div class="faq-item" id="faq1">
+        <button class="faq-question" onclick="toggleFaq('faq1')">
+          Por que a área útil é menor que a área total?
+          <span class="faq-chevron">⌄</span>
+        </button>
+        <div class="faq-answer" id="faq1-ans">
+          A área total inclui tudo: área útil + espessura das paredes externas e internas + pilares estruturais + varandas cobertas. Em casas de construção mais recente (paredes de drywall ou bloco de 9 cm), a diferença é pequena (5–10%). Em prédios antigos com paredes de tijolo de 25–30 cm, pode ser de 15–25%.
+        </div>
+      </div>
+
+      <div class="faq-item" id="faq2">
+        <button class="faq-question" onclick="toggleFaq('faq2')">
+          Posso ter mais área construída do que terreno?
+          <span class="faq-chevron">⌄</span>
+        </button>
+        <div class="faq-answer" id="faq2-ans">
+          Sim! Um sobrado de 2 andares com 100 m² cada já tem 200 m² construídos em 125 m² de terreno. O coeficiente de aproveitamento (CA) indica quantas vezes a área do terreno pode ser edificada. Se o zoneamento permite CA = 2, você pode construir até 250 m² (2 × 125 m²). Para construir mais, precisaria de um terreno maior ou de uma zona com CA mais alto.
+        </div>
+      </div>
+
+      <div class="faq-item" id="faq3">
+        <button class="faq-question" onclick="toggleFaq('faq3')">
+          O corredor lateral conta na área construída?
+          <span class="faq-chevron">⌄</span>
+        </button>
+        <div class="faq-answer" id="faq3-ans">
+          Não. O corredor de 1 m × 25 m = 25 m² é área <strong>descoberta e livre</strong>, portanto não entra no cálculo da área construída. A área construída considera apenas o que está efetivamente edificado (coberto). Se você cobrir o corredor futuramente, ele passará a integrar a área construída e precisará ser averbado.
+        </div>
+      </div>
+
+      <div class="faq-item" id="faq4">
+        <button class="faq-question" onclick="toggleFaq('faq4')">
+          O que acontece se eu construir sem averbar?
+          <span class="faq-chevron">⌄</span>
+        </button>
+        <div class="faq-answer" id="faq4-ans">
+          Construção não averbada é irregular. Consequências: (1) Dificuldade para financiar ou vender, pois bancos exigem matrícula atualizada; (2) Valor de IPTU calculado incorretamente; (3) Em inventário, a área não averbada pode causar problemas legais; (4) Impossibilidade de obter certidão negativa de débitos; (5) Risco de embargo pela fiscalização municipal. A regularização posterior é possível, mas costuma ser mais cara e burocrática.
+        </div>
+      </div>
+
+      <div class="faq-item" id="faq5">
+        <button class="faq-question" onclick="toggleFaq('faq5')">
+          Garagem coberta conta como área construída?
+          <span class="faq-chevron">⌄</span>
+        </button>
+        <div class="faq-answer" id="faq5-ans">
+          Sim, garagem coberta (com laje ou telhado) entra na área construída. Garagem descoberta (apenas piso, sem cobertura) não conta. Uma garagem coberta de 15 m² aumenta a área construída em 15 m² e precisa ser incluída no projeto e no habite-se.
+        </div>
+      </div>
+
+      <div class="faq-item" id="faq6">
+        <button class="faq-question" onclick="toggleFaq('faq6')">
+          Como saber o zoneamento do meu terreno?
+          <span class="faq-chevron">⌄</span>
+        </button>
+        <div class="faq-answer" id="faq6-ans">
+          Em São Paulo, acesse o <a href="https://geosampa.prefeitura.sp.gov.br" target="_blank" style="color:var(--verde-claro)">GeoSampa</a> e pesquise o endereço. Para outros municípios: (1) Site da prefeitura na seção de urbanismo/zoneamento; (2) Secretaria de Obras presencialmente; (3) Profissional habilitado (engenheiro civil, arquiteto) que consulta o sistema municipal. Sempre confirme o zoneamento ANTES de comprar, pois ele pode mudar com o Plano Diretor.
+        </div>
+      </div>
+
+      <div class="faq-item" id="faq7">
+        <button class="faq-question" onclick="toggleFaq('faq7')">
+          Varanda conta na área útil?
+          <span class="faq-chevron">⌄</span>
+        </button>
+        <div class="faq-answer" id="faq7-ans">
+          Depende. Varanda <strong>coberta e fechada</strong> (com vidro, por exemplo) geralmente conta como área útil. Varanda coberta mas aberta pode ser contabilizada de forma diferente pela NBR 12.721. Varanda descoberta não conta como área útil nem construída. Sempre verifique o memorial descritivo para saber exatamente o que está incluso nos números divulgados.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── SEÇÃO: LINKS ÚTEIS ── -->
+<section class="section section-alt" id="links">
+  <div class="container">
+    <div class="section-label">Recursos e referências</div>
+    <h2 class="section-title">Links úteis para consultar e regularizar</h2>
+    <p class="section-sub">Fontes oficiais e plataformas que ajudam na regularização, consulta e gestão de imóveis no Brasil.</p>
+
+    <div class="links-grid">
+      <a href="https://www.registrodeimoveis.org.br" target="_blank" rel="noopener" class="link-card">
+        <div class="link-card-icon">🏛️</div>
+        <div class="link-card-text">
+          <h5>Cartório de Registro de Imóveis</h5>
+          <p>Consulta de matrículas, certidões e informações sobre registro de imóveis no Brasil</p>
+        </div>
+      </a>
+      <a href="https://geosampa.prefeitura.sp.gov.br" target="_blank" rel="noopener" class="link-card">
+        <div class="link-card-icon">🗺️</div>
+        <div class="link-card-text">
+          <h5>GeoSampa (São Paulo)</h5>
+          <p>Mapa digital com zoneamento, uso do solo, IPTU e informações territoriais de SP</p>
+        </div>
+      </a>
+      <a href="https://www.crea-sp.org.br" target="_blank" rel="noopener" class="link-card">
+        <div class="link-card-icon">👷</div>
+        <div class="link-card-text">
+          <h5>CREA-SP</h5>
+          <p>Busca de profissionais habilitados: engenheiros, arquitetos e agrimensores</p>
+        </div>
+      </a>
+      <a href="https://www.caf.gov.br" target="_blank" rel="noopener" class="link-card">
+        <div class="link-card-icon">📋</div>
+        <div class="link-card-text">
+          <h5>CAF — Cadastro Ambiental Rural</h5>
+          <p>Para imóveis rurais: cadastro, georreferenciamento e informações do INCRA</p>
+        </div>
+      </a>
+      <a href="https://www.nbb.com.br/abnt/norma.aspx?ID=00025020" target="_blank" rel="noopener" class="link-card">
+        <div class="link-card-icon">📐</div>
+        <div class="link-card-text">
+          <h5>NBR 12.721 (ABNT)</h5>
+          <p>Norma que regulamenta cálculo de áreas em edificações e condomínios</p>
+        </div>
+      </a>
+      <a href="https://www.anoreg.org.br" target="_blank" rel="noopener" class="link-card">
+        <div class="link-card-icon">⚖️</div>
+        <div class="link-card-text">
+          <h5>ANOREG — Associação de Notários</h5>
+          <p>Informações sobre escrituras, cartórios e procedimentos notariais no Brasil</p>
+        </div>
+      </a>
+      <a href="https://www.cofeci.gov.br" target="_blank" rel="noopener" class="link-card">
+        <div class="link-card-icon">🏠</div>
+        <div class="link-card-text">
+          <h5>COFECI — Conselho de Corretores</h5>
+          <p>Informações sobre corretores de imóveis e legislação imobiliária brasileira</p>
+        </div>
+      </a>
+      <a href="https://www.caixa.gov.br/voce/habitacao/Paginas/default.aspx" target="_blank" rel="noopener" class="link-card">
+        <div class="link-card-icon">🏦</div>
+        <div class="link-card-text">
+          <h5>Caixa — Habitação</h5>
+          <p>Financiamento imobiliário, regularização fundiária e programas habitacionais federais</p>
+        </div>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-logo">🏠 Medidas Imóvel</div>
+    <div class="footer-text">
+      Guia educativo sobre medidas e documentação imobiliária no Brasil.<br>
+      Consulte sempre um profissional habilitado para seu caso específico.
+    </div>
+    <div class="footer-links">
+      <a href="#medidas">Conceitos</a>
+      <a href="#exemplo">Exemplo</a>
+      <a href="#documentos">Documentos</a>
+      <a href="#faq">FAQ</a>
+    </div>
+  </div>
+</footer>
+
+<!-- BOTÃO VOLTAR AO TOPO -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo">↑</button>
+
+<script>
+// FAQ accordion
+function toggleFaq(id) {
+  const item = document.getElementById(id);
+  const ans  = document.getElementById(id + '-ans');
+  const isOpen = item.classList.contains('open');
+  // Fecha todos
+  document.querySelectorAll('.faq-item').forEach(el => {
+    el.classList.remove('open');
+    el.querySelector('.faq-answer').classList.remove('open');
+  });
+  // Abre o clicado (se não estava aberto)
+  if (!isOpen) {
+    item.classList.add('open');
+    ans.classList.add('open');
+  }
+}
+
+// Back to top
+const backTop = document.getElementById('backTop');
+window.addEventListener('scroll', () => {
+  backTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+// Intersection Observer para animações
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.medida-card, .doc-card, .zona-card, .glossario-item, .indicador-card, .link-card').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  observer.observe(el);
+});
+</script>
+
+</body>
+</html>
