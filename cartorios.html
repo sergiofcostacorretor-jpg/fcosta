@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Documentação Imobiliária | FCosta Corretor</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #07111F;
+  --navy2: #0D1B2E;
+  --navy3: #122440;
+  --card: #0F1E33;
+  --card2: #152540;
+  --gold: #D4A843;
+  --gold2: #F0C96A;
+  --gold3: #A07828;
+  --border: rgba(212,168,67,0.18);
+  --border2: rgba(255,255,255,0.07);
+  --text: #E2E8F4;
+  --muted: #7A8BA8;
+  --muted2: #4A5A72;
+  --blue: #4A9FD4;
+  --green: #3DBB8F;
+  --orange: #E8873A;
+  --red: #D95B5B;
+  --purple: #9B72CF;
+  --teal: #2EC4B6;
+  --pink: #E8698A;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--navy);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  font-weight:300;
+  line-height:1.6;
+  overflow-x:hidden;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--navy2)}
+::-webkit-scrollbar-thumb{background:var(--gold3);border-radius:3px}
+
+/* HEADER */
+.site-header{
+  background:linear-gradient(180deg,#040c18 0%,var(--navy2) 100%);
+  border-bottom:1px solid var(--border);
+  padding:16px 0;
+  position:sticky;top:0;z-index:200;
+  backdrop-filter:blur(20px);
+}
+.hx{
+  max-width:1360px;margin:0 auto;padding:0 28px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mark{
+  width:40px;height:40px;
+  background:linear-gradient(135deg,var(--gold),var(--gold3));
+  border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;
+}
+.brand-name{font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--gold);line-height:1}
+.brand-sub{font-size:0.68rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
+.creci{
+  font-size:0.68rem;color:var(--muted);
+  border:1px solid var(--border);padding:4px 10px;border-radius:20px;
+}
+.creci b{color:var(--gold)}
+.back{
+  text-decoration:none;color:var(--muted);font-size:0.82rem;
+  display:flex;align-items:center;gap:5px;transition:color .2s;
+}
+.back:hover{color:var(--gold)}
+
+/* NAV TABS */
+.page-nav{
+  background:var(--navy2);
+  border-bottom:1px solid var(--border2);
+  overflow-x:auto;white-space:nowrap;
+  scrollbar-width:none;
+}
+.page-nav::-webkit-scrollbar{display:none}
+.nav-inner{max-width:1360px;margin:0 auto;padding:0 28px;display:flex;gap:0}
+.nav-tab{
+  padding:14px 20px;font-size:0.82rem;color:var(--muted);
+  cursor:pointer;border-bottom:2px solid transparent;
+  transition:all .2s;white-space:nowrap;font-weight:500;
+  background:none;border-top:none;border-left:none;border-right:none;
+  font-family:'DM Sans',sans-serif;
+}
+.nav-tab:hover{color:var(--text)}
+.nav-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* HERO */
+.hero{
+  background:linear-gradient(160deg,#040c18 0%,#0a1828 50%,var(--navy2) 100%);
+  padding:56px 28px 48px;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+.hero::after{
+  content:'';position:absolute;
+  top:-60px;left:50%;transform:translateX(-50%);
+  width:800px;height:400px;
+  background:radial-gradient(ellipse,rgba(212,168,67,0.07) 0%,transparent 65%);
+  pointer-events:none;
+}
+.hero-pill{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(212,168,67,0.08);border:1px solid var(--border);
+  padding:5px 16px;border-radius:30px;font-size:0.74rem;
+  color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:18px;
+}
+.hero h1{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(2rem,5vw,3.4rem);
+  color:#fff;line-height:1.1;margin-bottom:12px;
+}
+.hero h1 em{color:var(--gold);font-style:normal}
+.hero p{color:var(--muted);font-size:0.96rem;max-width:600px;margin:0 auto 32px;line-height:1.75}
+
+/* SEARCH */
+.search-box{max-width:660px;margin:0 auto;position:relative}
+.search-box input{
+  width:100%;
+  background:rgba(255,255,255,0.05);
+  border:1.5px solid var(--border);
+  border-radius:12px;
+  padding:15px 140px 15px 48px;
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;font-size:0.9rem;
+  outline:none;transition:border-color .3s,box-shadow .3s;
+}
+.search-box input::placeholder{color:var(--muted)}
+.search-box input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,168,67,0.1)}
+.search-ico{
+  position:absolute;left:16px;top:50%;transform:translateY(-50%);
+  color:var(--muted);font-size:1rem;pointer-events:none;
+}
+.search-go{
+  position:absolute;right:6px;top:50%;transform:translateY(-50%);
+  background:linear-gradient(135deg,var(--gold),var(--gold3));
+  border:none;border-radius:8px;padding:9px 20px;
+  color:#07111F;font-weight:600;font-size:0.82rem;cursor:pointer;
+  font-family:'DM Sans',sans-serif;transition:opacity .2s;
+}
+.search-go:hover{opacity:.88}
+.quick-tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.qtag{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);
+  padding:4px 12px;border-radius:20px;font-size:0.73rem;color:var(--muted);
+  cursor:pointer;transition:all .2s;
+}
+.qtag:hover{border-color:var(--gold);color:var(--gold)}
+
+/* STATS */
+.statsbar{background:var(--navy3);border-bottom:1px solid var(--border2);padding:16px 28px}
+.stats{max-width:1360px;margin:0 auto;display:flex;gap:28px;justify-content:center;flex-wrap:wrap}
+.sitem{text-align:center}
+.snum{font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--gold)}
+.slbl{font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px}
+
+/* SECTIONS */
+.section{max-width:1360px;margin:0 auto;padding:48px 28px}
+.section-hidden{display:none}
+.sec-head{margin-bottom:32px}
+.sec-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:0.7rem;color:var(--gold);text-transform:uppercase;letter-spacing:2px;
+  margin-bottom:10px;
+}
+.sec-title{font-family:'DM Serif Display',serif;font-size:clamp(1.5rem,3vw,2rem);color:#fff;margin-bottom:8px}
+.sec-desc{color:var(--muted);font-size:0.9rem;max-width:680px}
+
+/* CARTÓRIO CARDS */
+.cart-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px}
+.cart-card{
+  background:var(--card);border:1px solid var(--border2);
+  border-radius:14px;overflow:hidden;
+  transition:transform .25s,box-shadow .25s,border-color .25s;
+  animation:up .4s ease both;
+}
+.cart-card:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(0,0,0,.45);border-color:var(--border)}
+@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.cart-top{padding:20px 20px 14px;display:flex;gap:14px;align-items:flex-start}
+.cart-ico{
+  width:46px;height:46px;border-radius:11px;
+  display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;
+}
+.cart-info .cart-type{font-size:0.68rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px}
+.cart-info h3{font-family:'DM Serif Display',serif;font-size:1.05rem;color:#fff;line-height:1.2}
+.cart-body{padding:0 20px 14px}
+.cart-desc{font-size:0.82rem;color:var(--muted);line-height:1.65;margin-bottom:14px}
+.cart-acts{margin-bottom:10px}
+.cart-acts-title{font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.act-list{display:flex;flex-wrap:wrap;gap:6px}
+.act-chip{
+  font-size:0.72rem;padding:3px 10px;border-radius:20px;
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);
+  color:var(--text);
+}
+.cart-links{padding:12px 20px;border-top:1px solid var(--border2);display:flex;flex-wrap:wrap;gap:8px}
+.cart-link{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:0.74rem;padding:5px 12px;border-radius:8px;
+  text-decoration:none;transition:all .2s;font-weight:500;
+  border:1px solid transparent;
+}
+.cart-link.primary{background:rgba(212,168,67,.12);border-color:rgba(212,168,67,.3);color:var(--gold)}
+.cart-link.primary:hover{background:rgba(212,168,67,.2)}
+.cart-link.sec{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.09);color:var(--muted)}
+.cart-link.sec:hover{color:var(--text);border-color:rgba(255,255,255,.18)}
+
+/* DOC ONLINE */
+.online-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.online-card{
+  background:var(--card);border:1px solid var(--border2);border-radius:12px;
+  padding:18px 18px 14px;
+  transition:transform .2s,border-color .2s;animation:up .4s ease both;
+}
+.online-card:hover{transform:translateY(-3px);border-color:var(--border)}
+.online-header{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.online-ico{font-size:1.4rem}
+.online-name{font-weight:600;font-size:0.88rem;color:#fff}
+.online-org{font-size:0.72rem;color:var(--muted)}
+.online-desc{font-size:0.8rem;color:var(--muted);line-height:1.6;margin-bottom:12px}
+.online-btns{display:flex;gap:8px;flex-wrap:wrap}
+.obtn{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:0.73rem;padding:6px 14px;border-radius:8px;
+  text-decoration:none;font-weight:600;transition:all .2s;
+  font-family:'DM Sans',sans-serif;border:none;cursor:pointer;
+}
+.obtn.go{background:linear-gradient(135deg,var(--gold),var(--gold3));color:#07111F}
+.obtn.go:hover{opacity:.88}
+.obtn.info{background:rgba(74,159,212,.12);color:var(--blue);border:1px solid rgba(74,159,212,.25)}
+
+/* TRANSACTIONS */
+.trans-list{display:flex;flex-direction:column;gap:24px}
+.trans-card{
+  background:var(--card);border:1px solid var(--border2);
+  border-radius:16px;overflow:hidden;animation:up .4s ease both;
+}
+.trans-header{
+  padding:20px 24px;display:flex;align-items:center;gap:16px;
+  cursor:pointer;transition:background .2s;
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.trans-header:hover{background:rgba(255,255,255,.02)}
+.trans-ico{
+  width:48px;height:48px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;
+}
+.trans-meta{flex:1}
+.trans-type{font-size:0.68rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px}
+.trans-name{font-family:'DM Serif Display',serif;font-size:1.1rem;color:#fff}
+.trans-badge{
+  font-size:0.7rem;padding:4px 12px;border-radius:20px;
+  font-weight:600;white-space:nowrap;
+}
+.trans-arrow{color:var(--muted);transition:transform .3s;font-size:0.9rem;margin-left:8px}
+.trans-body{display:none;padding:0 24px 24px}
+.trans-body.open{display:block}
+.parties{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:20px}
+.party-block{
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
+  border-radius:12px;padding:16px;
+}
+.party-title{
+  font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;
+  margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.06);
+}
+.doc-row{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04);
+}
+.doc-row:last-child{border-bottom:none}
+.doc-icon{font-size:0.9rem;margin-top:1px;flex-shrink:0}
+.doc-detail{flex:1}
+.doc-name{font-size:0.82rem;color:var(--text);font-weight:500}
+.doc-where{font-size:0.72rem;color:var(--muted);margin-top:1px}
+.doc-tag{
+  font-size:0.62rem;padding:2px 7px;border-radius:8px;
+  background:rgba(255,255,255,.06);color:var(--muted);white-space:nowrap;
+  align-self:center;
+}
+.doc-tag.obrig{background:rgba(217,91,91,.12);color:var(--red)}
+.doc-tag.opt{background:rgba(61,187,143,.1);color:var(--green)}
+.trans-steps{margin-top:20px}
+.steps-title{font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px}
+.steps-flow{display:flex;gap:0;flex-wrap:wrap}
+.step{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+}
+.step-bubble{
+  width:32px;height:32px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.75rem;font-weight:600;flex-shrink:0;
+}
+.step-text{font-size:0.78rem;color:var(--text)}
+.step-arrow{color:var(--muted2);margin:0 6px;font-size:0.8rem}
+
+/* COSTS TABLE */
+.costs-section{margin-top:20px;padding:16px;background:rgba(212,168,67,.05);border:1px solid rgba(212,168,67,.15);border-radius:10px}
+.costs-title{font-size:0.72rem;color:var(--gold);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px}
+.cost-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:0.8rem}
+.cost-row:last-child{border-bottom:none}
+.cost-label{color:var(--muted)}
+.cost-val{color:var(--text);font-weight:500}
+
+/* FOOTER */
+footer{
+  background:var(--navy2);border-top:1px solid var(--border2);
+  padding:28px;text-align:center;
+}
+footer p{font-size:0.78rem;color:var(--muted);line-height:1.9}
+footer a{color:var(--gold);text-decoration:none}
+.disclaimer{max-width:700px;margin:8px auto 0;font-size:0.7rem;color:var(--muted2);font-style:italic}
+
+/* COLOR CLASSES */
+.c-tno{--c:var(--blue)}
+.c-tno2{--c:var(--purple)}
+.c-rio{--c:var(--orange)}
+.c-pj{--c:var(--green)}
+.c-pno{--c:var(--teal)}
+.c-paz{--c:var(--pink)}
+.c-dist{--c:var(--red)}
+
+.cart-ico,.trans-ico{background:color-mix(in sgb,var(--c,var(--gold)) 12%,transparent)}
+.cart-ico,.trans-ico{background:rgba(255,255,255,0.06)}
+.cart-card .cart-ico{background:color-mix(in srgb,var(--c,var(--gold)) 15%,transparent)}
+.trans-card .trans-ico{background:color-mix(in srgb,var(--c,var(--gold)) 15%,transparent)}
+.cart-info .cart-type{color:var(--c,var(--gold))}
+.trans-meta .trans-type{color:var(--c,var(--gold))}
+.trans-badge{background:color-mix(in srgb,var(--c,var(--gold)) 15%,transparent);color:var(--c,var(--gold));border:1px solid color-mix(in srgb,var(--c,var(--gold)) 30%,transparent)}
+.party-title{color:var(--c,var(--gold))}
+
+@media(max-width:640px){
+  .cart-grid,.online-grid{grid-template-columns:1fr}
+  .hero h1{font-size:1.9rem}
+  .trans-header{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="hx">
+    <div class="brand">
+      <div class="brand-mark">🏠</div>
+      <div>
+        <div class="brand-name">FCosta Corretor</div>
+        <div class="brand-sub">Zona Leste · Itaim Paulista</div>
+      </div>
+    </div>
+    <div class="creci">CRECI-SP <b>294791-F</b> | CNAI <b>52708</b></div>
+    <a href="index.html" class="back">← Voltar ao site</a>
+  </div>
+</header>
+
+<!-- NAV TABS -->
+<nav class="page-nav">
+  <div class="nav-inner">
+    <button class="nav-tab active" onclick="showSection('cartorios',this)">🏛️ Cartórios</button>
+    <button class="nav-tab" onclick="showSection('online',this)">🌐 Documentos Online</button>
+    <button class="nav-tab" onclick="showSection('transacoes',this)">📋 Transações Imobiliárias</button>
+    <button class="nav-tab" onclick="showSection('checklist',this)">✅ Checklist Geral</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-pill">📁 Guia Completo de Documentação</div>
+  <h1>Documentação <em>Imobiliária</em><br>do A ao Z</h1>
+  <p>Cartórios, documentos, certidões, onde tirar, o que é exigido em cada transação. Tudo que você precisa saber em um só lugar.</p>
+  <div class="search-box">
+    <span class="search-ico">🔍</span>
+    <input type="text" id="mainSearch" placeholder="Buscar documento, cartório, certidão..." oninput="globalSearch()">
+    <button class="search-go" onclick="globalSearch()">Buscar</button>
+  </div>
+  <div class="quick-tags">
+    <span class="qtag" onclick="qs('escritura')">Escritura</span>
+    <span class="qtag" onclick="qs('matrícula')">Matrícula</span>
+    <span class="qtag" onclick="qs('ITBI')">ITBI</span>
+    <span class="qtag" onclick="qs('certidão')">Certidões</span>
+    <span class="qtag" onclick="qs('financiamento')">Financiamento</span>
+    <span class="qtag" onclick="qs('procuração')">Procuração</span>
+    <span class="qtag" onclick="qs('usucapião')">Usucapião</span>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="statsbar">
+  <div class="stats">
+    <div class="sitem"><div class="snum">7</div><div class="slbl">Tipos de Cartório</div></div>
+    <div class="sitem"><div class="snum">30+</div><div class="slbl">Docs Online</div></div>
+    <div class="sitem"><div class="snum">10</div><div class="slbl">Transações Mapeadas</div></div>
+    <div class="sitem"><div class="snum">100+</div><div class="slbl">Documentos Listados</div></div>
+  </div>
+</div>
+
+<!-- =================== SECTION 1: CARTÓRIOS =================== -->
+<section id="sec-cartorios" class="section">
+  <div class="sec-head">
+    <div class="sec-tag">🏛️ Tipos de Cartório</div>
+    <h2 class="sec-title">Cartórios do Brasil — O que fazem e quando usar</h2>
+    <p class="sec-desc">Cada tipo de cartório tem atribuições específicas. Saiba exatamente onde ir para cada documento ou ato imobiliário.</p>
+  </div>
+  <div class="cart-grid" id="cartGrid">
+
+    <!-- TABELIONATO DE NOTAS -->
+    <div class="cart-card c-tno" style="animation-delay:.05s">
+      <div class="cart-top">
+        <div class="cart-ico">📝</div>
+        <div class="cart-info">
+          <div class="cart-type">Tabelionato de Notas</div>
+          <h3>Cartório de Notas</h3>
+        </div>
+      </div>
+      <div class="cart-body">
+        <p class="cart-desc">Lavra escrituras públicas, procurações, reconhecimento de firmas, autenticações, testamentos e atas notariais. É onde se faz a Escritura Pública de Compra e Venda — ato essencial para transferência de imóveis.</p>
+        <div class="cart-acts">
+          <div class="cart-acts-title">Atos praticados</div>
+          <div class="act-list">
+            <span class="act-chip">Escritura de C&V</span>
+            <span class="act-chip">Procuração Pública</span>
+            <span class="act-chip">Inventário/Arrolamento</span>
+            <span class="act-chip">Divórcio Consensual</span>
+            <span class="act-chip">Reconhecimento de Firma</span>
+            <span class="act-chip">Autenticação</span>
+            <span class="act-chip">Testamento</span>
+            <span class="act-chip">Ata Notarial</span>
+            <span class="act-chip">União Estável</span>
+            <span class="act-chip">Doação</span>
+            <span class="act-chip">Permuta</span>
+          </div>
+        </div>
+      </div>
+      <div class="cart-links">
+        <a href="https://www.cartoriodigital.com.br" target="_blank" class="cart-link primary">🌐 Cartório Digital SP</a>
+        <a href="https://www.anoreg.org.br" target="_blank" class="cart-link sec">ANOREG</a>
+        <a href="https://www.notariado.org.br" target="_blank" class="cart-link sec">Colégio Notarial</a>
+      </div>
+    </div>
+
+    <!-- REGISTRO DE IMÓVEIS -->
+    <div class="cart-card c-rio" style="animation-delay:.1s">
+      <div class="cart-top">
+        <div class="cart-ico">🏠</div>
+        <div class="cart-info">
+          <div class="cart-type">Registro de Imóveis</div>
+          <h3>Cartório de Registro de Imóveis</h3>
+        </div>
+      </div>
+      <div class="cart-body">
+        <p class="cart-desc">Responsável pela matrícula dos imóveis, registro e averbação de todos os atos que afetam direitos reais. Sem registro, a transferência de propriedade não se completa juridicamente. Fundamental em toda transação imobiliária.</p>
+        <div class="cart-acts">
+          <div class="cart-acts-title">Atos praticados</div>
+          <div class="act-list">
+            <span class="act-chip">Matrícula do Imóvel</span>
+            <span class="act-chip">Registro de Compra e Venda</span>
+            <span class="act-chip">Averbação de Construção</span>
+            <span class="act-chip">Alienação Fiduciária</span>
+            <span class="act-chip">Hipoteca</span>
+            <span class="act-chip">Penhora</span>
+            <span class="act-chip">Usucapião</span>
+            <span class="act-chip">Certidão de Matrícula</span>
+            <span class="act-chip">Unificação de Lotes</span>
+            <span class="act-chip">Desmembramento</span>
+          </div>
+        </div>
+      </div>
+      <div class="cart-links">
+        <a href="https://www.registrodeimoveis.org.br" target="_blank" class="cart-link primary">🌐 Portal RI Brasil</a>
+        <a href="https://www.registradores.org.br" target="_blank" class="cart-link sec">ARISP-SP</a>
+        <a href="https://www.selodigital.com.br" target="_blank" class="cart-link sec">Selo Digital SP</a>
+      </div>
+    </div>
+
+    <!-- PROTESTO -->
+    <div class="cart-card c-tno2" style="animation-delay:.15s">
+      <div class="cart-top">
+        <div class="cart-ico">⚠️</div>
+        <div class="cart-info">
+          <div class="cart-type">Tabelionato de Protesto</div>
+          <h3>Cartório de Protesto de Títulos</h3>
+        </div>
+      </div>
+      <div class="cart-body">
+        <p class="cart-desc">Formaliza a inadimplência de devedores. Exigido em diversas transações imobiliárias para comprovar ausência de dívidas protestadas do vendedor ou do imóvel. A certidão negativa de protestos é documento corriqueiro nas escrituras.</p>
+        <div class="cart-acts">
+          <div class="cart-acts-title">Atos praticados</div>
+          <div class="act-list">
+            <span class="act-chip">Protesto de Títulos</span>
+            <span class="act-chip">Certidão Negativa de Protesto</span>
+            <span class="act-chip">Cancelamento de Protesto</span>
+            <span class="act-chip">Anuência de Credor</span>
+          </div>
+        </div>
+      </div>
+      <div class="cart-links">
+        <a href="https://www.protestosp.com.br" target="_blank" class="cart-link primary">🌐 Protesto SP</a>
+        <a href="https://www.ieptb.com.br" target="_blank" class="cart-link sec">IEPTB Nacional</a>
+      </div>
+    </div>
+
+    <!-- PESSOA JURÍDICA -->
+    <div class="cart-card c-pj" style="animation-delay:.2s">
+      <div class="cart-top">
+        <div class="cart-ico">🏢</div>
+        <div class="cart-info">
+          <div class="cart-type">Registro Civil de PJ</div>
+          <h3>Registro de Pessoas Jurídicas</h3>
+        </div>
+      </div>
+      <div class="cart-body">
+        <p class="cart-desc">Registra associações, fundações e atos de constituição de pessoas jurídicas sem fins lucrativos. Quando o comprador ou vendedor é uma empresa (incorporadora, por ex.), seus atos constitutivos devem ser consultados neste cartório.</p>
+        <div class="cart-acts">
+          <div class="cart-acts-title">Atos praticados</div>
+          <div class="act-list">
+            <span class="act-chip">Registro de Associações</span>
+            <span class="act-chip">Fundações</span>
+            <span class="act-chip">Atos Constitutivos</span>
+            <span class="act-chip">Alterações Estatutárias</span>
+          </div>
+        </div>
+      </div>
+      <div class="cart-links">
+        <a href="https://www.registrocivil.org.br" target="_blank" class="cart-link primary">🌐 Registro Civil</a>
+      </div>
+    </div>
+
+    <!-- PESSOA NATURAL -->
+    <div class="cart-card c-pno" style="animation-delay:.25s">
+      <div class="cart-top">
+        <div class="cart-ico">👤</div>
+        <div class="cart-info">
+          <div class="cart-type">Registro Civil de PN</div>
+          <h3>Registro de Pessoas Naturais</h3>
+        </div>
+      </div>
+      <div class="cart-body">
+        <p class="cart-desc">Registra nascimentos, casamentos, óbitos e reconhecimento de paternidade. A certidão de casamento (e o regime de bens) é documento fundamental nas transações imobiliárias pois define se é necessário a assinatura do cônjuge.</p>
+        <div class="cart-acts">
+          <div class="cart-acts-title">Atos praticados</div>
+          <div class="act-list">
+            <span class="act-chip">Certidão de Nascimento</span>
+            <span class="act-chip">Certidão de Casamento</span>
+            <span class="act-chip">Certidão de Óbito</span>
+            <span class="act-chip">Averbação de Divórcio</span>
+            <span class="act-chip">Reconhecimento de Paternidade</span>
+          </div>
+        </div>
+      </div>
+      <div class="cart-links">
+        <a href="https://www.registrocivil.org.br" target="_blank" class="cart-link primary">🌐 Central RegistroCivil</a>
+        <a href="https://www.arpensp.org.br" target="_blank" class="cart-link sec">ARPEN-SP</a>
+      </div>
+    </div>
+
+    <!-- PAZ -->
+    <div class="cart-card c-paz" style="animation-delay:.3s">
+      <div class="cart-top">
+        <div class="cart-ico">📌</div>
+        <div class="cart-info">
+          <div class="cart-type">Tabelionato de Paz</div>
+          <h3>Cartório do Juízo de Paz</h3>
+        </div>
+      </div>
+      <div class="cart-body">
+        <p class="cart-desc">Realiza casamentos civis, reconhecimento de firma simplificado em regiões sem tabelionato, e mediações civis. Em algumas localidades acumula funções de notas e registro civil.</p>
+        <div class="cart-acts">
+          <div class="cart-acts-title">Atos praticados</div>
+          <div class="act-list">
+            <span class="act-chip">Casamento Civil</span>
+            <span class="act-chip">Reconhecimento de Firma</span>
+            <span class="act-chip">Mediação</span>
+          </div>
+        </div>
+      </div>
+      <div class="cart-links">
+        <a href="https://www.tjsp.jus.br" target="_blank" class="cart-link primary">🌐 TJSP</a>
+      </div>
+    </div>
+
+    <!-- DISTRIBUIDOR -->
+    <div class="cart-card c-dist" style="animation-delay:.35s">
+      <div class="cart-top">
+        <div class="cart-ico">⚖️</div>
+        <div class="cart-info">
+          <div class="cart-type">Distribuidor Judicial</div>
+          <h3>Cartório Distribuidor / Ofício Judicial</h3>
+        </div>
+      </div>
+      <div class="cart-body">
+        <p class="cart-desc">Distribui processos judiciais e fornece certidões de ações e execuções. A certidão de ações cíveis, executivos fiscais e feitos ajuizados é exigida em escrituras para verificar se há ações judiciais contra o vendedor que possam comprometer o imóvel.</p>
+        <div class="cart-acts">
+          <div class="cart-acts-title">Atos praticados</div>
+          <div class="act-list">
+            <span class="act-chip">Certidão de Ações Cíveis</span>
+            <span class="act-chip">Certidão de Executivos Fiscais</span>
+            <span class="act-chip">Certidão de Feitos Ajuizados</span>
+            <span class="act-chip">Distribuição de Processos</span>
+          </div>
+        </div>
+      </div>
+      <div class="cart-links">
+        <a href="https://esaj.tjsp.jus.br/sco/abrirCadastroEmitente.do" target="_blank" class="cart-link primary">🌐 e-SAJ TJSP</a>
+        <a href="https://www.trf3.jus.br" target="_blank" class="cart-link sec">TRF3 Federal</a>
+      </div>
+    </div>
+
+  </div><!-- /cart-grid -->
+</section>
+
+<!-- =================== SECTION 2: DOCUMENTOS ONLINE =================== -->
+<section id="sec-online" class="section section-hidden">
+  <div class="sec-head">
+    <div class="sec-tag">🌐 Documentos Online</div>
+    <h2 class="sec-title">Certidões e Documentos pela Internet</h2>
+    <p class="sec-desc">Solicite gratuitamente ou com taxa reduzida diretamente no portal oficial. Clique no botão para acessar.</p>
+  </div>
+  <div class="online-grid" id="onlineGrid">
+
+    <div class="online-card" style="animation-delay:.05s">
+      <div class="online-header"><div class="online-ico">🏠</div><div><div class="online-name">Certidão de Matrícula</div><div class="online-org">Cartório de Registro de Imóveis</div></div></div>
+      <p class="online-desc">Certidão atualizada da matrícula do imóvel com todos os registros e averbações. Pedido online pela ARISP-SP.</p>
+      <div class="online-btns">
+        <a href="https://www.registradores.org.br/certidoes" target="_blank" class="obtn go">🔗 Solicitar Online</a>
+        <a href="https://www.registrodeimoveis.org.br" target="_blank" class="obtn info">Saiba mais</a>
+      </div>
+    </div>
+
+    <div class="online-card" style="animation-delay:.08s">
+      <div class="online-header"><div class="online-ico">📋</div><div><div class="online-name">Certidão de Nascimento / Casamento / Óbito</div><div class="online-org">Registro Civil</div></div></div>
+      <p class="online-desc">Segunda via de certidões de nascimento, casamento e óbito gratuitamente pelo portal nacional.</p>
+      <div class="online-btns">
+        <a href="https://www.registrocivil.org.br" target="_blank" class="obtn go">🔗 Acessar Portal</a>
+      </div>
+    </div>
+
+    <div class="online-card" style="animation-delay:.11s">
+      <div class="online-header"><div class="online-ico">⚠️</div><div><div class="online-name">Certidão Negativa de Protesto</div><div class="online-org">Tabelionato de Protesto SP</div></div></div>
+      <p class="online-desc">Consulta de protestos em cartório por CPF/CNPJ. Certidão emitida online com validade jurídica pelo sistema IEPTB.</p>
+      <div class="online-btns">
+        <a href="https://www.protestosp.com.br" target="_blank" class="obtn go">🔗 Consultar Protestos</a>
+        <a href="https://www.ieptb.com.br" target="_blank" class="obtn info">IEPTB Nacional</a>
+      </div>
+    </div>
+
+    <div class="online-card" style="animation-delay:.14s">
+      <div class="online-header"><div class="online-ico">🏛️</div><div><div class="online-name">Certidão Negativa Federal (CND)</div><div class="online-org">Receita Federal</div></div></div>
+      <p class="online-desc">Certidão negativa de débitos com a União (PGFN + RFB). Emissão imediata e gratuita online.</p>
+      <div class="online-btns">
+        <a href="https://solucoes.receita.fazenda.gov.br/Servicos/certidaointernet/PF/Emitir" target="_blank" class="obtn go">🔗 Emitir Certidão</a>
+      </div>
+    </div>
+
+    <div class="online-card" style="animation-delay:.17s">
+      <div class="online-header"><div class="online-ico">💰</div><div><div class="online-name">Certidão Negativa Estadual (SEFAZ-SP)</div><div class="online-org">Secretaria da Fazenda SP</div></div></div>
+      <p class="online-desc">Certidão de débitos estaduais (ICMS, IPVA, ITCMD). Emissão online pelo portal da SEFAZ-SP.</p>
+      <div class="online-btns">
+        <a href="https://www.fazenda.sp.gov.br/certidao" target="_blank" class="obtn go">🔗 SEFAZ-SP</a>
+      </div>
+    </div>
+
+    <div class="online-card" style="animation-delay:.2s">
+      <div class="online-header"><div class="online-ico">🏙️</div><div><div class="online-name">IPTU e Certidão de Débitos Municipais</div><div class="online-org">Prefeitura de São Paulo</div></div></div>
+      <p class="online-desc">Débitos de IPTU, taxas municipais e certidão de débitos do imóvel junto à Prefeitura de SP.</p>
+      <div class="online-btns">
+        <a href="https://www3.prefeitura.sp.gov.br/certidoes" target="_blank" class="obtn go">🔗 Prefeitura SP</a>
+        <a href="https://nfse.prefeitura.sp.gov.br" target="_blank" class="obtn info">NFS-e</a>
+      </div>
+    </div>
+
+    <div class="online-card" style="animation-delay:.23s">
+      <div class="online-header"><div class="online-ico">⚖️</div><div><div class="online-name">Certidão de Ações Cíveis / Judiciais</div><div class="online-org">TJSP – e-SAJ</div></div></div>
+      <p class="online-desc">Certidão de processos cíveis e criminais em nome do vendedor. Emissão pelo portal do TJSP.</p>
+      <div class="online-btns">
+        <a href="https://esaj.tjsp.jus.br/sco/abrirCadastroEmitente.do" target="_blank" class="obtn go">🔗 e-SAJ TJSP</a>
+        <a href="https://www.trf3.jus.br/certidao" target="_blank" class="obtn info">TRF3 Federal</a>
+      </div>
+    </div>
+
+    <div class="online-card" style="animation-delay:.26s">
+      <div class="online-header"><div class="online-ico">🔎</div><div><div class="online-name">Certidão do STJ / STF</div><div class="online-org">Tribunais Superiores</div></div></div>
+      <p class="online-desc">Para transações de alto valor, verifica ações em instâncias superiores. Emissão online gratuita.</p>
+      <div class="online-btns">
+        <a href="https://www.stj.jus.br/sites/portalp/Servicos/certidao-negativa" target="_blank" class="obtn go">🔗 STJ</a>
+        <a href="https://portal.stf.jus.br/certidao" target="_blank" class="obtn info">STF</a>
+      </div>
+    </div>
+
+    <div class="online-card" style="animation-delay:.29s">
+      <div class="online-header"><div class="online-ico">🏦</div><div><div class="online-name">Extrato FGTS</div><div class="online-org">Caixa Econômica Federal</div></div></div>
+      <p class="online-desc">Extrato do FGTS do comprador para verificar saldo disponível para financiamento habitacional. App FGTS ou site Caixa.</p>
+      <div class="online-btns">
+        <a href="https://www.caixa.gov.br/beneficios-trabalhador/fgts/extrato/Paginas/default.aspx" target="_blank" class="obtn go">🔗 Extrato FGTS</a>
+      </div>
+    </div>
+
+    <div class="online-card" style="animation-delay:.32s">
+      <div class="online-header"><div class="online-ico">📊</div><div><div class="online-name">Situação do CPF</div><div class="online-org">Receita Federal</div></div></div>
+      <p class="online-desc">Comprovante de situação cadastral no CPF. Gratuito, instantâneo e aceito em cartórios.</p>
+      <div class="online-btns">
+        <a href="https://servicos.receita.fazenda.gov.br/Servicos/CPF/ConsultaSituacao/ConsultaPublica.asp" target="_blank" class="obtn go">🔗 Consultar CPF</a>
+      </div>
+    </div>
+
+    <div class="online-card" style="animation-delay:.35s">
+      <div class="online-header"><div class="online-ico">🏢</div><div><div class="online-name">Cartão CNPJ / QSA</div><div class="online-org">Receita Federal</div></div></div>
+      <p class="online-desc">Comprovante de inscrição no CNPJ com quadro societário. Necessário quando vendedor/comprador é PJ.</p>
+      <div class="online-btns">
+        <a href="https://servicos.receita.fazenda.gov.br/Servicos/cnpjreva/cnpjreva_solicitacao.asp" target="_blank" class="obtn go">🔗 Cartão CNPJ</a>
+      </div>
+    </div>
+
+    <div class="online-card" style="animation-delay:.38s">
+      <div class="online-header"><div class="online-ico">🏗️</div><div><div class="online-name">Certidão de Regularidade do CREA/CAU</div><div class="online-org">CREA-SP / CAU-BR</div></div></div>
+      <p class="online-desc">Certidão do responsável técnico da obra (engenheiro/arquiteto). Exigida para averbação de construção.</p>
+      <div class="online-btns">
+        <a href="https://www.creasp.org.br/certidao" target="_blank" class="obtn go">🔗 CREA-SP</a>
+        <a href="https://transparencia.cau.org.br" target="_blank" class="obtn info">CAU-BR</a>
+      </div>
+    </div>
+
+    <div class="online-card" style="animation-delay:.41s">
+      <div class="online-header"><div class="online-ico">💼</div><div><div class="online-name">Certidão Negativa Trabalhista (TST)</div><div class="online-org">Tribunal Superior do Trabalho</div></div></div>
+      <p class="online-desc">Certidão de débitos trabalhistas. Exigida em transações com PJs e em financiamentos bancários.</p>
+      <div class="online-btns">
+        <a href="https://cndt-certidao.tst.jus.br" target="_blank" class="obtn go">🔗 Emitir CNDT</a>
+      </div>
+    </div>
+
+    <div class="online-card" style="animation-delay:.44s">
+      <div class="online-header"><div class="online-ico">📍</div><div><div class="online-name">Guia ITBI</div><div class="online-org">Prefeitura de SP</div></div></div>
+      <p class="online-desc">Cálculo e emissão da guia do ITBI (Imposto de Transmissão de Bens Imóveis) de forma online pela Prefeitura.</p>
+      <div class="online-btns">
+        <a href="https://www3.prefeitura.sp.gov.br/ITBI" target="_blank" class="obtn go">🔗 Emitir ITBI SP</a>
+      </div>
+    </div>
+
+    <div class="online-card" style="animation-delay:.47s">
+      <div class="online-header"><div class="online-ico">📦</div><div><div class="online-name">Central de Serviços Extrajudiciais</div><div class="online-org">CNJ / e-Notariado</div></div></div>
+      <p class="online-desc">Portal do CNJ para solicitar escrituras, procurações e outros atos notariais de forma 100% digital.</p>
+      <div class="online-btns">
+        <a href="https://www.e-notariado.org.br" target="_blank" class="obtn go">🔗 e-Notariado CNJ</a>
+        <a href="https://www.cnj.jus.br/servicos" target="_blank" class="obtn info">CNJ Serviços</a>
+      </div>
+    </div>
+
+    <div class="online-card" style="animation-delay:.5s">
+      <div class="online-header"><div class="online-ico">🛡️</div><div><div class="online-name">Certidão Negativa INSS (CND Previdenciária)</div><div class="online-org">Receita Federal / INSS</div></div></div>
+      <p class="online-desc">Certidão de regularidade previdenciária. Exigida quando vendedor é PJ ou em obras com mão de obra.</p>
+      <div class="online-btns">
+        <a href="https://solucoes.receita.fazenda.gov.br/Servicos/certidaointernet/PJ/Emitir" target="_blank" class="obtn go">🔗 Emitir Certidão</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- =================== SECTION 3: TRANSAÇÕES =================== -->
+<section id="sec-transacoes" class="section section-hidden">
+  <div class="sec-head">
+    <div class="sec-tag">📋 Transações Imobiliárias</div>
+    <h2 class="sec-title">Documentos por Tipo de Transação</h2>
+    <p class="sec-desc">Clique em cada transação para ver todos os documentos exigidos de cada parte e onde obtê-los.</p>
+  </div>
+  <div class="trans-list" id="transList">
+
+    <!-- COMPRA E VENDA À VISTA -->
+    <div class="trans-card c-tno">
+      <div class="trans-header" onclick="toggleTrans(this)">
+        <div class="trans-ico">🤝</div>
+        <div class="trans-meta">
+          <div class="trans-type">Transação Principal</div>
+          <div class="trans-name">Compra e Venda à Vista</div>
+        </div>
+        <span class="trans-badge">Mais Comum</span>
+        <span class="trans-arrow">▼</span>
+      </div>
+      <div class="trans-body">
+        <div class="parties">
+          <div class="party-block c-orange" style="--c:var(--orange)">
+            <div class="party-title">📤 Documentos do VENDEDOR</div>
+            <div class="doc-row"><span class="doc-icon">🪪</span><div class="doc-detail"><div class="doc-name">RG e CPF</div><div class="doc-where">Cartório de PN / Polícia Civil</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">💍</span><div class="doc-detail"><div class="doc-name">Certidão de Casamento (ou nascimento se solteiro)</div><div class="doc-where">Cartório de Registro Civil</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">🏠</span><div class="doc-detail"><div class="doc-name">Matrícula atualizada do imóvel</div><div class="doc-where">Cartório de Registro de Imóveis</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">🏙️</span><div class="doc-detail"><div class="doc-name">Certidão negativa de débitos municipais (IPTU)</div><div class="doc-where">Prefeitura Municipal (online)</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">⚠️</span><div class="doc-detail"><div class="doc-name">Certidão negativa de protestos</div><div class="doc-where">Cartório de Protesto (online)</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">⚖️</span><div class="doc-detail"><div class="doc-name">Certidões de ações cíveis e criminais</div><div class="doc-where">TJ / Distribuidores (online)</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">🏛️</span><div class="doc-detail"><div class="doc-name">Certidão negativa federal (Receita + PGFN)</div><div class="doc-where">Receita Federal (online)</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">💰</span><div class="doc-detail"><div class="doc-name">Certidão negativa estadual</div><div class="doc-where">SEFAZ-SP (online)</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">🔑</span><div class="doc-detail"><div class="doc-name">Comprovante de endereço</div><div class="doc-where">Concessionária (água/luz)</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">🏗️</span><div class="doc-detail"><div class="doc-name">Habite-se (se construção nova)</div><div class="doc-where">Prefeitura Municipal</div></div><span class="doc-tag opt">Se aplic.</span></div>
+            <div class="doc-row"><span class="doc-icon">📐</span><div class="doc-detail"><div class="doc-name">Memorial de incorporação / Planta aprovada</div><div class="doc-where">Prefeitura / Cartório RI</div></div><span class="doc-tag opt">Se aplic.</span></div>
+          </div>
+          <div class="party-block c-blue" style="--c:var(--blue)">
+            <div class="party-title">📥 Documentos do COMPRADOR</div>
+            <div class="doc-row"><span class="doc-icon">🪪</span><div class="doc-detail"><div class="doc-name">RG e CPF</div><div class="doc-where">Cartório de PN / Polícia Civil</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">💍</span><div class="doc-detail"><div class="doc-name">Certidão de Casamento (regime de bens)</div><div class="doc-where">Cartório de Registro Civil</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">🔑</span><div class="doc-detail"><div class="doc-name">Comprovante de endereço</div><div class="doc-where">Concessionária</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">💵</span><div class="doc-detail"><div class="doc-name">Comprovante de renda</div><div class="doc-where">Holerite / DECORE / IR</div></div><span class="doc-tag opt">Recom.</span></div>
+          </div>
+          <div class="party-block c-gold" style="--c:var(--gold)">
+            <div class="party-title">🏠 Documentos do IMÓVEL</div>
+            <div class="doc-row"><span class="doc-icon">📜</span><div class="doc-detail"><div class="doc-name">Matrícula atualizada (≤30 dias)</div><div class="doc-where">Cartório de Registro de Imóveis</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">🏙️</span><div class="doc-detail"><div class="doc-name">Certidão de Valor Venal / IPTU</div><div class="doc-where">Prefeitura (online)</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">💡</span><div class="doc-detail"><div class="doc-name">Certidão negativa de débitos de condomínio</div><div class="doc-where">Síndico / Administradora</div></div><span class="doc-tag obrig">Se aplic.</span></div>
+            <div class="doc-row"><span class="doc-icon">🔌</span><div class="doc-detail"><div class="doc-name">Certidão negativa de água e esgoto (SABESP)</div><div class="doc-where">SABESP (online)</div></div><span class="doc-tag opt">Recom.</span></div>
+            <div class="doc-row"><span class="doc-icon">📊</span><div class="doc-detail"><div class="doc-name">Guia ITBI paga</div><div class="doc-where">Prefeitura (online)</div></div><span class="doc-tag obrig">Obrig.</span></div>
+          </div>
+        </div>
+        <div class="trans-steps">
+          <div class="steps-title">Fluxo da Transação</div>
+          <div class="steps-flow">
+            <div class="step"><div class="step-bubble" style="background:rgba(74,159,212,.2);color:var(--blue)">1</div><div class="step-text">Proposta</div></div>
+            <span class="step-arrow">→</span>
+            <div class="step"><div class="step-bubble" style="background:rgba(212,168,67,.2);color:var(--gold)">2</div><div class="step-text">Contrato de Promessa</div></div>
+            <span class="step-arrow">→</span>
+            <div class="step"><div class="step-bubble" style="background:rgba(61,187,143,.2);color:var(--green)">3</div><div class="step-text">Levantamento de Docs</div></div>
+            <span class="step-arrow">→</span>
+            <div class="step"><div class="step-bubble" style="background:rgba(232,135,58,.2);color:var(--orange)">4</div><div class="step-text">Pagar ITBI</div></div>
+            <span class="step-arrow">→</span>
+            <div class="step"><div class="step-bubble" style="background:rgba(155,114,207,.2);color:var(--purple)">5</div><div class="step-text">Escritura no Cartório de Notas</div></div>
+            <span class="step-arrow">→</span>
+            <div class="step"><div class="step-bubble" style="background:rgba(209,91,91,.2);color:var(--red)">6</div><div class="step-text">Registro no RI</div></div>
+          </div>
+        </div>
+        <div class="costs-section">
+          <div class="costs-title">💰 Custos Aproximados</div>
+          <div class="cost-row"><span class="cost-label">ITBI (Imposto de Transmissão)</span><span class="cost-val">3% sobre valor venal (SP)</span></div>
+          <div class="cost-row"><span class="cost-label">Escritura Pública</span><span class="cost-val">~1% a 1,5% do valor do imóvel</span></div>
+          <div class="cost-row"><span class="cost-label">Registro no Cartório RI</span><span class="cost-val">~0,5% a 1% do valor do imóvel</span></div>
+          <div class="cost-row"><span class="cost-label">Certidões diversas</span><span class="cost-val">R$ 30 a R$ 150 cada</span></div>
+          <div class="cost-row"><span class="cost-label">Total estimado (custos cartoriais)</span><span class="cost-val">5% a 6% do valor do imóvel</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FINANCIAMENTO BANCÁRIO -->
+    <div class="trans-card c-pj">
+      <div class="trans-header" onclick="toggleTrans(this)">
+        <div class="trans-ico">🏦</div>
+        <div class="trans-meta">
+          <div class="trans-type">Crédito Imobiliário</div>
+          <div class="trans-name">Compra com Financiamento Bancário (SFH/SFI)</div>
+        </div>
+        <span class="trans-badge">FGTS / SBPE</span>
+        <span class="trans-arrow">▼</span>
+      </div>
+      <div class="trans-body">
+        <div class="parties">
+          <div class="party-block" style="--c:var(--green)">
+            <div class="party-title">📥 Documentos do COMPRADOR (Mutuário)</div>
+            <div class="doc-row"><span class="doc-icon">🪪</span><div class="doc-detail"><div class="doc-name">RG, CPF e CNH</div><div class="doc-where">Cartório / Polícia Civil</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">💍</span><div class="doc-detail"><div class="doc-name">Certidão de Casamento atualizada</div><div class="doc-where">Cartório de PN</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">💰</span><div class="doc-detail"><div class="doc-name">Holerite dos últimos 3 meses</div><div class="doc-where">Empregador</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">📊</span><div class="doc-detail"><div class="doc-name">Declaração de IR (DIRPF) últimos 2 anos</div><div class="doc-where">Receita Federal (e-CAC)</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">🏦</span><div class="doc-detail"><div class="doc-name">Extrato bancário (3 meses)</div><div class="doc-where">Banco do mutuário</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">🏗️</span><div class="doc-detail"><div class="doc-name">Extrato FGTS</div><div class="doc-where">CEF / App FGTS (online)</div></div><span class="doc-tag obrig">Se FGTS</span></div>
+            <div class="doc-row"><span class="doc-icon">🔑</span><div class="doc-detail"><div class="doc-name">Comprovante de endereço</div><div class="doc-where">Concessionária</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">🛡️</span><div class="doc-detail"><div class="doc-name">Declaração de não ser proprietário de imóvel (uso FGTS)</div><div class="doc-where">Declaração própria + CEF</div></div><span class="doc-tag opt">Se FGTS</span></div>
+          </div>
+          <div class="party-block" style="--c:var(--orange)">
+            <div class="party-title">📤 Documentos do VENDEDOR</div>
+            <div class="doc-row"><span class="doc-icon">🪪</span><div class="doc-detail"><div class="doc-name">RG, CPF, Certidão de Casamento</div><div class="doc-where">Cartório de PN</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">🏠</span><div class="doc-detail"><div class="doc-name">Matrícula atualizada</div><div class="doc-where">Cartório de RI</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">⚖️</span><div class="doc-detail"><div class="doc-name">Certidões negativas (protestos, cíveis, fiscais)</div><div class="doc-where">Cartórios / TJ (online)</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">🏙️</span><div class="doc-detail"><div class="doc-name">Certidão negativa de IPTU</div><div class="doc-where">Prefeitura (online)</div></div><span class="doc-tag obrig">Obrig.</span></div>
+          </div>
+          <div class="party-block" style="--c:var(--gold)">
+            <div class="party-title">🏠 Documentos do IMÓVEL</div>
+            <div class="doc-row"><span class="doc-icon">📜</span><div class="doc-detail"><div class="doc-name">Matrícula atualizada</div><div class="doc-where">Cartório de RI</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">🏗️</span><div class="doc-detail"><div class="doc-name">Habite-se e averbação de construção</div><div class="doc-where">Prefeitura / Cartório RI</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">📐</span><div class="doc-detail"><div class="doc-name">Planta e memorial descritivo aprovado</div><div class="doc-where">Prefeitura</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">📊</span><div class="doc-detail"><div class="doc-name">Laudo de avaliação do banco (PTAM)</div><div class="doc-where">Engenheiro credenciado pelo banco</div></div><span class="doc-tag obrig">Obrig.</span></div>
+          </div>
+        </div>
+        <div class="costs-section">
+          <div class="costs-title">💰 Custos Aproximados</div>
+          <div class="cost-row"><span class="cost-label">ITBI</span><span class="cost-val">3% sobre valor venal (SP)</span></div>
+          <div class="cost-row"><span class="cost-label">Escritura / Registro (financiamento)</span><span class="cost-val">~1,5% a 2% (tabela progressiva)</span></div>
+          <div class="cost-row"><span class="cost-label">Laudo de avaliação bancária</span><span class="cost-val">R$ 800 a R$ 3.000</span></div>
+          <div class="cost-row"><span class="cost-label">IOF e seguros obrigatórios (MIP + DFI)</span><span class="cost-val">Incluso na parcela</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOCAÇÃO -->
+    <div class="trans-card c-pno">
+      <div class="trans-header" onclick="toggleTrans(this)">
+        <div class="trans-ico">🔑</div>
+        <div class="trans-meta">
+          <div class="trans-type">Locação Urbana</div>
+          <div class="trans-name">Locação Residencial e Comercial</div>
+        </div>
+        <span class="trans-badge">Lei 8.245/91</span>
+        <span class="trans-arrow">▼</span>
+      </div>
+      <div class="trans-body">
+        <div class="parties">
+          <div class="party-block" style="--c:var(--teal)">
+            <div class="party-title">🏠 Documentos do LOCADOR (Proprietário)</div>
+            <div class="doc-row"><span class="doc-icon">🪪</span><div class="doc-detail"><div class="doc-name">RG, CPF e Certidão de Casamento</div><div class="doc-where">Cartório de PN</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">📜</span><div class="doc-detail"><div class="doc-name">Matrícula atualizada do imóvel</div><div class="doc-where">Cartório de RI</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">🏙️</span><div class="doc-detail"><div class="doc-name">IPTU atual</div><div class="doc-where">Prefeitura (online)</div></div><span class="doc-tag obrig">Obrig.</span></div>
+          </div>
+          <div class="party-block" style="--c:var(--blue)">
+            <div class="party-title">👤 Documentos do LOCATÁRIO</div>
+            <div class="doc-row"><span class="doc-icon">🪪</span><div class="doc-detail"><div class="doc-name">RG e CPF</div><div class="doc-where">Polícia Civil / Cartório</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">💰</span><div class="doc-detail"><div class="doc-name">Comprovante de renda (mín. 3x o aluguel)</div><div class="doc-where">Empregador / Banco</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">🔑</span><div class="doc-detail"><div class="doc-name">Comprovante de endereço</div><div class="doc-where">Concessionária</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">⚠️</span><div class="doc-detail"><div class="doc-name">Certidão negativa de protestos</div><div class="doc-where">Cartório de Protesto (online)</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">📊</span><div class="doc-detail"><div class="doc-name">Extrato de IR ou DECORE (autônomo)</div><div class="doc-where">Receita Federal / Contador</div></div><span class="doc-tag opt">Se autôn.</span></div>
+          </div>
+          <div class="party-block" style="--c:var(--green)">
+            <div class="party-title">🛡️ Garantias Locatícias (uma das opções)</div>
+            <div class="doc-row"><span class="doc-icon">👨‍👩‍👦</span><div class="doc-detail"><div class="doc-name">Fiança — docs do fiador + matrícula do imóvel dado em garantia</div><div class="doc-where">Cartório PN + RI</div></div><span class="doc-tag opt">Opção</span></div>
+            <div class="doc-row"><span class="doc-icon">💵</span><div class="doc-detail"><div class="doc-name">Caução em dinheiro (até 3 meses de aluguel)</div><div class="doc-where">Conta poupança conjunta</div></div><span class="doc-tag opt">Opção</span></div>
+            <div class="doc-row"><span class="doc-icon">🏦</span><div class="doc-detail"><div class="doc-name">Seguro Fiança — apólice da seguradora</div><div class="doc-where">Seguradora</div></div><span class="doc-tag opt">Opção</span></div>
+            <div class="doc-row"><span class="doc-icon">📈</span><div class="doc-detail"><div class="doc-name">Cessão Fiduciária de quotas de fundo</div><div class="doc-where">Banco / Gestora</div></div><span class="doc-tag opt">Opção</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOAÇÃO -->
+    <div class="trans-card c-paz">
+      <div class="trans-header" onclick="toggleTrans(this)">
+        <div class="trans-ico">🎁</div>
+        <div class="trans-meta">
+          <div class="trans-type">Transmissão Gratuita</div>
+          <div class="trans-name">Doação de Imóvel</div>
+        </div>
+        <span class="trans-badge">ITCMD</span>
+        <span class="trans-arrow">▼</span>
+      </div>
+      <div class="trans-body">
+        <div class="parties">
+          <div class="party-block" style="--c:var(--pink)">
+            <div class="party-title">📤 Documentos do DOADOR</div>
+            <div class="doc-row"><span class="doc-icon">🪪</span><div class="doc-detail"><div class="doc-name">RG, CPF e Certidão de Casamento</div><div class="doc-where">Cartório de PN</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">📜</span><div class="doc-detail"><div class="doc-name">Matrícula atualizada</div><div class="doc-where">Cartório de RI</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">⚖️</span><div class="doc-detail"><div class="doc-name">Certidões negativas diversas</div><div class="doc-where">Cartórios / TJ (online)</div></div><span class="doc-tag obrig">Obrig.</span></div>
+          </div>
+          <div class="party-block" style="--c:var(--blue)">
+            <div class="party-title">📥 Documentos do DONATÁRIO</div>
+            <div class="doc-row"><span class="doc-icon">🪪</span><div class="doc-detail"><div class="doc-name">RG, CPF</div><div class="doc-where">Cartório de PN</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">💍</span><div class="doc-detail"><div class="doc-name">Certidão de Casamento (se casado)</div><div class="doc-where">Cartório de PN</div></div><span class="doc-tag obrig">Obrig.</span></div>
+          </div>
+          <div class="party-block" style="--c:var(--gold)">
+            <div class="party-title">💰 Tributação</div>
+            <div class="doc-row"><span class="doc-icon">📊</span><div class="doc-detail"><div class="doc-name">Guia ITCMD (Imposto sobre Doação)</div><div class="doc-where">SEFAZ-SP — 4% sobre valor venal</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">🏙️</span><div class="doc-detail"><div class="doc-name">Certidão de Valor Venal do imóvel</div><div class="doc-where">Prefeitura (online)</div></div><span class="doc-tag obrig">Obrig.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INVENTÁRIO / HERANÇA -->
+    <div class="trans-card c-dist">
+      <div class="trans-header" onclick="toggleTrans(this)">
+        <div class="trans-ico">📋</div>
+        <div class="trans-meta">
+          <div class="trans-type">Transmissão Causa Mortis</div>
+          <div class="trans-name">Inventário e Partilha (Herança)</div>
+        </div>
+        <span class="trans-badge">ITCMD</span>
+        <span class="trans-arrow">▼</span>
+      </div>
+      <div class="trans-body">
+        <div class="parties">
+          <div class="party-block" style="--c:var(--red)">
+            <div class="party-title">📜 Documentos do FALECIDO</div>
+            <div class="doc-row"><span class="doc-icon">⚰️</span><div class="doc-detail"><div class="doc-name">Certidão de Óbito</div><div class="doc-where">Cartório de PN (online)</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">🪪</span><div class="doc-detail"><div class="doc-name">RG, CPF do falecido</div><div class="doc-where">Documentos pessoais</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">💍</span><div class="doc-detail"><div class="doc-name">Certidão de Casamento</div><div class="doc-where">Cartório de PN</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">🏠</span><div class="doc-detail"><div class="doc-name">Matrícula de todos os imóveis</div><div class="doc-where">Cartório de RI</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">🏛️</span><div class="doc-detail"><div class="doc-name">Certidões negativas fiscais</div><div class="doc-where">Receita / SEFAZ (online)</div></div><span class="doc-tag obrig">Obrig.</span></div>
+          </div>
+          <div class="party-block" style="--c:var(--purple)">
+            <div class="party-title">👨‍👩‍👦 Documentos dos HERDEIROS</div>
+            <div class="doc-row"><span class="doc-icon">🪪</span><div class="doc-detail"><div class="doc-name">RG e CPF de cada herdeiro</div><div class="doc-where">Documentos pessoais</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">📋</span><div class="doc-detail"><div class="doc-name">Certidão de Nascimento (prova o grau)</div><div class="doc-where">Cartório de PN (online)</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">💍</span><div class="doc-detail"><div class="doc-name">Certidão de Casamento de cada herdeiro</div><div class="doc-where">Cartório de PN</div></div><span class="doc-tag obrig">Obrig.</span></div>
+          </div>
+          <div class="party-block" style="--c:var(--gold)">
+            <div class="party-title">📑 Procedimento</div>
+            <div class="doc-row"><span class="doc-icon">📝</span><div class="doc-detail"><div class="doc-name">Inventário Extrajudicial (consensual) — Escritura no Cartório de Notas</div><div class="doc-where">Cartório de Notas (se não há menores)</div></div><span class="doc-tag opt">Extrajud.</span></div>
+            <div class="doc-row"><span class="doc-icon">⚖️</span><div class="doc-detail"><div class="doc-name">Inventário Judicial — quando há menores ou litígio</div><div class="doc-where">Vara de Família e Sucessões</div></div><span class="doc-tag obrig">Obrig. se</span></div>
+            <div class="doc-row"><span class="doc-icon">💰</span><div class="doc-detail"><div class="doc-name">Guia ITCMD (4% sobre valor do quinhão)</div><div class="doc-where">SEFAZ-SP (online)</div></div><span class="doc-tag obrig">Obrig.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PERMUTA -->
+    <div class="trans-card c-tno2">
+      <div class="trans-header" onclick="toggleTrans(this)">
+        <div class="trans-ico">🔄</div>
+        <div class="trans-meta">
+          <div class="trans-type">Troca de Imóveis</div>
+          <div class="trans-name">Permuta Imobiliária</div>
+        </div>
+        <span class="trans-badge">Mútuo</span>
+        <span class="trans-arrow">▼</span>
+      </div>
+      <div class="trans-body">
+        <div class="parties">
+          <div class="party-block" style="--c:var(--purple)">
+            <div class="party-title">🔄 Ambas as Partes (Permutantes)</div>
+            <div class="doc-row"><span class="doc-icon">🪪</span><div class="doc-detail"><div class="doc-name">RG, CPF, Certidão de Casamento</div><div class="doc-where">Cartório de PN</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">📜</span><div class="doc-detail"><div class="doc-name">Matrícula atualizada de CADA imóvel</div><div class="doc-where">Cartório de RI (de cada imóvel)</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">⚖️</span><div class="doc-detail"><div class="doc-name">Certidões negativas de ambos</div><div class="doc-where">Cartórios / TJ (online)</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">🏙️</span><div class="doc-detail"><div class="doc-name">IPTU e certidão de débitos de cada imóvel</div><div class="doc-where">Prefeitura (online)</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">💰</span><div class="doc-detail"><div class="doc-name">ITBI sobre a torna (diferença de valores)</div><div class="doc-where">Prefeitura (online)</div></div><span class="doc-tag obrig">Obrig.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- USUCAPIÃO -->
+    <div class="trans-card" style="--c:var(--teal)">
+      <div class="trans-header" onclick="toggleTrans(this)">
+        <div class="trans-ico">⏳</div>
+        <div class="trans-meta">
+          <div class="trans-type">Aquisição por Posse</div>
+          <div class="trans-name">Usucapião Extrajudicial e Judicial</div>
+        </div>
+        <span class="trans-badge">Art. 1.238 CC</span>
+        <span class="trans-arrow">▼</span>
+      </div>
+      <div class="trans-body">
+        <div class="parties">
+          <div class="party-block" style="--c:var(--teal)">
+            <div class="party-title">📋 Documentos do REQUERENTE</div>
+            <div class="doc-row"><span class="doc-icon">🪪</span><div class="doc-detail"><div class="doc-name">RG, CPF, Certidão de Casamento</div><div class="doc-where">Cartório PN</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">📍</span><div class="doc-detail"><div class="doc-name">Planta e memorial descritivo assinados por engenheiro/arquiteto (CREA/CAU)</div><div class="doc-where">Profissional habilitado</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">📜</span><div class="doc-detail"><div class="doc-name">Certidão da matrícula ou transcrição (ou negativa se sem registro)</div><div class="doc-where">Cartório de RI</div></div><span class="doc-tag obrig">Obrig.</span></div>
+            <div class="doc-row"><span class="doc-icon">🔑</span><div class="doc-detail"><div class="doc-name">Justo título (se houver)</div><div class="doc-where">Escritura / Contrato particular</div></div><span class="doc-tag opt">Se houver</span></div>
+            <div class="doc-row"><span class="doc-icon">📄</span><div class="doc-detail"><div class="doc-name">Ata notarial de posse lavrada por tabelião</div><div class="doc-where">Cartório de Notas</div></div><span class="doc-tag obrig">Extrajud.</span></div>
+            <div class="doc-row"><span class="doc-icon">🏛️</span><div class="doc-detail"><div class="doc-name">Certidões negativas de litígios e ônus</div><div class="doc-where">TJ / Cartório RI</div></div><span class="doc-tag obrig">Obrig.</span></div>
+          </div>
+        </div>
+        <div class="costs-section">
+          <div class="costs-title">📌 Modalidades de Usucapião</div>
+          <div class="cost-row"><span class="cost-label">Extraordinária</span><span class="cost-val">15 anos de posse ininterrupta (Art. 1.238 CC)</span></div>
+          <div class="cost-row"><span class="cost-label">Ordinária</span><span class="cost-val">10 anos com justo título e boa-fé (Art. 1.242 CC)</span></div>
+          <div class="cost-row"><span class="cost-label">Especial Urbana</span><span class="cost-val">5 anos, até 250m², moradia (Art. 183 CF)</span></div>
+          <div class="cost-row"><span class="cost-label">Extrajudicial</span><span class="cost-val">Via Cartório de Notas + RI (Lei 13.105/2015)</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /trans-list -->
+</section>
+
+<!-- =================== SECTION 4: CHECKLIST GERAL =================== -->
+<section id="sec-checklist" class="section section-hidden">
+  <div class="sec-head">
+    <div class="sec-tag">✅ Checklist</div>
+    <h2 class="sec-title">Checklist Geral — Documentos Mais Solicitados</h2>
+    <p class="sec-desc">Lista rápida dos documentos mais exigidos em qualquer transação imobiliária. Use como guia de conferência.</p>
+  </div>
+  <div id="checklistContent"></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>
+    <strong style="color:var(--gold)">FCosta Corretor</strong> — Especialista em Imóveis na Zona Leste de SP e Itaim Paulista<br>
+    CRECI-SP <a href="#">294791-F</a> | CNAI <a href="#">52708</a> &nbsp;·&nbsp;
+    <a href="https://fcostacorretor.com">🌐 fcostacorretor.com</a>
+  </p>
+  <p class="disclaimer">Página informativa. Documentação pode variar conforme cartório, município e tipo de transação. Consulte sempre um advogado imobiliário.</p>
+</footer>
+
+<script>
+// ---- Navigation ----
+function showSection(sec, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.add('section-hidden'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('sec-' + sec).classList.remove('section-hidden');
+  el.classList.add('active');
+  if (sec === 'checklist') buildChecklist();
+}
+
+// ---- Toggle Transactions ----
+function toggleTrans(header) {
+  const body = header.nextElementSibling;
+  const arrow = header.querySelector('.trans-arrow');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open');
+  arrow.textContent = isOpen ? '▼' : '▲';
+}
+
+// ---- Search ----
+function globalSearch() {
+  const q = document.getElementById('mainSearch').value.toLowerCase().trim();
+  if (!q) return;
+  // Just open transactions section and highlight
+  const allSections = ['cartorios','online','transacoes'];
+  // Open transacoes as most comprehensive
+  document.querySelectorAll('.section').forEach(s => s.classList.add('section-hidden'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('sec-transacoes').classList.remove('section-hidden');
+  document.querySelectorAll('.nav-tab')[2].classList.add('active');
+  // Open all transactions
+  document.querySelectorAll('.trans-body').forEach(b => b.classList.add('open'));
+  document.querySelectorAll('.trans-arrow').forEach(a => a.textContent = '▲');
+}
+function qs(t){ document.getElementById('mainSearch').value = t; globalSearch(); }
+
+// ---- Checklist ----
+const CHECKS = [
+  { cat: '🪪 Documentos Pessoais', items: [
+    { doc: 'RG (Carteira de Identidade)', onde: 'SSP / Polícia Civil', link: '', tipo: 'Ambas as partes' },
+    { doc: 'CPF', onde: 'Receita Federal (online)', link: 'https://servicos.receita.fazenda.gov.br/Servicos/CPF/ConsultaSituacao/ConsultaPublica.asp', tipo: 'Ambas as partes' },
+    { doc: 'CNH (opcional, vale como RG)', onde: 'DETRAN', link: '', tipo: 'Comprador/Vendedor' },
+    { doc: 'Certidão de Nascimento', onde: 'Cartório de Registro Civil (online)', link: 'https://www.registrocivil.org.br', tipo: 'Solteiros' },
+    { doc: 'Certidão de Casamento atualizada', onde: 'Cartório de Registro Civil (online)', link: 'https://www.registrocivil.org.br', tipo: 'Casados' },
+    { doc: 'Certidão de Casamento c/ averbação de divórcio', onde: 'Cartório de Registro Civil', link: 'https://www.registrocivil.org.br', tipo: 'Divorciados' },
+    { doc: 'Certidão de Óbito do cônjuge', onde: 'Cartório de Registro Civil (online)', link: 'https://www.registrocivil.org.br', tipo: 'Viúvos' },
+    { doc: 'Comprovante de residência atualizado', onde: 'Concessionária / Banco', link: '', tipo: 'Ambas as partes' },
+  ]},
+  { cat: '🏠 Documentos do Imóvel', items: [
+    { doc: 'Certidão de Matrícula atualizada (≤ 30 dias)', onde: 'Cartório de Registro de Imóveis', link: 'https://www.registradores.org.br/certidoes', tipo: 'Obrigatório' },
+    { doc: 'Escritura pública de aquisição anterior', onde: 'Cartório de Notas / RI', link: '', tipo: 'Vendedor' },
+    { doc: 'IPTU do exercício atual', onde: 'Prefeitura (online)', link: 'https://www3.prefeitura.sp.gov.br', tipo: 'Obrigatório' },
+    { doc: 'Certidão de valor venal', onde: 'Prefeitura SP (online)', link: 'https://www3.prefeitura.sp.gov.br', tipo: 'Cálculo de ITBI' },
+    { doc: 'Habite-se / Auto de conclusão de obra', onde: 'Prefeitura Municipal', link: '', tipo: 'Imóveis novos' },
+    { doc: 'Averbação de construção na matrícula', onde: 'Cartório de RI', link: 'https://www.registradores.org.br/certidoes', tipo: 'Obrigatório' },
+    { doc: 'Planta aprovada pela prefeitura', onde: 'Prefeitura Municipal', link: '', tipo: 'Obras aprovadas' },
+    { doc: 'Certidão negativa de débitos condominiais', onde: 'Síndico / Administradora', link: '', tipo: 'Apartamentos' },
+    { doc: 'Certidão negativa SABESP (água e esgoto)', onde: 'SABESP (online)', link: 'https://www.sabesp.com.br', tipo: 'Recomendado' },
+    { doc: 'Certidão de débitos de energia (ENEL/CPFL)', onde: 'Concessionária', link: '', tipo: 'Recomendado' },
+  ]},
+  { cat: '⚖️ Certidões Negativas do Vendedor', items: [
+    { doc: 'Certidão negativa de protestos', onde: 'Tabelionato de Protesto (online)', link: 'https://www.protestosp.com.br', tipo: 'Obrigatório' },
+    { doc: 'Certidão negativa de ações cíveis (TJSP)', onde: 'TJSP e-SAJ (online)', link: 'https://esaj.tjsp.jus.br/sco/abrirCadastroEmitente.do', tipo: 'Obrigatório' },
+    { doc: 'Certidão negativa criminal', onde: 'TJSP (online)', link: 'https://esaj.tjsp.jus.br', tipo: 'Recomendado' },
+    { doc: 'Certidão negativa federal (Receita + PGFN)', onde: 'Receita Federal (online)', link: 'https://solucoes.receita.fazenda.gov.br/Servicos/certidaointernet/PF/Emitir', tipo: 'Obrigatório' },
+    { doc: 'Certidão negativa estadual (SEFAZ-SP)', onde: 'SEFAZ-SP (online)', link: 'https://www.fazenda.sp.gov.br/certidao', tipo: 'Obrigatório' },
+    { doc: 'Certidão negativa municipal (Prefeitura)', onde: 'Prefeitura SP (online)', link: 'https://www3.prefeitura.sp.gov.br/certidoes', tipo: 'Obrigatório' },
+    { doc: 'Certidão negativa trabalhista (CNDT – TST)', onde: 'TST (online)', link: 'https://cndt-certidao.tst.jus.br', tipo: 'PJ / Recomendado' },
+  ]},
+  { cat: '💰 Tributação e Taxas', items: [
+    { doc: 'Guia ITBI paga (3% em SP)', onde: 'Prefeitura de SP (online)', link: 'https://www3.prefeitura.sp.gov.br/ITBI', tipo: 'Compra e Venda' },
+    { doc: 'Guia ITCMD paga (4% em SP)', onde: 'SEFAZ-SP (online)', link: 'https://www.fazenda.sp.gov.br', tipo: 'Doação / Herança' },
+    { doc: 'Declaração de ganho de capital (GCAP)', onde: 'Receita Federal / Programa GCAP', link: 'https://www.gov.br/receitafederal', tipo: 'Vendedor PF' },
+  ]},
+];
+
+function buildChecklist() {
+  const el = document.getElementById('checklistContent');
+  if (el.innerHTML) return;
+  let html = '';
+  CHECKS.forEach((group, gi) => {
+    html += `<div style="margin-bottom:28px">
+      <h3 style="font-family:'DM Serif Display',serif;font-size:1.15rem;color:#fff;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.07)">${group.cat}</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:10px">`;
+    group.items.forEach((item, ii) => {
+      html += `<div style="background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;animation:up .35s ease ${(gi*0.05+ii*0.03).toFixed(2)}s both">
+        <input type="checkbox" style="margin-top:3px;accent-color:var(--gold);width:16px;height:16px;flex-shrink:0">
+        <div style="flex:1">
+          <div style="font-size:0.85rem;color:var(--text);font-weight:500">${item.doc}</div>
+          <div style="font-size:0.74rem;color:var(--muted);margin-top:3px">
+            📍 ${item.onde}
+            ${item.link ? `&nbsp;<a href="${item.link}" target="_blank" style="color:var(--gold);text-decoration:none;font-weight:600">→ Online</a>` : ''}
+          </div>
+        </div>
+        <span style="font-size:0.65rem;background:rgba(212,168,67,.1);color:var(--gold);padding:2px 8px;border-radius:8px;white-space:nowrap;flex-shrink:0">${item.tipo}</span>
+      </div>`;
+    });
+    html += `</div></div>`;
+  });
+  el.innerHTML = html;
+}
+</script>
+</body>
+</html>
