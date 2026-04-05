@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist de Documentos — Compra e Venda de Imóvel</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F0E8;
+    --ink: #1A1410;
+    --gold: #C9922A;
+    --gold-light: #E8B84B;
+    --rust: #B04A1E;
+    --sage: #3D6B4F;
+    --sage-light: #EDF3EF;
+    --sky: #1B4F72;
+    --sky-light: #EAF2F8;
+    --amber-light: #FEF9EE;
+    --border: #D5C9B5;
+    --shadow: rgba(26,20,16,0.10);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 48px 40px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 28px,
+      rgba(201,146,42,0.06) 28px,
+      rgba(201,146,42,0.06) 29px
+    );
+  }
+  header .inner {
+    max-width: 960px;
+    margin: 0 auto;
+    position: relative;
+  }
+  header .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 12px;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+  header h1 span { color: var(--gold-light); }
+  header p {
+    font-size: 14px;
+    color: rgba(245,240,232,0.65);
+    max-width: 540px;
+  }
+
+  /* ── LEGEND ── */
+  .legend {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 18px 40px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .legend-item { display: flex; align-items: center; gap: 7px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .dot-obrig { background: var(--rust); }
+  .dot-aplic { background: var(--gold); }
+  .dot-cond  { background: var(--sage); }
+
+  /* ── MAIN ── */
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 36px 40px 60px;
+  }
+
+  /* ── SECTION HEADER ── */
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 44px 0 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .section-title:first-child { margin-top: 0; }
+  .section-icon {
+    font-size: 22px;
+    line-height: 1;
+  }
+  .section-title h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+  .section-count {
+    margin-left: auto;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(26,20,16,0.38);
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 14px;
+    overflow: hidden;
+    transition: box-shadow .2s;
+  }
+  .card:hover { box-shadow: 0 6px 24px var(--shadow); }
+
+  .card-head {
+    padding: 16px 20px 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .badge {
+    flex-shrink: 0;
+    margin-top: 2px;
+    padding: 3px 10px;
+    border-radius: 99px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .badge-obrig { background: #FDECEA; color: var(--rust); border: 1px solid #F5C4BB; }
+  .badge-aplic { background: var(--amber-light); color: #7A5C10; border: 1px solid #EDD690; }
+  .badge-cond  { background: var(--sage-light); color: #2A5238; border: 1px solid #B8D4C2; }
+
+  .card-title-wrap { flex: 1; }
+  .card-title {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+  .card-subtitle {
+    font-size: 12px;
+    color: rgba(26,20,16,0.5);
+  }
+
+  .card-toggle {
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    color: var(--ink);
+    transition: transform .25s, background .2s;
+  }
+  .card.open .card-toggle { background: var(--ink); color: var(--cream); transform: rotate(45deg); }
+
+  .card-body {
+    display: none;
+    padding: 0 20px 18px;
+    border-top: 1px solid var(--border);
+    margin-top: 0;
+  }
+  .card.open .card-body { display: block; }
+
+  /* ── INFO ROWS inside card ── */
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding-top: 16px;
+  }
+  @media (max-width: 600px) { .info-grid { grid-template-columns: 1fr; } }
+
+  .info-block {
+    background: var(--cream);
+    border-radius: 8px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+  }
+  .info-block.full { grid-column: 1 / -1; }
+
+  .info-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: rgba(26,20,16,0.45);
+    margin-bottom: 5px;
+  }
+  .info-value {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+
+  .info-block.sky  { background: var(--sky-light);  border-color: #B8D0E4; }
+  .info-block.sage { background: var(--sage-light); border-color: #B8D4C2; }
+  .info-block.amber{ background: var(--amber-light);border-color: #EDD690; }
+  .info-block.rust { background: #FEF0EE; border-color: #F5C4BB; }
+
+  /* VALOR tag */
+  .valor-tag {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--gold-light);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 6px;
+    letter-spacing: 0.04em;
+    margin-top: 2px;
+  }
+
+  /* ── LINK ── */
+  .info-value a {
+    color: var(--sky);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px dotted var(--sky);
+    transition: color .15s;
+  }
+  .info-value a:hover { color: var(--rust); }
+
+  /* ── STEPS list ── */
+  .steps {
+    list-style: none;
+    padding-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .steps li {
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .step-num {
+    flex-shrink: 0;
+    width: 22px; height: 22px;
+    background: var(--ink);
+    color: var(--cream);
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 1px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 40px 40px;
+    font-size: 11.5px;
+    color: rgba(26,20,16,0.45);
+    line-height: 1.7;
+  }
+  footer strong { color: rgba(26,20,16,0.7); }
+
+  @media (max-width: 640px) {
+    header { padding: 32px 20px 28px; }
+    main, .legend, footer { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="inner">
+    <p class="eyebrow">Compra e Venda de Imóvel · São Paulo</p>
+    <h1>Checklist de<br><span>Documentos</span></h1>
+    <p>Todos os documentos exigidos para lavratura da escritura pública, com base legal, onde obter e faixa de custos estimados.</p>
+  </div>
+</header>
+
+<div class="legend">
+  <div class="legend-item"><span class="dot dot-obrig"></span> Obrigatório</div>
+  <div class="legend-item"><span class="dot dot-aplic"></span> Se aplicável</div>
+  <div class="legend-item"><span class="dot dot-cond"></span> Condicional</div>
+</div>
+
+<main>
+
+<!-- ═══════════════════════════════ VENDEDOR ═══════════════════════════════ -->
+<div class="section-title">
+  <span class="section-icon">📤</span>
+  <h2>Documentos do Vendedor</h2>
+  <span class="section-count">8 documentos</span>
+</div>
+
+<!-- 1 -->
+<div class="card" id="v1">
+  <div class="card-head" onclick="toggle('v1')">
+    <span class="badge badge-obrig">Obrigatório</span>
+    <div class="card-title-wrap">
+      <div class="card-title">RG e CPF — Originais e cópias autenticadas</div>
+      <div class="card-subtitle">Art. 215, CC/2002 — Identificação das partes na escritura pública</div>
+    </div>
+    <div class="card-toggle">+</div>
+  </div>
+  <div class="card-body">
+    <div class="info-grid">
+      <div class="info-block sky">
+        <div class="info-label">Onde obter</div>
+        <div class="info-value">Cartório de Notas (autenticação) ou Polícia Civil (2ª via RG)<br><a href="https://www.ssp.sp.gov.br" target="_blank">ssp.sp.gov.br</a></div>
+      </div>
+      <div class="info-block amber">
+        <div class="info-label">Faixa de Valor</div>
+        <div class="info-value"><span class="valor-tag">R$ 10–25 por autenticação</span><br><small>RG 2ª via: ~R$ 50 (isento em casos específicos)</small></div>
+      </div>
+      <div class="info-block sage full">
+        <div class="info-label">Base Legal</div>
+        <div class="info-value">Art. 215, CC/2002 — A escritura pública exige a qualificação completa e identificação de todas as partes envolvidas.</div>
+      </div>
+      <div class="info-block full">
+        <div class="info-label">Como obter — Passo a passo</div>
+        <ul class="steps">
+          <li><span class="step-num">1</span> Leve os documentos originais a qualquer Cartório de Notas ou Ofício.</li>
+          <li><span class="step-num">2</span> Solicite autenticação de cópias (cada folha é autenticada individualmente).</li>
+          <li><span class="step-num">3</span> Para 2ª via do RG, acesse <a href="https://www.ssp.sp.gov.br" target="_blank">ssp.sp.gov.br</a> ou vá a um Poupatempo.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2 -->
+<div class="card" id="v2">
+  <div class="card-head" onclick="toggle('v2')">
+    <span class="badge badge-obrig">Obrigatório</span>
+    <div class="card-title-wrap">
+      <div class="card-title">Certidão de Casamento (ou Nascimento)</div>
+      <div class="card-subtitle">Art. 1.647, CC/2002 — Outorga uxória/marital obrigatória</div>
+    </div>
+    <div class="card-toggle">+</div>
+  </div>
+  <div class="card-body">
+    <div class="info-grid">
+      <div class="info-block sky">
+        <div class="info-label">Onde obter</div>
+        <div class="info-value">Cartório de Registro Civil onde o ato foi lavrado<br><a href="https://www.registrocivil.org.br" target="_blank">registrocivil.org.br</a></div>
+      </div>
+      <div class="info-block amber">
+        <div class="info-label">Faixa de Valor</div>
+        <div class="info-value"><span class="valor-tag">R$ 30–80</span><br><small>Gratuita se for 1ª via / casamento recente</small></div>
+      </div>
+      <div class="info-block sage full">
+        <div class="info-label">Base Legal</div>
+        <div class="info-value">Art. 1.647, CC/2002 — Nos regimes de comunhão e participação, o cônjuge deve anuir expressamente à alienação de bem imóvel (outorga conjugal).</div>
+      </div>
+      <div class="info-block full">
+        <div class="info-label">Como obter — Passo a passo</div>
+        <ul class="steps">
+          <li><span class="step-num">1</span> Solicite certidão atualizada (≤90 dias) no Cartório de Registro Civil.</li>
+          <li><span class="step-num">2</span> Certidões digitais podem ser solicitadas pelo <a href="https://www.registrocivil.org.br" target="_blank">Portal do Registro Civil</a>.</li>
+          <li><span class="step-num">3</span> Solteiros devem apresentar Certidão de Nascimento.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3 -->
+<div class="card" id="v3">
+  <div class="card-head" onclick="toggle('v3')">
+    <span class="badge badge-obrig">Obrigatório</span>
+    <div class="card-title-wrap">
+      <div class="card-title">Matrícula Atualizada (≤30 dias)</div>
+      <div class="card-subtitle">Art. 1.245 c/c Art. 167, Lei 6.015/73 — Transferência exige registro</div>
+    </div>
+    <div class="card-toggle">+</div>
+  </div>
+  <div class="card-body">
+    <div class="info-grid">
+      <div class="info-block sky">
+        <div class="info-label">Onde obter</div>
+        <div class="info-value">Cartório de Registro de Imóveis (CRI) da circunscrição do imóvel<br><a href="https://www.onr.org.br" target="_blank">onr.org.br</a> (online)</div>
+      </div>
+      <div class="info-block amber">
+        <div class="info-label">Faixa de Valor</div>
+        <div class="info-value"><span class="valor-tag">R$ 50–150</span><br><small>Varia conforme o CRI e nº de folhas</small></div>
+      </div>
+      <div class="info-block sage full">
+        <div class="info-label">Base Legal</div>
+        <div class="info-value">Art. 1.245, CC/2002 e Art. 167, Lei 6.015/73 — A transferência da propriedade somente se perfectibiliza com o registro no CRI competente.</div>
+      </div>
+      <div class="info-block full">
+        <div class="info-label">Como obter — Passo a passo</div>
+        <ul class="steps">
+          <li><span class="step-num">1</span> Identifique o CRI da circunscrição pelo endereço do imóvel em <a href="https://www.onr.org.br" target="_blank">onr.org.br</a>.</li>
+          <li><span class="step-num">2</span> Solicite a Certidão de Matrícula Atualizada (inteiro teor) presencialmente ou online.</li>
+          <li><span class="step-num">3</span> Deve ter sido emitida há no máximo 30 dias antes da assinatura da escritura.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 4 -->
+<div class="card" id="v4">
+  <div class="card-head" onclick="toggle('v4')">
+    <span class="badge badge-obrig">Obrigatório</span>
+    <div class="card-title-wrap">
+      <div class="card-title">Certidão Negativa de Débitos Municipais</div>
+      <div class="card-subtitle">Art. 130, CTN — IPTU é obrigação propter rem</div>
+    </div>
+    <div class="card-toggle">+</div>
+  </div>
+  <div class="card-body">
+    <div class="info-grid">
+      <div class="info-block sky">
+        <div class="info-label">Onde obter</div>
+        <div class="info-value">Prefeitura de SP — Nota Fiscal Paulistana<br><a href="https://www.prefeitura.sp.gov.br/cidade/secretarias/financas/certidoes" target="_blank">prefeitura.sp.gov.br/certidoes</a></div>
+      </div>
+      <div class="info-block amber">
+        <div class="info-label">Faixa de Valor</div>
+        <div class="info-value"><span class="valor-tag">Gratuita</span><br><small>Emissão online, instantânea</small></div>
+      </div>
+      <div class="info-block sage full">
+        <div class="info-label">Base Legal</div>
+        <div class="info-value">Art. 130, CTN — O IPTU e demais tributos municipais são obrigações propter rem, ou seja, acompanham o imóvel independentemente do titular.</div>
+      </div>
+      <div class="info-block full">
+        <div class="info-label">Como obter — Passo a passo</div>
+        <ul class="steps">
+          <li><span class="step-num">1</span> Acesse o portal da Prefeitura SP e faça login com CPF/senha.</li>
+          <li><span class="step-num">2</span> Vá em "Certidões" → "Certidão de Débitos de Tributos Imobiliários".</li>
+          <li><span class="step-num">3</span> Informe o número do SQL (identificação fiscal do imóvel) e baixe o PDF.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 5 -->
+<div class="card" id="v5">
+  <div class="card-head" onclick="toggle('v5')">
+    <span class="badge badge-obrig">Obrigatório</span>
+    <div class="card-title-wrap">
+      <div class="card-title">Certidão Negativa de Protestos (últimos 5 anos)</div>
+      <div class="card-subtitle">Art. 1º, Lei 9.492/97 — Protesto como instrumento de inadimplência</div>
+    </div>
+    <div class="card-toggle">+</div>
+  </div>
+  <div class="card-body">
+    <div class="info-grid">
+      <div class="info-block sky">
+        <div class="info-label">Onde obter</div>
+        <div class="info-value">Instituto de Protestos de SP (IEPTB-SP)<br><a href="https://www.protestosp.com.br" target="_blank">protestosp.com.br</a></div>
+      </div>
+      <div class="info-block amber">
+        <div class="info-label">Faixa de Valor</div>
+        <div class="info-value"><span class="valor-tag">R$ 20–60</span><br><small>Varia conforme quantidade de comarcas pesquisadas</small></div>
+      </div>
+      <div class="info-block sage full">
+        <div class="info-label">Base Legal</div>
+        <div class="info-value">Art. 1º, Lei 9.492/97 — O protesto é instrumento formal de constituição em mora e demonstração de inadimplência.</div>
+      </div>
+      <div class="info-block full">
+        <div class="info-label">Como obter — Passo a passo</div>
+        <ul class="steps">
+          <li><span class="step-num">1</span> Acesse <a href="https://www.protestosp.com.br" target="_blank">protestosp.com.br</a> e selecione "Certidão de Protestos".</li>
+          <li><span class="step-num">2</span> Informe CPF/CNPJ do vendedor e selecione as comarcas desejadas (período de 5 anos).</li>
+          <li><span class="step-num">3</span> Pague a taxa e baixe o certificado digital (validade de 30 dias).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 6 -->
+<div class="card" id="v6">
+  <div class="card-head" onclick="toggle('v6')">
+    <span class="badge badge-obrig">Obrigatório</span>
+    <div class="card-title-wrap">
+      <div class="card-title">Certidões Cíveis, Trabalhistas e Criminais</div>
+      <div class="card-subtitle">Art. 593, CPC/2015 — Fraude à execução; Súmula 375 STJ</div>
+    </div>
+    <div class="card-toggle">+</div>
+  </div>
+  <div class="card-body">
+    <div class="info-grid">
+      <div class="info-block sky">
+        <div class="info-label">Onde obter</div>
+        <div class="info-value">
+          TJSP: <a href="https://esaj.tjsp.jus.br" target="_blank">esaj.tjsp.jus.br</a><br>
+          TRF3: <a href="https://www.trf3.jus.br" target="_blank">trf3.jus.br</a><br>
+          TST: <a href="https://www.tst.jus.br" target="_blank">tst.jus.br</a>
+        </div>
+      </div>
+      <div class="info-block amber">
+        <div class="info-label">Faixa de Valor</div>
+        <div class="info-value"><span class="valor-tag">Gratuitas</span><br><small>Todas emitidas online, sem custo</small></div>
+      </div>
+      <div class="info-block sage full">
+        <div class="info-label">Base Legal</div>
+        <div class="info-value">Art. 593, CPC/2015 — Configura fraude à execução a alienação de bem quando há demanda capaz de tornar o devedor insolvente. Súmula 375, STJ: exige-se registro da penhora ou má-fé do adquirente.</div>
+      </div>
+      <div class="info-block full">
+        <div class="info-label">Como obter — Passo a passo</div>
+        <ul class="steps">
+          <li><span class="step-num">1</span> <strong>TJSP:</strong> Acesse esaj.tjsp.jus.br → "Consulta de Processos" → "Certidão de Distribuição".</li>
+          <li><span class="step-num">2</span> <strong>TRF3 (Federal):</strong> Acesse trf3.jus.br → "Certidões" → informe CPF e emita.</li>
+          <li><span class="step-num">3</span> <strong>TST (Trabalhista):</strong> Acesse tst.jus.br → "Certidão Negativa de Débitos Trabalhistas" (CNDT).</li>
+          <li><span class="step-num">4</span> <strong>Criminal:</strong> Emita pelo TJSP (cível e criminal) e, se necessário, STJ e STF.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 7 -->
+<div class="card" id="v7">
+  <div class="card-head" onclick="toggle('v7')">
+    <span class="badge badge-obrig">Obrigatório</span>
+    <div class="card-title-wrap">
+      <div class="card-title">Certidão Negativa Federal (RFB + PGFN)</div>
+      <div class="card-subtitle">Art. 205, CTN — Prova de quitação de tributos federais</div>
+    </div>
+    <div class="card-toggle">+</div>
+  </div>
+  <div class="card-body">
+    <div class="info-grid">
+      <div class="info-block sky">
+        <div class="info-label">Onde obter</div>
+        <div class="info-value">Receita Federal do Brasil<br><a href="https://solucoes.receita.fazenda.gov.br/Servicos/certidaointernet" target="_blank">solucoes.receita.fazenda.gov.br</a></div>
+      </div>
+      <div class="info-block amber">
+        <div class="info-label">Faixa de Valor</div>
+        <div class="info-value"><span class="valor-tag">Gratuita</span><br><small>Emissão online, validade 180 dias</small></div>
+      </div>
+      <div class="info-block sage full">
+        <div class="info-label">Base Legal</div>
+        <div class="info-value">Art. 205, CTN — Prova de quitação de tributos é condição para lavratura de atos notariais. A CND Conjunta abrange RFB e PGFN (dívida ativa da União).</div>
+      </div>
+      <div class="info-block full">
+        <div class="info-label">Como obter — Passo a passo</div>
+        <ul class="steps">
+          <li><span class="step-num">1</span> Acesse o site da Receita Federal indicado acima.</li>
+          <li><span class="step-num">2</span> Escolha "Certidão Conjunta RFB/PGFN" e informe o CPF.</li>
+          <li><span class="step-num">3</span> Baixe o PDF com código de autenticação (validade de 180 dias).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 8 -->
+<div class="card" id="v8">
+  <div class="card-head" onclick="toggle('v8')">
+    <span class="badge badge-obrig">Obrigatório</span>
+    <div class="card-title-wrap">
+      <div class="card-title">Certidão Negativa Estadual (SEFAZ-SP)</div>
+      <div class="card-subtitle">Art. 206, CTN — Certidão positiva com efeito negativo</div>
+    </div>
+    <div class="card-toggle">+</div>
+  </div>
+  <div class="card-body">
+    <div class="info-grid">
+      <div class="info-block sky">
+        <div class="info-label">Onde obter</div>
+        <div class="info-value">Portal SEFAZ-SP<br><a href="https://www.fazenda.sp.gov.br" target="_blank">fazenda.sp.gov.br</a></div>
+      </div>
+      <div class="info-block amber">
+        <div class="info-label">Faixa de Valor</div>
+        <div class="info-value"><span class="valor-tag">Gratuita</span><br><small>Emissão online, validade 30 dias</small></div>
+      </div>
+      <div class="info-block sage full">
+        <div class="info-label">Base Legal</div>
+        <div class="info-value">Art. 206, CTN — A certidão positiva com efeito negativo tem o mesmo efeito de CND quando os créditos tributários estão com exigibilidade suspensa.</div>
+      </div>
+      <div class="info-block full">
+        <div class="info-label">Como obter — Passo a passo</div>
+        <ul class="steps">
+          <li><span class="step-num">1</span> Acesse fazenda.sp.gov.br → "Certidões e Atestados".</li>
+          <li><span class="step-num">2</span> Selecione "Certidão de Débitos Estaduais" e informe CPF/CNPJ.</li>
+          <li><span class="step-num">3</span> Imprima ou salve o PDF. Validade: 30 dias.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════ COMPRADOR ═══════════════════════════════ -->
+<div class="section-title">
+  <span class="section-icon">📥</span>
+  <h2>Documentos do Comprador</h2>
+  <span class="section-count">4 documentos</span>
+</div>
+
+<!-- C1 -->
+<div class="card" id="c1">
+  <div class="card-head" onclick="toggle('c1')">
+    <span class="badge badge-obrig">Obrigatório</span>
+    <div class="card-title-wrap">
+      <div class="card-title">RG e CPF</div>
+      <div class="card-subtitle">Art. 215, CC/2002 — Identificação obrigatória</div>
+    </div>
+    <div class="card-toggle">+</div>
+  </div>
+  <div class="card-body">
+    <div class="info-grid">
+      <div class="info-block sky">
+        <div class="info-label">Onde obter</div>
+        <div class="info-value">Cartório de Notas (autenticação) ou online via Gov.br<br><a href="https://www.gov.br/pt-br/servicos/emitir-carteira-de-identidade" target="_blank">gov.br</a></div>
+      </div>
+      <div class="info-block amber">
+        <div class="info-label">Faixa de Valor</div>
+        <div class="info-value"><span class="valor-tag">R$ 10–25 por cópia autenticada</span></div>
+      </div>
+      <div class="info-block sage full">
+        <div class="info-label">Base Legal</div>
+        <div class="info-value">Art. 215, CC/2002 — A qualificação completa de todos os contratantes é requisito essencial da escritura pública.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- C2 -->
+<div class="card" id="c2">
+  <div class="card-head" onclick="toggle('c2')">
+    <span class="badge badge-obrig">Obrigatório</span>
+    <div class="card-title-wrap">
+      <div class="card-title">Certidão de Casamento com Regime de Bens</div>
+      <div class="card-subtitle">Art. 1.647, CC/2002 — Casados precisam de anuência do cônjuge</div>
+    </div>
+    <div class="card-toggle">+</div>
+  </div>
+  <div class="card-body">
+    <div class="info-grid">
+      <div class="info-block sky">
+        <div class="info-label">Onde obter</div>
+        <div class="info-value">Cartório de Registro Civil<br><a href="https://www.registrocivil.org.br" target="_blank">registrocivil.org.br</a></div>
+      </div>
+      <div class="info-block amber">
+        <div class="info-label">Faixa de Valor</div>
+        <div class="info-value"><span class="valor-tag">R$ 30–80</span></div>
+      </div>
+      <div class="info-block sage full">
+        <div class="info-label">Base Legal</div>
+        <div class="info-value">Art. 1.647, CC/2002 — O regime de bens determina se o cônjuge precisa assinar a escritura como anuente ou como contratante. Nos regimes de comunhão universal e parcial, a outorga conjugal é obrigatória.</div>
+      </div>
+      <div class="info-block full">
+        <div class="info-label">Observação importante</div>
+        <div class="info-value">Se casado em regime de separação total de bens (com pacto antenupcial), apresentar também o pacto registrado. Solteiros apresentam Certidão de Nascimento.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- C3 -->
+<div class="card" id="c3">
+  <div class="card-head" onclick="toggle('c3')">
+    <span class="badge badge-obrig">Obrigatório</span>
+    <div class="card-title-wrap">
+      <div class="card-title">Comprovante de Endereço (≤90 dias)</div>
+      <div class="card-subtitle">Art. 215, §1º, CC/2002 — Qualificação completa na escritura</div>
+    </div>
+    <div class="card-toggle">+</div>
+  </div>
+  <div class="card-body">
+    <div class="info-grid">
+      <div class="info-block sky">
+        <div class="info-label">Onde obter</div>
+        <div class="info-value">Concessionária de energia, água, gás ou telefone<br>Extrato bancário ou correspondência oficial</div>
+      </div>
+      <div class="info-block amber">
+        <div class="info-label">Faixa de Valor</div>
+        <div class="info-value"><span class="valor-tag">Gratuito</span><br><small>Impresso da própria fatura/conta</small></div>
+      </div>
+      <div class="info-block sage full">
+        <div class="info-label">Base Legal</div>
+        <div class="info-value">Art. 215, §1º, CC/2002 — O instrumento público deve conter a qualificação completa das partes, incluindo endereço residencial.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- C4 -->
+<div class="card" id="c4">
+  <div class="card-head" onclick="toggle('c4')">
+    <span class="badge badge-aplic">Se aplicável</span>
+    <div class="card-title-wrap">
+      <div class="card-title">Declaração de Origem dos Recursos</div>
+      <div class="card-subtitle">Lei 9.613/98, Art. 9º — Operações acima de R$ 30.000 (COAF)</div>
+    </div>
+    <div class="card-toggle">+</div>
+  </div>
+  <div class="card-body">
+    <div class="info-grid">
+      <div class="info-block sky">
+        <div class="info-label">Onde obter</div>
+        <div class="info-value">Declaração própria assinada pelo comprador<br>Pode ser elaborada com auxílio do cartório ou advogado</div>
+      </div>
+      <div class="info-block amber">
+        <div class="info-label">Faixa de Valor</div>
+        <div class="info-value"><span class="valor-tag">Gratuito ou R$ 50–150</span><br><small>Se elaborada por advogado</small></div>
+      </div>
+      <div class="info-block rust full">
+        <div class="info-label">⚠️ Atenção — Base Legal</div>
+        <div class="info-value">Lei 9.613/98, Art. 9º — Operações imobiliárias acima de R$ 30.000 devem ser comunicadas ao COAF (Conselho de Controle de Atividades Financeiras). O cartório pode exigir declaração de origem dos recursos para grandes valores.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════ IMÓVEL ═══════════════════════════════ -->
+<div class="section-title">
+  <span class="section-icon">🏠</span>
+  <h2>Documentos do Imóvel</h2>
+  <span class="section-count">5 documentos</span>
+</div>
+
+<!-- I1 -->
+<div class="card" id="i1">
+  <div class="card-head" onclick="toggle('i1')">
+    <span class="badge badge-obrig">Obrigatório</span>
+    <div class="card-title-wrap">
+      <div class="card-title">Guia ITBI Paga — 3% (São Paulo)</div>
+      <div class="card-subtitle">Art. 156, II, CF/88; Lei Mun. SP 11.154/91 — Condição para lavratura</div>
+    </div>
+    <div class="card-toggle">+</div>
+  </div>
+  <div class="card-body">
+    <div class="info-grid">
+      <div class="info-block sky">
+        <div class="info-label">Onde obter / pagar</div>
+        <div class="info-value">Prefeitura de SP — Portal ITBI<br><a href="https://www.prefeitura.sp.gov.br/itbi" target="_blank">prefeitura.sp.gov.br/itbi</a></div>
+      </div>
+      <div class="info-block amber">
+        <div class="info-label">Faixa de Valor</div>
+        <div class="info-value"><span class="valor-tag">3% sobre valor venal ou transação</span><br><small>Ex.: imóvel de R$ 500 mil → ITBI de R$ 15.000</small></div>
+      </div>
+      <div class="info-block rust full">
+        <div class="info-label">⚠️ Atenção</div>
+        <div class="info-value">O ITBI é calculado sobre o maior valor entre o valor venal e o valor de transação. A guia deve estar paga antes da lavratura da escritura. O tabelião verificará o comprovante.</div>
+      </div>
+      <div class="info-block full">
+        <div class="info-label">Como obter — Passo a passo</div>
+        <ul class="steps">
+          <li><span class="step-num">1</span> Acesse prefeitura.sp.gov.br/itbi e faça login.</li>
+          <li><span class="step-num">2</span> Informe o número do SQL e os dados da transação (valor, partes).</li>
+          <li><span class="step-num">3</span> Gere a guia de pagamento e pague via banco, lotérica ou PIX.</li>
+          <li><span class="step-num">4</span> Após compensação, baixe o comprovante de pagamento.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- I2 -->
+<div class="card" id="i2">
+  <div class="card-head" onclick="toggle('i2')">
+    <span class="badge badge-obrig">Obrigatório</span>
+    <div class="card-title-wrap">
+      <div class="card-title">Certidão de Valor Venal / IPTU</div>
+      <div class="card-subtitle">Art. 38, CTN — Base de cálculo do ITBI</div>
+    </div>
+    <div class="card-toggle">+</div>
+  </div>
+  <div class="card-body">
+    <div class="info-grid">
+      <div class="info-block sky">
+        <div class="info-label">Onde obter</div>
+        <div class="info-value">Prefeitura de SP — Secretaria de Finanças<br><a href="https://www.prefeitura.sp.gov.br/cidade/secretarias/financas" target="_blank">prefeitura.sp.gov.br/financas</a></div>
+      </div>
+      <div class="info-block amber">
+        <div class="info-label">Faixa de Valor</div>
+        <div class="info-value"><span class="valor-tag">Gratuita</span><br><small>Disponível no carnê do IPTU ou online</small></div>
+      </div>
+      <div class="info-block sage full">
+        <div class="info-label">Base Legal</div>
+        <div class="info-value">Art. 38, CTN — O valor venal serve como base de cálculo do ITBI e deve constar expressamente na escritura pública de compra e venda.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- I3 -->
+<div class="card" id="i3">
+  <div class="card-head" onclick="toggle('i3')">
+    <span class="badge badge-obrig">Obrigatório</span>
+    <div class="card-title-wrap">
+      <div class="card-title">Averbação de Construção na Matrícula</div>
+      <div class="card-subtitle">Art. 167, I, nº 4, Lei 6.015/73 — Construção deve estar averbada</div>
+    </div>
+    <div class="card-toggle">+</div>
+  </div>
+  <div class="card-body">
+    <div class="info-grid">
+      <div class="info-block sky">
+        <div class="info-label">Onde obter / averbar</div>
+        <div class="info-value">Cartório de Registro de Imóveis (CRI)<br><a href="https://www.onr.org.br" target="_blank">onr.org.br</a></div>
+      </div>
+      <div class="info-block amber">
+        <div class="info-label">Faixa de Valor</div>
+        <div class="info-value"><span class="valor-tag">R$ 500–2.000+</span><br><small>Depende da área construída e tabela do CRI</small></div>
+      </div>
+      <div class="info-block rust full">
+        <div class="info-label">⚠️ Atenção</div>
+        <div class="info-value">Se a construção existente não estiver averbada na matrícula, o vendedor deverá regularizar antes da escritura. Requer Habite-se, Certidão de Conclusão de Obra (CCO) da Prefeitura e projeto aprovado.</div>
+      </div>
+      <div class="info-block full">
+        <div class="info-label">Como regularizar — Passo a passo</div>
+        <ul class="steps">
+          <li><span class="step-num">1</span> Obtenha o Habite-se / CCO na Prefeitura ou via engenheiro responsável.</li>
+          <li><span class="step-num">2</span> Apresente no CRI competente junto com requerimento de averbação.</li>
+          <li><span class="step-num">3</span> Pague as custas tabeladas e aguarde o prazo (3–15 dias úteis).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- I4 -->
+<div class="card" id="i4">
+  <div class="card-head" onclick="toggle('i4')">
+    <span class="badge badge-obrig">Obrigatório</span>
+    <div class="card-title-wrap">
+      <div class="card-title">Certidão Negativa de Condomínio</div>
+      <div class="card-subtitle">Art. 1.345, CC/2002 — Adquirente responde pelos débitos (propter rem)</div>
+    </div>
+    <div class="card-toggle">+</div>
+  </div>
+  <div class="card-body">
+    <div class="info-grid">
+      <div class="info-block sky">
+        <div class="info-label">Onde obter</div>
+        <div class="info-value">Síndico do condomínio ou Administradora<br>Solicitar por escrito com firma reconhecida</div>
+      </div>
+      <div class="info-block amber">
+        <div class="info-label">Faixa de Valor</div>
+        <div class="info-value"><span class="valor-tag">Gratuita ou R$ 50–150</span><br><small>Algumas administradoras cobram taxa de emissão</small></div>
+      </div>
+      <div class="info-block rust full">
+        <div class="info-label">⚠️ Atenção — Base Legal</div>
+        <div class="info-value">Art. 1.345, CC/2002 — O adquirente responde pelos débitos condominiais anteriores à compra, inclusive multas e juros. Débitos em aberto podem travar o registro do imóvel ou gerar surpresas ao comprador.</div>
+      </div>
+      <div class="info-block full">
+        <div class="info-label">Como obter — Passo a passo</div>
+        <ul class="steps">
+          <li><span class="step-num">1</span> Solicite ao síndico ou administradora carta de quitação condominial.</li>
+          <li><span class="step-num">2</span> A certidão deve cobrir cotas condominiais, fundo de reserva e multas.</li>
+          <li><span class="step-num">3</span> Validade usual: 30 dias. Exija assinatura com firma reconhecida.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <p><strong>Aviso Legal:</strong> Este checklist tem caráter informativo e não substitui assessoria jurídica especializada. Os valores indicados são estimativas baseadas em tabelas vigentes em São Paulo (2024–2025) e podem variar. Consulte sempre um advogado ou tabelião de confiança antes de realizar qualquer transação imobiliária.</p>
+</footer>
+
+<script>
+  function toggle(id) {
+    const card = document.getElementById(id);
+    card.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
