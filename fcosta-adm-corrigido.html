@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FCosta — Painel ADM</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<style>
+:root{--azul:#2176AE;--escuro:#0D3B66;--ceu:#3B9BD6;--ouro:#C9A84C;--verde:#25D366;--roxo:#7B1FA2;--vermelho:#B71C1C;--fundo:#1a6fa8;--card:rgba(255,255,255,.13);--borda:rgba(255,255,255,.2);--txt:rgba(255,255,255,.97);--sec:rgba(255,255,255,.65);--fonte:'Inter',sans-serif;--titulo:'Playfair Display',serif;--tr:.22s ease;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--fonte);background:#1a6fa8;color:var(--txt);min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;background:linear-gradient(160deg,#0d3b66 0%,#1a6fa8 40%,#3B9BD6 100%);z-index:-1;}
+a{text-decoration:none;color:inherit;}
+img{max-width:100%;display:block;}
+input,textarea,select,button{font-family:var(--fonte);}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ── TOPBAR ── */
+#top{position:sticky;top:0;z-index:999;background:rgba(13,59,102,.92);backdrop-filter:blur(12px);border-bottom:2px solid var(--ouro);height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;gap:14px;}
+.top-l{display:flex;align-items:center;gap:10px;}
+.top-l img{height:34px;width:auto;}
+.top-title{font-family:var(--titulo);font-size:.9rem;font-weight:700;color:#fff;}
+.top-title small{display:block;font-family:var(--fonte);font-size:.52rem;font-weight:500;color:var(--ouro);letter-spacing:1.5px;text-transform:uppercase;}
+.top-r{display:flex;align-items:center;gap:8px;}
+.top-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);color:#fff;font-size:.68rem;font-weight:600;padding:6px 12px;border-radius:7px;cursor:pointer;transition:background var(--tr);}
+.top-btn:hover{background:rgba(255,255,255,.22);}
+.sdot{width:7px;height:7px;background:var(--verde);border-radius:50%;display:inline-block;margin-right:4px;animation:pulse 2s ease infinite;}
+
+/* ── TABS ── */
+#tabs{background:rgba(13,59,102,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--borda);padding:0 20px;display:flex;gap:3px;overflow-x:auto;scrollbar-width:none;}
+#tabs::-webkit-scrollbar{display:none;}
+.tab{font-size:.72rem;font-weight:600;padding:13px 15px;cursor:pointer;color:rgba(255,255,255,.6);border-bottom:2px solid transparent;white-space:nowrap;transition:all var(--tr);}
+.tab.on{color:var(--ouro);border-bottom-color:var(--ouro);}
+
+#main{max-width:1200px;margin:0 auto;padding:24px 20px 80px;}
+.painel{display:none;}
+.painel.on{display:block;animation:fadeUp .28s ease;}
+
+/* ── BARRA PUBLICAR sticky bottom ── */
+.pub-bar{position:sticky;bottom:0;z-index:200;background:rgba(9,36,66,.96);backdrop-filter:blur(10px);border-top:2px solid var(--ouro);padding:11px 20px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:28px -20px -80px;}
+.pub-bar-txt{font-size:.68rem;color:rgba(255,255,255,.6);line-height:1.5;}
+.pub-bar-txt strong{color:var(--ouro);display:block;font-size:.76rem;margin-bottom:1px;}
+.pub-bar-btns{display:flex;gap:8px;flex-wrap:wrap;}
+
+/* ── STATS ── */
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:22px;}
+.stat{background:var(--card);border:1.5px solid var(--borda);border-radius:12px;padding:13px 15px;display:flex;align-items:center;gap:10px;}
+.stat-ic{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.stat-num{font-family:var(--titulo);font-size:1.35rem;font-weight:900;color:#fff;line-height:1;}
+.stat-lbl{font-size:.6rem;color:var(--sec);margin-top:2px;}
+
+/* ── TOOLBAR ── */
+.toolbar{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+.toolbar input[type=text]{flex:1;min-width:160px;background:var(--card);border:1.5px solid var(--borda);border-radius:9px;padding:8px 12px;font-size:.78rem;color:#fff;outline:none;transition:border-color var(--tr);}
+.toolbar input[type=text]:focus{border-color:var(--azul);}
+.toolbar input[type=text]::placeholder{color:var(--sec);}
+.toolbar select{background:var(--card);border:1.5px solid var(--borda);border-radius:9px;padding:8px 11px;color:#fff;font-size:.78rem;outline:none;}
+.toolbar select option{background:#1c2333;}
+
+/* ── BOTÕES ── */
+.btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--fonte);font-size:.73rem;font-weight:600;padding:8px 15px;border-radius:8px;border:none;cursor:pointer;transition:opacity var(--tr);}
+.btn:hover{opacity:.85;}
+.btn-az{background:var(--azul);color:#fff;}
+.btn-ok{background:#1B5E20;color:#fff;}
+.btn-del{background:var(--vermelho);color:#fff;}
+.btn-warn{background:var(--ouro);color:#1a2a3a;}
+.btn-gh{background:rgba(255,255,255,.07);color:#fff;border:1px solid var(--borda);}
+
+/* ── GRID IMÓVEIS ── */
+.im-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px;}
+.icard{background:var(--card);border:1.5px solid var(--borda);border-radius:13px;overflow:hidden;transition:border-color var(--tr),transform var(--tr);}
+.icard:hover{border-color:var(--ouro);transform:translateY(-3px);}
+.icard-img{height:160px;background:#1c2333;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.icard-img img{width:100%;height:100%;object-fit:cover;}
+.icard-img .ph{font-size:2.5rem;opacity:.2;}
+.icard-cod-badge{position:absolute;top:8px;right:8px;font-size:.52rem;font-weight:800;letter-spacing:.7px;text-transform:uppercase;padding:3px 8px;border-radius:50px;}
+.cod-v{background:var(--azul);color:#fff;}
+.cod-a{background:var(--ouro);color:#1a2a3a;}
+.cod-l{background:#2e7d32;color:#fff;}
+.cod-p{background:var(--roxo);color:#fff;}
+.icard-body{padding:12px 14px 14px;}
+.icard-cod{font-size:.58rem;font-weight:800;color:var(--ouro);letter-spacing:1px;margin-bottom:3px;}
+.icard-nome{font-family:var(--titulo);font-size:.92rem;font-weight:700;color:#fff;margin-bottom:3px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+.icard-local{font-size:.66rem;color:var(--sec);margin-bottom:8px;}
+.icard-preco{font-family:var(--titulo);font-size:1rem;font-weight:900;color:var(--azul);margin-bottom:9px;}
+.icard-fotos-cnt{font-size:.6rem;color:var(--sec);margin-bottom:8px;}
+.icard-fotos-cnt span{color:var(--ceu);font-weight:700;}
+.icard-link{display:flex;align-items:center;gap:5px;font-size:.6rem;color:var(--ceu);background:rgba(59,155,214,.1);border:1px solid rgba(59,155,214,.2);padding:4px 9px;border-radius:7px;margin-bottom:9px;transition:background var(--tr);}
+.icard-link:hover{background:rgba(59,155,214,.2);}
+.icard-acts{display:flex;gap:6px;flex-wrap:wrap;}
+.icard-acts .btn{flex:1;justify-content:center;padding:6px 8px;font-size:.66rem;}
+
+/* ── FORMULÁRIO ── */
+.form-card{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.22);border-radius:13px;padding:22px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.full{grid-column:1/-1;}
+.fg{display:flex;flex-direction:column;gap:4px;}
+.fg label{font-size:.62rem;font-weight:700;color:rgba(255,255,255,.75);letter-spacing:.5px;text-transform:uppercase;}
+.fg input,.fg select,.fg textarea{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.2);border-radius:8px;padding:9px 12px;font-size:.78rem;color:#fff;outline:none;transition:border-color var(--tr);}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:#fff;}
+.fg input::placeholder,.fg textarea::placeholder{color:rgba(255,255,255,.4);}
+.fg select option{background:#1a4a7a;color:#fff;}
+.fg textarea{resize:vertical;min-height:78px;}
+
+.cod-prev{background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.1);border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.cod-prev-val{font-size:1.1rem;font-weight:900;font-family:var(--titulo);color:var(--ouro);}
+.cod-prev-info{font-size:.64rem;color:var(--sec);line-height:1.6;}
+.cod-prev-info strong{color:#fff;}
+
+.upload-area{border:2px dashed rgba(255,255,255,.15);border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:all var(--tr);}
+.upload-area:hover{border-color:var(--azul);background:rgba(33,150,243,.05);}
+.upload-area input{display:none;}
+.upload-area p{font-size:.72rem;color:var(--sec);margin-top:6px;}
+.fotos-prev{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px;}
+.foto-wrap{position:relative;}
+.foto-thumb{width:72px;height:56px;border-radius:7px;object-fit:cover;border:2px solid rgba(255,255,255,.1);}
+.foto-del{position:absolute;top:-4px;right:-4px;width:16px;height:16px;border-radius:50%;background:var(--vermelho);border:none;color:#fff;font-size:.56rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.upload-prog{font-size:.7rem;color:var(--sec);margin-top:8px;display:none;}
+
+.page-link-box{background:rgba(59,155,214,.08);border:1.5px solid rgba(59,155,214,.2);border-radius:8px;padding:9px 13px;margin-bottom:14px;display:none;}
+.page-link-box label{font-size:.6rem;font-weight:700;color:rgba(59,155,214,.8);letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:3px;}
+.page-link-box a{font-size:.72rem;color:var(--ceu);word-break:break-all;}
+
+/* ── CONTROLE BOTÕES HOME ── */
+.home-btns-section{background:var(--card);border:1.5px solid var(--borda);border-radius:13px;padding:20px 22px;margin-bottom:22px;}
+.home-btns-titulo{font-family:var(--titulo);font-size:1rem;font-weight:700;color:#fff;margin-bottom:5px;}
+.home-btns-sub{font-size:.72rem;color:var(--sec);margin-bottom:16px;line-height:1.6;}
+.home-btns-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;}
+.hbtn-card{background:rgba(255,255,255,.04);border:1.5px solid var(--borda);border-radius:10px;padding:13px 15px;display:flex;align-items:center;gap:12px;}
+.hbtn-card.fixo{border-color:rgba(201,168,76,.3);background:rgba(201,168,76,.06);}
+.hbtn-ic{font-size:1.2rem;flex-shrink:0;width:36px;height:36px;border-radius:9px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;}
+.hbtn-info{flex:1;min-width:0;}
+.hbtn-nome{font-size:.8rem;font-weight:600;color:#fff;margin-bottom:2px;}
+.hbtn-url{font-size:.62rem;color:var(--sec);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hbtn-badge-fixo{font-size:.5rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:2px 7px;border-radius:4px;background:rgba(201,168,76,.2);color:var(--ouro);border:1px solid rgba(201,168,76,.3);margin-left:5px;}
+.toggle-wrap{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.toggle-lbl{font-size:.6rem;color:var(--sec);}
+.toggle{position:relative;width:42px;height:22px;flex-shrink:0;}
+.toggle input{opacity:0;width:0;height:0;position:absolute;}
+.toggle-slider{position:absolute;inset:0;background:#333;border-radius:22px;cursor:pointer;transition:background var(--tr);}
+.toggle-slider::before{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;bottom:2px;left:2px;transition:transform var(--tr);}
+.toggle input:checked+.toggle-slider{background:var(--verde);}
+.toggle input:checked+.toggle-slider::before{transform:translateX(20px);}
+.toggle input:disabled+.toggle-slider{opacity:.4;cursor:not-allowed;}
+
+/* ── PÁGINAS ── */
+.pages-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:9px;}
+.pcard{background:var(--card);border:1.5px solid var(--borda);border-radius:11px;padding:12px 14px;display:flex;align-items:center;gap:9px;transition:all var(--tr);}
+.pcard:hover{border-color:var(--azul);transform:translateX(3px);}
+.pcard-ic{width:32px;height:32px;background:rgba(255,255,255,.06);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
+.pcard-nome{font-size:.76rem;font-weight:600;color:#fff;margin-bottom:2px;}
+.pcard-url{font-size:.6rem;color:var(--sec);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:20px;right:20px;z-index:2000;background:#1B5E20;color:#fff;font-size:.78rem;font-weight:600;padding:11px 17px;border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,.4);transform:translateY(80px);opacity:0;transition:all .28s ease;}
+#toast.on{transform:translateY(0);opacity:1;}
+#toast.err{background:var(--vermelho);}
+
+.loading{text-align:center;padding:40px;color:var(--sec);}
+.spin{width:30px;height:30px;border:3px solid rgba(255,255,255,.1);border-top-color:var(--azul);border-radius:50%;margin:0 auto 10px;animation:spin .8s linear infinite;}
+
+@media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr);}.form-grid{grid-template-columns:1fr;}#main{padding:18px 14px 80px;}.pub-bar{margin:28px -14px -80px;padding:10px 14px;}}
+@media(max-width:480px){.im-grid{grid-template-columns:1fr;}.home-btns-grid{grid-template-columns:1fr;}.pub-bar-btns{width:100%;}.pub-bar-btns .btn{flex:1;justify-content:center;}}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div id="top">
+  <div class="top-l">
+    <img src="https://i.postimg.cc/xTQzc3RV/495379823-122128221800669140-5238985291153506093-n-photoaidcom-cropped.png" alt="FCosta"/>
+    <div class="top-title">Painel ADM<small>FCosta Corretor · CRECI-SP 294791-F</small></div>
+  </div>
+  <div class="top-r">
+    <span><span class="sdot"></span><span id="status-txt" style="font-size:.66rem;color:var(--sec)">Conectando...</span></span>
+    <a href="https://fcostacorretor.com/" target="_blank" class="top-btn">🌐 Ver Site</a>
+  </div>
+</div>
+
+<!-- TABS -->
+<div id="tabs">
+  <div class="tab on" data-painel="imoveis" onclick="tab('imoveis',this)">🏠 Imóveis</div>
+  <div class="tab" data-painel="adicionar" onclick="tab('adicionar',this)">➕ Adicionar / Editar</div>
+  <div class="tab" data-painel="pagina-imovel" onclick="tab('pagina-imovel',this)">📝 Página do Imóvel</div>
+  <div class="tab" data-painel="home" onclick="tab('home',this)">🎛️ Botões da Home</div>
+  <div class="tab" data-painel="hamburger" onclick="tab('hamburger',this)">☰ Menu Hambúrguer</div>
+  <div class="tab" data-painel="paginas" onclick="tab('paginas',this)">📄 Páginas</div>
+</div>
+
+<div id="main">
+
+  <!-- ══ IMÓVEIS ══ -->
+  <div class="painel on" id="p-imoveis">
+    <div class="stats">
+      <div class="stat"><div class="stat-ic">🏠</div><div><div class="stat-num" id="st-total">–</div><div class="stat-lbl">Total</div></div></div>
+      <div class="stat"><div class="stat-ic" style="background:rgba(33,118,174,.15)">🔵</div><div><div class="stat-num" id="st-fcv">–</div><div class="stat-lbl">FCV Vendas</div></div></div>
+      <div class="stat"><div class="stat-ic" style="background:rgba(201,168,76,.15)">🔑</div><div><div class="stat-num" id="st-fca">–</div><div class="stat-lbl">FCA Aluguel</div></div></div>
+      <div class="stat"><div class="stat-ic" style="background:rgba(46,125,50,.15)">🏗️</div><div><div class="stat-num" id="st-fcl">–</div><div class="stat-lbl">FCL Lanç.</div></div></div>
+      <div class="stat"><div class="stat-ic" style="background:rgba(123,31,162,.15)">📄</div><div><div class="stat-num" id="st-fcp">–</div><div class="stat-lbl">FCP Panfl.</div></div></div>
+    </div>
+    <div class="toolbar">
+      <input type="text" id="busca" placeholder="🔍 Buscar imóvel..." oninput="filtrar()"/>
+      <select id="filtro-s" onchange="filtrar()">
+        <option value="">Todos os status</option>
+        <option value="venda">FCV — À Venda</option>
+        <option value="aluguel">FCA — Aluguel</option>
+        <option value="lancamento">FCL — Lançamento</option>
+        <option value="panfleto">FCP — Panfleto</option>
+        <option value="vendido">Vendido</option>
+      </select>
+      <button class="btn btn-ok" onclick="tab('adicionar',document.querySelector('[data-painel=adicionar]'))">➕ Novo Imóvel</button>
+    </div>
+    <div class="im-grid" id="lista"><div class="loading"><div class="spin"></div><p>Carregando...</p></div></div>
+  </div>
+
+  <!-- ══ ADICIONAR/EDITAR ══ -->
+  <div class="painel" id="p-adicionar">
+    <h2 style="font-family:var(--titulo);font-size:1.1rem;color:#fff;margin-bottom:18px;" id="form-h">➕ Adicionar Novo Imóvel</h2>
+
+    <div class="cod-prev">
+      <div class="cod-prev-val" id="cod-prev">–</div>
+      <div class="cod-prev-info">
+        <strong>FCV</strong> = Venda &nbsp;·&nbsp; <strong>FCA</strong> = Aluguel &nbsp;·&nbsp; <strong>FCL</strong> = Lançamento &nbsp;·&nbsp; <strong>FCP</strong> = Panfleto<br/>
+        Selecione o status e informe o número para gerar o código
+      </div>
+    </div>
+
+    <div class="page-link-box" id="page-link-box">
+      <label>🔗 Links da Página</label>
+    </div>
+
+    <div class="form-card">
+      <div class="form-grid">
+        <div class="fg full"><label>Título do Imóvel *</label><input type="text" id="f-titulo" placeholder="Ex: Apartamento 2 quartos Itaim Paulista" oninput="atualizarPrev()"/></div>
+        <div class="fg">
+          <label>Status / Categoria *</label>
+          <select id="f-status" onchange="atualizarPrev()">
+            <option value="">Selecione...</option>
+            <option value="venda">FCV — À Venda</option>
+            <option value="aluguel">FCA — Aluguel</option>
+            <option value="lancamento">FCL — Lançamento</option>
+            <option value="panfleto">FCP — Panfleto</option>
+            <option value="vendido">Vendido</option>
+          </select>
+        </div>
+        <div class="fg"><label>Número do Código (ex: 001)</label><input type="text" id="f-numcod" placeholder="Ex: 001" maxlength="6" oninput="atualizarPrev()"/></div>
+        <div class="fg"><label>Tipo</label><select id="f-tipo"><option value="">Selecione...</option><option>Apartamento</option><option>Casa</option><option>Sobrado</option><option>Terreno</option><option>Sala Comercial</option><option>Galpão</option><option>Studio</option></select></div>
+        <div class="fg"><label>Preço (R$)</label><input type="text" id="f-preco" placeholder="Ex: 280.000 ou 1.500/mês"/></div>
+        <div class="fg"><label>Área (m²)</label><input type="text" id="f-area" placeholder="Ex: 65"/></div>
+        <div class="fg"><label>Quartos</label><input type="number" id="f-quartos" placeholder="Ex: 2" min="0"/></div>
+        <div class="fg"><label>Banheiros</label><input type="number" id="f-banheiros" placeholder="Ex: 1" min="0"/></div>
+        <div class="fg"><label>Vagas de Garagem</label><input type="number" id="f-vagas" placeholder="Ex: 1" min="0"/></div>
+        <div class="fg"><label>Bairro</label><input type="text" id="f-bairro" placeholder="Ex: Itaim Paulista"/></div>
+        <div class="fg"><label>Cidade / UF</label><input type="text" id="f-cidade" value="São Paulo — SP"/></div>
+        <div class="fg full"><label>Endereço Completo</label><input type="text" id="f-endereco" placeholder="Ex: Rua das Flores, 123 — Itaim Paulista"/></div>
+        <div class="fg full"><label>Descrição</label><textarea id="f-descricao" placeholder="Descreva o imóvel com todos os detalhes..."></textarea></div>
+        <div class="fg"><label>Link do Vídeo (YouTube)</label><input type="text" id="f-video" placeholder="https://youtube.com/watch?v=..."/></div>
+        <div class="fg"><label>Destaque na Home?</label><select id="f-destaque"><option value="false">Não</option><option value="true">✅ Sim — aparece primeiro</option></select></div>
+      </div>
+
+      <div style="margin-bottom:14px;">
+        <label style="font-size:.62rem;font-weight:700;color:var(--sec);letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:8px;">📸 Fotos do Imóvel (Cloudinary — até 30)</label>
+        <div class="upload-area" onclick="document.getElementById('inp-fotos').click()">
+          <input type="file" id="inp-fotos" multiple accept="image/*" onchange="prevFotos(event)"/>
+          <div style="font-size:1.8rem;">📷</div>
+          <p>Clique para selecionar fotos · JPG, PNG, WEBP · Múltiplas permitidas</p>
+        </div>
+        <div class="fotos-prev" id="fotos-prev"></div>
+        <div class="upload-prog" id="prog">⬆️ Enviando fotos para Cloudinary...</div>
+      </div>
+
+      <input type="hidden" id="f-id"/>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn-ok" onclick="salvar()">💾 Salvar Imóvel</button>
+        <button class="btn btn-gh" onclick="limpar()">🗑️ Limpar</button>
+        <button class="btn btn-gh" onclick="tab('imoveis',document.querySelector('[data-painel=imoveis]'))">← Voltar para Imóveis</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ BOTÕES DA HOME ══ -->
+  <div class="painel" id="p-home">
+    <div class="home-btns-section">
+      <div class="home-btns-titulo">⭐ Botões Fixos da Home</div>
+      <div class="home-btns-sub">Estes 4 botões sempre aparecem na Home e não podem ser desativados.</div>
+      <div class="home-btns-grid">
+        <div class="hbtn-card fixo"><div class="hbtn-ic">🏠</div><div class="hbtn-info"><div class="hbtn-nome">Comprar <span class="hbtn-badge-fixo">Fixo</span></div><div class="hbtn-url">fcostacorretor.com/comprar</div></div><div class="toggle-wrap"><label class="toggle"><input type="checkbox" checked disabled/><span class="toggle-slider"></span></label></div></div>
+        <div class="hbtn-card fixo"><div class="hbtn-ic">🔑</div><div class="hbtn-info"><div class="hbtn-nome">Alugar <span class="hbtn-badge-fixo">Fixo</span></div><div class="hbtn-url">fcostacorretor.com/alugar</div></div><div class="toggle-wrap"><label class="toggle"><input type="checkbox" checked disabled/><span class="toggle-slider"></span></label></div></div>
+        <div class="hbtn-card fixo"><div class="hbtn-ic">🏗️</div><div class="hbtn-info"><div class="hbtn-nome">Lançamentos <span class="hbtn-badge-fixo">Fixo</span></div><div class="hbtn-url">fcostacorretor.com/lancamentos</div></div><div class="toggle-wrap"><label class="toggle"><input type="checkbox" checked disabled/><span class="toggle-slider"></span></label></div></div>
+        <div class="hbtn-card fixo"><div class="hbtn-ic">📄</div><div class="hbtn-info"><div class="hbtn-nome">Panfletos <span class="hbtn-badge-fixo">Fixo</span></div><div class="hbtn-url">fcostacorretor.com/panfletos</div></div><div class="toggle-wrap"><label class="toggle"><input type="checkbox" checked disabled/><span class="toggle-slider"></span></label></div></div>
+      </div>
+    </div>
+
+    <div class="home-btns-section">
+      <div class="home-btns-titulo">🎛️ Botões Opcionais da Home</div>
+      <div class="home-btns-sub">Ative ou desative cada botão. Salva automaticamente no Firebase — a Home se atualiza em tempo real.</div>
+      <div class="home-btns-grid" id="home-btns-grid">
+        <div class="loading"><div class="spin"></div><p>Carregando configurações...</p></div>
+      </div>
+    </div>
+
+    <div class="pub-bar">
+      <div class="pub-bar-txt"><strong>🎛️ Botões da Home</strong>Alterações salvas automaticamente no Firebase</div>
+      <div class="pub-bar-btns">
+        <button class="btn btn-ok" onclick="publicarHomeBtns()">✅ Publicar na Home</button>
+        <a href="https://fcostacorretor.com/" target="_blank" class="btn btn-gh">🌐 Ver Home</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PÁGINAS ══ -->
+  <div class="painel" id="p-paginas">
+    <h2 style="font-family:var(--titulo);font-size:1.05rem;color:#fff;margin-bottom:16px;">📄 Todas as Páginas do Site</h2>
+    <div class="pages-grid">
+      <a href="https://fcostacorretor.com/" target="_blank" class="pcard"><div class="pcard-ic">🏡</div><div><div class="pcard-nome">Home</div><div class="pcard-url">/</div></div></a>
+      <a href="https://fcostacorretor.com/comprar" target="_blank" class="pcard"><div class="pcard-ic">🏠</div><div><div class="pcard-nome">Comprar (FCV)</div><div class="pcard-url">/comprar</div></div></a>
+      <a href="https://fcostacorretor.com/alugar" target="_blank" class="pcard"><div class="pcard-ic">🔑</div><div><div class="pcard-nome">Alugar (FCA)</div><div class="pcard-url">/alugar</div></div></a>
+      <a href="https://fcostacorretor.com/lancamentos" target="_blank" class="pcard"><div class="pcard-ic">🏗️</div><div><div class="pcard-nome">Lançamentos (FCL)</div><div class="pcard-url">/lancamentos</div></div></a>
+      <a href="https://fcostacorretor.com/panfletos" target="_blank" class="pcard"><div class="pcard-ic">📄</div><div><div class="pcard-nome">Panfletos (FCP)</div><div class="pcard-url">/panfletos</div></div></a>
+      <a href="https://fcostacorretor.com/imovel" target="_blank" class="pcard"><div class="pcard-ic">🏠</div><div><div class="pcard-nome">Página do Imóvel</div><div class="pcard-url">/imovel?id=ID</div></div></a>
+      <a href="https://fcostacorretor.com/financiamento" target="_blank" class="pcard"><div class="pcard-ic">🏦</div><div><div class="pcard-nome">Financiamento</div><div class="pcard-url">/financiamento</div></div></a>
+      <a href="https://fcostacorretor.com/avaliacao-fcosta" target="_blank" class="pcard"><div class="pcard-ic">📊</div><div><div class="pcard-nome">Avaliação PTAM</div><div class="pcard-url">/avaliacao-fcosta</div></div></a>
+      <a href="https://fcostacorretor.com/portal-do-investidor" target="_blank" class="pcard"><div class="pcard-ic">📈</div><div><div class="pcard-nome">Portal do Investidor</div><div class="pcard-url">/portal-do-investidor</div></div></a>
+      <a href="https://fcostacorretor.com/inquilinato" target="_blank" class="pcard"><div class="pcard-ic">📜</div><div><div class="pcard-nome">Inquilinato</div><div class="pcard-url">/inquilinato</div></div></a>
+      <a href="https://fcostacorretor.com/contratos-fcosta" target="_blank" class="pcard"><div class="pcard-ic">📋</div><div><div class="pcard-nome">Contratos</div><div class="pcard-url">/contratos-fcosta</div></div></a>
+      <a href="https://fcostacorretor.com/consultoria" target="_blank" class="pcard"><div class="pcard-ic">🤝</div><div><div class="pcard-nome">Consultoria</div><div class="pcard-url">/consultoria</div></div></a>
+      <a href="https://fcostacorretor.com/blog" target="_blank" class="pcard"><div class="pcard-ic">✍️</div><div><div class="pcard-nome">Blog</div><div class="pcard-url">/blog</div></div></a>
+      <a href="https://fcostacorretor.com/galeria" target="_blank" class="pcard"><div class="pcard-ic">🖼️</div><div><div class="pcard-nome">Galeria</div><div class="pcard-url">/galeria</div></div></a>
+      <a href="https://fcostacorretor.com/videos-imobiliarios" target="_blank" class="pcard"><div class="pcard-ic">▶️</div><div><div class="pcard-nome">Vídeos</div><div class="pcard-url">/videos-imobiliarios</div></div></a>
+      <a href="https://fcostacorretor.com/legislacaoimobiliaria" target="_blank" class="pcard"><div class="pcard-ic">⚖️</div><div><div class="pcard-nome">Legislação</div><div class="pcard-url">/legislacaoimobiliaria</div></div></a>
+      <a href="https://fcostacorretor.com/documentacao-imobiliaria" target="_blank" class="pcard"><div class="pcard-ic">📁</div><div><div class="pcard-nome">Documentação</div><div class="pcard-url">/documentacao-imobiliaria</div></div></a>
+      <a href="https://fcostacorretor.com/parceiros-fcosta" target="_blank" class="pcard"><div class="pcard-ic">🤝</div><div><div class="pcard-nome">Parceiros</div><div class="pcard-url">/parceiros-fcosta</div></div></a>
+      <a href="https://fcostacorretor.com/sermao" target="_blank" class="pcard"><div class="pcard-ic">✝️</div><div><div class="pcard-nome">Sermão</div><div class="pcard-url">/sermao</div></div></a>
+      <a href="https://fcostacorretor.com/sergioig" target="_blank" class="pcard"><div class="pcard-ic">👤</div><div><div class="pcard-nome">Pessoal</div><div class="pcard-url">/sergioig</div></div></a>
+      <a href="https://fcostacorretor.com/judicial" target="_blank" class="pcard"><div class="pcard-ic">⚖️</div><div><div class="pcard-nome">Perícia Judicial</div><div class="pcard-url">/judicial</div></div></a>
+      <a href="https://fcostacorretor.com/cartorio" target="_blank" class="pcard"><div class="pcard-ic">🏛️</div><div><div class="pcard-nome">Cartórios</div><div class="pcard-url">/cartorio</div></div></a>
+      <a href="https://fcostacorretor.com/chacara-para-eventos-em-suzano" target="_blank" class="pcard"><div class="pcard-ic">🌿</div><div><div class="pcard-nome">Chácara Suzano</div><div class="pcard-url">/chacara-para-eventos-em-suzano</div></div></a>
+      <a href="https://fcostacorretor.com/politica-de-privacidade" target="_blank" class="pcard"><div class="pcard-ic">🔒</div><div><div class="pcard-nome">Política de Privacidade</div><div class="pcard-url">/politica-de-privacidade</div></div></a>
+      <a href="https://fcostacorretor.com/condicoes-de-uso" target="_blank" class="pcard"><div class="pcard-ic">📃</div><div><div class="pcard-nome">Termos de Uso</div><div class="pcard-url">/condicoes-de-uso</div></div></a>
+    </div>
+  </div>
+
+  <!-- ══ PÁGINA DO IMÓVEL ══ -->
+  <div class="painel" id="p-pagina-imovel">
+    <h2 style="font-family:var(--titulo);font-size:1.1rem;color:#fff;margin-bottom:6px;" id="pag-form-h">📝 Criar / Editar Página Individual de Imóvel</h2>
+    <p style="font-size:.72rem;color:var(--sec);margin-bottom:20px;line-height:1.6;">Crie uma página dedicada para um imóvel. O <strong style="color:#fff;">slug SEO</strong> vira o <code style="background:rgba(255,255,255,.12);padding:2px 7px;border-radius:5px;font-size:.7rem;">&lt;h1&gt;</code> e a URL da página.</p>
+
+    <div class="form-card" style="margin-bottom:16px;">
+      <div style="font-size:.72rem;font-weight:700;color:rgba(255,255,255,.75);letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px;">🔗 Carregar Imóvel Existente do Firebase</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+        <select id="pag-select-imovel" style="flex:1;min-width:200px;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.2);border-radius:8px;padding:9px 12px;color:#fff;font-size:.78rem;outline:none;">
+          <option value="">— Selecione um imóvel para editar —</option>
+        </select>
+        <button class="btn btn-az" onclick="pagCarregarImovel()">📥 Carregar Dados</button>
+        <button class="btn btn-gh" onclick="pagLimpar()">🗑️ Novo</button>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div style="background:rgba(201,168,76,.1);border:1.5px solid rgba(201,168,76,.3);border-radius:10px;padding:14px 16px;margin-bottom:16px;">
+        <div style="font-size:.62rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--ouro);margin-bottom:8px;">🔍 SEO — Slug e H1 da Página</div>
+        <div class="form-grid" style="margin-bottom:0;">
+          <div class="fg">
+            <label>Slug da URL</label>
+            <input type="text" id="pag-slug" placeholder="apartamento-2-quartos-itaim-paulista" oninput="pagAtualizarSlug()"/>
+            <small style="font-size:.6rem;color:var(--sec);margin-top:3px;">URL: /imovel/<span id="pag-slug-preview" style="color:var(--ouro);">slug</span></small>
+          </div>
+          <div class="fg">
+            <label>Meta Title (SEO)</label>
+            <input type="text" id="pag-meta-title" placeholder="Apartamento 2 quartos Itaim Paulista | FCosta Corretor"/>
+          </div>
+          <div class="fg full">
+            <label>Meta Description (SEO)</label>
+            <input type="text" id="pag-meta-desc" placeholder="Apartamento com 2 quartos, 65m², na Zona Leste de SP."/>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <input type="hidden" id="pag-id"/>
+        <div class="fg full"><label>Título Completo do Imóvel *</label><input type="text" id="pag-titulo" placeholder="Ex: Apartamento 2 quartos — Itaim Paulista"/></div>
+        <div class="fg">
+          <label>Status / Categoria *</label>
+          <select id="pag-status">
+            <option value="">Selecione...</option>
+            <option value="venda">FCV — À Venda</option>
+            <option value="aluguel">FCA — Aluguel</option>
+            <option value="lancamento">FCL — Lançamento</option>
+            <option value="panfleto">FCP — Panfleto</option>
+            <option value="vendido">Vendido</option>
+          </select>
+        </div>
+        <div class="fg"><label>Código (ex: FCV001)</label><input type="text" id="pag-codigo" placeholder="FCV001"/></div>
+        <div class="fg"><label>Tipo</label><select id="pag-tipo"><option value="">Selecione...</option><option>Apartamento</option><option>Casa</option><option>Sobrado</option><option>Terreno</option><option>Sala Comercial</option><option>Galpão</option><option>Studio</option></select></div>
+        <div class="fg"><label>Preço (R$)</label><input type="text" id="pag-preco" placeholder="Ex: 280.000"/></div>
+        <div class="fg"><label>Área (m²)</label><input type="text" id="pag-area" placeholder="Ex: 65"/></div>
+        <div class="fg"><label>Quartos</label><input type="number" id="pag-quartos" placeholder="2" min="0"/></div>
+        <div class="fg"><label>Banheiros</label><input type="number" id="pag-banheiros" placeholder="1" min="0"/></div>
+        <div class="fg"><label>Vagas de Garagem</label><input type="number" id="pag-vagas" placeholder="1" min="0"/></div>
+        <div class="fg"><label>Bairro</label><input type="text" id="pag-bairro" placeholder="Ex: Itaim Paulista"/></div>
+        <div class="fg"><label>Cidade / UF</label><input type="text" id="pag-cidade" value="São Paulo — SP"/></div>
+        <div class="fg full"><label>Endereço Completo</label><input type="text" id="pag-endereco" placeholder="Rua das Flores, 123"/></div>
+        <div class="fg full"><label>Descrição Completa</label><textarea id="pag-descricao" style="min-height:100px;" placeholder="Descreva o imóvel com todos os detalhes..."></textarea></div>
+        <div class="fg"><label>Características Extras</label><input type="text" id="pag-extras" placeholder="Piscina, Churrasqueira, Portaria 24h..."/></div>
+        <div class="fg"><label>Condomínio (R$/mês)</label><input type="text" id="pag-condominio" placeholder="Ex: 450"/></div>
+        <div class="fg"><label>IPTU (R$/ano)</label><input type="text" id="pag-iptu" placeholder="Ex: 1.200"/></div>
+        <div class="fg"><label>Link Vídeo YouTube</label><input type="text" id="pag-video" placeholder="https://youtube.com/watch?v=..."/></div>
+        <div class="fg"><label>Destaque na Home?</label><select id="pag-destaque"><option value="false">Não</option><option value="true">✅ Sim</option></select></div>
+        <div class="fg full">
+          <label>📸 Fotos do Imóvel (URLs — uma por linha)</label>
+          <textarea id="pag-fotos-urls" style="min-height:88px;" placeholder="https://res.cloudinary.com/dpquob8gh/image/upload/..."></textarea>
+        </div>
+        <div class="fg"><label>Latitude (Google Maps)</label><input type="text" id="pag-lat" placeholder="-23.52345"/></div>
+        <div class="fg"><label>Longitude (Google Maps)</label><input type="text" id="pag-lng" placeholder="-46.43210"/></div>
+      </div>
+
+      <div style="background:rgba(59,155,214,.1);border:1.5px solid rgba(59,155,214,.25);border-radius:10px;padding:12px 16px;margin:14px 0;">
+        <div style="font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ceu);margin-bottom:4px;">🔗 URL da Página</div>
+        <div id="pag-url-preview" style="font-size:.78rem;color:#fff;">https://fcostacorretor.com/imovel?id=<em style="color:var(--ceu);">[id-firebase]</em></div>
+        <div style="font-size:.6rem;color:var(--sec);margin-top:3px;">H1 gerado: <strong id="pag-h1-preview" style="color:var(--ouro);">—</strong></div>
+      </div>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn-ok" onclick="pagSalvar()">💾 Salvar Página no Firebase</button>
+        <button class="btn" style="background:var(--ceu);color:#fff;" onclick="pagGerarHTML()">📄 Gerar HTML da Página</button>
+        <button class="btn btn-gh" onclick="pagLimpar()">🗑️ Limpar</button>
+        <button class="btn btn-gh" onclick="tab('imoveis',document.querySelector('[data-painel=imoveis]'))">← Voltar para Imóveis</button>
+      </div>
+    </div>
+
+    <div id="pag-html-area" style="display:none;margin-top:18px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
+        <div style="font-family:var(--titulo);font-size:.95rem;font-weight:700;color:#fff;">📄 HTML Gerado — Padrão Vitrine FCosta</div>
+        <button class="btn btn-az" onclick="pagCopiarHTML()">📋 Copiar HTML</button>
+      </div>
+      <textarea id="pag-html-output" style="width:100%;min-height:320px;background:rgba(0,0,0,.3);border:1.5px solid rgba(255,255,255,.2);border-radius:10px;padding:14px;font-size:.68rem;color:#e2f0ff;font-family:monospace;resize:vertical;outline:none;" readonly></textarea>
+      <p style="font-size:.66rem;color:var(--sec);margin-top:6px;">📌 Cole este HTML na página <strong style="color:#fff;">/imovel</strong> do Hostinger.</p>
+    </div>
+  </div>
+
+  <!-- ══ MENU HAMBÚRGUER ══ -->
+  <div class="painel" id="p-hamburger">
+    <h2 style="font-family:var(--titulo);font-size:1.1rem;color:#fff;margin-bottom:6px;">☰ Controle do Menu Hambúrguer</h2>
+    <p style="font-size:.72rem;color:var(--sec);margin-bottom:20px;line-height:1.6;">Ative ou desative quais páginas aparecem no menu lateral (hambúrguer) do site.</p>
+
+    <div class="home-btns-section" style="margin-bottom:16px;">
+      <div class="home-btns-titulo">⭐ Botões Fixos do Menu (sempre visíveis)</div>
+      <div class="home-btns-sub">Estas 4 páginas são fixas e sempre aparecem no menu hambúrguer.</div>
+      <div class="home-btns-grid">
+        <div class="hbtn-card fixo"><div class="hbtn-ic">🏠</div><div class="hbtn-info"><div class="hbtn-nome">Comprar <span class="hbtn-badge-fixo">Fixo</span></div><div class="hbtn-url">/comprar</div></div><div class="toggle-wrap"><label class="toggle"><input type="checkbox" checked disabled/><span class="toggle-slider"></span></label></div></div>
+        <div class="hbtn-card fixo"><div class="hbtn-ic">🔑</div><div class="hbtn-info"><div class="hbtn-nome">Alugar <span class="hbtn-badge-fixo">Fixo</span></div><div class="hbtn-url">/alugar</div></div><div class="toggle-wrap"><label class="toggle"><input type="checkbox" checked disabled/><span class="toggle-slider"></span></label></div></div>
+        <div class="hbtn-card fixo"><div class="hbtn-ic">🏗️</div><div class="hbtn-info"><div class="hbtn-nome">Lançamentos <span class="hbtn-badge-fixo">Fixo</span></div><div class="hbtn-url">/lancamentos</div></div><div class="toggle-wrap"><label class="toggle"><input type="checkbox" checked disabled/><span class="toggle-slider"></span></label></div></div>
+        <div class="hbtn-card fixo"><div class="hbtn-ic">📄</div><div class="hbtn-info"><div class="hbtn-nome">Panfletos <span class="hbtn-badge-fixo">Fixo</span></div><div class="hbtn-url">/panfletos</div></div><div class="toggle-wrap"><label class="toggle"><input type="checkbox" checked disabled/><span class="toggle-slider"></span></label></div></div>
+      </div>
+    </div>
+
+    <div class="home-btns-section">
+      <div class="home-btns-titulo">🎛️ Páginas Opcionais do Menu Hambúrguer</div>
+      <div class="home-btns-sub">Ative ou desative cada página. Salva no Firebase e sincroniza com o site em tempo real.</div>
+      <div class="home-btns-grid" id="hamburger-btns-grid">
+        <div class="loading"><div class="spin"></div><p>Carregando...</p></div>
+      </div>
+    </div>
+
+    <div class="pub-bar">
+      <div class="pub-bar-txt"><strong>☰ Menu Hambúrguer</strong>Alterações salvas automaticamente no Firebase</div>
+      <div class="pub-bar-btns">
+        <button class="btn btn-ok" onclick="publicarMenuHamb()">✅ Publicar no Menu</button>
+        <a href="https://fcostacorretor.com/" target="_blank" class="btn btn-gh">🌐 Ver Site</a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+<div id="toast"></div>
+
+<script>
+firebase.initializeApp({
+  apiKey:'AIzaSyAH-QF57Igr9fzBCqkAP28IRRE-QHp_2Z4',
+  authDomain:'fcosta-31125.firebaseapp.com',
+  databaseURL:'https://fcosta-31125-default-rtdb.firebaseio.com',
+  projectId:'fcosta-31125',
+  storageBucket:'fcosta-31125.firebasestorage.app',
+  messagingSenderId:'826619190234',
+  appId:'1:826619190234:web:347cdf5d9078433daabee3'
+});
+var db = firebase.database();
+var CLD = 'dpquob8gh', CLD_PRESET = 'fcosta_imoveis';
+var _todos = [], _fotosEx = [];
+
+document.getElementById('status-txt').textContent = 'Conectado ✓';
+
+// ── Código FCosta ──
+var SG = {venda:'FCV', aluguel:'FCA', lancamento:'FCL', panfleto:'FCP', vendido:'FCV'};
+var PAG_LINKS = {venda:'https://fcostacorretor.com/comprar', aluguel:'https://fcostacorretor.com/alugar', lancamento:'https://fcostacorretor.com/lancamentos', panfleto:'https://fcostacorretor.com/panfletos', vendido:'https://fcostacorretor.com/comprar'};
+var PAG_LABELS = {venda:'FCV — Comprar', aluguel:'FCA — Alugar', lancamento:'FCL — Lançamentos', panfleto:'FCP — Panfletos', vendido:'FCV — Comprar'};
+
+// ✅ FUNÇÃO calcCod e cod() CORRIGIDAS
+function calcCod(s, n){ return (SG[s] || 'FCV') + ((n||'').trim().padStart(3,'0') || '001'); }
+
+function cod(i){
+  if(i.codigo) return i.codigo;
+  var s = SG[i.status] || 'FCV';
+  var n = i.numeroCodigo || (i.id.slice(-3).replace(/[^0-9]/g,'').padStart(3,'0')) || '001';
+  return s + n;
+}
+
+function atualizarPrev(){
+  var s = document.getElementById('f-status').value;
+  var n = document.getElementById('f-numcod').value;
+  document.getElementById('cod-prev').textContent = s ? calcCod(s, n||'001') : '–';
+  var id = document.getElementById('f-id').value;
+  var box = document.getElementById('page-link-box');
+  if(s || id){
+    box.style.display = 'block';
+    var urlPag = PAG_LINKS[s] || '';
+    var lbl = PAG_LABELS[s] || '';
+    var urlInd = id ? 'https://fcostacorretor.com/imovel?id=' + id : '';
+    var html = '<label style="font-size:.6rem;font-weight:700;color:rgba(59,155,214,.8);letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:6px;">🔗 Links da Página</label>';
+    if(urlPag) html += '<div style="margin-bottom:6px;"><span style="font-size:.58rem;font-weight:700;color:rgba(59,155,214,.8);display:block;margin-bottom:2px;">🏷️ Vitrine ('+lbl+')</span><a href="'+urlPag+'" target="_blank" style="font-size:.72rem;color:var(--ceu);">'+urlPag+'</a></div>';
+    if(urlInd) html += '<div><span style="font-size:.58rem;font-weight:700;color:rgba(59,155,214,.8);display:block;margin-bottom:2px;">🔗 Individual</span><a href="'+urlInd+'" target="_blank" style="font-size:.72rem;color:var(--ceu);">'+urlInd+'</a></div>';
+    box.innerHTML = html;
+  } else {
+    box.style.display = 'none';
+  }
+}
+
+// ── Carregar imóveis ──
+db.ref('fcosta_imoveis').on('value', function(snap){
+  var d = snap.val() || {};
+  _todos = Object.entries(d).map(function(e){ return Object.assign({id:e[0]}, e[1]); });
+  var c = {todos:0, venda:0, aluguel:0, lancamento:0, panfleto:0};
+  _todos.forEach(function(i){ c.todos++; if(c[i.status] !== undefined) c[i.status]++; });
+  document.getElementById('st-total').textContent = c.todos;
+  document.getElementById('st-fcv').textContent = c.venda;
+  document.getElementById('st-fca').textContent = c.aluguel;
+  document.getElementById('st-fcl').textContent = c.lancamento;
+  document.getElementById('st-fcp').textContent = c.panfleto;
+  render(_todos);
+  pagPopularSelect();
+});
+
+function fotos(i){
+  if(!i.fotos) return [];
+  if(Array.isArray(i.fotos)) return i.fotos.filter(Boolean);
+  return Object.values(i.fotos).filter(Boolean);
+}
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function codClass(s){ return {venda:'cod-v', aluguel:'cod-a', lancamento:'cod-l', panfleto:'cod-p'}[s] || 'cod-v'; }
+
+function filtrar(){
+  var b = (document.getElementById('busca').value || '').toLowerCase();
+  var s = document.getElementById('filtro-s').value;
+  var lista = _todos.filter(function(i){
+    var txt = [i.titulo, i.bairro, i.tipo, cod(i)].filter(Boolean).join(' ').toLowerCase();
+    return (!b || txt.includes(b)) && (!s || i.status === s);
+  });
+  render(lista);
+}
+
+function render(lista){
+  var g = document.getElementById('lista');
+  if(!lista.length){ g.innerHTML = '<div class="loading"><p>Nenhum imóvel encontrado.</p></div>'; return; }
+  g.innerHTML = lista.map(function(i){
+    var fs = fotos(i), f0 = fs[0] || '', c = cod(i);
+    var urlPag = PAG_LINKS[i.status] || 'https://fcostacorretor.com/comprar';
+    var urlInd = 'https://fcostacorretor.com/imovel?id=' + i.id;
+    var lbl = PAG_LABELS[i.status] || 'Ver Página';
+    return '<div class="icard">'
+      +'<div class="icard-img">'
+        +(f0 ? '<img src="'+esc(f0)+'" loading="lazy"/>' : '<div class="ph">🏠</div>')
+        +'<span class="icard-cod-badge '+codClass(i.status)+'">'+esc(c)+'</span>'
+      +'</div>'
+      +'<div class="icard-body">'
+        +'<div class="icard-cod">'+esc(c)+(i.destaque?' · ⭐':'')+'</div>'
+        +'<div class="icard-nome">'+esc(i.titulo||'Sem título')+'</div>'
+        +'<div class="icard-local">📍 '+esc([i.bairro,i.cidade].filter(Boolean).join(' — '))+'</div>'
+        +(i.preco ? '<div class="icard-preco">R$ '+esc(i.preco)+'</div>' : '')
+        +'<div class="icard-fotos-cnt">📸 <span>'+fs.length+'</span> foto'+(fs.length!==1?'s':'')+'</div>'
+        +'<a class="icard-link" href="'+urlPag+'" target="_blank">🏷️ '+esc(lbl)+' →</a>'
+        +'<a class="icard-link" href="'+urlInd+'" target="_blank" style="margin-top:4px;">🔗 Página individual →</a>'
+        +'<div class="icard-acts">'
+          +'<button class="btn btn-warn" onclick="editar(\''+i.id+'\')">✏️ Editar</button>'
+          +'<button class="btn btn-del" onclick="deletar(\''+i.id+'\')">🗑</button>'
+        +'</div>'
+      +'</div>'
+    +'</div>';
+  }).join('');
+}
+
+// ── Salvar ──
+async function salvar(){
+  var titulo = document.getElementById('f-titulo').value.trim();
+  if(!titulo){ toast('Preencha o título!', true); return; }
+  var status = document.getElementById('f-status').value;
+  if(!status){ toast('Selecione o status!', true); return; }
+  var numcod = document.getElementById('f-numcod').value.trim().padStart(3,'0');
+  var c = calcCod(status, numcod);
+  var inp = document.getElementById('inp-fotos');
+  var novas = [];
+  if(inp.files.length > 0){
+    document.getElementById('prog').style.display = 'block';
+    for(var f of Array.from(inp.files).slice(0,30)){ var u = await uploadCld(f); if(u) novas.push(u); }
+    document.getElementById('prog').style.display = 'none';
+  }
+  var todas = [..._fotosEx, ...novas];
+  var dados = {
+    titulo:titulo, tipo:document.getElementById('f-tipo').value, status:status,
+    codigo:c, numeroCodigo:numcod,
+    preco:document.getElementById('f-preco').value, area:document.getElementById('f-area').value,
+    quartos:parseInt(document.getElementById('f-quartos').value)||0,
+    banheiros:parseInt(document.getElementById('f-banheiros').value)||0,
+    vagas:parseInt(document.getElementById('f-vagas').value)||0,
+    bairro:document.getElementById('f-bairro').value, cidade:document.getElementById('f-cidade').value,
+    endereco:document.getElementById('f-endereco').value, descricao:document.getElementById('f-descricao').value,
+    video:document.getElementById('f-video').value,
+    destaque:document.getElementById('f-destaque').value === 'true',
+    fotos:todas, atualizado:new Date().toISOString()
+  };
+  var id = document.getElementById('f-id').value;
+  try{
+    if(id){ await db.ref('fcosta_imoveis/'+id).update(dados); toast('Imóvel '+c+' atualizado!'); }
+    else{ dados.criado = new Date().toISOString(); await db.ref('fcosta_imoveis').push(dados); toast('Imóvel '+c+' adicionado!'); }
+    limpar();
+    tab('imoveis', document.querySelector('[data-painel=imoveis]'));
+  }catch(e){ toast('Erro: '+e.message, true); }
+}
+
+async function uploadCld(file){
+  var fd = new FormData(); fd.append('file', file); fd.append('upload_preset', CLD_PRESET);
+  try{
+    var r = await fetch('https://api.cloudinary.com/v1_1/'+CLD+'/image/upload', {method:'POST', body:fd});
+    var d = await r.json(); return d.secure_url || null;
+  }catch(e){ toast('Erro upload: '+e.message, true); return null; }
+}
+
+function prevFotos(e){
+  var prev = document.getElementById('fotos-prev');
+  Array.from(e.target.files).slice(0,30).forEach(function(file){
+    var r = new FileReader();
+    r.onload = function(ev){ var w = document.createElement('div'); w.className = 'foto-wrap'; w.innerHTML = '<img class="foto-thumb" src="'+ev.target.result+'"/><button class="foto-del" onclick="this.parentElement.remove()">✕</button>'; prev.appendChild(w); };
+    r.readAsDataURL(file);
+  });
+}
+
+function editar(id){
+  var i = _todos.find(function(x){ return x.id === id; }); if(!i) return;
+  document.getElementById('form-h').textContent = '✏️ Editar Imóvel';
+  document.getElementById('f-id').value = id;
+  document.getElementById('f-titulo').value = i.titulo || '';
+  document.getElementById('f-tipo').value = i.tipo || '';
+  document.getElementById('f-status').value = i.status || '';
+  document.getElementById('f-numcod').value = i.numeroCodigo || '';
+  document.getElementById('f-preco').value = i.preco || '';
+  document.getElementById('f-area').value = i.area || '';
+  document.getElementById('f-quartos').value = i.quartos || '';
+  document.getElementById('f-banheiros').value = i.banheiros || '';
+  document.getElementById('f-vagas').value = i.vagas || '';
+  document.getElementById('f-bairro').value = i.bairro || '';
+  document.getElementById('f-cidade').value = i.cidade || 'São Paulo — SP';
+  document.getElementById('f-endereco').value = i.endereco || '';
+  document.getElementById('f-descricao').value = i.descricao || '';
+  document.getElementById('f-video').value = i.video || '';
+  document.getElementById('f-destaque').value = i.destaque ? 'true' : 'false';
+  var fs = fotos(i); _fotosEx = fs;
+  var prev = document.getElementById('fotos-prev'); prev.innerHTML = '';
+  fs.forEach(function(url, idx){
+    var w = document.createElement('div'); w.className = 'foto-wrap';
+    w.innerHTML = '<img class="foto-thumb" src="'+url+'"/><button class="foto-del" onclick="remFoto('+idx+');this.parentElement.remove()">✕</button>';
+    prev.appendChild(w);
+  });
+  atualizarPrev();
+  tab('adicionar', document.querySelector('[data-painel=adicionar]'));
+}
+function remFoto(idx){ if(_fotosEx) _fotosEx.splice(idx, 1); }
+async function deletar(id){
+  if(!confirm('Excluir este imóvel? Não pode ser desfeito.')) return;
+  try{ await db.ref('fcosta_imoveis/'+id).remove(); toast('Imóvel excluído!'); }
+  catch(e){ toast('Erro: '+e.message, true); }
+}
+function limpar(){
+  ['f-id','f-titulo','f-preco','f-area','f-quartos','f-banheiros','f-vagas','f-bairro','f-endereco','f-descricao','f-video','f-numcod'].forEach(function(id){ document.getElementById(id).value = ''; });
+  document.getElementById('f-cidade').value = 'São Paulo — SP';
+  document.getElementById('f-tipo').value = '';
+  document.getElementById('f-status').value = '';
+  document.getElementById('f-destaque').value = 'false';
+  document.getElementById('fotos-prev').innerHTML = '';
+  document.getElementById('inp-fotos').value = '';
+  document.getElementById('form-h').textContent = '➕ Adicionar Novo Imóvel';
+  document.getElementById('cod-prev').textContent = '–';
+  document.getElementById('page-link-box').style.display = 'none';
+  _fotosEx = [];
+}
+
+// ══════════════════════════════════════
+// LISTA MESTRA DE PÁGINAS
+// ══════════════════════════════════════
+var PAGINAS_CONFIG = [
+  {id:'financiamento',    ic:'🏦', nome:'Financiamento',       url:'https://fcostacorretor.com/financiamento'},
+  {id:'avaliacao',        ic:'📊', nome:'Avaliação PTAM',       url:'https://fcostacorretor.com/avaliacao-fcosta'},
+  {id:'portal-investidor',ic:'📈', nome:'Portal do Investidor', url:'https://fcostacorretor.com/portal-do-investidor'},
+  {id:'inquilinato',      ic:'📜', nome:'Inquilinato',          url:'https://fcostacorretor.com/inquilinato'},
+  {id:'contratos',        ic:'📋', nome:'Contratos',            url:'https://fcostacorretor.com/contratos-fcosta'},
+  {id:'consultoria',      ic:'🤝', nome:'Quem Somos',           url:'https://fcostacorretor.com/consultoria'},
+  {id:'blog',             ic:'✍️', nome:'Blog Imobiliário',      url:'https://fcostacorretor.com/blog'},
+  {id:'galeria',          ic:'🖼️', nome:'Galeria',               url:'https://fcostacorretor.com/galeria'},
+  {id:'videos',           ic:'▶️', nome:'Vídeos',                url:'https://fcostacorretor.com/videos-imobiliarios'},
+  {id:'parceiros',        ic:'🤝', nome:'Parceiros FCosta',      url:'https://fcostacorretor.com/parceiros-fcosta'},
+  {id:'legislacao',       ic:'⚖️', nome:'Legislação',           url:'https://fcostacorretor.com/legislacaoimobiliaria'},
+  {id:'documentacao',     ic:'📁', nome:'Documentação',          url:'https://fcostacorretor.com/documentacao-imobiliaria'},
+  {id:'sermao',           ic:'✝️', nome:'Sermão',                url:'https://fcostacorretor.com/sermao'},
+  {id:'cadastro',         ic:'🔐', nome:'ADM / Cadastro',        url:'https://fcostacorretor.com/cadastro'},
+  {id:'sergioig',         ic:'📸', nome:'Página Pessoal',        url:'https://fcostacorretor.com/sergioig'},
+];
+
+// ══════════════════════════════════════
+// BOTÕES DA HOME — FIREBASE
+// ══════════════════════════════════════
+function carregarHomeBtns(){
+  db.ref('fcosta_config/home_botoes').on('value', function(snap){
+    var estados = snap.val() || {};
+    var grid = document.getElementById('home-btns-grid');
+    // ✅ ASPAS CORRIGIDAS — usando data-id em vez de inline string
+    grid.innerHTML = PAGINAS_CONFIG.map(function(b){
+      var ativo = estados[b.id] === true;
+      return '<div class="hbtn-card">'
+        +'<div class="hbtn-ic">'+b.ic+'</div>'
+        +'<div class="hbtn-info">'
+          +'<div class="hbtn-nome">'+b.nome+'</div>'
+          +'<div class="hbtn-url">'+b.url.replace('https://fcostacorretor.com','')+'</div>'
+        +'</div>'
+        +'<div class="toggle-wrap">'
+          +'<span class="toggle-lbl" id="lbl-'+b.id+'">'+(ativo?'✅ Visível':'Oculto')+'</span>'
+          +'<label class="toggle">'
+            +'<input type="checkbox"'+(ativo?' checked':'')+' data-id="'+b.id+'" data-tipo="home" onchange="toggleBtn(this)"/>'
+            +'<span class="toggle-slider"></span>'
+          +'</label>'
+        +'</div>'
+      +'</div>';
+    }).join('');
+  });
+}
+
+async function toggleBtn(chk){
+  var id = chk.dataset.id;
+  var tipo = chk.dataset.tipo; // 'home' ou 'hamb'
+  var ref = tipo === 'home' ? 'fcosta_config/home_botoes/' : 'fcosta_config/menu_hamburger/';
+  var lblId = (tipo === 'home' ? 'lbl-' : 'hamblbl-') + id;
+  var lbl = document.getElementById(lblId);
+  if(lbl) lbl.textContent = 'Salvando...';
+  try{
+    await db.ref(ref + id).set(chk.checked);
+    if(lbl) lbl.textContent = chk.checked ? (tipo==='home'?'✅ Visível':'Visível') : 'Oculto';
+    toast(chk.checked ? (tipo==='home'?'✅ Botão ativado na Home!':'Página ativada no menu!') : (tipo==='home'?'Botão removido da Home!':'Página removida do menu!'));
+  }catch(e){
+    chk.checked = !chk.checked;
+    if(lbl) lbl.textContent = chk.checked ? 'Visível' : 'Oculto';
+    toast('Erro ao salvar: '+e.message, true);
+  }
+}
+
+function carregarHamburguerBtns(){
+  db.ref('fcosta_config/menu_hamburger').on('value', function(snap){
+    var estados = snap.val() || {};
+    var grid = document.getElementById('hamburger-btns-grid');
+    // ✅ ASPAS CORRIGIDAS — usando data-id em vez de inline string
+    grid.innerHTML = PAGINAS_CONFIG.map(function(b){
+      var ativo = estados[b.id] === true;
+      return '<div class="hbtn-card">'
+        +'<div class="hbtn-ic">'+b.ic+'</div>'
+        +'<div class="hbtn-info"><div class="hbtn-nome">'+b.nome+'</div><div class="hbtn-url">'+b.url.replace('https://fcostacorretor.com','')+'</div></div>'
+        +'<div class="toggle-wrap">'
+          +'<span class="toggle-lbl" id="hamblbl-'+b.id+'">'+(ativo?'Visível':'Oculto')+'</span>'
+          +'<label class="toggle"><input type="checkbox"'+(ativo?' checked':'')+' data-id="'+b.id+'" data-tipo="hamb" onchange="toggleBtn(this)"/><span class="toggle-slider"></span></label>'
+        +'</div>'
+      +'</div>';
+    }).join('');
+  });
+}
+
+// ══════════════════════════════════════
+// PÁGINA INDIVIDUAL DE IMÓVEL
+// ══════════════════════════════════════
+function pagPopularSelect(){
+  var sel = document.getElementById('pag-select-imovel');
+  sel.innerHTML = '<option value="">— Selecione um imóvel para editar —</option>';
+  _todos.forEach(function(i){
+    var c = cod(i);
+    sel.innerHTML += '<option value="'+esc(i.id)+'">'+esc(c)+' — '+esc(i.titulo||'Sem título')+'</option>';
+  });
+}
+
+function pagCarregarImovel(){
+  var id = document.getElementById('pag-select-imovel').value;
+  if(!id){ toast('Selecione um imóvel', true); return; }
+  var i = _todos.find(function(x){ return x.id === id; }); if(!i) return;
+  document.getElementById('pag-id').value = id;
+  document.getElementById('pag-titulo').value = i.titulo || '';
+  document.getElementById('pag-status').value = i.status || '';
+  document.getElementById('pag-codigo').value = i.codigo || cod(i);
+  document.getElementById('pag-tipo').value = i.tipo || '';
+  document.getElementById('pag-preco').value = i.preco || '';
+  document.getElementById('pag-area').value = i.area || '';
+  document.getElementById('pag-quartos').value = i.quartos || '';
+  document.getElementById('pag-banheiros').value = i.banheiros || '';
+  document.getElementById('pag-vagas').value = i.vagas || '';
+  document.getElementById('pag-bairro').value = i.bairro || '';
+  document.getElementById('pag-cidade').value = i.cidade || 'São Paulo — SP';
+  document.getElementById('pag-endereco').value = i.endereco || '';
+  document.getElementById('pag-descricao').value = i.descricao || '';
+  document.getElementById('pag-video').value = i.video || '';
+  document.getElementById('pag-destaque').value = i.destaque ? 'true' : 'false';
+  document.getElementById('pag-lat').value = i.lat || '';
+  document.getElementById('pag-lng').value = i.lng || '';
+  document.getElementById('pag-extras').value = i.extras || '';
+  document.getElementById('pag-condominio').value = i.condominio || '';
+  document.getElementById('pag-iptu').value = i.iptu || '';
+  var fs = fotos(i);
+  document.getElementById('pag-fotos-urls').value = fs.join('\n');
+  var slug = pagGerarSlug(i.titulo || '');
+  document.getElementById('pag-slug').value = i.slug || slug;
+  document.getElementById('pag-meta-title').value = i.metaTitle || (i.titulo||'') + ' | FCosta Corretor';
+  document.getElementById('pag-meta-desc').value = i.metaDesc || '';
+  pagAtualizarSlug();
+  var urlVitrine = PAG_LINKS[i.status] || 'https://fcostacorretor.com/comprar';
+  var lbl = PAG_LABELS[i.status] || 'Vitrine';
+  document.getElementById('pag-url-preview').innerHTML =
+    '<div style="margin-bottom:5px;">🏷️ <strong>'+lbl+':</strong> <a href="'+urlVitrine+'" target="_blank" style="color:var(--ceu);">'+urlVitrine+'</a></div>'
+    +'<div>🔗 <strong>Individual:</strong> <a href="https://fcostacorretor.com/imovel?id='+esc(id)+'" target="_blank" style="color:var(--ceu);">https://fcostacorretor.com/imovel?id='+esc(id)+'</a></div>';
+  toast('Dados carregados!');
+}
+
+function pagGerarSlug(titulo){
+  return titulo.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9\s-]/g,'')
+    .trim().replace(/\s+/g,'-')
+    .replace(/-+/g,'-');
+}
+
+function pagAtualizarSlug(){
+  var slug = document.getElementById('pag-slug').value.trim();
+  document.getElementById('pag-slug-preview').textContent = slug || 'slug';
+  document.getElementById('pag-h1-preview').textContent = slug ? slug.replace(/-/g,' ').replace(/\b\w/g, function(c){ return c.toUpperCase(); }) : '—';
+}
+
+async function pagSalvar(){
+  var titulo = document.getElementById('pag-titulo').value.trim();
+  if(!titulo){ toast('Preencha o título!', true); return; }
+  var id = document.getElementById('pag-id').value;
+  var slug = document.getElementById('pag-slug').value.trim();
+  var fotosUrls = document.getElementById('pag-fotos-urls').value.split('\n').map(function(u){ return u.trim(); }).filter(Boolean);
+  var dados = {
+    titulo:titulo, slug:slug,
+    metaTitle:document.getElementById('pag-meta-title').value,
+    metaDesc:document.getElementById('pag-meta-desc').value,
+    status:document.getElementById('pag-status').value,
+    codigo:document.getElementById('pag-codigo').value,
+    tipo:document.getElementById('pag-tipo').value,
+    preco:document.getElementById('pag-preco').value,
+    area:document.getElementById('pag-area').value,
+    quartos:parseInt(document.getElementById('pag-quartos').value)||0,
+    banheiros:parseInt(document.getElementById('pag-banheiros').value)||0,
+    vagas:parseInt(document.getElementById('pag-vagas').value)||0,
+    bairro:document.getElementById('pag-bairro').value,
+    cidade:document.getElementById('pag-cidade').value,
+    endereco:document.getElementById('pag-endereco').value,
+    descricao:document.getElementById('pag-descricao').value,
+    extras:document.getElementById('pag-extras').value,
+    condominio:document.getElementById('pag-condominio').value,
+    iptu:document.getElementById('pag-iptu').value,
+    video:document.getElementById('pag-video').value,
+    lat:document.getElementById('pag-lat').value,
+    lng:document.getElementById('pag-lng').value,
+    destaque:document.getElementById('pag-destaque').value === 'true',
+    fotos:fotosUrls, atualizado:new Date().toISOString()
+  };
+  try{
+    if(id){ await db.ref('fcosta_imoveis/'+id).update(dados); toast('Página do imóvel salva!'); }
+    else{ dados.criado = new Date().toISOString(); var r = await db.ref('fcosta_imoveis').push(dados); document.getElementById('pag-id').value = r.key; toast('Imóvel criado e salvo!'); }
+  }catch(e){ toast('Erro: '+e.message, true); }
+}
+
+function pagLimpar(){
+  ['pag-id','pag-titulo','pag-slug','pag-meta-title','pag-meta-desc','pag-codigo','pag-preco','pag-area','pag-quartos','pag-banheiros','pag-vagas','pag-bairro','pag-endereco','pag-descricao','pag-extras','pag-condominio','pag-iptu','pag-video','pag-lat','pag-lng','pag-fotos-urls'].forEach(function(id){ var el = document.getElementById(id); if(el) el.value = ''; });
+  document.getElementById('pag-cidade').value = 'São Paulo — SP';
+  document.getElementById('pag-status').value = '';
+  document.getElementById('pag-tipo').value = '';
+  document.getElementById('pag-destaque').value = 'false';
+  document.getElementById('pag-select-imovel').value = '';
+  document.getElementById('pag-slug-preview').textContent = 'slug';
+  document.getElementById('pag-h1-preview').textContent = '—';
+  document.getElementById('pag-url-preview').innerHTML = 'https://fcostacorretor.com/imovel?id=<em style="color:var(--ceu);">[id-firebase]</em>';
+  document.getElementById('pag-html-area').style.display = 'none';
+}
+
+function pagGerarHTML(){
+  var titulo = document.getElementById('pag-titulo').value.trim();
+  if(!titulo){ toast('Preencha o título primeiro!', true); return; }
+  var slug = document.getElementById('pag-slug').value.trim();
+  var h1 = slug ? slug.replace(/-/g,' ').replace(/\b\w/g, function(c){ return c.toUpperCase(); }) : titulo;
+  var metaTitle = document.getElementById('pag-meta-title').value || titulo+' | FCosta Corretor';
+  var metaDesc = document.getElementById('pag-meta-desc').value;
+  var id = document.getElementById('pag-id').value;
+  var preco = document.getElementById('pag-preco').value;
+  var area = document.getElementById('pag-area').value;
+  var quartos = document.getElementById('pag-quartos').value;
+  var banheiros = document.getElementById('pag-banheiros').value;
+  var vagas = document.getElementById('pag-vagas').value;
+  var bairro = document.getElementById('pag-bairro').value;
+  var cidade = document.getElementById('pag-cidade').value || 'São Paulo — SP';
+  var descricao = document.getElementById('pag-descricao').value;
+  var extras = document.getElementById('pag-extras').value;
+  var condominio = document.getElementById('pag-condominio').value;
+  var iptu = document.getElementById('pag-iptu').value;
+  var video = document.getElementById('pag-video').value;
+  var lat = document.getElementById('pag-lat').value;
+  var lng = document.getElementById('pag-lng').value;
+  var status = document.getElementById('pag-status').value;
+  var codigo = document.getElementById('pag-codigo').value;
+  var fotosUrls = document.getElementById('pag-fotos-urls').value.split('\n').map(function(u){ return u.trim(); }).filter(Boolean);
+  var statusLabel = {venda:'À Venda', aluguel:'Aluguel', lancamento:'Lançamento', panfleto:'Panfleto', vendido:'Vendido'}[status] || status;
+  var statusColor = {venda:'#2176AE', aluguel:'#C9A84C', lancamento:'#2e7d32', panfleto:'#7B1FA2', vendido:'#757575'}[status] || '#2176AE';
+  var urlVitrine = PAG_LINKS[status] || 'https://fcostacorretor.com/comprar';
+  var labelVitrine = PAG_LABELS[status] || 'Imóveis';
+  var fotos1 = fotosUrls[0] || '';
+  var fotosThumbsHTML = fotosUrls.length > 1 ? fotosUrls.map(function(f,i){ return '<img src="'+f+'" onclick="trocarFoto(\''+f+'\')" style="width:60px;height:48px;object-fit:cover;border-radius:6px;cursor:pointer;border:2px solid '+(i===0?'var(--azul-ceu)':'#dce8f4')+';transition:.2s;" loading="lazy"/>'; }).join('') : '';
+  var tagsHTML = '';
+  if(quartos) tagsHTML += '<span style="background:#EBF5FF;color:#0D3B66;font-size:.68rem;font-weight:600;padding:4px 10px;border-radius:50px;">🛏 '+quartos+' Quarto'+(quartos>1?'s':'')+'</span>';
+  if(banheiros) tagsHTML += '<span style="background:#EBF5FF;color:#0D3B66;font-size:.68rem;font-weight:600;padding:4px 10px;border-radius:50px;">🚿 '+banheiros+' Banheiro'+(banheiros>1?'s':'')+'</span>';
+  if(area) tagsHTML += '<span style="background:#EBF5FF;color:#0D3B66;font-size:.68rem;font-weight:600;padding:4px 10px;border-radius:50px;">📐 '+area+' m²</span>';
+  if(vagas) tagsHTML += '<span style="background:#EBF5FF;color:#0D3B66;font-size:.68rem;font-weight:600;padding:4px 10px;border-radius:50px;">🚗 '+vagas+' Vaga'+(vagas>1?'s':'')+'</span>';
+  var infoExtras = '';
+  if(condominio) infoExtras += '<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #dce8f4;font-size:.78rem;"><span style="color:#4a6070;">Condomínio</span><span style="font-weight:600;color:#1a2a3a;">R$ '+condominio+'/mês</span></div>';
+  if(iptu) infoExtras += '<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #dce8f4;font-size:.78rem;"><span style="color:#4a6070;">IPTU</span><span style="font-weight:600;color:#1a2a3a;">R$ '+iptu+'/ano</span></div>';
+  if(extras) infoExtras += '<div style="padding:8px 0;font-size:.78rem;"><span style="color:#4a6070;">Diferenciais:</span><span style="font-weight:600;color:#1a2a3a;margin-left:6px;">'+extras+'</span></div>';
+  var videoHTML = video ? '<div style="margin:28px 0;"><div style="font-family:\'Playfair Display\',serif;font-size:1.1rem;font-weight:700;color:#0D3B66;margin-bottom:12px;">▶️ Vídeo do Imóvel</div><div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:14px;"><iframe src="'+video.replace('watch?v=','embed/')+'" style="position:absolute;inset:0;width:100%;height:100%;border:0;" allowfullscreen loading="lazy"></iframe></div></div>' : '';
+  var mapaHTML = (lat&&lng) ? '<div style="margin:28px 0;"><div style="font-family:\'Playfair Display\',serif;font-size:1.1rem;font-weight:700;color:#0D3B66;margin-bottom:12px;">📍 Localização no Mapa</div><div style="border-radius:14px;overflow:hidden;border:1.5px solid #dce8f4;"><iframe src="https://maps.google.com/maps?q='+lat+','+lng+'&z=15&output=embed" width="100%" height="320" style="border:0;" loading="lazy"></iframe></div></div>' : '';
+  var waMsg = encodeURIComponent('Olá! Tenho interesse no imóvel '+codigo+' — '+titulo);
+  var html = '<!DOCTYPE html>\n<html lang="pt-BR">\n<head>\n<meta charset="UTF-8"/>\n<meta name="viewport" content="width=device-width,initial-scale=1.0"/>\n<meta name="description" content="'+metaDesc+'"/>\n<title>'+metaTitle+'</title>\n<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>\n<style>\n*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}\nbody{font-family:\'Inter\',sans-serif;background:#F5F9FF;color:#1a2a3a;}\na{text-decoration:none;color:inherit}\n.pg-wrap{max-width:900px;margin:0 auto;padding:28px 18px 60px;}\n.pg-breadcrumb{font-size:.68rem;color:#4a6070;margin-bottom:18px;}\n.pg-breadcrumb a{color:#2176AE;}\nh1{font-family:\'Playfair Display\',serif;font-size:clamp(1.4rem,4vw,2rem);font-weight:900;color:#0D3B66;line-height:1.2;margin-bottom:10px;}\n.pg-preco{font-family:\'Playfair Display\',serif;font-size:1.6rem;font-weight:900;color:#0D3B66;margin-bottom:16px;}\n.pg-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px;}\n.pg-desc{font-size:.84rem;line-height:1.8;color:#3a4a5a;margin-bottom:20px;}\n.pg-btns{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;}\n.btn-wa{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#fff;font-weight:700;font-size:.82rem;padding:13px 24px;border-radius:50px;}\n.btn-sec{display:inline-flex;align-items:center;gap:8px;background:#EBF5FF;color:#0D3B66;font-weight:600;font-size:.82rem;padding:12px 22px;border-radius:50px;border:1.5px solid #dce8f4;}\n.pg-info{background:#fff;border-radius:18px;border:1.5px solid #dce8f4;padding:24px 26px;margin-bottom:20px;}\n.pg-badge{display:inline-block;font-size:.56rem;font-weight:800;letter-spacing:.8px;text-transform:uppercase;padding:4px 12px;border-radius:50px;background:'+statusColor+';color:#fff;margin-bottom:10px;}\n.pg-galeria{position:relative;border-radius:18px;overflow:hidden;background:#dce8f4;margin-bottom:20px;}\n.pg-galeria img{width:100%;max-height:460px;object-fit:cover;display:block;}\n.pg-thumbs{display:flex;gap:8px;padding:10px 14px;background:#fff;border-top:1px solid #dce8f4;overflow-x:auto;}\n</style>\n</head>\n<body>\n<div class="pg-wrap">\n  <div class="pg-breadcrumb"><a href="https://fcostacorretor.com/" target="_top">🏠 Início</a> › <a href="'+urlVitrine+'" target="_top">'+labelVitrine+'</a> › '+titulo+'</div>\n'+(fotos1?'  <div class="pg-galeria">\n    <img id="pgfoto" src="'+fotos1+'" alt="'+titulo+'" loading="eager"/>\n'+(fotosUrls.length>1?'    <div class="pg-thumbs">'+fotosThumbsHTML+'</div>\n':'')+'  </div>\n':'')+'  <div class="pg-info">\n    <div class="pg-badge">'+statusLabel+'</div>\n    <h1>'+h1+'</h1>\n'+(preco?'    <div class="pg-preco">R$ '+preco+'</div>\n':'')+'    <div class="pg-tags">'+tagsHTML+'</div>\n'+(descricao?'    <p class="pg-desc">'+descricao.replace(/\n/g,'<br/>')+'</p>\n':'')+'    <div class="pg-btns">\n      <a href="https://wa.me/5511993509109?text='+waMsg+'" target="_blank" class="btn-wa">💬 Tenho Interesse — WhatsApp</a>\n      <a href="'+urlVitrine+'" target="_top" class="btn-sec">← Voltar para '+labelVitrine+'</a>\n    </div>\n'+(infoExtras?'    <div style="margin-top:16px;border-top:1px solid #dce8f4;padding-top:16px;">'+infoExtras+'</div>\n':'')+'  </div>\n'+videoHTML+mapaHTML+'</div>\n<script>\nfunction trocarFoto(src){var img=document.getElementById(\'pgfoto\');if(img)img.src=src;}\n<\/script>\n</body>\n</html>';
+  document.getElementById('pag-html-output').value = html;
+  document.getElementById('pag-html-area').style.display = 'block';
+  document.getElementById('pag-html-area').scrollIntoView({behavior:'smooth'});
+  toast('HTML gerado com sucesso!');
+}
+
+function pagCopiarHTML(){
+  var ta = document.getElementById('pag-html-output');
+  ta.select();
+  document.execCommand('copy');
+  toast('HTML copiado!');
+}
+
+// ══════════════════════════════════════
+// TABS — ✅ CORRIGIDO: marca tab correta visualmente
+// ══════════════════════════════════════
+function tab(nome, btn){
+  document.querySelectorAll('.painel').forEach(function(p){ p.classList.remove('on'); });
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('on'); });
+  var painel = document.getElementById('p-' + nome);
+  if(painel) painel.classList.add('on');
+  if(btn) btn.classList.add('on');
+  if(nome === 'home') carregarHomeBtns();
+  if(nome === 'hamburger') carregarHamburguerBtns();
+  if(nome === 'pagina-imovel') pagPopularSelect();
+}
+
+// ── Toast ──
+function toast(msg, err){
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.className = err ? 'on err' : 'on';
+  setTimeout(function(){ t.className = ''; }, 3200);
+}
+
+// ── Publicar ──
+function publicarHomeBtns(){
+  toast('✅ Home publicada! Botões ativos sincronizados com Firebase.');
+}
+function publicarMenuHamb(){
+  toast('✅ Menu publicado! Itens visíveis sincronizados.');
+}
+</script>
+</body>
+</html>

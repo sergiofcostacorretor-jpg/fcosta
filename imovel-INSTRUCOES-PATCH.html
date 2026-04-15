@@ -1,0 +1,86 @@
+<!-- 
+=============================================================
+  IMOVEL/INDEX.HTML — CORREÇÕES target="_top"
+  Aplique estas 6 substituições no seu arquivo imovel/index.html
+  Use Ctrl+H (Find & Replace) no seu editor
+=============================================================
+
+CORREÇÃO 1 — Logo (nav-logo-mini):
+ENCONTRE:
+  <a href="https://fcostacorretor.com/" class="nav-logo-mini" aria-label="Voltar para home FCosta">
+SUBSTITUA POR:
+  <a href="https://fcostacorretor.com/" target="_top" class="nav-logo-mini" aria-label="Voltar para home FCosta">
+
+─────────────────────────────────────────────────────────────
+
+CORREÇÃO 2 — Botão Voltar:
+ENCONTRE:
+  <a href="https://fcostacorretor.com/" class="btn-voltar" aria-label="Voltar à home">← Voltar</a>
+SUBSTITUA POR:
+  <a href="https://fcostacorretor.com/" target="_top" class="btn-voltar" aria-label="Voltar à home">← Voltar</a>
+
+─────────────────────────────────────────────────────────────
+
+CORREÇÃO 3 — Breadcrumb do nav (Home):
+ENCONTRE:
+  <a href="https://fcostacorretor.com/">Home</a>
+      <span class="sep">›</span>
+      <a href="#" id="bread-cat-link">
+SUBSTITUA POR:
+  <a href="https://fcostacorretor.com/" target="_top">Home</a>
+      <span class="sep">›</span>
+      <a href="#" target="_top" id="bread-cat-link">
+
+─────────────────────────────────────────────────────────────
+
+CORREÇÃO 4 — Breadcrumb do body (nav estrutural):
+ENCONTRE:
+  <a href="https://fcostacorretor.com/">Home</a>
+    <span class="sep">›</span>
+    <a href="#" id="bc-cat-link">
+SUBSTITUA POR:
+  <a href="https://fcostacorretor.com/" target="_top">Home</a>
+    <span class="sep">›</span>
+    <a href="#" target="_top" id="bc-cat-link">
+
+─────────────────────────────────────────────────────────────
+
+CORREÇÃO 5 — Link "Ver todos os imóveis" na tela de erro:
+ENCONTRE:
+  <a href="https://fcostacorretor.com/comprar" style="display:inline-flex;
+SUBSTITUA POR:
+  <a href="https://fcostacorretor.com/comprar" target="_top" style="display:inline-flex;
+
+─────────────────────────────────────────────────────────────
+
+CORREÇÃO 6 — Footer:
+ENCONTRE:
+  <a href="https://fcostacorretor.com/">FCosta Corretor e Avaliador Imobiliário</a>
+SUBSTITUA POR:
+  <a href="https://fcostacorretor.com/" target="_top">FCosta Corretor e Avaliador Imobiliário</a>
+
+ENCONTRE:
+  <a href="https://fcostacorretor.com/politica-de-privacidade">Política de Privacidade</a>
+SUBSTITUA POR:
+  <a href="https://fcostacorretor.com/politica-de-privacidade" target="_top">Política de Privacidade</a>
+
+─────────────────────────────────────────────────────────────
+
+CORREÇÃO 7 — JavaScript (cards similares):
+ENCONTRE:
+  onclick="location.href='
+SUBSTITUA POR:
+  onclick="window.top.location.href='
+
+─────────────────────────────────────────────────────────────
+
+CORREÇÃO 8 — JavaScript (links dinâmicos de categoria):
+ENCONTRE:
+  if(el){el.href=catLink;el.textContent=catLabel;}
+SUBSTITUA POR:
+  if(el){el.href=catLink;el.target='_top';el.textContent=catLabel;}
+
+=============================================================
+  FIM DAS CORREÇÕES
+=============================================================
+-->
