@@ -1,1267 +1,609 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel ADM — FCosta Corretor</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script>
-  window.addEventListener('DOMContentLoaded', function() {
-    if (typeof pdfjsLib !== 'undefined') {
-      pdfjsLib.GlobalWorkerOptions.workerSrc =
-        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-    }
-  });
-</script>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FCosta ADM — Painel Administrativo</title>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0a1628;color:#e2e8f0;min-height:100vh;}
 :root{
-  --azul:#003da5;--azul2:#002580;--vermelho:#dc1c2d;--verm2:#b01420;
-  --branco:#fff;--bg:#e8edf8;--bg2:#f0f4fc;--bg3:#dce5f5;
-  --borda:rgba(0,61,165,0.15);--borda2:rgba(0,61,165,0.28);
-  --txt:#0d1e40;--txt2:#4a6090;--txt3:#1a3060;
-  --card:#ffffff;--input:#f5f8ff;
-  --verde:#16a34a;--amarelo:#f59e0b;--roxo:#7c3aed;--cyan:#0891b2;
-  --sombra:0 4px 24px rgba(0,61,165,0.12);
+  --az:#3B9BD6;--az2:#2176AE;--az3:#0D3B66;
+  --ouro:#C9A84C;--verde:#25D366;--verm:#e53935;
+  --bg:#0a1628;--bg2:#111d35;--bg3:#162040;
+  --borda:rgba(59,155,214,.2);--tr:.2s ease;
 }
-html{scroll-behavior:smooth;}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;}
-#tela-login{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;background:linear-gradient(135deg,#c8d8f0 0%,#dce8ff 50%,#e8d0d8 100%);}
-.login-box{background:#fff;border:1px solid rgba(0,61,165,0.2);border-radius:20px;padding:48px 40px;max-width:420px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,61,165,0.18);}
-.login-logo{width:80px;height:80px;border-radius:50%;border:3px solid var(--azul);object-fit:cover;margin-bottom:20px;box-shadow:0 4px 20px rgba(0,61,165,0.2);}
-.login-titulo{font-family:'Playfair Display',serif;font-size:26px;font-weight:800;color:var(--azul);margin-bottom:4px;}
-.login-sub{font-size:13px;color:var(--txt2);margin-bottom:32px;}
-.login-field{text-align:left;margin-bottom:18px;}
-.login-field label{display:block;font-size:11px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:1px;margin-bottom:7px;}
-.login-field input{width:100%;background:#f5f8ff;border:1.5px solid rgba(0,61,165,0.25);border-radius:10px;padding:13px 16px;font-size:14px;color:var(--txt);font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;}
-.login-field input:focus{border-color:var(--azul);background:#fff;box-shadow:0 0 0 3px rgba(0,61,165,0.1);}
-.btn-login{width:100%;background:var(--azul);color:#fff;border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:10px;}
-.btn-login:hover{background:var(--azul2);}
-.btn-login:disabled{opacity:0.6;cursor:not-allowed;}
-.login-erro{background:rgba(220,28,45,0.08);border:1px solid rgba(220,28,45,0.4);color:#b01420;border-radius:8px;padding:10px 14px;font-size:13px;margin-top:14px;display:none;}
-.login-creci{font-size:11px;color:rgba(0,0,0,0.3);margin-top:28px;}
-.fcp-info-banner{background:linear-gradient(135deg,#fff8e1,#fef3c7);border:1.5px solid #f59e0b;border-radius:12px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:flex-start;gap:12px;}
-.fcp-info-banner i{color:#f59e0b;font-size:20px;flex-shrink:0;margin-top:2px;}
-.fcp-info-banner p{font-size:13px;color:#92400e;line-height:1.6;margin:0;}
-.fcp-info-banner strong{color:#78350f;}
-.phone-frame-wrap{display:flex;flex-direction:column;align-items:center;gap:16px;padding:20px 0;}
-.phone-frame{position:relative;width:220px;height:390px;background:#111;border-radius:36px;border:6px solid #222;box-shadow:0 0 0 2px #444,0 24px 48px rgba(0,0,0,0.5);overflow:hidden;flex-shrink:0;}
-.phone-frame::before{content:'';position:absolute;top:10px;left:50%;transform:translateX(-50%);width:60px;height:6px;background:#333;border-radius:10px;z-index:10;}
-.phone-frame-img{width:100%;height:100%;object-fit:cover;display:block;}
-.phone-frame-empty{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:rgba(255,255,255,0.3);}
-.phone-frame-empty i{font-size:48px;}
-.phone-frame-empty span{font-size:12px;text-align:center;padding:0 16px;}
-.phone-frame-label{font-size:11px;color:var(--txt2);font-weight:600;text-align:center;letter-spacing:.5px;}
-.phone-frame-hint{font-size:11px;color:var(--azul);font-weight:600;text-align:center;background:rgba(0,61,165,0.07);padding:6px 14px;border-radius:20px;}
-#tela-painel{display:none;}
-.sidebar{position:fixed;top:0;left:0;width:240px;height:100vh;background:linear-gradient(180deg,#003da5 0%,#002580 100%);border-right:none;display:flex;flex-direction:column;z-index:100;transition:transform .3s;box-shadow:4px 0 20px rgba(0,61,165,0.2);}
-.sidebar-logo{padding:24px 20px 20px;border-bottom:1px solid rgba(255,255,255,0.15);display:flex;align-items:center;gap:12px;}
-.sidebar-logo img{width:42px;height:42px;border-radius:50%;border:2px solid rgba(255,255,255,0.5);}
-.sidebar-logo-txt .nome{font-family:'Playfair Display',serif;font-size:16px;font-weight:800;color:#fff;}
-.sidebar-logo-txt .sub{font-size:10px;color:rgba(255,255,255,0.7);font-weight:600;letter-spacing:.5px;}
-.sidebar-nav{flex:1;overflow-y:auto;padding:16px 0;}
-.nav-label{font-size:10px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,0.5);text-transform:uppercase;padding:12px 20px 6px;}
-.nav-item{display:flex;align-items:center;gap:12px;padding:11px 20px;cursor:pointer;font-size:13px;font-weight:500;color:rgba(255,255,255,0.75);border-left:3px solid transparent;transition:all .2s;}
-.nav-item:hover{background:rgba(255,255,255,0.1);color:#fff;}
-.nav-item.ativo{background:rgba(255,255,255,0.18);color:#fff;border-left-color:#fff;}
-.nav-parceiros{background:linear-gradient(135deg,rgba(201,168,76,.22),rgba(240,216,136,.12));color:#f0d888 !important;border-left-color:#c9a84c !important;}
-.nav-parceiros:hover{background:linear-gradient(135deg,rgba(201,168,76,.38),rgba(240,216,136,.22)) !important;color:#fff !important;}
-.nav-parceiros i{color:#c9a84c !important;}
-.topbar-btn.parceiros{background:linear-gradient(135deg,#c9a84c 0%,#f0d888 100%);color:#000 !important;font-weight:700;border:none;}
-.topbar-btn.parceiros:hover{opacity:.85;transform:translateY(-1px);}
-.sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,0.15);font-size:11px;color:rgba(255,255,255,0.5);}
-.sidebar-footer a{color:rgba(255,255,255,0.65);text-decoration:none;display:block;margin-bottom:8px;font-size:11px;}
-.sidebar-footer a:hover{color:#fff;}
-.sidebar-footer a i{width:14px;margin-right:4px;}
-.btn-logout{width:100%;background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.25);border-radius:8px;padding:9px;font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:7px;margin-top:10px;}
-.btn-logout:hover{background:var(--vermelho);border-color:var(--vermelho);}
-.main{margin-left:240px;min-height:100vh;display:flex;flex-direction:column;background:var(--bg);}
-.topbar{background:#fff;border-bottom:3px solid var(--azul);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:50;box-shadow:0 2px 16px rgba(0,61,165,0.1);}
-.topbar-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:800;color:var(--azul);}
-.topbar-title span{color:var(--vermelho);}
-.topbar-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.topbar-btn{display:flex;align-items:center;gap:7px;padding:8px 14px;border-radius:7px;border:none;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;}
-.topbar-btn.site{background:var(--bg3);color:var(--txt);border:1.5px solid var(--borda2);}
-.topbar-btn.site:hover{background:var(--borda2);color:var(--txt);}
-.topbar-btn.novo{background:var(--vermelho);color:#fff;}
-/* Documentação Imobiliária */
-.topbar-btn.docs{background:rgba(46,196,182,0.15);color:#2EC4B6;border:1.5px solid rgba(46,196,182,0.4);}
-.topbar-btn.docs:hover{background:rgba(46,196,182,0.28);color:#1aada0;transform:translateY(-1px);}
-.nav-docs{background:rgba(46,196,182,0.12);color:rgba(46,196,182,0.95) !important;border-left-color:rgba(46,196,182,0.5) !important;}
-.nav-docs:hover{background:rgba(46,196,182,0.22) !important;color:#fff !important;}
-.nav-docs i{color:#2EC4B6 !important;}
-.topbar-btn.novo:hover{background:var(--verm2);}
-@media(max-width:600px){
-  .topbar{padding:10px 12px;}
-  .topbar-btn span{display:none;}
-  .topbar-btn{padding:8px 10px;}
-  .topbar-title{font-size:16px;}
+a{text-decoration:none;color:inherit;}
+
+/* LOGIN */
+#login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
+.login-box{background:var(--bg2);border:1px solid var(--borda);border-radius:20px;padding:40px;width:100%;max-width:400px;text-align:center;}
+.login-box img{height:70px;margin:0 auto 16px;}
+.login-box h1{font-size:1.4rem;font-weight:700;color:#fff;margin-bottom:4px;}
+.login-box p{font-size:.75rem;color:rgba(255,255,255,.4);margin-bottom:28px;}
+.lf-group{text-align:left;margin-bottom:16px;}
+.lf-group label{display:block;font-size:.72rem;font-weight:600;color:rgba(255,255,255,.5);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;}
+.lf-group input{width:100%;background:var(--bg3);border:1px solid var(--borda);border-radius:10px;padding:11px 14px;color:#fff;font-size:.88rem;outline:none;transition:border-color var(--tr);}
+.lf-group input:focus{border-color:var(--az);}
+.btn-login{width:100%;background:var(--az2);color:#fff;font-weight:700;font-size:.9rem;padding:13px;border-radius:10px;border:none;cursor:pointer;margin-top:8px;transition:opacity var(--tr);}
+.btn-login:hover{opacity:.88;}
+.login-err{display:none;color:#ef5350;font-size:.76rem;margin-top:10px;padding:8px 12px;background:rgba(239,83,80,.1);border-radius:8px;}
+.login-err.on{display:block;}
+
+/* LAYOUT */
+#adm{display:none;min-height:100vh;}
+.adm-wrap{display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+.sb{width:240px;background:var(--bg2);border-right:1px solid var(--borda);display:flex;flex-direction:column;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;}
+.sb-logo{padding:20px 16px;border-bottom:1px solid var(--borda);display:flex;align-items:center;gap:10px;}
+.sb-logo img{height:38px;width:auto;}
+.sb-logo-t{font-size:.8rem;font-weight:700;color:#fff;line-height:1.2;}
+.sb-logo-s{font-size:.56rem;color:var(--az);text-transform:uppercase;letter-spacing:1px;}
+.sb-nav{padding:12px 10px;flex:1;}
+.sb-grp{font-size:.56rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);padding:10px 8px 5px;}
+.sb-item{display:flex;align-items:center;gap:8px;font-size:.8rem;font-weight:500;color:rgba(255,255,255,.6);padding:9px 12px;border-radius:9px;cursor:pointer;transition:all var(--tr);margin-bottom:2px;}
+.sb-item:hover{background:rgba(59,155,214,.12);color:#fff;}
+.sb-item.on{background:rgba(59,155,214,.18);color:var(--az);font-weight:600;}
+.sb-item .ic{font-size:1rem;width:20px;text-align:center;}
+.sb-bot{padding:14px;border-top:1px solid var(--borda);}
+.btn-site{display:flex;align-items:center;justify-content:center;gap:7px;background:var(--az2);color:#fff;font-size:.76rem;font-weight:700;padding:10px;border-radius:9px;transition:opacity var(--tr);}
+.btn-site:hover{opacity:.88;}
+.btn-sair{display:flex;align-items:center;justify-content:center;gap:7px;background:rgba(255,255,255,.05);color:rgba(255,255,255,.5);font-size:.74rem;font-weight:600;padding:9px;border-radius:9px;cursor:pointer;margin-top:6px;border:none;width:100%;transition:all var(--tr);}
+.btn-sair:hover{background:rgba(239,83,80,.12);color:#ef5350;}
+
+/* CONTEÚDO */
+.adm-content{flex:1;padding:28px;overflow-x:hidden;}
+.pg{display:none;}
+.pg.on{display:block;}
+
+/* CARDS TOPO */
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:28px;}
+.stat{background:var(--bg2);border:1px solid var(--borda);border-radius:14px;padding:18px 16px;}
+.stat-val{font-size:1.8rem;font-weight:800;color:var(--az);line-height:1;}
+.stat-lbl{font-size:.66rem;color:rgba(255,255,255,.4);margin-top:4px;text-transform:uppercase;letter-spacing:.5px;}
+
+/* TÍTULOS SEÇÃO */
+.pg-title{font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:6px;}
+.pg-sub{font-size:.78rem;color:rgba(255,255,255,.4);margin-bottom:24px;}
+
+/* FORMULÁRIO IMÓVEL */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.fg{display:flex;flex-direction:column;gap:5px;}
+.fg.full{grid-column:1/-1;}
+.fg label{font-size:.68rem;font-weight:600;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.5px;}
+.fg input,.fg select,.fg textarea{background:var(--bg3);border:1px solid var(--borda);border-radius:9px;padding:10px 13px;color:#fff;font-size:.85rem;outline:none;transition:border-color var(--tr);font-family:inherit;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--az);}
+.fg select option{background:var(--bg3);}
+.fg textarea{resize:vertical;min-height:80px;}
+
+/* FOTOS */
+.fotos-wrap{border:2px dashed var(--borda);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:border-color var(--tr);margin-top:4px;}
+.fotos-wrap:hover{border-color:var(--az);}
+.fotos-wrap input{display:none;}
+.fotos-preview{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+.foto-thumb{position:relative;width:80px;height:64px;border-radius:8px;overflow:hidden;border:1px solid var(--borda);}
+.foto-thumb img{width:100%;height:100%;object-fit:cover;}
+.foto-rm{position:absolute;top:2px;right:2px;background:rgba(0,0,0,.7);color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+
+/* BOTÕES */
+.btns-form{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;}
+.btn-prim{background:var(--az2);color:#fff;font-weight:700;font-size:.82rem;padding:11px 22px;border-radius:9px;border:none;cursor:pointer;transition:opacity var(--tr);}
+.btn-prim:hover{opacity:.88;}
+.btn-sec{background:rgba(255,255,255,.06);color:rgba(255,255,255,.6);font-weight:600;font-size:.82rem;padding:11px 22px;border-radius:9px;border:1px solid var(--borda);cursor:pointer;transition:all var(--tr);}
+.btn-sec:hover{background:rgba(255,255,255,.1);color:#fff;}
+.btn-danger{background:rgba(239,83,80,.15);color:#ef5350;font-weight:600;font-size:.82rem;padding:11px 22px;border-radius:9px;border:1px solid rgba(239,83,80,.3);cursor:pointer;transition:all var(--tr);}
+.btn-danger:hover{background:rgba(239,83,80,.25);}
+
+/* LISTA IMÓVEIS */
+.im-lista{display:flex;flex-direction:column;gap:10px;}
+.im-row{background:var(--bg2);border:1px solid var(--borda);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:14px;transition:border-color var(--tr);}
+.im-row:hover{border-color:var(--az);}
+.im-row-foto{width:64px;height:52px;border-radius:8px;object-fit:cover;background:var(--bg3);flex-shrink:0;}
+.im-row-info{flex:1;min-width:0;}
+.im-row-nome{font-size:.88rem;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.im-row-det{font-size:.68rem;color:rgba(255,255,255,.4);margin-top:2px;}
+.im-row-badge{font-size:.56rem;font-weight:800;padding:2px 8px;border-radius:3px;text-transform:uppercase;letter-spacing:.5px;}
+.bv{background:var(--az2);color:#fff;}
+.ba{background:var(--ouro);color:#1a2a3a;}
+.bl{background:#2e7d32;color:#fff;}
+.bp{background:#7b1fa2;color:#fff;}
+.bx{background:#757575;color:#fff;}
+.im-row-acoes{display:flex;gap:7px;flex-shrink:0;}
+.btn-edit{background:rgba(59,155,214,.15);color:var(--az);border:1px solid rgba(59,155,214,.3);border-radius:7px;padding:6px 12px;font-size:.72rem;font-weight:600;cursor:pointer;transition:all var(--tr);}
+.btn-edit:hover{background:rgba(59,155,214,.25);}
+.btn-del{background:rgba(239,83,80,.1);color:#ef5350;border:1px solid rgba(239,83,80,.2);border-radius:7px;padding:6px 10px;font-size:.72rem;cursor:pointer;transition:all var(--tr);}
+.btn-del:hover{background:rgba(239,83,80,.2);}
+.im-row-dest{color:var(--ouro);font-size:.8rem;}
+
+/* DESTAQUE TOGGLE */
+.dest-toggle{display:flex;align-items:center;gap:8px;margin-top:8px;}
+.toggle-sw{position:relative;width:40px;height:22px;flex-shrink:0;}
+.toggle-sw input{opacity:0;width:0;height:0;position:absolute;}
+.toggle-sl{position:absolute;inset:0;background:rgba(255,255,255,.1);border-radius:50px;cursor:pointer;transition:background var(--tr);}
+.toggle-sl::before{content:'';position:absolute;width:16px;height:16px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform var(--tr);}
+.toggle-sw input:checked+.toggle-sl{background:var(--az2);}
+.toggle-sw input:checked+.toggle-sl::before{transform:translateX(18px);}
+.toggle-lbl{font-size:.76rem;color:rgba(255,255,255,.6);}
+
+/* CONFIG PÁGINAS */
+.config-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;}
+.config-item{background:var(--bg2);border:1px solid var(--borda);border-radius:11px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.config-item-info{display:flex;align-items:center;gap:10px;}
+.config-item-emoji{font-size:1.2rem;}
+.config-item-label{font-size:.8rem;font-weight:600;color:#fff;}
+
+/* TOAST */
+#toast{position:fixed;bottom:24px;right:24px;background:#1e3a5f;border:1px solid var(--az);color:#fff;padding:12px 20px;border-radius:10px;font-size:.82rem;font-weight:600;z-index:9999;opacity:0;transform:translateY(10px);transition:all .3s ease;pointer-events:none;}
+#toast.on{opacity:1;transform:translateY(0);}
+
+/* BUSCA */
+.search-bar{display:flex;gap:10px;margin-bottom:18px;}
+.search-bar input{flex:1;background:var(--bg3);border:1px solid var(--borda);border-radius:9px;padding:10px 14px;color:#fff;font-size:.84rem;outline:none;}
+.search-bar input:focus{border-color:var(--az);}
+.search-bar select{background:var(--bg3);border:1px solid var(--borda);border-radius:9px;padding:10px 14px;color:#fff;font-size:.84rem;outline:none;}
+
+/* EMPTY */
+.empty{text-align:center;padding:48px 20px;color:rgba(255,255,255,.25);}
+.empty-ic{font-size:3rem;margin-bottom:12px;}
+
+@media(max-width:760px){
+  .sb{display:none;}
+  .form-grid{grid-template-columns:1fr;}
+  .adm-content{padding:16px;}
 }
-.content{flex:1;padding:32px;}
-.pagina-adm{display:none;}
-.pagina-adm.ativo{display:block;animation:fadeIn .3s ease;}
-@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.dash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:32px;}
-.dash-card{background:#fff;border:1.5px solid var(--borda2);border-radius:14px;padding:22px;cursor:pointer;transition:all .25s;}
-.dash-card:hover{border-color:var(--azul);transform:translateY(-3px);box-shadow:var(--sombra);}
-.dash-card-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;}
-.dash-card-num{font-family:'Playfair Display',serif;font-size:34px;font-weight:800;color:var(--txt);line-height:1;}
-.dash-card-label{font-size:12px;color:var(--txt2);margin-top:4px;font-weight:500;}
-.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;}
-.sec-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--txt);}
-.sec-title span{color:var(--vermelho);}
-.form-box{background:#fff;border:1.5px solid var(--borda2);border-radius:16px;padding:32px;margin-bottom:28px;box-shadow:0 2px 12px rgba(0,61,165,0.06);}
-.form-box-title{font-size:15px;font-weight:700;color:var(--txt);margin-bottom:22px;padding-bottom:14px;border-bottom:2px solid var(--borda2);display:flex;align-items:center;gap:10px;}
-.form-box-title i{color:var(--azul);}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
-.form-grid.trio{grid-template-columns:1fr 1fr 1fr;}
-.form-full{grid-column:1/-1;}
-.field{display:flex;flex-direction:column;gap:7px;}
-.field label{font-size:12px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.8px;}
-.field label span.req{color:var(--vermelho);}
-.field input,.field select,.field textarea{background:#f5f8ff;border:1.5px solid rgba(0,61,165,0.2);border-radius:8px;padding:11px 14px;font-size:14px;color:var(--txt);font-family:'DM Sans',sans-serif;transition:border-color .2s,box-shadow .2s;outline:none;width:100%;}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--azul);background:#fff;box-shadow:0 0 0 3px rgba(0,61,165,0.1);}
-.field select option{background:#fff;color:var(--txt);}
-.field textarea{resize:vertical;min-height:110px;line-height:1.6;}
-.codigo-wrapper{display:flex;align-items:stretch;gap:0;background:#f5f8ff;border:1.5px solid var(--borda2);border-radius:8px;overflow:hidden;}
-.codigo-sigla-sel{background:var(--azul);color:#fff;border:none;padding:11px 14px;font-size:14px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;outline:none;min-width:90px;}
-.codigo-sigla-sel option{background:#fff;color:var(--txt);}
-.codigo-sep{display:flex;align-items:center;background:rgba(0,61,165,0.08);padding:0 10px;font-weight:700;color:var(--txt2);font-size:16px;}
-.codigo-num{flex:1;background:transparent;border:none;padding:11px 14px;font-size:15px;font-weight:700;color:var(--txt);font-family:'DM Sans',sans-serif;outline:none;letter-spacing:1px;}
-.codigo-preview{display:flex;align-items:center;background:rgba(0,61,165,0.1);padding:0 14px;font-size:13px;font-weight:700;color:var(--azul);border-left:1.5px solid var(--borda2);white-space:nowrap;}
-.upload-area{border:2px dashed rgba(0,61,165,0.3);border-radius:10px;padding:28px;text-align:center;cursor:pointer;transition:all .2s;position:relative;background:#f8faff;}
-.upload-area:hover,.upload-area.drag{border-color:var(--azul);background:rgba(0,61,165,0.05);}
-.upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
-.upload-icon{font-size:32px;color:var(--azul);opacity:.6;margin-bottom:10px;}
-.upload-area p{font-size:13px;color:var(--txt2);}
-.upload-area p strong{color:var(--txt);}
-.fotos-preview{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin-top:14px;}
-.foto-item{position:relative;border-radius:8px;overflow:hidden;aspect-ratio:1;background:var(--bg3);border:2px solid var(--borda);cursor:pointer;transition:border-color .2s;}
-.foto-item.destaque-foto{border-color:var(--amarelo);}
-.foto-item img{width:100%;height:100%;object-fit:cover;}
-.foto-item-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.5);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;opacity:0;transition:opacity .2s;}
-.foto-item:hover .foto-item-overlay{opacity:1;}
-.foto-item-btn{background:rgba(255,255,255,0.9);color:#333;border:none;border-radius:5px;padding:4px 10px;font-size:10px;font-weight:700;cursor:pointer;}
-.foto-item-btn.del{background:var(--vermelho);color:#fff;}
-.foto-item-label{position:absolute;bottom:0;left:0;right:0;background:rgba(240,180,0,0.9);color:#333;font-size:9px;font-weight:700;text-align:center;padding:3px;transform:translateY(100%);transition:transform .2s;}
-.foto-item.destaque-foto .foto-item-label{transform:translateY(0);}
-.toggle-field{display:flex;align-items:center;gap:12px;}
-.toggle{position:relative;width:46px;height:24px;cursor:pointer;}
-.toggle input{opacity:0;width:0;height:0;}
-.toggle-slider{position:absolute;inset:0;background:#dce5f5;border-radius:24px;transition:.3s;border:1.5px solid var(--borda2);}
-.toggle-slider:before{content:'';position:absolute;width:18px;height:18px;background:#fff;border-radius:50%;left:3px;top:50%;transform:translateY(-50%);transition:.3s;}
-.toggle input:checked+.toggle-slider{background:var(--verde);}
-.toggle input:checked+.toggle-slider:before{left:24px;}
-.toggle-label{font-size:13px;font-weight:600;color:var(--txt);}
-.form-actions{display:flex;gap:12px;justify-content:flex-end;margin-top:28px;flex-wrap:wrap;}
-.btn-form{display:flex;align-items:center;gap:8px;padding:12px 24px;border-radius:8px;border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
-.btn-salvar{background:var(--azul);color:#fff;}
-.btn-salvar:hover{background:var(--azul2);}
-.btn-cancelar{background:var(--bg3);color:var(--txt2);border:1.5px solid var(--borda2);}
-.btn-cancelar:hover{background:var(--borda2);color:var(--txt);}
-.btn-excluir{background:rgba(220,28,45,0.08);color:var(--vermelho);border:1.5px solid rgba(220,28,45,0.3);}
-.btn-excluir:hover{background:var(--vermelho);color:#fff;}
-.pub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
-.pub-card{background:#fff;border:1.5px solid var(--borda2);border-radius:12px;overflow:hidden;transition:all .25s;box-shadow:0 2px 8px rgba(0,61,165,0.06);}
-.pub-card:hover{border-color:var(--azul);box-shadow:var(--sombra);}
-.pub-card-img{width:100%;height:160px;object-fit:cover;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:36px;color:var(--txt2);position:relative;overflow:hidden;}
-.pub-card-img img{width:100%;height:100%;object-fit:cover;}
-.pub-card-badge{position:absolute;top:10px;left:10px;background:var(--azul);color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:12px;letter-spacing:1px;}
-.pub-card-faixa{position:absolute;bottom:10px;right:10px;color:#fff;font-size:10px;font-weight:800;padding:4px 10px;border-radius:12px;letter-spacing:.5px;z-index:2;box-shadow:0 2px 8px rgba(0,0,0,0.3);}
-.pub-card-body{padding:14px;}
-.pub-card-id{font-size:10px;color:var(--txt2);font-weight:700;letter-spacing:1px;margin-bottom:4px;}
-.pub-card-titulo{font-size:14px;font-weight:700;color:var(--txt);margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-.pub-card-preco{font-size:16px;color:var(--vermelho);font-weight:700;margin-bottom:10px;}
-.pub-card-actions{display:flex;gap:8px;}
-.pub-btn{flex:1;padding:8px;border:none;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .2s;}
-.pub-btn.edit{background:rgba(0,61,165,0.1);color:var(--azul);}
-.pub-btn.edit:hover{background:var(--azul);color:#fff;}
-.pub-btn.del{background:rgba(220,28,45,0.08);color:var(--vermelho);}
-.pub-btn.del:hover{background:var(--vermelho);color:#fff;}
-.galeria-adm{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;}
-.galeria-adm-item{border-radius:8px;overflow:hidden;aspect-ratio:1;position:relative;background:var(--bg3);box-shadow:0 2px 8px rgba(0,61,165,0.08);}
-.galeria-adm-item img{width:100%;height:100%;object-fit:cover;}
-.galeria-adm-item-info{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.75));padding:18px 8px 8px;}
-.galeria-adm-item-id{font-size:10px;font-weight:700;color:rgba(255,255,255,0.85);}
-.galeria-adm-item-titulo{font-size:11px;font-weight:600;color:#fff;}
-.toast-container{position:fixed;bottom:28px;right:28px;z-index:999;display:flex;flex-direction:column;gap:10px;}
-.toast{padding:14px 20px;border-radius:10px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px;min-width:260px;box-shadow:0 8px 32px rgba(0,0,0,0.4);animation:toastIn .3s ease;}
-@keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
-.toast.sucesso{background:#166534;color:#bbf7d0;border:1px solid #4ade80;}
-.toast.erro{background:#7f1d1d;color:#fecaca;border:1px solid var(--vermelho);}
-.toast.aviso{background:#78350f;color:#fef3c7;border:1px solid var(--amarelo);}
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:300;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);}
-.modal-bg.ativo{display:flex;}
-.modal-box{background:#fff;border:1.5px solid var(--borda2);border-radius:16px;padding:32px;max-width:440px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,61,165,0.15);}
-.modal-box h3{font-family:'Playfair Display',serif;font-size:22px;color:var(--txt);margin-bottom:10px;}
-.modal-box p{font-size:14px;color:var(--txt2);margin-bottom:24px;line-height:1.6;}
-.modal-box-btns{display:flex;gap:12px;justify-content:center;}
-.empty-adm{grid-column:1/-1;text-align:center;padding:60px 20px;border:2px dashed var(--borda2);border-radius:14px;background:rgba(0,61,165,0.03);}
-.empty-adm i{font-size:48px;color:var(--txt2);opacity:.4;margin-bottom:16px;display:block;}
-.empty-adm h3{color:var(--txt);font-size:18px;margin-bottom:8px;}
-.empty-adm p{color:var(--txt2);font-size:13px;}
-.construtora-box{background:rgba(0,61,165,0.06);border:1.5px solid rgba(0,61,165,0.2);border-radius:10px;padding:20px;}
-.construtora-box .box-label{font-size:11px;font-weight:700;color:var(--azul);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
-.tabs{display:flex;border-bottom:2px solid var(--borda2);gap:0;overflow-x:auto;background:transparent;}
-.tab{padding:11px 20px;font-size:12px;font-weight:700;color:var(--txt2);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .2s;display:flex;align-items:center;gap:7px;}
-.tab:hover{color:var(--azul);}
-.tab.ativo{color:var(--azul);border-bottom-color:var(--azul);}
-.logo-upload-wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
-.logo-preview-box{width:80px;height:80px;border-radius:10px;background:var(--bg3);border:1.5px solid var(--borda2);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;position:relative;cursor:pointer;transition:border-color .2s;}
-.logo-preview-box:hover{border-color:var(--azul);}
-.logo-preview-box:hover::after{content:'⬇ Baixar';position:absolute;bottom:0;left:0;right:0;background:rgba(0,61,165,0.88);color:#fff;font-size:8px;font-weight:700;text-align:center;padding:3px;border-radius:0 0 8px 8px;}
-.filtro-bar{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center;}
-.filtro-btn{padding:7px 16px;border-radius:20px;border:1.5px solid var(--borda2);background:#fff;color:var(--txt2);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;}
-.filtro-btn:hover{border-color:var(--azul);color:var(--azul);}
-.filtro-btn.ativo{background:var(--azul);border-color:var(--azul);color:#fff;}
-.filtro-search{flex:1;min-width:180px;background:#f5f8ff;border:1.5px solid var(--borda2);border-radius:8px;padding:8px 14px;font-size:13px;color:var(--txt);outline:none;font-family:'DM Sans',sans-serif;}
-.filtro-search:focus{border-color:var(--azul);}
-.menu-toggle{display:none;background:none;border:none;color:var(--azul);font-size:22px;cursor:pointer;}
-.loading-fb{text-align:center;padding:40px;color:var(--txt2);font-size:14px;background:transparent;}
-.loading-fb i{font-size:32px;display:block;margin-bottom:12px;animation:spin 1s linear infinite;color:var(--azul);}
-@keyframes spin{to{transform:rotate(360deg)}}
-.pdf-converting{background:rgba(0,61,165,0.08);border:1.5px solid rgba(0,61,165,0.3);border-radius:10px;padding:14px 18px;margin-top:12px;display:none;}
-.pdf-converting.ativo{display:block;}
-.pdf-prog-label{font-size:12px;color:var(--azul);font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
-.pdf-prog-bar-wrap{background:rgba(255,255,255,0.08);border-radius:20px;height:6px;overflow:hidden;}
-.pdf-prog-bar{height:100%;background:var(--azul);border-radius:20px;transition:width .3s;width:0%;}
-.foto-item-badge{position:absolute;top:4px;right:4px;background:rgba(0,61,165,0.85);color:#fff;font-size:8px;font-weight:700;padding:2px 6px;border-radius:8px;}
-.mcmv-fx{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;background:#f8faff;border:1.5px solid #e8edf5;transition:border-color .2s;}
-.mcmv-fx.ativo{border-color:currentColor;box-shadow:0 0 0 3px rgba(22,163,74,0.12);}
-.mcmv-fx-badge{font-size:10px;font-weight:800;color:#fff;padding:4px 8px;border-radius:6px;white-space:nowrap;flex-shrink:0;}
-.mcmv-fx-txt{font-size:11px;color:var(--txt);line-height:1.4;}
-.mcmv-fx-txt small{color:var(--txt2);}
-.codigo-status-box{margin-top:12px;padding:12px 16px;border-radius:10px;font-size:13px;font-weight:500;display:none;align-items:flex-start;gap:12px;line-height:1.5;}
-.codigo-status-box.ok{display:flex;background:#f0fdf4;border:2px solid #4ade80;color:#166534;}
-.codigo-status-box.erro{display:flex;background:#fef2f2;border:2px solid #f87171;color:#7f1d1d;}
-.codigo-status-box.aviso{display:flex;background:#fffbeb;border:2px solid #f59e0b;color:#78350f;}
-.cod-status-icon{font-size:20px;flex-shrink:0;margin-top:1px;}
-.cod-status-body{display:flex;flex-direction:column;gap:2px;}
-.cod-status-titulo{font-weight:700;font-size:13px;}
-.cod-status-desc{font-size:12px;font-weight:400;opacity:0.85;}
-.form-erro-box{margin-top:14px;padding:14px 18px;border-radius:10px;font-size:13px;font-weight:600;display:none;align-items:flex-start;gap:10px;background:#fef2f2;border:2px solid #f87171;color:#7f1d1d;line-height:1.5;}
-@keyframes erroShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
-@media(max-width:900px){.sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}.main{margin-left:0;}.menu-toggle{display:block;}.form-grid{grid-template-columns:1fr;}.form-grid.trio{grid-template-columns:1fr;}}
-@media(max-width:600px){.content{padding:20px 16px;}.topbar{padding:10px 12px;}.dash-grid{grid-template-columns:repeat(2,1fr);}.login-box{padding:36px 24px;}}
 </style>
 </head>
 <body>
 
-<div id="tela-login">
+<!-- LOGIN -->
+<div id="login-wrap">
   <div class="login-box">
-    <img class="login-logo" src="https://i.postimg.cc/xTQzc3RV/495379823-122128221800669140-5238985291153506093-n-photoaidcom-cropped.png" alt="FCosta">
-    <div class="login-titulo">FCosta ADM</div>
-    <div class="login-sub">Painel Administrativo — Acesso Restrito</div>
-    <div class="login-field">
-      <label><i class="fas fa-envelope"></i> E-mail</label>
-      <input type="email" id="login-email" placeholder="seu@email.com" onkeydown="if(event.key==='Enter')fazerLogin()">
-    </div>
-    <div class="login-field">
-      <label><i class="fas fa-lock"></i> Senha</label>
-      <div style="position:relative;">
-        <input type="password" id="login-senha" placeholder="••••••••" onkeydown="if(event.key==='Enter')fazerLogin()" style="padding-right:44px;">
-        <button type="button" onclick="toggleSenha()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--txt2);cursor:pointer;font-size:16px;padding:0;" id="btn-olho">
-          <i class="fas fa-eye" id="icone-olho"></i>
-        </button>
-      </div>
-    </div>
-    <button class="btn-login" id="btn-entrar" onclick="fazerLogin()">
-      <i class="fas fa-sign-in-alt"></i> Entrar no Painel
-    </button>
-    <div class="login-erro" id="login-erro"></div>
-    <div class="login-creci">CRECI-SP: 294791-F | CNAI: 52708</div>
+    <img src="https://i.postimg.cc/xTQzc3RV/495379823-122128221800669140-5238985291153506093-n-photoaidcom-cropped.png" alt="FCosta"/>
+    <h1>Painel ADM</h1>
+    <p>FCosta Corretor — CRECI-SP 294791-F</p>
+    <div class="lf-group"><label>Usuário</label><input type="text" id="lUser" placeholder="adm@fcosta" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <div class="lf-group"><label>Senha</label><input type="password" id="lPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <button class="btn-login" onclick="doLogin()">🔓 Entrar no Painel</button>
+    <div class="login-err" id="loginErr">Usuário ou senha incorretos.</div>
   </div>
 </div>
 
-<div id="tela-painel">
-<aside class="sidebar" id="sidebar">
-  <div class="sidebar-logo">
-    <img src="https://i.postimg.cc/xTQzc3RV/495379823-122128221800669140-5238985291153506093-n-photoaidcom-cropped.png" alt="FCosta">
-    <div class="sidebar-logo-txt"><div class="nome">FCosta ADM</div><div class="sub">Painel Administrativo</div></div>
-  </div>
-  <nav class="sidebar-nav">
-    <div class="nav-label">Visão Geral</div>
-    <div class="nav-item ativo" onclick="irPara('dashboard')"><i class="fas fa-chart-pie"></i> Dashboard</div>
-    <div class="nav-label">Novo Imóvel</div>
-    <div class="nav-item" onclick="irPara('form-imovel','FCV')"><i class="fas fa-home"></i> FCV — Vendas</div>
-    <div class="nav-item" onclick="irPara('form-imovel','FCA')"><i class="fas fa-key"></i> FCA — Aluguel</div>
-    <div class="nav-item" onclick="irPara('form-imovel','FCL')"><i class="fas fa-building"></i> FCL — Lançamentos</div>
-    <div class="nav-item" onclick="irPara('form-imovel','FCP')"><i class="fas fa-book-open"></i> FCP — Catálogo</div>
-    <div class="nav-label">Conteúdo</div>
-    <div class="nav-item" onclick="irPara('form-blog')"><i class="fas fa-newspaper"></i> Blog / Dicas</div>
-    <div class="nav-item" onclick="irPara('form-curiosidades')"><i class="fas fa-lightbulb"></i> Curiosidades</div>
-    <div class="nav-item" onclick="irPara('form-consultoria')"><i class="fas fa-user-tie"></i> Quem Somos</div>
-    <div class="nav-label">Ferramentas</div>
-    <div class="nav-item nav-parceiros" onclick="window.open('https://fcostacorretor.com/parceiros-fcosta','_blank')">
-      <i class="fas fa-building"></i> Painel de Construtoras
-    </div>
-    <div class="nav-item" onclick="window.open('https://fcostacorretor.com/contratos-fcosta','_blank')">
-      <i class="fas fa-file-contract"></i> Contratos
-    </div>
-    <div class="nav-item nav-docs" onclick="window.open('https://fcostacorretor.com/documentacao-imobiliaria','_blank')">
-      <i class="fas fa-folder-open"></i> Documentação Imobiliária
-    </div>
-  </nav>
-  <div class="sidebar-footer">
-    <a href="https://fcostacorretor.com" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> Ver Site Público</a>
-    <a href="https://fcostacorretor.com/politica-de-privacidade" target="_blank" rel="noopener noreferrer"><i class="fas fa-shield-alt"></i> Política de Privacidade</a>
-    <a href="https://fcostacorretor.com/condicoes-de-uso" target="_blank" rel="noopener noreferrer"><i class="fas fa-file-alt"></i> Termos de Uso</a>
-    <span id="usuario-logado" style="color:rgba(255,255,255,0.3);font-size:10px;display:block;margin-bottom:8px;margin-top:4px;"></span>
-    <button class="btn-logout" onclick="fazerLogout()"><i class="fas fa-sign-out-alt"></i> Sair</button>
-    <div style="margin-top:10px;color:rgba(255,255,255,0.45);font-size:11px;">CRECI-SP: 294791-F | CNAI: 52708</div>
-  </div>
-</aside>
+<!-- ADM -->
+<div id="adm">
+<div class="adm-wrap">
 
-<main class="main">
-  <div class="topbar">
-    <div style="display:flex;align-items:center;gap:14px;">
-      <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
-      <div class="topbar-title" id="topbar-title">Dashboard <span>FCosta</span></div>
+  <!-- SIDEBAR -->
+  <aside class="sb">
+    <div class="sb-logo">
+      <img src="https://i.postimg.cc/xTQzc3RV/495379823-122128221800669140-5238985291153506093-n-photoaidcom-cropped.png" alt="FCosta"/>
+      <div><div class="sb-logo-t">FCosta ADM</div><div class="sb-logo-s">CRECI-SP 294791-F</div></div>
     </div>
-    <div class="topbar-right">
-      <button class="topbar-btn site" onclick="window.open('https://fcostacorretor.com','_blank')"><i class="fas fa-globe"></i> <span>Ver Site</span></button>
-      <button class="topbar-btn parceiros" onclick="window.open('https://fcostacorretor.com/parceiros-fcosta','_blank')"><i class="fas fa-building"></i> <span>Construtoras</span></button>
-      <button class="topbar-btn site" onclick="window.open('https://fcostacorretor.com/contratos-fcosta','_blank')"><i class="fas fa-file-contract"></i> <span>Contratos</span></button>
-      <button class="topbar-btn docs" onclick="window.open('https://fcostacorretor.com/documentacao-imobiliaria','_blank')"><i class="fas fa-folder-open"></i> <span>Documentação</span></button>
-      <button class="topbar-btn novo" onclick="irPara('form-imovel','FCV')"><i class="fas fa-plus"></i> <span>Novo Imóvel</span></button>
+    <nav class="sb-nav">
+      <div class="sb-grp">Principal</div>
+      <div class="sb-item on" onclick="showPg('dashboard',this)"><span class="ic">📊</span> Dashboard</div>
+      <div class="sb-grp">Imóveis</div>
+      <div class="sb-item" onclick="showPg('novo',this)"><span class="ic">➕</span> Novo Imóvel</div>
+      <div class="sb-item" onclick="showPg('lista',this)"><span class="ic">🏠</span> Todos os Imóveis <span id="sb-cnt" style="margin-left:auto;background:var(--az2);color:#fff;font-size:.58rem;font-weight:800;padding:2px 7px;border-radius:50px;">0</span></div>
+      <div class="sb-grp">Site</div>
+      <div class="sb-item" onclick="showPg('destaques',this)"><span class="ic">⭐</span> Destaques Home</div>
+      <div class="sb-item" onclick="showPg('menu',this)"><span class="ic">☰</span> Menu Hambúrguer</div>
+      <div class="sb-item" onclick="showPg('botoes',this)"><span class="ic">🔘</span> Botões Opcionais</div>
+    </nav>
+    <div class="sb-bot">
+      <a href="/" class="btn-site">🌐 Ver Site</a>
+      <button class="btn-sair" onclick="doLogout()">🚪 Sair</button>
     </div>
-  </div>
+  </aside>
 
-  <div class="content">
+  <!-- CONTEÚDO -->
+  <main class="adm-content">
 
     <!-- DASHBOARD -->
-    <div id="dashboard" class="pagina-adm ativo">
-      <div class="dash-grid" id="dash-stats"></div>
-      <div class="sec-header">
-        <h2 class="sec-title">Todos os Imóveis</h2>
-        <button class="btn-form btn-salvar" style="padding:8px 18px;font-size:12px;" onclick="irPara('form-imovel','FCV')"><i class="fas fa-plus"></i> Novo Imóvel</button>
+    <div class="pg on" id="pg-dashboard">
+      <div class="pg-title">Dashboard</div>
+      <div class="pg-sub">Visão geral do sistema FCosta</div>
+      <div class="stats">
+        <div class="stat"><div class="stat-val" id="st-total">0</div><div class="stat-lbl">Total Imóveis</div></div>
+        <div class="stat"><div class="stat-val" id="st-venda" style="color:#3B9BD6">0</div><div class="stat-lbl">À Venda (FCV)</div></div>
+        <div class="stat"><div class="stat-val" id="st-aluguel" style="color:var(--ouro)">0</div><div class="stat-lbl">Aluguel (FCA)</div></div>
+        <div class="stat"><div class="stat-val" id="st-lanc" style="color:#66bb6a">0</div><div class="stat-lbl">Lançamentos (FCL)</div></div>
+        <div class="stat"><div class="stat-val" id="st-dest" style="color:var(--ouro)">0</div><div class="stat-lbl">Destaques</div></div>
       </div>
-      <div class="tabs" style="margin-bottom:20px;" id="dash-tabs">
-        <div class="tab ativo" id="dtab-FCV" onclick="dashAba('FCV')"><i class="fas fa-home"></i> FCV — Vendas</div>
-        <div class="tab" id="dtab-FCA" onclick="dashAba('FCA')"><i class="fas fa-key"></i> FCA — Aluguel</div>
-        <div class="tab" id="dtab-FCL" onclick="dashAba('FCL')"><i class="fas fa-building"></i> FCL — Lançamentos</div>
-        <div class="tab" id="dtab-FCP" onclick="dashAba('FCP')"><i class="fas fa-book-open"></i> FCP — Catálogo</div>
-      </div>
-      <div id="dash-imoveis" class="pub-grid"></div>
-      <div style="margin-top:36px;">
-        <div class="sec-header">
-          <h2 class="sec-title"><i class="fas fa-user-tie" style="color:var(--azul);margin-right:8px;"></i>Quem Somos</h2>
-          <button class="btn-form btn-salvar" style="padding:8px 18px;font-size:12px;" onclick="irPara('form-consultoria')"><i class="fas fa-pencil-alt"></i> Editar</button>
-        </div>
-        <div id="dash-consultoria" style="background:var(--card);border:1px solid var(--borda);border-radius:14px;padding:24px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
-          <img id="dash-cons-foto" src="" style="width:80px;height:80px;border-radius:50%;border:3px solid var(--azul);object-fit:cover;display:none;">
-          <div style="flex:1;min-width:200px;">
-            <div id="dash-cons-texto" style="color:var(--txt2);font-size:13px;line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">Carregando...</div>
-            <div style="margin-top:12px;"><button class="pub-btn edit" onclick="irPara('form-consultoria')"><i class="fas fa-pencil-alt"></i> Editar Quem Somos</button></div>
-          </div>
-        </div>
-      </div>
-      <div style="margin-top:36px;">
-        <div class="sec-header">
-          <h2 class="sec-title"><i class="fas fa-newspaper" style="color:var(--roxo);margin-right:8px;"></i>Blog e Dicas Publicados</h2>
-          <div style="display:flex;gap:8px;">
-            <button class="btn-form btn-salvar" style="padding:8px 18px;font-size:12px;" onclick="irPara('form-blog')"><i class="fas fa-plus"></i> Novo Blog</button>
-            <button class="btn-form btn-cancelar" style="padding:8px 18px;font-size:12px;" onclick="irPara('form-curiosidades')"><i class="fas fa-lightbulb"></i> Nova Dica</button>
-          </div>
-        </div>
-        <div id="dash-conteudo" class="pub-grid"></div>
-      </div>
-    </div>
-
-    <!-- FORM IMÓVEL -->
-    <div id="form-imovel" class="pagina-adm">
-      <div class="form-box">
-        <div class="form-box-title"><i class="fas fa-barcode"></i> Código do Imóvel <span style="color:var(--vermelho);font-size:12px;margin-left:8px;">*Campo obrigatório e único</span></div>
-        <div class="form-grid">
-          <div class="field">
-            <label>Sigla <span class="req">*</span></label>
-            <div class="codigo-wrapper">
-              <select class="codigo-sigla-sel" id="cod-sigla" onchange="atualizarCodigo()">
-                <option value="FCV">FCV</option>
-                <option value="FCA">FCA</option>
-                <option value="FCL">FCL</option>
-                <option value="FCP">FCP</option>
-              </select>
-              <div class="codigo-sep">—</div>
-              <input type="text" class="codigo-num" id="cod-num" placeholder="000" maxlength="6"
-                oninput="this.value=this.value.replace(/\D/g,'');atualizarCodigo();verificarCodigoDebounced()"
-                onblur="verificarCodigo()">
-              <div class="codigo-preview" id="cod-preview">FCV-000</div>
-            </div>
-            <div class="codigo-status-box" id="cod-status"></div>
-          </div>
-          <div class="field" style="justify-content:flex-end;">
-            <label>Próximo número sugerido</label>
-            <button class="btn-form btn-salvar" style="align-self:flex-start;margin-top:4px;" onclick="sugerirProximoNumero()">
-              <i class="fas fa-magic"></i> Gerar automático
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="form-box">
-        <div class="form-box-title"><i class="fas fa-info-circle"></i> Dados do Imóvel</div>
-        <div class="form-grid">
-          <div class="field form-full"><label>Título do Imóvel <span class="req">*</span></label><input type="text" id="fi-titulo" placeholder="Ex: Apartamento 3 dormitórios - Vila Mariana"></div>
-          <div class="field"><label>Preço / Valor <span class="req">*</span></label><input type="text" id="fi-preco" placeholder="Ex: 350.000,00" oninput="mascaraPreco(this);autoEnquadramentoFCL()"></div>
-          <div class="field"><label>Localização / Bairro</label><input type="text" id="fi-local" placeholder="Ex: Vila Mariana, São Paulo"></div>
-          <div class="field form-full"><label>Descrição Completa</label><textarea id="fi-descricao" placeholder="Descreva o imóvel em detalhes..."></textarea></div>
-          <div class="field form-full"><label>Link de Vídeo</label><input type="text" id="fi-video" placeholder="YouTube, MP4 ou Google Drive — https://..."></div>
-        </div>
-      </div>
-      <div class="form-box" id="fcl-box" style="display:none;">
-        <div class="form-box-title"><i class="fas fa-hard-hat"></i> Dados da Construtora</div>
-        <div class="construtora-box">
-          <div class="box-label"><i class="fas fa-building"></i> Informações da Construtora</div>
-          <div class="form-grid">
-            <div class="field"><label>Nome da Construtora <span class="req">*</span></label><input type="text" id="fi-construtora" placeholder="Ex: MRV Engenharia, Cyrela..."></div>
-            <div class="field"><label>Logo da Construtora</label>
-              <div class="logo-upload-wrap">
-                <div class="logo-preview-box" id="logo-preview-box" onclick="baixarLogoConstrutora()" title="Clique para baixar a imagem destaque com o logo sobreposto">
-                  <i class="fas fa-image" style="color:var(--txt2);font-size:24px;"></i>
-                </div>
-                <div style="flex:1;">
-                  <input type="file" id="fi-logo-construtora" accept="image/*" onchange="previewLogoConstrutora(this)" style="display:none;">
-                  <button class="btn-form btn-cancelar" onclick="document.getElementById('fi-logo-construtora').click()"><i class="fas fa-upload"></i> Selecionar Logo</button>
-                  <div style="font-size:11px;color:var(--txt2);margin-top:6px;">JPG, PNG. Recomendado: fundo transparente.</div>
-                </div>
-              </div>
-            </div>
-            <div class="field"><label>Previsão de Entrega</label><input type="text" id="fi-entrega" placeholder="Ex: Dezembro 2026"></div>
-            <div class="field"><label>Fase do Empreendimento</label>
-              <select id="fi-fase"><option value="">Selecione...</option><option>Planta</option><option>Em construção</option><option>Pronto para morar</option><option>Pré-lançamento</option></select>
-            </div>
-          </div>
-        </div>
-        <div class="construtora-box" style="margin-top:16px;background:rgba(22,163,74,0.06);border-color:rgba(22,163,74,0.25);">
-          <div class="box-label" style="color:#15803d;"><i class="fas fa-home"></i> Programa Habitacional</div>
-          <div class="form-grid">
-            <div class="field">
-              <label>Programa <span class="req">*</span></label>
-              <select id="programa_habitacional" onchange="autoEnquadramentoFCL()">
-                <option value="">Selecione o programa...</option>
-                <option value="MCMV">🏠 MCMV — Minha Casa Minha Vida</option>
-                <option value="SBPE">🏦 SBPE / Financiamento Bancário</option>
-                <option value="Padrao">📋 Padrão / Sem Programa</option>
-                <option value="CDHU">🏛️ CDHU</option>
-                <option value="Outro">Outro</option>
-              </select>
-            </div>
-            <div class="field">
-              <label>Faixa / Enquadramento</label>
-              <input type="text" id="codigo_faixa" readonly placeholder="Selecione o programa e informe o preço..." style="background:#f0fdf4;color:#15803d;font-weight:700;cursor:default;border-color:rgba(22,163,74,0.3);">
-            </div>
-          </div>
-          <div id="mcmv-faixas-info" style="display:none;margin-top:14px;background:#fff;border:1.5px solid rgba(22,163,74,0.2);border-radius:10px;padding:14px;">
-            <div style="font-size:11px;font-weight:700;color:#15803d;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;"><i class="fas fa-info-circle"></i> Tabela de Faixas MCMV</div>
-            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;">
-              <div id="fx-his1" class="mcmv-fx"><span class="mcmv-fx-badge" style="background:#16a34a;">HIS 1</span><div class="mcmv-fx-txt">Até R$ 150.000<br><small>Renda familiar até 2 SM</small></div></div>
-              <div id="fx-his2" class="mcmv-fx"><span class="mcmv-fx-badge" style="background:#0891b2;">HIS 2</span><div class="mcmv-fx-txt">R$ 150k – R$ 264.000<br><small>Renda até 4 SM</small></div></div>
-              <div id="fx-hmp"  class="mcmv-fx"><span class="mcmv-fx-badge" style="background:#7c3aed;">HMP</span><div class="mcmv-fx-txt">R$ 264k – R$ 350.000<br><small>Renda até 8 SM</small></div></div>
-              <div id="fx-f4"   class="mcmv-fx"><span class="mcmv-fx-badge" style="background:#d97706;">Faixa 4</span><div class="mcmv-fx-txt">R$ 350k – R$ 500.000<br><small>Renda até R$ 12.000</small></div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="form-box" id="fcv-fca-box" style="display:none;">
-        <div class="form-box-title"><i class="fas fa-ruler-combined"></i> Características do Imóvel</div>
-        <div class="form-grid trio">
-          <div class="field"><label>Área Total (m²)</label><input type="text" id="fi-area" placeholder="Ex: 85"></div>
-          <div class="field"><label>Dormitórios</label>
-            <select id="fi-dorms"><option value="">—</option><option>Studio</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option></select>
-          </div>
-          <div class="field"><label>Vagas de Garagem</label>
-            <select id="fi-vagas"><option value="">—</option><option>0</option><option>1</option><option>2</option><option>3+</option></select>
-          </div>
-        </div>
-      </div>
-      <div class="form-box" id="fcp-box" style="display:none;">
-        <div class="form-box-title"><i class="fas fa-mobile-alt"></i> Preview do Folheto — Estilo Celular</div>
-        <div class="fcp-info-banner">
-          <i class="fas fa-info-circle"></i>
-          <p><strong>FCP — Catálogo:</strong> Apenas <strong>1 imagem do folheto é obrigatória</strong>. Os demais campos são opcionais.</p>
-        </div>
-        <div class="phone-frame-wrap">
-          <div class="phone-frame" id="fcp-phone-frame">
-            <div class="phone-frame-empty" id="fcp-phone-empty"><i class="fas fa-image"></i><span>A imagem do folheto aparecerá aqui</span></div>
-            <img id="fcp-phone-img" class="phone-frame-img" style="display:none;" src="" alt="Preview folheto">
-          </div>
-          <div class="phone-frame-label">Prévia — como aparecerá no celular</div>
-          <div class="phone-frame-hint"><i class="fas fa-check-circle"></i> Proporção correta: sem cortes</div>
-        </div>
-      </div>
-      <div class="form-box">
-        <div class="form-box-title"><i class="fas fa-camera"></i> Fotos do Imóvel</div>
-        <div class="upload-area" id="upload-area" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleDrop(event)">
-          <input type="file" id="fi-fotos" accept="image/*,application/pdf" multiple onchange="adicionarFotos(this)">
-          <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
-          <p><strong>Clique ou arraste</strong> as fotos aqui</p>
-          <p style="margin-top:4px;font-size:11px;">JPG, PNG — ou <strong>PDF</strong> (páginas convertidas em imagens automaticamente)</p>
-        </div>
-        <div class="pdf-converting" id="pdf-converting">
-          <div class="pdf-prog-label"><i class="fas fa-spinner fa-spin"></i> <span id="pdf-prog-texto">Convertendo PDF em imagens...</span></div>
-          <div class="pdf-prog-bar-wrap"><div class="pdf-prog-bar" id="pdf-prog-bar"></div></div>
-        </div>
-        <div class="fotos-preview" id="fotos-preview"></div>
-        <p style="font-size:11px;color:var(--txt2);margin-top:10px;"><i class="fas fa-star" style="color:var(--amarelo);"></i> Clique em <strong>Definir destaque</strong> para torná-la a capa principal.</p>
-        <p id="fotos-contador" style="font-size:11px;color:var(--azul);margin-top:4px;font-weight:600;"></p>
-      </div>
-      <div class="form-box">
-        <div class="form-box-title"><i class="fas fa-bullhorn"></i> Configurações de Publicação</div>
-        <div class="form-grid">
-          <div class="field"><label>Exibir na Home</label>
-            <div class="toggle-field">
-              <label class="toggle"><input type="checkbox" id="fi-home"><span class="toggle-slider"></span></label>
-              <span class="toggle-label">Mostrar como destaque na página inicial</span>
-            </div>
-          </div>
-          <div class="field"><label>Status da Publicação</label>
-            <select id="fi-status"><option value="ativo">Ativo — Visível no site</option><option value="rascunho">Rascunho — Oculto</option></select>
-          </div>
-        </div>
-      </div>
-      <div class="form-actions">
-        <button class="btn-form btn-excluir" id="btn-excluir-imovel" style="display:none;" onclick="confirmarExcluir()"><i class="fas fa-trash"></i> Excluir</button>
-        <button class="btn-form btn-cancelar" onclick="irPara('dashboard')"><i class="fas fa-times"></i> Cancelar</button>
-        <button class="btn-form btn-salvar" onclick="salvarImovel()"><i class="fas fa-save"></i> Salvar Publicação</button>
-      </div>
-      <div class="form-erro-box" id="form-erro-publicar"><i class="fas fa-exclamation-circle" style="font-size:16px;flex-shrink:0;"></i> <span id="form-erro-msg"></span></div>
-    </div>
-
-    <!-- FORM BLOG -->
-    <div id="form-blog" class="pagina-adm">
-      <div class="form-box">
-        <div class="form-box-title"><i class="fas fa-newspaper"></i> Nova Publicação — Blog / Dicas</div>
-        <div class="tabs">
-          <div class="tab ativo" id="tab-blog" onclick="selecionarTipoConteudo('blog')"><i class="fas fa-newspaper"></i> Blog</div>
-          <div class="tab" id="tab-curiosidades-form" onclick="selecionarTipoConteudo('curiosidades')"><i class="fas fa-lightbulb"></i> Dicas e Curiosidades</div>
-        </div>
-        <div class="form-grid">
-          <div class="field form-full"><label>Título do Artigo <span class="req">*</span></label><input type="text" id="blog-titulo" placeholder="Título chamativo e descritivo"></div>
-          <div class="field form-full"><label>Imagem de Capa</label>
-            <div class="upload-area" style="height:100px;"><input type="file" id="blog-imagem" accept="image/*" onchange="previewBlogImg(this)"><div style="display:flex;align-items:center;gap:12px;justify-content:center;"><i class="fas fa-image" style="font-size:24px;color:var(--txt2);"></i><span style="font-size:13px;color:var(--txt2);">Clique para selecionar a imagem de capa</span></div></div>
-            <img id="blog-img-preview" style="display:none;width:100%;max-height:200px;object-fit:cover;border-radius:8px;margin-top:10px;">
-          </div>
-          <div class="field form-full"><label>Conteúdo <span class="req">*</span></label><textarea id="blog-conteudo" style="min-height:200px;" placeholder="Escreva o conteúdo aqui..."></textarea></div>
-          <div class="field"><label>Autor</label><input type="text" id="blog-autor" value="FCosta Corretor"></div>
-          <div class="field"><label>Tags</label><input type="text" id="blog-tags" placeholder="imóveis, dicas, são paulo..."></div>
-        </div>
-        <div class="form-actions">
-          <button class="btn-form btn-excluir" id="btn-excluir-blog" style="display:none;" onclick="confirmarExcluirBlog()"><i class="fas fa-trash"></i> Excluir</button>
-          <button class="btn-form btn-cancelar" onclick="irPara('dashboard')"><i class="fas fa-times"></i> Cancelar</button>
-          <button class="btn-form btn-salvar" onclick="salvarBlog()"><i class="fas fa-save"></i> Publicar Artigo</button>
+      <div style="background:var(--bg2);border:1px solid var(--borda);border-radius:14px;padding:20px;">
+        <div style="font-size:.9rem;font-weight:600;color:#fff;margin-bottom:12px;">⚡ Ações Rápidas</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn-prim" onclick="showPg('novo',document.querySelector('[onclick*=novo]'))">➕ Novo Imóvel</button>
+          <button class="btn-sec" onclick="showPg('lista',document.querySelector('[onclick*=lista]'))">🏠 Ver Imóveis</button>
+          <a href="/" class="btn-sec" style="display:inline-flex;align-items:center;">🌐 Ver Site</a>
         </div>
       </div>
     </div>
 
-    <!-- FORM CURIOSIDADES -->
-    <div id="form-curiosidades" class="pagina-adm">
-      <div class="form-box">
-        <div class="form-box-title"><i class="fas fa-lightbulb"></i> Nova Dica / Curiosidade</div>
-        <div class="form-grid">
-          <div class="field form-full"><label>Título <span class="req">*</span></label><input type="text" id="cur-titulo" placeholder="Título da dica"></div>
-          <div class="field form-full"><label>Imagem</label>
-            <div class="upload-area" style="height:100px;"><input type="file" id="cur-imagem" accept="image/*" onchange="previewCurImg(this)"><div style="display:flex;align-items:center;gap:12px;justify-content:center;"><i class="fas fa-image" style="font-size:24px;color:var(--txt2);"></i><span style="font-size:13px;color:var(--txt2);">Clique para selecionar imagem</span></div></div>
-            <img id="cur-img-preview" style="display:none;width:100%;max-height:200px;object-fit:cover;border-radius:8px;margin-top:10px;">
-          </div>
-          <div class="field form-full"><label>Conteúdo <span class="req">*</span></label><textarea id="cur-conteudo" style="min-height:140px;" placeholder="Conteúdo da dica..."></textarea></div>
+    <!-- NOVO / EDITAR IMÓVEL -->
+    <div class="pg" id="pg-novo">
+      <div class="pg-title" id="form-titulo">Novo Imóvel</div>
+      <div class="pg-sub">Preencha os dados do imóvel — todos os campos são salvos no Firebase</div>
+      <input type="hidden" id="edit-id"/>
+      <div class="form-grid">
+        <div class="fg"><label>Título do Imóvel *</label><input type="text" id="f-titulo" placeholder="Ex: Apartamento 2 dormitórios Itaim Paulista"/></div>
+        <div class="fg"><label>Tipo de Imóvel</label>
+          <select id="f-tipo">
+            <option value="">Selecione...</option>
+            <option>Apartamento</option><option>Casa</option><option>Casa de Condomínio</option>
+            <option>Sobrado</option><option>Kitnet / Studio</option><option>Terreno</option>
+            <option>Sala Comercial</option><option>Loja</option><option>Galpão</option>
+            <option>Chácara</option><option>Sítio</option>
+          </select>
         </div>
-        <div class="form-actions">
-          <button class="btn-form btn-excluir" id="btn-excluir-cur" style="display:none;" onclick="confirmarExcluirCur()"><i class="fas fa-trash"></i> Excluir</button>
-          <button class="btn-form btn-cancelar" onclick="irPara('dashboard')"><i class="fas fa-times"></i> Cancelar</button>
-          <button class="btn-form btn-salvar" onclick="salvarCuriosidade()"><i class="fas fa-save"></i> Publicar</button>
+        <div class="fg"><label>Status / Categoria *</label>
+          <select id="f-status">
+            <option value="">Selecione...</option>
+            <option value="venda">À Venda (FCV)</option>
+            <option value="aluguel">Aluguel (FCA)</option>
+            <option value="lancamento">Lançamento (FCL)</option>
+            <option value="panfleto">Panfleto (FCP)</option>
+            <option value="vendido">Vendido</option>
+          </select>
+        </div>
+        <div class="fg"><label>Código do Imóvel</label><input type="text" id="f-codigo" placeholder="Ex: FCV001 (deixe vazio para gerar auto)"/></div>
+        <div class="fg"><label>Preço (R$)</label><input type="text" id="f-preco" placeholder="Ex: 350.000,00"/></div>
+        <div class="fg"><label>Área (m²)</label><input type="text" id="f-area" placeholder="Ex: 72"/></div>
+        <div class="fg"><label>Bairro</label><input type="text" id="f-bairro" placeholder="Ex: Itaim Paulista"/></div>
+        <div class="fg"><label>Cidade</label><input type="text" id="f-cidade" placeholder="São Paulo" value="São Paulo"/></div>
+        <div class="fg"><label>Endereço</label><input type="text" id="f-endereco" placeholder="Rua, número (opcional)"/></div>
+        <div class="fg"><label>Dormitórios</label><input type="number" id="f-quartos" placeholder="0" min="0"/></div>
+        <div class="fg"><label>Banheiros</label><input type="number" id="f-banheiros" placeholder="0" min="0"/></div>
+        <div class="fg"><label>Vagas de Garagem</label><input type="number" id="f-vagas" placeholder="0" min="0"/></div>
+        <div class="fg full"><label>Descrição</label><textarea id="f-descricao" placeholder="Descreva o imóvel — localização, diferenciais, condições..."></textarea></div>
+        <div class="fg"><label>Link do Vídeo (YouTube)</label><input type="url" id="f-video" placeholder="https://youtube.com/watch?v=..."/></div>
+        <div class="fg"><label>Telefone para contato</label><input type="text" id="f-tel" placeholder="5511993509109"/></div>
+        <div class="fg full">
+          <label>Fotos (URLs separadas por vírgula ou linha)</label>
+          <textarea id="f-fotos" placeholder="https://imagem1.jpg&#10;https://imagem2.jpg&#10;https://imagem3.jpg" style="min-height:100px;"></textarea>
+          <small style="color:rgba(255,255,255,.3);font-size:.68rem;margin-top:4px;">Cole os links das fotos, um por linha. Use Postimg, Imgbb ou Cloudinary.</small>
         </div>
       </div>
-    </div>
-
-    <!-- FORM CONSULTORIA -->
-    <div id="form-consultoria" class="pagina-adm">
-      <div class="form-box">
-        <div class="form-box-title"><i class="fas fa-user-tie"></i> Texto Institucional</div>
-        <div class="field"><label>Sobre o Corretor / Empresa <span class="req">*</span></label><textarea id="cons-texto" style="min-height:200px;" placeholder="Escreva sobre o corretor, experiência, missão, valores..."></textarea></div>
+      <div class="dest-toggle">
+        <label class="toggle-sw"><input type="checkbox" id="f-destaque"/><span class="toggle-sl"></span></label>
+        <span class="toggle-lbl">⭐ Marcar como Destaque na Home</span>
       </div>
-      <div class="form-box">
-        <div class="form-box-title"><i class="fas fa-user-circle"></i> Foto do Corretor</div>
-        <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
-          <div id="cons-corretor-preview" style="width:100px;height:100px;border-radius:50%;background:var(--bg3);border:3px solid var(--azul);overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-user" style="font-size:36px;color:var(--txt2);"></i></div>
-          <div style="flex:1;">
-            <div class="upload-area" style="height:90px;"><input type="file" id="cons-foto-corretor-input" accept="image/*" onchange="uploadFotoCorretor(this)"><div style="display:flex;align-items:center;gap:10px;justify-content:center;"><i class="fas fa-user-circle" style="font-size:22px;color:var(--txt2);"></i><span style="font-size:13px;color:var(--txt2);"><strong style="color:var(--txt3);">Clique</strong> para selecionar foto do corretor</span></div></div>
-            <p style="font-size:11px;color:var(--txt2);margin-top:8px;">JPG ou PNG. Recomendado: quadrada, fundo neutro.</p>
-          </div>
-        </div>
-      </div>
-      <div class="form-box">
-        <div class="form-box-title"><i class="fas fa-building"></i> Fotos — Escritório / Equipe</div>
-        <div class="upload-area" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleDropCons(event)">
-          <input type="file" id="cons-fotos-input" accept="image/*" multiple onchange="uploadFotosEscritorio(this)">
-          <div class="upload-icon"><i class="fas fa-camera"></i></div>
-          <p><strong>Clique ou arraste</strong> — fotos do escritório, equipe, fachada</p>
-        </div>
-        <div class="fotos-preview" id="cons-fotos-preview" style="margin-top:14px;"></div>
-      </div>
-      <div class="form-box">
-        <div class="form-box-title"><i class="fas fa-certificate"></i> Diplomas e Certificados</div>
-        <p style="font-size:12px;color:var(--txt2);margin-bottom:14px;"><i class="fas fa-info-circle"></i> Aceita imagens (JPG, PNG) e PDFs.</p>
-        <div class="upload-area"><input type="file" id="cons-diplomas-input" accept="image/*,application/pdf" multiple onchange="uploadDiplomas(this)"><div class="upload-icon"><i class="fas fa-file-pdf"></i></div><p><strong>Clique</strong> para adicionar diplomas, certificados ou PDFs</p></div>
-        <div id="cons-diplomas-preview" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:14px;"></div>
-      </div>
-      <div class="form-actions">
-        <button class="btn-form btn-cancelar" onclick="irPara('dashboard')"><i class="fas fa-times"></i> Cancelar</button>
-        <button class="btn-form btn-salvar" onclick="salvarConsultoria()"><i class="fas fa-save"></i> Salvar Tudo</button>
+      <div class="btns-form">
+        <button class="btn-prim" onclick="salvarImovel()">💾 Salvar Imóvel</button>
+        <button class="btn-sec" onclick="limparForm()">🗑️ Limpar</button>
+        <button class="btn-sec" onclick="showPg('lista',null)">← Voltar para lista</button>
       </div>
     </div>
 
     <!-- LISTA IMÓVEIS -->
-    <div id="lista-imoveis" class="pagina-adm">
-      <div class="filtro-bar">
-        <input type="text" class="filtro-search" id="search-imoveis" placeholder="🔍 Buscar por título, código..." oninput="renderListaImoveis()">
-        <button class="filtro-btn ativo" onclick="filtrarLista('todos')">Todos</button>
-        <button class="filtro-btn" onclick="filtrarLista('FCV')">FCV</button>
-        <button class="filtro-btn" onclick="filtrarLista('FCA')">FCA</button>
-        <button class="filtro-btn" onclick="filtrarLista('FCL')">FCL</button>
-        <button class="filtro-btn" onclick="filtrarLista('FCP')">FCP</button>
-        <button class="btn-form btn-salvar" style="padding:8px 18px;font-size:12px;" onclick="irPara('form-imovel','FCV')"><i class="fas fa-plus"></i> Novo</button>
+    <div class="pg" id="pg-lista">
+      <div class="pg-title">Todos os Imóveis</div>
+      <div class="pg-sub">Gerencie, edite e exclua imóveis cadastrados</div>
+      <div class="search-bar">
+        <input type="text" id="busca-im" placeholder="🔍 Buscar por título, bairro ou código..." oninput="filtrarLista()"/>
+        <select id="filtro-status" onchange="filtrarLista()">
+          <option value="">Todos</option>
+          <option value="venda">FCV — Venda</option>
+          <option value="aluguel">FCA — Aluguel</option>
+          <option value="lancamento">FCL — Lançamentos</option>
+          <option value="panfleto">FCP — Panfletos</option>
+          <option value="vendido">Vendidos</option>
+        </select>
       </div>
-      <div id="lista-imoveis-grid" class="pub-grid"></div>
+      <div class="im-lista" id="im-lista"></div>
     </div>
 
-    <!-- LISTA CONTEÚDO -->
-    <div id="lista-conteudo" class="pagina-adm">
-      <div class="sec-header">
-        <h2 class="sec-title">Conteúdo Publicado</h2>
-        <div style="display:flex;gap:10px;">
-          <button class="btn-form btn-salvar" style="padding:8px 18px;font-size:12px;" onclick="irPara('form-blog')"><i class="fas fa-plus"></i> Novo Blog</button>
-          <button class="btn-form btn-cancelar" style="padding:8px 18px;font-size:12px;" onclick="irPara('form-curiosidades')"><i class="fas fa-lightbulb"></i> Nova Dica</button>
-        </div>
-      </div>
-      <div id="lista-conteudo-grid" class="pub-grid"></div>
+    <!-- DESTAQUES HOME -->
+    <div class="pg" id="pg-destaques">
+      <div class="pg-title">⭐ Destaques da Home</div>
+      <div class="pg-sub">Imóveis marcados como destaque aparecem primeiro no carrossel da home</div>
+      <div class="im-lista" id="lista-destaques"></div>
     </div>
 
-    <!-- GALERIA ADM -->
-    <div id="galeria-adm" class="pagina-adm">
-      <div class="sec-header">
-        <h2 class="sec-title">Galeria — Todas as Fotos</h2>
-        <span style="font-size:12px;color:var(--txt2);">Alimentada pelos imóveis cadastrados</span>
-      </div>
-      <div id="galeria-adm-grid" class="galeria-adm"></div>
+    <!-- MENU HAMBÚRGUER -->
+    <div class="pg" id="pg-menu">
+      <div class="pg-title">☰ Menu Hambúrguer</div>
+      <div class="pg-sub">Selecione quais páginas aparecem no menu lateral mobile</div>
+      <div class="config-grid" id="config-menu"></div>
+      <div class="btns-form"><button class="btn-prim" onclick="salvarConfig('menu_hamburger','menu')">💾 Salvar Menu</button></div>
     </div>
 
-  </div>
-</main>
+    <!-- BOTÕES OPCIONAIS -->
+    <div class="pg" id="pg-botoes">
+      <div class="pg-title">🔘 Botões Opcionais da Home</div>
+      <div class="pg-sub">Selecione quais seções aparecem como botões na página inicial</div>
+      <div class="config-grid" id="config-botoes"></div>
+      <div class="btns-form"><button class="btn-prim" onclick="salvarConfig('home_botoes','botoes')">💾 Salvar Botões</button></div>
+    </div>
+
+  </main>
+</div>
 </div>
 
-<div class="modal-bg" id="modal-confirm">
-  <div class="modal-box">
-    <div style="font-size:48px;margin-bottom:16px;">⚠️</div>
-    <h3 id="modal-confirm-title">Confirmar exclusão</h3>
-    <p id="modal-confirm-msg">Esta ação não pode ser desfeita.</p>
-    <div class="modal-box-btns">
-      <button class="btn-form btn-cancelar" onclick="fecharModal()"><i class="fas fa-times"></i> Cancelar</button>
-      <button class="btn-form btn-excluir" id="modal-confirm-btn"><i class="fas fa-trash"></i> Excluir</button>
-    </div>
-  </div>
-</div>
+<div id="toast"></div>
 
-<div class="toast-container" id="toasts"></div>
+<script>
+// ── Firebase ──
+firebase.initializeApp({
+  apiKey:'AIzaSyAH-QF57Igr9fzBCqkAP28IRRE-QHp_2Z4',
+  authDomain:'fcosta-31125.firebaseapp.com',
+  databaseURL:'https://fcosta-31125-default-rtdb.firebaseio.com',
+  projectId:'fcosta-31125',
+  storageBucket:'fcosta-31125.firebasestorage.app',
+  messagingSenderId:'826619190234',
+  appId:'1:826619190234:web:347cdf5d9078433daabee3'
+});
+var db=firebase.database();
+var _ims=[],_configMenu={},_configBotoes={};
 
-<script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
-  from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-import { getDatabase, ref, set, get, remove }
-  from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
+// ── AUTH ──
+var USERS={
+  'adm@fcosta':'fcosta2025',
+  'sergio':'fcosta@2025'
+};
+function doLogin(){
+  var u=document.getElementById('lUser').value.trim();
+  var p=document.getElementById('lPass').value.trim();
+  var err=document.getElementById('loginErr');
+  if(USERS[u]&&USERS[u]===p){
+    document.getElementById('login-wrap').style.display='none';
+    document.getElementById('adm').style.display='block';
+    iniciar();
+    err.classList.remove('on');
+  }else{
+    err.classList.add('on');
+  }
+}
+function doLogout(){
+  document.getElementById('adm').style.display='none';
+  document.getElementById('login-wrap').style.display='flex';
+  document.getElementById('lPass').value='';
+}
 
-const CLOUD_NAME    = 'dpquob8gh';
-const UPLOAD_PRESET = 'fcosta_imoveis';
+// ── Páginas do site ──
+var PAGINAS=[
+  {id:'financiamento',emoji:'🏦',label:'Financiamento'},
+  {id:'avaliacao',emoji:'📊',label:'Avaliação PTAM'},
+  {id:'portal-investidor',emoji:'📈',label:'Portal do Investidor'},
+  {id:'inquilinato',emoji:'📜',label:'Inquilinato'},
+  {id:'contratos',emoji:'📋',label:'Contratos'},
+  {id:'consultoria',emoji:'🤝',label:'Quem Somos'},
+  {id:'blog',emoji:'✍️',label:'Blog Imobiliário'},
+  {id:'galeria',emoji:'🖼️',label:'Galeria'},
+  {id:'videos',emoji:'▶️',label:'Vídeos'},
+  {id:'parceiros',emoji:'🤝',label:'Parceiros FCosta'},
+  {id:'legislacao',emoji:'⚖️',label:'Legislação'},
+  {id:'documentacao',emoji:'📁',label:'Documentação'},
+  {id:'sermao',emoji:'✝️',label:'Sermão'},
+  {id:'sergioig',emoji:'📸',label:'Página Pessoal'},
+];
 
-async function uploadCloudinary(file) {
-  return new Promise((resolve, reject) => {
-    const fd = new FormData();
-    fd.append('file', file);
-    fd.append('upload_preset', UPLOAD_PRESET);
-    fd.append('folder', 'fcosta_imoveis');
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'https://api.cloudinary.com/v1_1/'+CLOUD_NAME+'/auto/upload');
-    xhr.onload = () => {
-      const data = JSON.parse(xhr.responseText);
-      if (data.secure_url) resolve(data.secure_url);
-      else reject(new Error(data.error?.message || 'Erro Cloudinary'));
-    };
-    xhr.onerror = () => reject(new Error('Erro de rede'));
-    xhr.send(fd);
+function iniciar(){
+  // Imóveis
+  db.ref('fcosta_imoveis').on('value',function(snap){
+    var d=snap.val()||{};
+    _ims=Object.entries(d).map(function(e){return Object.assign({id:e[0]},e[1]);});
+    _ims.sort(function(a,b){return(b.destaque?1:0)-(a.destaque?1:0);});
+    atualizarStats();
+    renderLista();
+    renderDestaques();
+  });
+  // Config menu
+  db.ref('fcosta_config/menu_hamburger').on('value',function(snap){
+    _configMenu=snap.val()||{};
+    renderConfig('menu',_configMenu,'config-menu');
+  });
+  // Config botoes
+  db.ref('fcosta_config/home_botoes').on('value',function(snap){
+    _configBotoes=snap.val()||{};
+    renderConfig('botoes',_configBotoes,'config-botoes');
   });
 }
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAH-QF57Igr9fzBCqkAP28IRRE-QHp_2Z4",
-  authDomain: "fcosta-31125.firebaseapp.com",
-  databaseURL: "https://fcosta-31125-default-rtdb.firebaseio.com",
-  projectId: "fcosta-31125",
-  storageBucket: "fcosta-31125.firebasestorage.app",
-  messagingSenderId: "826619190234",
-  appId: "1:826619190234:web:347cdf5d9078433daabee3"
-};
-
-const app  = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db   = getDatabase(app);
-
-onAuthStateChanged(auth, user => {
-  if (user) {
-    document.getElementById('tela-login').style.display = 'none';
-    document.getElementById('tela-painel').style.display = 'block';
-    document.getElementById('usuario-logado').textContent = user.email;
-    renderDashboard();
-  } else {
-    document.getElementById('tela-login').style.display = 'flex';
-    document.getElementById('tela-painel').style.display = 'none';
-  }
-});
-
-window.toggleSenha = function() {
-  const input = document.getElementById('login-senha');
-  const icone = document.getElementById('icone-olho');
-  input.type = input.type === 'password' ? 'text' : 'password';
-  icone.className = input.type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
-};
-
-window.fazerLogin = async function() {
-  const email = document.getElementById('login-email').value.trim();
-  const senha = document.getElementById('login-senha').value;
-  const btn   = document.getElementById('btn-entrar');
-  const erro  = document.getElementById('login-erro');
-  erro.style.display = 'none';
-  if (!email || !senha) { erro.textContent='Preencha e-mail e senha.'; erro.style.display='block'; return; }
-  btn.disabled = true;
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Entrando...';
-  try {
-    await signInWithEmailAndPassword(auth, email, senha);
-  } catch(e) {
-    erro.textContent = 'E-mail ou senha incorretos.';
-    erro.style.display = 'block';
-    btn.disabled = false;
-    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Entrar no Painel';
-  }
-};
-
-window.fazerLogout = async function() { await signOut(auth); toast('Até logo!','aviso'); };
-
-async function fbLista(chave) {
-  try {
-    const snap = await get(ref(db, chave));
-    if (!snap.exists()) return [];
-    const val = snap.val();
-    if (Array.isArray(val)) return val.map((item,idx)=>item?{...item,_uid:item._uid||String(idx)}:null).filter(i=>i);
-    return Object.entries(val).filter(([,v])=>v).map(([k,v])=>({...v,_uid:v._uid||k}));
-  } catch(e) { return []; }
+// ── Nav ──
+function showPg(id,el){
+  document.querySelectorAll('.pg').forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.sb-item').forEach(function(i){i.classList.remove('on');});
+  document.getElementById('pg-'+id).classList.add('on');
+  if(el)el.classList.add('on');
 }
 
-async function fbSalvar(chave, uid, dados) { await set(ref(db,`${chave}/${uid}`), dados); }
-async function fbExcluir(chave, uid)       { await remove(ref(db,`${chave}/${uid}`)); }
-async function fbGetObj(chave) {
-  try { const snap=await get(ref(db,chave)); return snap.exists()?snap.val():null; } catch(e) { return null; }
+// ── Stats ──
+function atualizarStats(){
+  var t=_ims.length,v=0,a=0,l=0,d=0;
+  _ims.forEach(function(i){
+    if(i.status==='venda')v++;
+    if(i.status==='aluguel')a++;
+    if(i.status==='lancamento')l++;
+    if(i.destaque)d++;
+  });
+  document.getElementById('st-total').textContent=t;
+  document.getElementById('st-venda').textContent=v;
+  document.getElementById('st-aluguel').textContent=a;
+  document.getElementById('st-lanc').textContent=l;
+  document.getElementById('st-dest').textContent=d;
+  document.getElementById('sb-cnt').textContent=t;
 }
 
-let editandoId=null,fotosTemp=[],destaqueIdx=0,logoConstrutora=null;
-let consFotoCorretor=null,consFotosEsc=[],consDiplomas=[];
-let filtroAtivo='todos',tipoConteudo='blog',editandoBlogId=null,editandoCurId=null;
-let excluirCallback=null,_imoveisCache=[],_dashAbaAtiva='FCV';
+// ── Badge ──
+function badgeCls(s){return{venda:'bv',aluguel:'ba',lancamento:'bl',panfleto:'bp',vendido:'bx'}[s]||'bv';}
+function badgeLbl(s){return{venda:'FCV · Venda',aluguel:'FCA · Aluguel',lancamento:'FCL · Lançamento',panfleto:'FCP · Panfleto',vendido:'Vendido'}[s]||s;}
 
-const titulos={'dashboard':'Dashboard','form-imovel':'Novo Imóvel','lista-imoveis':'Todos os Imóveis','lista-conteudo':'Conteúdo','galeria-adm':'Galeria','form-blog':'Blog / Dicas','form-curiosidades':'Curiosidades','form-consultoria':'Quem Somos'};
-
-window.irPara = async function(pagina, sigla) {
-  document.querySelectorAll('.pagina-adm').forEach(p=>p.classList.remove('ativo'));
-  const el = document.getElementById(pagina);
-  if(el) el.classList.add('ativo');
-  document.getElementById('topbar-title').innerHTML = (titulos[pagina]||pagina)+' <span>FCosta</span>';
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('ativo'));
-  if(pagina==='form-imovel'){
-    limparFormImovel(!!editandoId); if(!editandoId)editandoId=null;
-    document.getElementById('btn-excluir-imovel').style.display='none';
-    if(_imoveisCache.length===0){ fbLista('fcosta_imoveis').then(lista=>{ _imoveisCache=lista; if(sigla) setSigla(sigla); else sugerirProximoNumero(); }); }
-    else { if(sigla) setSigla(sigla); else sugerirProximoNumero(); }
-  }
-  if(pagina==='dashboard') renderDashboard();
-  if(pagina==='lista-imoveis') renderListaImoveis();
-  if(pagina==='lista-conteudo') renderListaConteudo();
-  if(pagina==='galeria-adm') renderGaleriaAdm();
-  if(pagina==='form-consultoria') carregarConsultoria();
-  if(pagina==='form-blog'){ limparFormBlog(); editandoBlogId=null; document.getElementById('btn-excluir-blog').style.display='none'; }
-  if(pagina==='form-curiosidades'){ limparFormCur(); editandoCurId=null; document.getElementById('btn-excluir-cur').style.display='none'; }
-  if(window.innerWidth<900) document.getElementById('sidebar').classList.remove('open');
-};
-
-window.toggleSidebar = function() { document.getElementById('sidebar').classList.toggle('open'); };
-
-window.setSigla = function(s) {
-  document.getElementById('cod-sigla').value = s;
-  document.getElementById('fcl-box').style.display = s==='FCL'?'block':'none';
-  document.getElementById('fcv-fca-box').style.display = (s==='FCV'||s==='FCA')?'block':'none';
-  document.getElementById('fcp-box').style.display = s==='FCP'?'block':'none';
-  atualizarCodigo(); sugerirProximoNumero();
-};
-
-window.atualizarCodigo = function() {
-  const sigla=document.getElementById('cod-sigla').value;
-  const num=document.getElementById('cod-num').value||'000';
-  document.getElementById('cod-num').value=num.padStart(3,'0');
-  document.getElementById('cod-preview').textContent=sigla+'-'+num.padStart(3,'0');
-  document.getElementById('fcl-box').style.display=sigla==='FCL'?'block':'none';
-  document.getElementById('fcv-fca-box').style.display=(sigla==='FCV'||sigla==='FCA')?'block':'none';
-  document.getElementById('fcp-box').style.display=sigla==='FCP'?'block':'none';
-};
-
-window.verificarCodigo = function() {
-  const sigla=document.getElementById('cod-sigla').value;
-  const numRaw=document.getElementById('cod-num').value;
-  const num=numRaw.padStart(3,'0');
-  const codigo=sigla+'-'+num;
-  const el=document.getElementById('cod-status');
-  if(!numRaw||parseInt(numRaw)===0){ el.className='codigo-status-box'; el.innerHTML=''; return false; }
-  const conflito=_imoveisCache.some(i=>i.id===codigo&&i._uid!==editandoId);
-  if(conflito){ el.className='codigo-status-box erro'; el.innerHTML='<div class="cod-status-icon"><i class="fas fa-ban"></i></div><div class="cod-status-body"><div class="cod-status-titulo">Código '+codigo+' já está em uso</div><div class="cod-status-desc">Escolha um número diferente.</div></div>'; return false; }
-  el.className='codigo-status-box ok'; el.innerHTML='<div class="cod-status-icon"><i class="fas fa-check-circle"></i></div><div class="cod-status-body"><div class="cod-status-titulo">Código '+codigo+' disponível</div></div>';
-  return true;
-};
-
-let _codDebounceTimer=null;
-window.verificarCodigoDebounced=function(){ clearTimeout(_codDebounceTimer); atualizarCodigo(); _codDebounceTimer=setTimeout(()=>{ if(_imoveisCache.length>0) window.verificarCodigo(); else fbLista('fcosta_imoveis').then(lista=>{ _imoveisCache=lista; window.verificarCodigo(); }); },400); };
-
-window.sugerirProximoNumero = async function() {
-  const sigla=document.getElementById('cod-sigla').value;
-  const imoveis=_imoveisCache.length>0?_imoveisCache:await fbLista('fcosta_imoveis');
-  if(_imoveisCache.length===0) _imoveisCache=imoveis;
-  const nums=new Set(imoveis.filter(i=>(i.sigla||'')===sigla).map(i=>parseInt((i.id||'').split('-')[1]||'0')).filter(n=>!isNaN(n)&&n>0));
-  const max=nums.size>0?Math.max(...nums):0;
-  let proximo=max+1;
-  for(let n=1;n<=max;n++){ if(!nums.has(n)){ proximo=n; break; } }
-  document.getElementById('cod-num').value=String(proximo).padStart(3,'0');
-  atualizarCodigo();
-  const el=document.getElementById('cod-status');
-  const codigo=sigla+'-'+String(proximo).padStart(3,'0');
-  el.className='codigo-status-box ok';
-  el.innerHTML='<div class="cod-status-icon"><i class="fas fa-check-circle"></i></div><div class="cod-status-body"><div class="cod-status-titulo">Código '+codigo+' disponível</div></div>';
-};
-
-async function pdfParaImagens(file) {
-  const progDiv=document.getElementById('pdf-converting'),progBar=document.getElementById('pdf-prog-bar'),progTxt=document.getElementById('pdf-prog-texto');
-  progDiv.classList.add('ativo'); progBar.style.width='0%'; progTxt.textContent=`Lendo "${file.name}"...`;
-  try {
-    const arrayBuffer=await file.arrayBuffer();
-    const pdfDoc=await pdfjsLib.getDocument({data:arrayBuffer}).promise;
-    const totalPags=pdfDoc.numPages; const imagens=[];
-    progTxt.textContent=`Convertendo ${totalPags} página(s)...`;
-    for(let p=1;p<=totalPags;p++){
-      const page=await pdfDoc.getPage(p);
-      const viewport=page.getViewport({scale:2.0});
-      const canvas=document.createElement('canvas');
-      canvas.width=viewport.width; canvas.height=viewport.height;
-      await page.render({canvasContext:canvas.getContext('2d'),viewport}).promise;
-      const blob=await new Promise(res=>canvas.toBlob(res,'image/jpeg',0.88));
-      const nomeImg=file.name.replace(/\.pdf$/i,'')+`_pag${p}.jpg`;
-      imagens.push({_file:new File([blob],nomeImg,{type:'image/jpeg'}),_preview:URL.createObjectURL(blob),_name:nomeImg,_size:blob.size,_pdfPag:p,_pdfTotal:totalPags});
-      progBar.style.width=Math.round((p/totalPags)*100)+'%';
-    }
-    setTimeout(()=>{progDiv.classList.remove('ativo');progBar.style.width='0%';},1200);
-    toast(`PDF convertido: ${totalPags} imagem(ns)!`,'sucesso');
-    return imagens;
-  } catch(err){ progDiv.classList.remove('ativo'); toast('Erro PDF: '+err.message,'erro'); return []; }
+// ── Fotos ──
+function parseFotos(i){
+  if(!i.fotos)return[];
+  if(Array.isArray(i.fotos))return i.fotos.filter(Boolean);
+  return Object.values(i.fotos).filter(Boolean);
 }
 
-window.adicionarFotos=async function(input){
-  const MAX=40; const files=Array.from(input.files); input.value='';
-  for(const f of files){
-    const disp=MAX-fotosTemp.length; if(disp<=0){toast('Limite de '+MAX+' imagens!','aviso');break;}
-    if(f.type==='application/pdf'){ const pags=await pdfParaImagens(f); fotosTemp.push(...pags.slice(0,disp)); }
-    else{ if(fotosTemp.some(x=>x._name===f.name&&x._size===f.size)){toast('Foto já adicionada!','aviso');continue;} fotosTemp.push({_file:f,_preview:URL.createObjectURL(f),_name:f.name,_size:f.size}); }
-    renderFotos();
-  }
-};
-
-window.handleDrop=async function(e){
-  e.preventDefault(); document.getElementById('upload-area').classList.remove('drag');
-  const files=Array.from(e.dataTransfer.files).filter(f=>f.type.startsWith('image/')||f.type==='application/pdf');
-  if(!files.length) return;
-  for(const f of files){
-    const disp=40-fotosTemp.length; if(disp<=0){toast('Limite atingido!','aviso');break;}
-    if(f.type==='application/pdf'){ fotosTemp.push(...(await pdfParaImagens(f)).slice(0,disp)); }
-    else{ if(fotosTemp.some(x=>x._name===f.name&&x._size===f.size)){toast('Foto já adicionada!','aviso');continue;} fotosTemp.push({_file:f,_preview:URL.createObjectURL(f),_name:f.name,_size:f.size}); }
-    renderFotos();
-  }
-};
-
-function renderFotos(){
-  document.getElementById('fotos-preview').innerHTML=fotosTemp.map((f,i)=>{
-    const src=typeof f==='string'?f:(f._preview||'');
-    const pdfBadge=(f._pdfPag&&f._pdfTotal)?'<div class="foto-item-badge">PDF p.'+f._pdfPag+'/'+f._pdfTotal+'</div>':'';
-    return '<div class="foto-item '+(i===destaqueIdx?'destaque-foto':'')+'"><img src="'+src+'" loading="lazy" style="width:100%;height:100%;object-fit:cover;">'+pdfBadge+'<div class="foto-item-overlay"><button class="foto-item-btn" onclick="setDestaque('+i+')"><i class="fas fa-star"></i> Destaque</button><button class="foto-item-btn del" onclick="removerFoto('+i+')"><i class="fas fa-trash"></i></button></div><div class="foto-item-label">⭐ Destaque</div></div>';
-  }).join('');
-  const el=document.getElementById('fotos-contador');
-  if(el) el.textContent=fotosTemp.length>0?fotosTemp.length+'/40 imagem(ns)':'';
-  const siglaAtual=document.getElementById('cod-sigla')?document.getElementById('cod-sigla').value:'';
-  const fcpImg=document.getElementById('fcp-phone-img'),fcpEmpty=document.getElementById('fcp-phone-empty');
-  if(siglaAtual==='FCP'&&fcpImg&&fcpEmpty){
-    if(fotosTemp.length>0){ const src=typeof fotosTemp[0]==='string'?fotosTemp[0]:(fotosTemp[0]._preview||''); if(src){fcpImg.src=src;fcpImg.style.display='block';fcpEmpty.style.display='none';} }
-    else{fcpImg.style.display='none';fcpImg.src='';fcpEmpty.style.display='flex';}
-  }
-}
-
-window.setDestaque=function(idx){destaqueIdx=idx;renderFotos();toast('Destaque definido!','sucesso');};
-window.removerFoto=function(idx){fotosTemp.splice(idx,1);if(destaqueIdx>=fotosTemp.length)destaqueIdx=0;renderFotos();};
-
-window.previewLogoConstrutora=function(input){
-  if(input.files[0]){const r=new FileReader();r.onload=e=>{logoConstrutora=e.target.result;document.getElementById('logo-preview-box').innerHTML=`<img src="${e.target.result}" style="width:100%;height:100%;object-fit:contain;border-radius:8px;"><div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,61,165,0.88);color:#fff;font-size:8px;font-weight:700;text-align:center;padding:3px;border-radius:0 0 8px 8px;">⬇ Baixar</div>`;};r.readAsDataURL(input.files[0]);}
-};
-
-window.baixarLogoConstrutora=function(){
-  if(!logoConstrutora){toast('Selecione o logo primeiro.','aviso');return;}
-  if(!fotosTemp||fotosTemp.length===0){toast('Adicione fotos primeiro.','aviso');return;}
-  const fotoDestaque=fotosTemp[destaqueIdx];
-  const srcFoto=typeof fotoDestaque==='string'?fotoDestaque:fotoDestaque._preview;
-  toast('Gerando imagem...','aviso');
-  const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d'),imgFoto=new Image();
-  imgFoto.crossOrigin='anonymous';
-  imgFoto.onload=function(){
-    canvas.width=imgFoto.width;canvas.height=imgFoto.height;ctx.drawImage(imgFoto,0,0);
-    const imgLogo=new Image();imgLogo.crossOrigin='anonymous';
-    imgLogo.onload=function(){
-      const maxW=canvas.width*.22,maxH=canvas.height*.18,ratio=Math.min(maxW/imgLogo.width,maxH/imgLogo.height);
-      const lw=imgLogo.width*ratio,lh=imgLogo.height*ratio,pad=canvas.width*.025;
-      const lx=canvas.width-lw-pad,ly=pad,bpad=10;
-      ctx.fillStyle='rgba(255,255,255,0.90)';ctx.beginPath();ctx.roundRect(lx-bpad,ly-bpad,lw+bpad*2,lh+bpad*2,10);ctx.fill();
-      ctx.drawImage(imgLogo,lx,ly,lw,lh);
-      const nome=(document.getElementById('fi-construtora').value.trim()||'imovel').replace(/\s+/g,'_');
-      canvas.toBlob(blob=>{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=nome+'_destaque_com_logo.jpg';document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(()=>URL.revokeObjectURL(a.href),3000);toast('Imagem baixada!','sucesso');},'image/jpeg',0.92);
-    };imgLogo.src=logoConstrutora;
-  };imgFoto.src=srcFoto;
-};
-
-function erroPublicar(msg){const box=document.getElementById('form-erro-publicar'),txt=document.getElementById('form-erro-msg');if(!box||!txt){toast(msg,'erro');return;}txt.innerHTML='<i class="fas fa-exclamation-circle" style="margin-right:6px;"></i>'+msg;box.style.display='flex';setTimeout(()=>box.scrollIntoView({behavior:'smooth',block:'nearest'}),50);}
-function limparErroPublicar(){const box=document.getElementById('form-erro-publicar');if(box)box.style.display='none';}
-
-window.salvarImovel=async function(){
-  const sigla=document.getElementById('cod-sigla').value;
-  const num=document.getElementById('cod-num').value.padStart(3,'0');
-  const id=`${sigla}-${num}`;
-  const titulo=document.getElementById('fi-titulo').value.trim();
-  const preco=document.getElementById('fi-preco').value.trim();
-  if(sigla!=='FCP'&&!titulo){erroPublicar('Informe o título do imóvel.');return;}
-  if(sigla!=='FCP'&&!preco){erroPublicar('Informe o preço do imóvel.');return;}
-  if(sigla==='FCP'&&fotosTemp.length===0){erroPublicar('FCP: adicione pelo menos 1 imagem.');return;}
-  const tituloFinal=titulo||(sigla==='FCP'?'Folheto Catálogo '+id:titulo);
-  if(!editandoId){
-    if(_imoveisCache.length===0) _imoveisCache=await fbLista('fcosta_imoveis');
-    if(_imoveisCache.some(i=>i.id===id)){erroPublicar('Código '+id+' já em uso!');return;}
-  }
-  if(!num||num==='000'){erroPublicar('Número de código inválido.');return;}
-  if(sigla==='FCL'&&!document.getElementById('fi-construtora').value.trim()){erroPublicar('Informe a construtora.');return;}
-  const registroOriginal=editandoId?(_imoveisCache.find(i=>i._uid===editandoId)||{}): {};
-  const uid=editandoId||('uid_'+Date.now()+'_'+Math.random().toString(36).slice(2));
-  try{
-    limparErroPublicar();toast('Salvando imóvel...','aviso');
-    const urlsFotos=[];
-    for(let i=0;i<fotosTemp.length;i++){
-      const foto=fotosTemp[i];
-      const fotoUrl=typeof foto==='string'?foto:(foto._preview||'');
-      if(fotoUrl.startsWith('http')){urlsFotos.push(fotoUrl);}
-      else if(foto._file){toast('Enviando foto '+(i+1)+' de '+fotosTemp.length+'...','aviso');urlsFotos.push(await uploadCloudinary(foto._file));}
-      else{toast('Foto '+(i+1)+' inválida, ignorada.','aviso');}
-    }
-    const obj={_uid:uid,id,sigla,titulo:tituloFinal,preco,local:document.getElementById('fi-local').value.trim(),descricao:document.getElementById('fi-descricao').value.trim(),video:document.getElementById('fi-video').value.trim(),fotos:urlsFotos,destaquePhoto:destaqueIdx,exibirHome:document.getElementById('fi-home').checked,status:document.getElementById('fi-status').value,dataUpdate:new Date().toISOString(),dataCriacao:registroOriginal.dataCriacao||new Date().toISOString()};
-    if(sigla==='FCL'){obj.construtora=document.getElementById('fi-construtora').value.trim();obj.logoConstrutora=logoConstrutora;obj.entrega=document.getElementById('fi-entrega').value.trim();obj.fase=document.getElementById('fi-fase').value;const pgmEl=document.getElementById('programa_habitacional'),faixaEl=document.getElementById('codigo_faixa');obj.programaHabitacional=pgmEl?pgmEl.value:'';obj.faixaEnquadramento=faixaEl?faixaEl.value:'';}
-    if(sigla==='FCV'||sigla==='FCA'){obj.area=document.getElementById('fi-area').value.trim();obj.dorms=document.getElementById('fi-dorms').value;obj.vagas=document.getElementById('fi-vagas').value;}
-    await fbSalvar('fcosta_imoveis',uid,obj);
-    const idx=_imoveisCache.findIndex(i=>i._uid===uid);
-    if(idx>=0)_imoveisCache[idx]=obj;else _imoveisCache.push(obj);
-    toast(editandoId?`Imóvel ${id} atualizado!`:`Imóvel ${id} publicado!`,'sucesso');
-    setTimeout(()=>irPara('dashboard'),1000);
-  }catch(e){console.error(e);toast('Erro: '+e.message,'erro');}
-};
-
-function limparFormImovel(preservarId=false){
-  fotosTemp=[];destaqueIdx=0;logoConstrutora=null;if(!preservarId)editandoId=null;
-  ['fi-titulo','fi-preco','fi-local','fi-descricao','fi-video','fi-construtora','fi-entrega','fi-area','codigo_faixa'].forEach(id=>{const el=document.getElementById(id);if(el){el.value='';el.style.color='';}});
-  const pgmRst=document.getElementById('programa_habitacional');if(pgmRst)pgmRst.value='';
-  const mcmvInfo=document.getElementById('mcmv-faixas-info');if(mcmvInfo)mcmvInfo.style.display='none';
-  ['fi-fase','fi-dorms','fi-vagas'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  document.getElementById('fi-home').checked=false;
-  document.getElementById('fi-status').value='ativo';
-  document.getElementById('fotos-preview').innerHTML='';
-  document.getElementById('logo-preview-box').innerHTML='<i class="fas fa-image" style="color:var(--txt2);font-size:24px;"></i>';
-  document.getElementById('cod-status').innerHTML='';
-  const _cn=document.getElementById('cod-num'),_cs=document.getElementById('cod-sigla');
-  if(_cn){_cn.readOnly=false;_cn.style.opacity='';_cn.style.cursor='';}
-  if(_cs){_cs.disabled=false;_cs.style.opacity='';}
-  ['fcl-box','fcv-fca-box','fcp-box'].forEach(id=>document.getElementById(id).style.display='none');
-  const fcpImg=document.getElementById('fcp-phone-img'),fcpEmpty=document.getElementById('fcp-phone-empty');
-  if(fcpImg){fcpImg.style.display='none';fcpImg.src='';}if(fcpEmpty)fcpEmpty.style.display='flex';
-}
-
-window.editarImovel=async function(uid){
-  const imoveis=await fbLista('fcosta_imoveis');
-  const im=imoveis.find(i=>i._uid===uid);
-  if(!im){toast('Imóvel não encontrado.','erro');return;}
-  editandoId=uid;
-  irPara('form-imovel');setSigla(im.sigla);
-  fotosTemp=(im.fotos||[]).map(f=>({_file:null,_preview:f,_name:f,_size:0}));
-  destaqueIdx=im.destaquePhoto||0;logoConstrutora=im.logoConstrutora||null;
-  const codNum=document.getElementById('cod-num'),codSigla=document.getElementById('cod-sigla');
-  codNum.value=(im.id||'').split('-')[1]||'000';codNum.readOnly=true;codNum.style.opacity='0.6';codNum.style.cursor='not-allowed';
-  codSigla.disabled=true;codSigla.style.opacity='0.7';
-  atualizarCodigo();
-  document.getElementById('cod-status').className='codigo-status-box ok';document.getElementById('cod-status').innerHTML='<div class="cod-status-icon"><i class="fas fa-lock"></i></div><div class="cod-status-body"><div class="cod-status-titulo">Código '+(im.id||'')+' — bloqueado na edição</div></div>';
-  ['titulo','preco','local','descricao','video'].forEach(c=>{const el=document.getElementById('fi-'+c);if(el)el.value=im[c]||'';});
-  document.getElementById('fi-home').checked=!!im.exibirHome;
-  document.getElementById('fi-status').value=im.status||'ativo';
-  if(im.sigla==='FCL'){
-    document.getElementById('fi-construtora').value=im.construtora||'';
-    document.getElementById('fi-entrega').value=im.entrega||'';
-    document.getElementById('fi-fase').value=im.fase||'';
-    const pgmEl2=document.getElementById('programa_habitacional');if(pgmEl2)pgmEl2.value=im.programaHabitacional||'';
-    const faixaEl2=document.getElementById('codigo_faixa');if(faixaEl2){faixaEl2.value=im.faixaEnquadramento||'';faixaEl2.style.color='#15803d';}
-    if(im.programaHabitacional==='MCMV'){const infoBox=document.getElementById('mcmv-faixas-info');if(infoBox)infoBox.style.display='block';}
-    if(im.logoConstrutora){document.getElementById('logo-preview-box').innerHTML=`<img src="${im.logoConstrutora}" style="width:100%;height:100%;object-fit:contain;border-radius:8px;"><div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,61,165,0.88);color:#fff;font-size:8px;font-weight:700;text-align:center;padding:3px;">⬇ Baixar</div>`;}
-  }
-  if(im.sigla==='FCV'||im.sigla==='FCA'){document.getElementById('fi-area').value=im.area||'';document.getElementById('fi-dorms').value=im.dorms||'';document.getElementById('fi-vagas').value=im.vagas||'';}
-  renderFotos();document.getElementById('btn-excluir-imovel').style.display='flex';
-  if(im.sigla==='FCP'&&im.fotos&&im.fotos.length>0){const fcpImg=document.getElementById('fcp-phone-img'),fcpEmpty=document.getElementById('fcp-phone-empty');if(fcpImg){fcpImg.src=im.fotos[0];fcpImg.style.display='block';}if(fcpEmpty)fcpEmpty.style.display='none';}
-};
-
-window.confirmarExcluir=function(){
-  document.getElementById('modal-confirm-title').textContent='Excluir imóvel?';
-  document.getElementById('modal-confirm-msg').textContent='Esta ação removerá permanentemente o imóvel.';
-  excluirCallback=async()=>{await fbExcluir('fcosta_imoveis',editandoId);_imoveisCache=_imoveisCache.filter(i=>i._uid!==editandoId);fecharModal();toast('Imóvel excluído.','aviso');irPara('dashboard');};
-  document.getElementById('modal-confirm-btn').onclick=excluirCallback;
-  document.getElementById('modal-confirm').classList.add('ativo');
-};
-
-window.selecionarTipoConteudo=function(tipo){tipoConteudo=tipo;document.getElementById('tab-blog').classList.toggle('ativo',tipo==='blog');document.getElementById('tab-curiosidades-form').classList.toggle('ativo',tipo==='curiosidades');};
-window.previewBlogImg=function(input){if(input.files[0]){const r=new FileReader();r.onload=e=>{const img=document.getElementById('blog-img-preview');img.src=e.target.result;img.style.display='block';};r.readAsDataURL(input.files[0]);}};
-window.previewCurImg=function(input){if(input.files[0]){const r=new FileReader();r.onload=e=>{const img=document.getElementById('cur-img-preview');img.src=e.target.result;img.style.display='block';};r.readAsDataURL(input.files[0]);}};
-
-window.salvarBlog=async function(){
-  const titulo=document.getElementById('blog-titulo').value.trim(),conteudo=document.getElementById('blog-conteudo').value.trim();
-  if(!titulo||!conteudo){toast('Preencha título e conteúdo.','erro');return;}
-  const imagem=document.getElementById('blog-img-preview').src||'';
-  const uid=editandoBlogId||('blog_'+Date.now());
-  await fbSalvar('fcosta_dicas',uid,{_uid:uid,tipo:tipoConteudo,titulo,conteudo,imagem:imagem.startsWith('data')?imagem:'',autor:document.getElementById('blog-autor').value,tags:document.getElementById('blog-tags').value,data:new Date().toISOString()});
-  toast(editandoBlogId?'Artigo atualizado!':'Artigo publicado!','sucesso');
-  setTimeout(()=>irPara('dashboard'),800);
-};
-
-window.salvarCuriosidade=async function(){
-  const titulo=document.getElementById('cur-titulo').value.trim(),conteudo=document.getElementById('cur-conteudo').value.trim();
-  if(!titulo||!conteudo){toast('Preencha título e conteúdo.','erro');return;}
-  const imagem=document.getElementById('cur-img-preview').src||'';
-  const uid=editandoCurId||('cur_'+Date.now());
-  await fbSalvar('fcosta_curiosidades',uid,{_uid:uid,titulo,conteudo,imagem:imagem.startsWith('data')?imagem:'',data:new Date().toISOString()});
-  toast(editandoCurId?'Dica atualizada!':'Dica publicada!','sucesso');
-  setTimeout(()=>irPara('dashboard'),800);
-};
-
-function limparFormBlog(){document.getElementById('blog-titulo').value='';document.getElementById('blog-conteudo').value='';document.getElementById('blog-autor').value='FCosta Corretor';document.getElementById('blog-tags').value='';document.getElementById('blog-img-preview').style.display='none';}
-function limparFormCur(){document.getElementById('cur-titulo').value='';document.getElementById('cur-conteudo').value='';document.getElementById('cur-img-preview').style.display='none';}
-
-window.confirmarExcluirBlog=function(){document.getElementById('modal-confirm-title').textContent='Excluir artigo?';document.getElementById('modal-confirm-msg').textContent='Será removido permanentemente.';excluirCallback=async()=>{await fbExcluir('fcosta_dicas',editandoBlogId);fecharModal();toast('Artigo excluído.','aviso');irPara('dashboard');};document.getElementById('modal-confirm-btn').onclick=excluirCallback;document.getElementById('modal-confirm').classList.add('ativo');};
-window.confirmarExcluirCur=function(){document.getElementById('modal-confirm-title').textContent='Excluir dica?';document.getElementById('modal-confirm-msg').textContent='Será removida permanentemente.';excluirCallback=async()=>{await fbExcluir('fcosta_curiosidades',editandoCurId);fecharModal();toast('Dica excluída.','aviso');irPara('dashboard');};document.getElementById('modal-confirm-btn').onclick=excluirCallback;document.getElementById('modal-confirm').classList.add('ativo');};
-
-window.uploadFotoCorretor=async function(input){
-  if(!input.files[0])return;
-  try{toast('Enviando foto...','aviso');const localUrl=URL.createObjectURL(input.files[0]);document.getElementById('cons-corretor-preview').innerHTML='<img src="'+localUrl+'" style="width:100%;height:100%;object-fit:cover;">';const cloudUrl=await uploadCloudinary(input.files[0]);consFotoCorretor=cloudUrl;URL.revokeObjectURL(localUrl);document.getElementById('cons-corretor-preview').innerHTML='<img src="'+cloudUrl+'" style="width:100%;height:100%;object-fit:cover;">';toast('Foto enviada!','sucesso');}catch(err){toast('Erro: '+err.message,'erro');}input.value='';
-};
-
-window.uploadFotosEscritorio=async function(input){
-  const files=Array.from(input.files);if(!files.length)return;
-  toast('Enviando '+files.length+' foto(s)...','aviso');
-  for(const f of files){try{consFotosEsc.push({url:await uploadCloudinary(f),legenda:''});renderFotosEscritorio();}catch(err){toast('Erro: '+err.message,'erro');}}
-  toast('Fotos enviadas!','sucesso');input.value='';
-};
-
-window.handleDropCons=async function(e){e.preventDefault();const files=Array.from(e.dataTransfer.files).filter(f=>f.type.startsWith('image/'));if(!files.length)return;await window.uploadFotosEscritorio({files,value:''});};
-
-function renderFotosEscritorio(){document.getElementById('cons-fotos-preview').innerHTML=consFotosEsc.map((f,i)=>'<div class="foto-item"><img src="'+f.url+'" loading="lazy"><div class="foto-item-overlay"><button class="foto-item-btn del" onclick="removerFotoEsc('+i+')"><i class="fas fa-trash"></i></button></div></div>').join('');}
-window.removerFotoEsc=function(idx){consFotosEsc.splice(idx,1);renderFotosEscritorio();};
-
-window.uploadDiplomas=async function(input){
-  const files=Array.from(input.files);if(!files.length)return;
-  toast('Enviando '+files.length+' arquivo(s)...','aviso');
-  for(const f of files){try{consDiplomas.push({url:await uploadCloudinary(f),legenda:f.name.replace(/[.][^.]+$/,''),tipo:f.type==='application/pdf'?'pdf':'imagem'});renderDiplomas();}catch(err){toast('Erro: '+err.message,'erro');}}
-  toast('Arquivos enviados!','sucesso');input.value='';
-};
-
-function renderDiplomas(){
-  document.getElementById('cons-diplomas-preview').innerHTML=consDiplomas.map(function(d,i){
-    if(d.tipo==='pdf')return '<div style="background:var(--bg3);border:1px solid var(--borda);border-radius:10px;padding:16px;text-align:center;position:relative;"><i class="fas fa-file-pdf" style="font-size:36px;color:var(--vermelho);margin-bottom:8px;display:block;"></i><input value="'+d.legenda+'" onchange="consDiplomas['+i+'].legenda=this.value" style="width:100%;background:var(--input);border:1px solid var(--borda);border-radius:5px;padding:5px 8px;font-size:11px;text-align:center;"><button onclick="removerDiploma('+i+')" style="position:absolute;top:6px;right:6px;background:var(--vermelho);color:#fff;border:none;border-radius:4px;padding:3px 6px;cursor:pointer;font-size:10px;"><i class="fas fa-times"></i></button></div>';
-    return '<div style="border-radius:10px;overflow:hidden;background:var(--bg3);border:1px solid var(--borda);position:relative;"><img src="'+d.url+'" style="width:100%;height:120px;object-fit:cover;" loading="lazy"><input value="'+d.legenda+'" onchange="consDiplomas['+i+'].legenda=this.value" style="width:100%;background:var(--input);border:none;border-top:1px solid var(--borda);padding:6px 8px;font-size:11px;" placeholder="Legenda..."><button onclick="removerDiploma('+i+')" style="position:absolute;top:6px;right:6px;background:var(--vermelho);color:#fff;border:none;border-radius:4px;padding:3px 6px;cursor:pointer;font-size:10px;"><i class="fas fa-times"></i></button></div>';
+// ── Renderizar lista ──
+function renderLista(filtro){
+  var lista=filtro?filtro:_ims;
+  var el=document.getElementById('im-lista');
+  if(!lista.length){el.innerHTML='<div class="empty"><div class="empty-ic">🏠</div><p>Nenhum imóvel cadastrado</p></div>';return;}
+  el.innerHTML=lista.map(function(i){
+    var fs=parseFotos(i),f0=fs[0]||'';
+    return '<div class="im-row">'
+      +(f0?'<img class="im-row-foto" src="'+f0+'" alt=""/>'  :'<div class="im-row-foto" style="display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🏠</div>')
+      +'<div class="im-row-info">'
+        +'<div class="im-row-nome">'+(i.destaque?'⭐ ':'')+esc(i.titulo||'Sem título')+'</div>'
+        +'<div class="im-row-det">'+esc([i.bairro,i.cidade].filter(Boolean).join(' · '))+(i.preco?' · R$ '+esc(i.preco):'')+'</div>'
+        +'<span class="im-row-badge '+badgeCls(i.status)+'">'+badgeLbl(i.status)+'</span>'
+        +(i.codigo?' <span style="font-size:.6rem;color:rgba(255,255,255,.3);margin-left:6px;">'+esc(i.codigo)+'</span>':'')
+      +'</div>'
+      +'<div class="im-row-acoes">'
+        +'<button class="btn-edit" onclick="editarImovel(\''+i.id+'\')">✏️ Editar</button>'
+        +'<button class="btn-del" onclick="excluirImovel(\''+i.id+'\',\''+esc(i.titulo||'este imóvel')+'\')">🗑️</button>'
+      +'</div>'
+    +'</div>';
   }).join('');
 }
-window.removerDiploma=function(idx){consDiplomas.splice(idx,1);renderDiplomas();};
 
-window.salvarConsultoria=async function(){
-  const texto=document.getElementById('cons-texto').value.trim();
-  if(!texto){toast('Escreva o texto institucional.','erro');return;}
-  toast('Salvando...','aviso');
-  await set(ref(db,'fcosta_consultoria'),{texto,fotoCorretor:consFotoCorretor,fotos:consFotosEsc,diplomas:consDiplomas,data:new Date().toISOString()});
-  toast('Quem Somos atualizado!','sucesso');
-};
-
-async function carregarConsultoria(){
-  consFotoCorretor=null;consFotosEsc=[];consDiplomas=[];
-  const dados=await fbGetObj('fcosta_consultoria');
-  if(!dados)return;
-  document.getElementById('cons-texto').value=dados.texto||'';
-  if(dados.fotoCorretor){consFotoCorretor=dados.fotoCorretor;document.getElementById('cons-corretor-preview').innerHTML='<img src="'+dados.fotoCorretor+'" style="width:100%;height:100%;object-fit:cover;">';}
-  if(dados.fotos){consFotosEsc=dados.fotos||[];renderFotosEscritorio();}
-  if(dados.diplomas){consDiplomas=dados.diplomas||[];renderDiplomas();}
-  else if(dados.certs){consDiplomas=dados.certs.map(c=>({url:c,legenda:'',tipo:'imagem'}));renderDiplomas();}
+function filtrarLista(){
+  var q=document.getElementById('busca-im').value.toLowerCase();
+  var s=document.getElementById('filtro-status').value;
+  var f=_ims.filter(function(i){
+    var ok=!q||(i.titulo||'').toLowerCase().includes(q)||(i.bairro||'').toLowerCase().includes(q)||(i.codigo||'').toLowerCase().includes(q);
+    var os=!s||i.status===s;
+    return ok&&os;
+  });
+  renderLista(f);
 }
 
-function criarCardConteudoAdm(d){
-  const uid=(d._uid||'').replace(/"/g,''),tipo=(d._tipo||'').replace(/"/g,'');
-  const badge=tipo==='cur'?`<div class="pub-card-badge" style="background:var(--amarelo);">💡 Dica</div>`:`<div class="pub-card-badge" style="background:var(--roxo);">📰 Blog</div>`;
-  const img=d.imagem?`<img src="${d.imagem}" alt="${d.titulo}" style="width:100%;height:100%;object-fit:cover;">`:`<i class="fas fa-newspaper"></i>`;
-  const data=d.data?new Date(d.data).toLocaleDateString('pt-BR'):'';
-  return `<div class="pub-card"><div class="pub-card-img">${img}${badge}</div><div class="pub-card-body"><div class="pub-card-id">${data}</div><div class="pub-card-titulo">${d.titulo||''}</div><div class="pub-card-actions"><button class="pub-btn edit" data-uid="${uid}" data-tipo="${tipo}" data-action="editar-conteudo"><i class="fas fa-pencil-alt"></i> Editar</button><button class="pub-btn del" data-uid="${uid}" data-tipo="${tipo}" data-action="excluir-conteudo"><i class="fas fa-trash"></i></button></div></div></div>`;
+// ── Renderizar destaques ──
+function renderDestaques(){
+  var lista=_ims.filter(function(i){return i.destaque;});
+  var el=document.getElementById('lista-destaques');
+  if(!lista.length){el.innerHTML='<div class="empty"><div class="empty-ic">⭐</div><p>Nenhum imóvel marcado como destaque</p><p style="font-size:.75rem;margin-top:8px;">Edite um imóvel e ative o toggle "Destaque"</p></div>';return;}
+  el.innerHTML=lista.map(function(i){
+    var fs=parseFotos(i),f0=fs[0]||'';
+    return '<div class="im-row">'
+      +(f0?'<img class="im-row-foto" src="'+f0+'" alt=""/>'  :'<div class="im-row-foto" style="display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🏠</div>')
+      +'<div class="im-row-info"><div class="im-row-nome">⭐ '+esc(i.titulo||'Sem título')+'</div><div class="im-row-det">'+esc([i.bairro,i.cidade].filter(Boolean).join(' · '))+'</div><span class="im-row-badge '+badgeCls(i.status)+'">'+badgeLbl(i.status)+'</span></div>'
+      +'<div class="im-row-acoes"><button class="btn-edit" onclick="editarImovel(\''+i.id+'\')">✏️ Editar</button><button class="btn-del" onclick="removerDestaque(\''+i.id+'\')">✕ Remover</button></div>'
+    +'</div>';
+  }).join('');
 }
 
-async function renderDashboard(){
-  _imoveisCache=await fbLista('fcosta_imoveis');
-  const dicas=await fbLista('fcosta_dicas'),curios=await fbLista('fcosta_curiosidades');
-  const stats=[
-    {label:'Imóveis FCV',num:_imoveisCache.filter(i=>i.sigla==='FCV').length,cor:'#003da5',icon:'fas fa-home',aba:'FCV'},
-    {label:'Imóveis FCA',num:_imoveisCache.filter(i=>i.sigla==='FCA').length,cor:'#16a34a',icon:'fas fa-key',aba:'FCA'},
-    {label:'Lançamentos FCL',num:_imoveisCache.filter(i=>i.sigla==='FCL').length,cor:'#dc1c2d',icon:'fas fa-building',aba:'FCL'},
-    {label:'Catálogo FCP',num:_imoveisCache.filter(i=>i.sigla==='FCP').length,cor:'#f59e0b',icon:'fas fa-book-open',aba:'FCP'},
-    {label:'Blog / Dicas',num:dicas.length+curios.length,cor:'#7c3aed',icon:'fas fa-newspaper',pagina:'lista-conteudo'},
-    {label:'Destaques Home',num:_imoveisCache.filter(i=>i.exibirHome).length,cor:'#0891b2',icon:'fas fa-star'},
-  ];
-  document.getElementById('dash-stats').innerHTML=stats.map(s=>`<div class="dash-card" onclick="${s.aba?`dashAba('${s.aba}')`:s.pagina?`irPara('${s.pagina}')`:``}"><div class="dash-card-icon" style="background:${s.cor}22;color:${s.cor};"><i class="${s.icon}"></i></div><div class="dash-card-num">${s.num}</div><div class="dash-card-label">${s.label}</div></div>`).join('');
-  dashAba(_dashAbaAtiva);
-  fbGetObj('fcosta_consultoria').then(dados=>{const foto=document.getElementById('dash-cons-foto'),texto=document.getElementById('dash-cons-texto');if(!dados){if(texto)texto.textContent='Nenhuma informação cadastrada ainda.';return;}if(dados.fotoCorretor&&foto){foto.src=dados.fotoCorretor;foto.style.display='block';}if(dados.texto&&texto)texto.textContent=dados.texto.replace(/\n/g,' ');});
-  const todosConteudo=[...dicas.map(d=>({...d,_tipo:'blog'})),...curios.map(c=>({...c,_tipo:'cur'}))].sort((a,b)=>new Date(b.data)-new Date(a.data));
-  const dashConteudo=document.getElementById('dash-conteudo');
-  if(dashConteudo){dashConteudo.innerHTML=todosConteudo.length===0?'<div class="empty-adm"><i class="fas fa-newspaper"></i><h3>Nenhum conteúdo publicado</h3></div>':todosConteudo.map(d=>criarCardConteudoAdm(d)).join('');}
+function removerDestaque(id){
+  db.ref('fcosta_imoveis/'+id+'/destaque').set(false);
+  toast('Destaque removido');
 }
 
-window.dashAba=function(sigla){
-  _dashAbaAtiva=sigla;
-  ['FCV','FCA','FCL','FCP'].forEach(s=>{const el=document.getElementById('dtab-'+s);if(el)el.classList.toggle('ativo',s===sigla);});
-  const container=document.getElementById('dash-imoveis');if(!container)return;
-  function renderFiltrados(lista){
-    const filtrados=lista.filter(i=>i&&(i.sigla||'').toUpperCase()===sigla.toUpperCase());
-    container.innerHTML=filtrados.length===0?`<div class="empty-adm"><i class="fas fa-inbox"></i><h3>Nenhum imóvel em ${sigla}</h3><p>Clique em "+ Novo Imóvel" para cadastrar.</p></div>`:filtrados.map(i=>pubCardHTML(i)).join('');
-  }
-  if(_imoveisCache.length===0){container.innerHTML='<div class="loading-fb" style="grid-column:1/-1"><i class="fas fa-spinner fa-spin"></i> Carregando...</div>';fbLista('fcosta_imoveis').then(lista=>{_imoveisCache=lista;renderFiltrados(lista);});return;}
-  renderFiltrados(_imoveisCache);
-};
-
-window.filtrarLista=function(f){filtroAtivo=f;document.querySelectorAll('.filtro-btn').forEach(b=>b.classList.toggle('ativo',b.textContent.trim()===f||(f==='todos'&&b.textContent.trim()==='Todos')));renderListaImoveis();};
-
-window.renderListaImoveis=async function(){
-  const el=document.getElementById('lista-imoveis-grid');
-  el.innerHTML=`<div class="loading-fb" style="grid-column:1/-1"><i class="fas fa-spinner"></i>Carregando...</div>`;
-  const busca=(document.getElementById('search-imoveis')||{}).value?.toLowerCase()||'';
-  let imoveis=await fbLista('fcosta_imoveis');_imoveisCache=imoveis;
-  if(filtroAtivo!=='todos')imoveis=imoveis.filter(i=>i.sigla===filtroAtivo);
-  if(busca)imoveis=imoveis.filter(i=>(i.titulo+i.id).toLowerCase().includes(busca));
-  el.innerHTML=imoveis.length===0?`<div class="empty-adm"><i class="fas fa-search"></i><h3>Nenhum imóvel encontrado</h3></div>`:imoveis.map(i=>pubCardHTML(i)).join('');
-};
-
-function siglaFaixaMCMV(faixaStr){if(!faixaStr)return'';const f=faixaStr.toUpperCase();if(f.includes('HIS 1'))return{sigla:'HIS 1',cor:'#16a34a'};if(f.includes('HIS 2'))return{sigla:'HIS 2',cor:'#0891b2'};if(f.includes('HMP'))return{sigla:'HMP',cor:'#7c3aed'};if(f.includes('FAIXA 4')||f.includes('F4'))return{sigla:'F4',cor:'#d97706'};return'';}
-
-function pubCardHTML(im){
-  const foto=im.fotos&&im.fotos.length>0?im.fotos[im.destaquePhoto||0]:null;
-  const cores={FCV:'var(--azul)',FCA:'var(--verde)',FCL:'var(--vermelho)',FCP:'var(--amarelo)'};
-  const cor=cores[im.sigla]||'var(--azul)';
-  const uid=(im._uid||'').replace(/"/g,''),id=(im.id||'').replace(/"/g,'');
-  const imgHtml=foto?`<img src="${foto}" alt="${im.titulo}" style="width:100%;height:100%;object-fit:cover;">`:`<i class="fas fa-home"></i>`;
-  const homeTag=im.exibirHome?`<div style="position:absolute;top:10px;left:10px;background:var(--amarelo);color:#333;font-size:9px;font-weight:700;padding:3px 8px;border-radius:10px;z-index:2;"><i class="fas fa-star"></i> HOME</div>`:'';
-  const logoTag=(im.sigla==='FCL'&&im.logoConstrutora)?`<div style="position:absolute;top:8px;right:8px;background:rgba(255,255,255,0.92);border-radius:6px;padding:3px 6px;max-width:72px;z-index:2;"><img src="${im.logoConstrutora}" style="max-width:60px;max-height:30px;object-fit:contain;display:block;"></div>`:'';
-  const precoHtml=im.preco?`<div class="pub-card-preco">R$ ${im.preco}</div>`:'';
-  const faixaInfo=(im.sigla==='FCL'&&im.programaHabitacional==='MCMV')?siglaFaixaMCMV(im.faixaEnquadramento):'';
-  const faixaTag=faixaInfo?`<div class="pub-card-faixa" style="background:${faixaInfo.cor};">${faixaInfo.sigla}</div>`:'';
-  return `<div class="pub-card"><div class="pub-card-img">${imgHtml}<div class="pub-card-badge" style="background:${cor};">${id}</div>${homeTag}${logoTag}${faixaTag}</div><div class="pub-card-body"><div class="pub-card-id">${im.sigla} · ${im.status||'ativo'}</div><div class="pub-card-titulo">${im.titulo||''}</div>${precoHtml}<div class="pub-card-actions"><button class="pub-btn edit" data-uid="${uid}" data-action="editar"><i class="fas fa-pencil-alt"></i> Editar</button><button class="pub-btn del" data-uid="${uid}" data-id="${id}" data-action="excluir"><i class="fas fa-trash"></i></button></div></div></div>`;
+// ── Config páginas ──
+function renderConfig(tipo,estados,elId){
+  var el=document.getElementById(elId);
+  el.innerHTML=PAGINAS.map(function(p){
+    var on=estados[p.id]===true;
+    return '<div class="config-item">'
+      +'<div class="config-item-info"><span class="config-item-emoji">'+p.emoji+'</span><span class="config-item-label">'+p.label+'</span></div>'
+      +'<label class="toggle-sw"><input type="checkbox" id="cfg-'+tipo+'-'+p.id+'"'+(on?' checked':'')+'><span class="toggle-sl"></span></label>'
+    +'</div>';
+  }).join('');
 }
 
-document.addEventListener('click',function(e){
-  const btn=e.target.closest('[data-action]');if(!btn)return;
-  const action=btn.dataset.action,uid=btn.dataset.uid,id=btn.dataset.id;
-  if(action==='editar')window.editarImovel(uid);
-  if(action==='excluir')window.excluirDireto(uid,id);
-  if(action==='editar-conteudo')window.editarConteudo(btn.dataset.uid,btn.dataset.tipo);
-  if(action==='excluir-conteudo')window.excluirConteudo(btn.dataset.uid,btn.dataset.tipo);
+function salvarConfig(ref,tipo){
+  var estados={};
+  PAGINAS.forEach(function(p){
+    var el=document.getElementById('cfg-'+tipo+'-'+p.id);
+    if(el)estados[p.id]=el.checked;
+  });
+  db.ref('fcosta_config/'+ref).set(estados).then(function(){toast('Configuração salva!');});
+}
+
+// ── Formulário imóvel ──
+function limparForm(){
+  ['titulo','tipo','status','codigo','preco','area','bairro','cidade','endereco','quartos','banheiros','vagas','descricao','video','tel','fotos'].forEach(function(f){
+    var el=document.getElementById('f-'+f);
+    if(el)el.value=f==='cidade'?'São Paulo':'';
+  });
+  document.getElementById('f-destaque').checked=false;
+  document.getElementById('edit-id').value='';
+  document.getElementById('form-titulo').textContent='Novo Imóvel';
+}
+
+function editarImovel(id){
+  var i=_ims.find(function(x){return x.id===id;});
+  if(!i)return;
+  limparForm();
+  document.getElementById('edit-id').value=id;
+  document.getElementById('form-titulo').textContent='Editar Imóvel';
+  var set=function(f,v){var el=document.getElementById('f-'+f);if(el&&v!==undefined)el.value=v;};
+  set('titulo',i.titulo);set('tipo',i.tipo);set('status',i.status);set('codigo',i.codigo);
+  set('preco',i.preco);set('area',i.area);set('bairro',i.bairro);set('cidade',i.cidade||'São Paulo');
+  set('endereco',i.endereco);set('quartos',i.quartos);set('banheiros',i.banheiros);set('vagas',i.vagas);
+  set('descricao',i.descricao);set('video',i.video);set('tel',i.tel);
+  var fs=parseFotos(i);
+  document.getElementById('f-fotos').value=fs.join('\n');
+  document.getElementById('f-destaque').checked=!!i.destaque;
+  showPg('novo',document.querySelector('[onclick*=novo]'));
+}
+
+function salvarImovel(){
+  var titulo=document.getElementById('f-titulo').value.trim();
+  var status=document.getElementById('f-status').value;
+  if(!titulo){toast('Título é obrigatório!','err');return;}
+  if(!status){toast('Selecione o status!','err');return;}
+
+  var fotosRaw=document.getElementById('f-fotos').value;
+  var fotos=fotosRaw.split(/[\n,]/).map(function(s){return s.trim();}).filter(Boolean);
+
+  var dados={
+    titulo:titulo,
+    tipo:document.getElementById('f-tipo').value||'',
+    status:status,
+    codigo:document.getElementById('f-codigo').value.trim()||'',
+    preco:document.getElementById('f-preco').value.trim()||'',
+    area:document.getElementById('f-area').value.trim()||'',
+    bairro:document.getElementById('f-bairro').value.trim()||'',
+    cidade:document.getElementById('f-cidade').value.trim()||'São Paulo',
+    endereco:document.getElementById('f-endereco').value.trim()||'',
+    quartos:parseInt(document.getElementById('f-quartos').value)||0,
+    banheiros:parseInt(document.getElementById('f-banheiros').value)||0,
+    vagas:parseInt(document.getElementById('f-vagas').value)||0,
+    descricao:document.getElementById('f-descricao').value.trim()||'',
+    video:document.getElementById('f-video').value.trim()||'',
+    tel:document.getElementById('f-tel').value.trim()||'5511993509109',
+    fotos:fotos,
+    destaque:document.getElementById('f-destaque').checked,
+    updatedAt:Date.now()
+  };
+
+  var editId=document.getElementById('edit-id').value;
+  var ref=editId?db.ref('fcosta_imoveis/'+editId):db.ref('fcosta_imoveis').push();
+  if(!editId)dados.createdAt=Date.now();
+
+  ref.set(dados).then(function(){
+    toast(editId?'Imóvel atualizado!':'Imóvel cadastrado!');
+    limparForm();
+    showPg('lista',document.querySelector('[onclick*=lista]'));
+  }).catch(function(e){toast('Erro: '+e.message,'err');});
+}
+
+function excluirImovel(id,nome){
+  if(!confirm('Excluir "'+nome+'"? Esta ação não pode ser desfeita.'))return;
+  db.ref('fcosta_imoveis/'+id).remove().then(function(){toast('Imóvel excluído');});
+}
+
+// ── Utils ──
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function toast(msg,tipo){
+  var el=document.getElementById('toast');
+  el.textContent=msg;
+  el.style.background=tipo==='err'?'#7f1d1d':'#1e3a5f';
+  el.style.borderColor=tipo==='err'?'#ef5350':'var(--az)';
+  el.classList.add('on');
+  setTimeout(function(){el.classList.remove('on');},2800);
+}
+
+// Tecla Enter no login
+document.addEventListener('keydown',function(e){
+  if(e.key==='Enter'&&document.getElementById('login-wrap').style.display!=='none')doLogin();
 });
-
-window.excluirDireto=function(uid,id){
-  document.getElementById('modal-confirm-title').textContent=`Excluir ${id}?`;
-  document.getElementById('modal-confirm-msg').textContent='Esta ação não pode ser desfeita.';
-  excluirCallback=async()=>{await fbExcluir('fcosta_imoveis',uid);fecharModal();toast(`Imóvel ${id} excluído.`,'aviso');_imoveisCache=_imoveisCache.filter(i=>i._uid!==uid);dashAba(_dashAbaAtiva);};
-  document.getElementById('modal-confirm-btn').onclick=excluirCallback;
-  document.getElementById('modal-confirm').classList.add('ativo');
-};
-
-window.renderListaConteudo=async function(){
-  const dicas=await fbLista('fcosta_dicas'),curios=await fbLista('fcosta_curiosidades');
-  const todos=[...dicas.map(d=>({...d,_tipo:'blog'})),...curios.map(c=>({...c,_tipo:'cur'}))].sort((a,b)=>new Date(b.data)-new Date(a.data));
-  const grid=document.getElementById('lista-conteudo-grid');
-  grid.innerHTML=todos.length===0?'<div class="empty-adm"><i class="fas fa-newspaper"></i><h3>Nenhum conteúdo publicado</h3></div>':todos.map(d=>criarCardConteudoAdm(d)).join('');
-};
-
-window.editarConteudo=async function(uid,tipo){
-  if(tipo==='blog'){const dicas=await fbLista('fcosta_dicas');const d=dicas.find(x=>x._uid===uid);if(!d)return;editandoBlogId=uid;irPara('form-blog');document.getElementById('blog-titulo').value=d.titulo||'';document.getElementById('blog-conteudo').value=d.conteudo||'';document.getElementById('blog-autor').value=d.autor||'FCosta Corretor';document.getElementById('blog-tags').value=d.tags||'';if(d.imagem){const img=document.getElementById('blog-img-preview');img.src=d.imagem;img.style.display='block';}document.getElementById('btn-excluir-blog').style.display='flex';}
-  else{const curios=await fbLista('fcosta_curiosidades');const d=curios.find(x=>x._uid===uid);if(!d)return;editandoCurId=uid;irPara('form-curiosidades');document.getElementById('cur-titulo').value=d.titulo||'';document.getElementById('cur-conteudo').value=d.conteudo||'';if(d.imagem){const img=document.getElementById('cur-img-preview');img.src=d.imagem;img.style.display='block';}document.getElementById('btn-excluir-cur').style.display='flex';}
-};
-
-window.excluirConteudo=function(uid,tipo){
-  document.getElementById('modal-confirm-title').textContent='Excluir conteúdo?';
-  document.getElementById('modal-confirm-msg').textContent='Esta ação não pode ser desfeita.';
-  excluirCallback=async()=>{await fbExcluir(tipo==='blog'?'fcosta_dicas':'fcosta_curiosidades',uid);fecharModal();toast('Conteúdo excluído.','aviso');const paginaAtiva=document.querySelector('.pagina-adm.ativo');if(paginaAtiva&&paginaAtiva.id==='dashboard')renderDashboard();else renderListaConteudo();};
-  document.getElementById('modal-confirm-btn').onclick=excluirCallback;
-  document.getElementById('modal-confirm').classList.add('ativo');
-};
-
-window.renderGaleriaAdm=async function(){
-  const imoveis=await fbLista('fcosta_imoveis');let html='';
-  imoveis.forEach(im=>{(im.fotos||[]).forEach((f,fi)=>{html+=`<div class="galeria-adm-item"><img src="${f}" alt="${im.titulo}"><div class="galeria-adm-item-info"><div class="galeria-adm-item-id">${im.id}${fi===im.destaquePhoto?' ⭐':''}</div><div class="galeria-adm-item-titulo">${im.titulo}</div></div></div>`;});});
-  document.getElementById('galeria-adm-grid').innerHTML=html||'<div class="empty-adm"><i class="fas fa-images"></i><h3>Nenhuma foto cadastrada</h3></div>';
-};
-
-window.mascaraPreco=function(input){let v=input.value.replace(/\D/g,'');if(v.length>2)v=v.slice(0,-2)+','+v.slice(-2);input.value=v.replace(/\B(?=(\d{3})+(?!\d))/g,'.');};
-
-window.autoEnquadramentoFCL=function(){
-  const pgmEl=document.getElementById('programa_habitacional'),campo=document.getElementById('codigo_faixa'),infoBox=document.getElementById('mcmv-faixas-info');
-  if(!pgmEl||!campo)return;
-  const programa=pgmEl.value;
-  if(infoBox)infoBox.style.display=programa==='MCMV'?'block':'none';
-  ['fx-his1','fx-his2','fx-hmp','fx-f4'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('ativo');});
-  if(programa!=='MCMV'){
-    if(programa==='SBPE'){campo.value='SBPE / Financiamento Bancário';campo.style.color='#0891b2';}
-    else if(programa==='Padrao'){campo.value='Padrão / Sem Programa';campo.style.color='var(--txt2)';}
-    else if(programa==='CDHU'){campo.value='CDHU';campo.style.color='var(--txt2)';}
-    else campo.value='';
-    return;
-  }
-  const raw=(document.getElementById('fi-preco').value||'').replace(/\./g,'').replace(',','.');
-  const valor=parseFloat(raw)||0;
-  let faixa='',cor='#15803d',fxId='';
-  if(valor<=0){campo.value='Informe o preço para calcular...';campo.style.color='var(--txt2)';return;}
-  else if(valor<=150000){faixa='HIS 1 — Renda até 2 SM (até R$ 150.000)';cor='#16a34a';fxId='fx-his1';}
-  else if(valor<=264000){faixa='HIS 2 — Renda até 4 SM (até R$ 264.000)';cor='#0891b2';fxId='fx-his2';}
-  else if(valor<=350000){faixa='HMP — Renda até 8 SM (até R$ 350.000)';cor='#7c3aed';fxId='fx-hmp';}
-  else if(valor<=500000){faixa='Faixa 4 — Renda até R$ 12.000 (até R$ 500k)';cor='#d97706';fxId='fx-f4';}
-  else{faixa='Acima do limite MCMV — verificar SBPE';cor='#dc1c2d';}
-  campo.value=faixa;campo.style.color=cor;
-  if(fxId){const fxEl=document.getElementById(fxId);if(fxEl)fxEl.classList.add('ativo');}
-};
-
-window.fecharModal=function(){document.getElementById('modal-confirm').classList.remove('ativo');};
-
-function toast(msg,tipo='sucesso'){
-  const c=document.getElementById('toasts'),t=document.createElement('div');
-  const icons={sucesso:'fas fa-check-circle',erro:'fas fa-times-circle',aviso:'fas fa-exclamation-triangle'};
-  t.className=`toast ${tipo}`;t.innerHTML=`<i class="${icons[tipo]||icons.sucesso}"></i> ${msg}`;c.appendChild(t);setTimeout(()=>t.remove(),3500);
-}
 </script>
 </body>
 </html>
